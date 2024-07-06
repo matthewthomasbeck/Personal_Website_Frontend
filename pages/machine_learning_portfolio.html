@@ -1,0 +1,238 @@
+<!------------------------------------------------------------------------------------>
+<!-- Copyright (c) 2024 Matthew Thomas Beck                                         -->
+<!--                                                                                -->
+<!-- All rights reserved. This code and its associated files may not be reproduced, -->
+<!-- modified, distributed, or otherwise used, in part or in whole, by any person   -->
+<!-- or entity without the express written permission of the copyright holder,      -->
+<!-- Matthew Thomas Beck.                                                           -->
+<!------------------------------------------------------------------------------------>
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <!-- PAGE / CHARACTER INITIALIZATION -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- PRELOAD FONTS -->
+    <link rel="preload" as="font" href="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/fonts/Mission_Script.woff" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" as="font" href="../assets/fonts/Fira_Code/FiraCode-VariableFont_wght.ttf" type="font/woff2" crossorigin="anonymous">
+
+    <!-- STYLE SHEETS -->
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/machine_learning_portfolio.css">
+
+    <!-- FAVICON -->
+    <link rel="icon" href="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/favicons/favicon-pastel1.png" id="favicon">
+
+    <!-- TAB TITLE -->
+    <title>Machine Learning Portfolio</title>
+</head>
+
+<!-- MACHINE LEARNING PORTFOLIO PAGE -->
+<body class="body">
+
+<!-- LOADING SCREEN -->
+<div id="loadingScreen">
+    <p class="fancyFont" id="loadingScreenContent">Content Loading...</p>
+</div>
+
+<!-- OPTIONS DIMMING -->
+<div id="navBarOptionsDimmer"></div>
+
+<!-- NAVIGATION BAR -->
+<nav id="navBar">
+
+    <!-- OPTIONS BUTTON -->
+    <button id="navBarOptionsButton" class="popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+        <div class="navBarOptionsLines"></div>
+        <div class="navBarOptionsLines"></div>
+        <div class="navBarOptionsLines"></div>
+    </button>
+
+    <!-- NAME -->
+    <a href="../index.html" id="navBarNameBox" class="popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+        <p class="programmerFont animateProgrammerTyping" id="navBarName">printf("Matthew Thomas Beck");</p>
+    </a>
+
+    <!-- OPTIONS -->
+    <div class="standardFont" id="navBarOptionsBox">
+
+        <!-- HOME DIRECT -->
+        <a href="../index.html" class="navBarOptions noText popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+            <img class="navBarOptionsImages" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/home-navbar.png" alt="">
+        </a>
+
+        <!-- PROJECTS SEPARATOR -->
+        <div class="navBarOptionsSeparator"></div>
+
+        <!-- MACHINE LEARNING PORTFOLIO DIRECT -->
+        <a href="../pages/machine_learning_portfolio.html" class="navBarOptions popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+            <img class="navBarOptionsImages" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/machine_learning_portfolio-navbar.png" alt="">
+            <p class="navBarOptionsText">
+                M.L.P.
+            </p>
+        </a>
+
+        <!-- ATHENA DIRECT TODO finish me later! -->
+        <a href="../pages/under_construction.html" class="navBarOptions popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+            <img class="navBarOptionsImages" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/athena-navbar.png" alt="">
+            <p class="navBarOptionsText">
+                Athena
+            </p>
+        </a>
+
+        <!-- RECEIPT ANALYZER DIRECT -->
+        <a href="../pages/receipt_analyzer.html" class="navBarOptions popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+            <img class="navBarOptionsImages" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/receipt_analyzer-navbar.png" alt="">
+            <p class="navBarOptionsText">
+                Receipt
+                Analyzer
+            </p>
+        </a>
+
+        <!-- CONTACTS SEPARATOR -->
+        <div class="navBarOptionsSeparator"></div>
+
+        <!-- LINKEDIN DIRECT -->
+        <a href="https://www.linkedin.com/in/matthewthomasbeck/" class="navBarOptions noText popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+            <img class="navBarOptionsImages" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/linkedin-navbar.png" alt="">
+        </a>
+
+        <!-- GITHUB DIRECT -->
+        <a href="https://www.github.com/matthewthomasbeck/" class="navBarOptions noText popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+            <img class="navBarOptionsImages" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/github-navbar.png" alt="">
+        </a>
+
+        <!-- YOUTUBE DIRECT -->
+        <a href="https://www.youtube.com/@Matthew_Thomas_Beck" class="navBarOptions noText popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+            <img class="navBarOptionsImages" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/youtube-navbar.png" alt="">
+        </a>
+
+        <!-- INSTAGRAM DIRECT -->
+        <a href="https://www.instagram.com/matthew_thomas_beck/" class="navBarOptions noText popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+            <img class="navBarOptionsImages" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/instagram-navbar.png" alt="">
+        </a>
+    </div>
+</nav>
+
+<!-- JUMP TO TOP -->
+<a href="#pageTitle" class="popUp" id="jumpUpBox" onmouseover="popUp(this)" onmouseout="popDown(this)" onmousedown="popDown(this)">
+    <img id="jumpUpArrow" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-north.png" alt="">
+</a>
+
+<!-- FINANCIAL INSTRUMENTS -->
+<div class="parentDiv" id="pageTitle">
+    <div class="childDiv">
+
+        <!-- INTRODUCTION HEADER -->
+        <div class="contentHeaderBoxes" id="pageTitleBox">
+            <h1 class="contentHeaders programmerFont">
+                Machine Learning Portfolio
+            </h1>
+        </div>
+
+        <!-- WARNING MESSAGE -->
+        <p class="standardFont contentText" id="warningMessage">
+            Remember, this is NOT investing advice! Proceed knowing that while Deep Learning (a subset of Machine
+            Learning, and Machine Learning itself a subset of broader AI) is a truly remarkable tool, understand that
+            all AI technologies use OLD DATA. This model is essentially a sophisticated autopilot, meaning it will stay
+            accurate provided the future is similar to the past; it cannot predict wars, buyouts, or other unforeseen
+            events that may affect a financial instrument's price. You have been warned!
+        </p>
+
+        <!-- INDEX -->
+        <!--<div class="jumpBackTrigger" id="indexBox">
+            <div class="standardFont contentTextBox" id="index">
+                <p class="standardFont" id="indexTitle">Index</p>
+                <ul class="contentText">
+                    <li class="indexContent popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+                        <a href="#stocksHeader" class="contentText">Stocks</a>
+                    </li>
+                    <li class="indexContent popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+                        <a href="#cryptoHeader" class="contentText">Crypto</a>
+                    </li>
+                    <li class="indexContent popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+                        <a href="#foreignExchangeHeader" class="contentText">Foreign Exchange</a>
+                    </li>
+                    <li class="indexContent popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+                        <a href="#metalsHeader" class="contentText">Metals</a>
+                    </li>
+                    <li class="indexContent popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+                        <a href="#energyHeader" class="contentText">Energy</a>
+                    </li>
+                    <li class="indexContent popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+                        <a href="#materialsHeader" class="contentText">Materials</a>
+                    </li>
+                    <li class="indexContent popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+                        <a href="#agricultureHeader" class="contentText">Agriculture</a>
+                    </li>
+                </ul>
+            </div>
+        </div>-->
+
+        <!-- STOCKS HEADER -->
+        <div class="contentHeaderBoxes">
+            <h1 class="contentHeaders programmerFont financialInstrument" id="stocksHeader">
+                Stocks
+            </h1>
+        </div>
+
+        <!-- STOCKS GRAPH -->
+        <div class="contentBoxes" id="stocksGraphBox">
+            <object type="text/html" data="../assets/machine_learning_portfolio/graphs/stocksPlot-7.html" class="financialInstrumentGraph active" id="stocksChart7"></object>
+            <object type="text/html" data="../assets/machine_learning_portfolio/graphs/stocksPlot-30.html" class="financialInstrumentGraph" id="stocksChart30"></object>
+            <object type="text/html" data="../assets/machine_learning_portfolio/graphs/stocksPlot-90.html" class="financialInstrumentGraph" id="stocksChart90"></object>
+            <object type="text/html" data="../assets/machine_learning_portfolio/graphs/stocksPlot-365.html" class="financialInstrumentGraph" id="stocksChart365"></object>
+            <object type="text/html" data="../assets/machine_learning_portfolio/graphs/stocksPlot-max.html" class="financialInstrumentGraph" id="stocksChartMax"></object>
+        </div>
+
+        <!-- STOCKS TIME FRAME SELECTION -->
+        <div class="timeFrameSelectionBox">
+            <ul class="standardFont contentTextBox timeFrameSelection">
+                <li class="standardFont popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+                    <button class="contentText timeFrameButton active" id="stocksButton7" onclick="showMetrics('stocksChart7', 'movement7', this)">
+                        One Week
+                    </button>
+                </li>
+                <li class="standardFont popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+                    <button class="contentText timeFrameButton" id="stocksButton30" onclick="showMetrics('stocksChart30', 'movement30', this)">
+                        One Month
+                    </button>
+                </li>
+                <li class="standardFont popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+                    <button class="contentText timeFrameButton" id="stocksButton90" onclick="showMetrics('stocksChart90', 'movement90', this)">
+                        Three Months
+                    </button>
+                </li>
+                <li class="standardFont popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+                    <button class="contentText timeFrameButton" id="stocksButton365" onclick="showMetrics('stocksChart365', 'movement365', this)">
+                        Year To Day
+                    </button>
+                </li>
+                <li class="standardFont popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+                    <button class="contentText timeFrameButton" id="stocksButtonMax" onclick="showMetrics('stocksChartMax', 'movementMax', this)">
+                        Maximum
+                    </button>
+                </li>
+            </ul>
+        </div>
+
+        <!-- STOCKS TABLE -->
+        <div class="financialInstrumentTableBox">
+            <ul class="standardFont contentText financialInstrumentTable" id="stocksTables"></ul>
+        </div>
+    </div>
+</div>
+
+<!-- JAVASCRIPT -->
+
+<script src="../js/global.js"></script>
+<script src="../js/machine_learning_portfolio.js"></script>
+</body>
+</html>

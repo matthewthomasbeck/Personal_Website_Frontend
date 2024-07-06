@@ -1,0 +1,836 @@
+/**********************************************************************************/
+/* Copyright (c) 2024 Matthew Thomas Beck                                         */
+/*                                                                                */
+/* All rights reserved. This code and its associated files may not be reproduced, */
+/* modified, distributed, or otherwise used, in part or in whole, by any person   */
+/* or entity without the express written permission of the copyright holder,      */
+/* Matthew Thomas Beck.                                                           */
+/**********************************************************************************/
+
+
+
+
+
+/***************************************************/
+/*************** GLOBAL DEPENDENCIES ***************/
+/***************************************************/
+
+
+/********** FONT STYLES **********/
+
+/***** standard font *****/
+
+.standardFont {
+
+    font-family: monospace;
+    color: transparent;
+}
+
+/***** programmer font *****/
+
+@font-face {
+
+    font-family: 'Fira Code';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Open Sans Regular'), local('OpenSans-Regular'), url('../assets/fonts/Fira_Code/static/FiraCode-Regular.ttf') format('truetype');
+    font-display: swap;
+}
+
+.programmerFont {
+
+    font-family: 'Fira Code', monospace;
+    color: transparent;
+}
+
+/***** fancy font *****/
+
+@font-face {
+
+    font-family: 'Mission Script';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Mission Script'), local('OpenSans-Regular'), url('https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/fonts/Mission_Script.woff') format('woff');
+    font-display: swap;
+}
+
+.fancyFont {
+
+    font-family: 'Mission Script', cursive;
+    color: white;
+}
+
+
+/********** ROOT STYLES **********/
+
+/***** set local constant colors *****/
+
+:root{ /* set global vars */
+
+    /***** nav bar height in pixels *****/
+
+    --navBarHeight: 60px;
+
+    /***** time intervals in milliseconds *****/
+
+    --timeInterval: 250ms;
+
+    --fadeInDuration: calc(6 * var(--timeInterval));
+
+    --fadeInDelay: calc(10 * var(--timeInterval));
+
+    --stampDuration: calc(4 * var(--timeInterval));
+
+    /***** primary page colors *****/
+
+    --primary: #212529;
+
+    --secondary: #343a40;
+
+    --pastel-1: #dec0f1;
+
+    --pastel-2: #bde0fe;
+
+    --pastel-3: #d0f4de;
+
+    --pastel-4: #fcf6bd;
+
+    --pastel-5: #ffd670;
+}
+
+
+
+
+
+/******************************************/
+/*************** ANIMATIONS ***************/
+/******************************************/
+
+
+/********** PROGRAMMER TYPING ANIMATION **********/
+
+/***** programmer typing keyframes *****/
+
+@keyframes programmerTyping { /* move across entire element */
+
+    0% {
+
+        width: 0;
+    }
+
+    50% {
+
+        width: 100%;
+    }
+
+    100% {
+
+        width: 100%;
+    }
+}
+
+/***** programmer typing classes *****/
+
+.programmerTyping.animateProgrammerTyping { /* run animation when activated by javascript */
+
+    animation: programmerTyping 1.5s steps(15, end) .5s forwards; /* duration 1.5 sec, 15 steps, .5 sec delay */
+}
+
+.programmerTyping { /* set initial settings for programmer typing */
+
+    width: 0; /* width is initially nothing */
+    color: white;
+    display: inline-block;
+    overflow: hidden;
+    border-right: 1px solid white;
+    white-space: nowrap;
+}
+
+
+/********** FADE IN ANIMATION **********/
+
+/***** fade in keyframes *****/
+
+@keyframes fadeIn { /* fade text in to view */
+
+    0% {
+
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    100% {
+
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes colorChange { /* change text color permanently */
+
+    0% {
+
+        color: transparent;
+    }
+    100% {
+
+        color: white;
+    }
+}
+
+/***** fade in classes *****/
+
+.fadeIn { /* set initial settings for fading in */
+
+    animation: fadeIn var(--fadeInDuration) var(--fadeInDelay) ease-out forwards, colorChange var(--fadeInDuration) var(--fadeInDelay) forwards;
+}
+
+.fadeInLoaded { /* used exclusively for loaded content */
+
+    opacity: 1;
+    color: white;
+}
+
+/***** pop up classes *****/
+
+.popUp {
+
+    transition: transform var(--timeInterval) ease-out;
+}
+
+.popUp:hover {
+
+    transform: scale(1.05);
+}
+
+/********** STAMP ANIMATION **********/
+
+/***** stamp keyframes *****/
+
+@keyframes stampAnimation {
+
+    0% {
+
+        transform: scale(1);
+    }
+
+    100% {
+
+        transform: scale(0);
+    }
+}
+
+/***** stamp classes *****/
+
+.stamp-container {
+
+    position: relative;
+    aspect-ratio: 1/1;
+}
+
+.stamp {
+
+    position: absolute;
+    aspect-ratio: 1/1;
+    width: 100%;
+    animation: stampAnimation var(--stampDuration) ease-in-out;
+}
+
+
+
+
+
+/********************************************************/
+/*************** STANDARD GLOBAL ELEMENTS ***************/
+/********************************************************/
+
+
+/********** ADJUST MAIN HTML ELEMENT COLORS **********/
+
+/***** customize body look *****/
+
+.body {
+
+    margin: 0;
+    background-color: var(--secondary);
+}
+
+/***** customize header look *****/
+
+.h1 {
+
+    color: white;
+    margin: 0;
+}
+
+.h2 {
+
+    color: white;
+    margin: 0;
+}
+
+.h3 {
+
+    color: white;
+    margin: 0;
+}
+
+/***** links *****/
+
+a {
+
+    text-decoration: none;
+}
+
+/***** images *****/
+
+img {
+
+    align-self: flex-end;
+    aspect-ratio: 1/1;
+    height: 100%;
+    right: 0;
+}
+
+
+
+
+
+/******************************************************/
+/*************** CUSTOM GLOBAL ELEMENTS ***************/
+/******************************************************/
+
+
+/********** LOADING SCREEN **********/
+
+#loadingScreen {
+
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background-color: var(--secondary);
+    z-index: 999;
+}
+
+#loadingScreenContent {
+
+    text-align: center;
+    font-size: 200%;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 10%;
+    width: 20%;
+}
+
+
+/********** OPTIONS DIMMING **********/
+
+#navBarOptionsDimmer { /* used to dim the page when options are selected */
+
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    z-index: 998;
+    transition: background-color var(--timeInterval) ease;
+}
+
+#navBarOptionsDimmer.showNavBarOptionsDimmer { /* show dimmer */
+
+    display: block;
+}
+
+
+/********** NAVBAR **********/
+
+#navBar { /* used to hold nav bar content */
+
+    z-index: 1000;
+    text-align: center;
+    background-color: var(--secondary);
+    color: white;
+    position: fixed;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    top: 0;
+    height: var(--navBarHeight);
+}
+
+#navBarOptionsButton { /* used to select options */
+
+    z-index: 1001;
+    aspect-ratio: 1/1;
+    height: 50%;
+    margin-left: 10px;
+    background-color: var(--secondary);
+    border: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#navBarOptionsButton.rotateNavBarOptionsButton { /* rotate button */
+
+    transform: rotate(-90deg);
+}
+
+.navBarOptionsLines {
+
+    z-index: 1002;
+    background-color: white;
+    width: 130%;
+    height: 10%;
+    transition: transform var(--timeInterval);
+}
+
+#navBarNameBox { /* used to hold my name */
+
+    /* margins left and right is dynamically calculated in global.js */
+    z-index: 1001;
+    margin-top: 5px;
+    width: 232px;
+}
+
+#navBarName { /* my name */
+
+    z-index: 1002;
+    font-size: 80%;
+}
+
+#navBarOptionsBox { /* used to hold nav bar options */
+
+    z-index: 1000;
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    height: calc(100% - var(--navBarHeight));
+    width: var(--navBarHeight);
+    margin-left: calc(-1 * var(--navBarHeight));
+    background-color: var(--secondary);
+    bottom: 0;
+    left: 0;
+    transition: margin-left var(--timeInterval) ease-out;
+}
+
+#navBarOptionsBox.showNavBarOptionsBox { /* show nav bar options */
+
+    margin-left: 0;
+}
+
+.navBarOptions { /* different nav bar options */
+
+    z-index: 1001;
+    aspect-ratio: 1/1;
+    width: 60%;
+    margin-top: 25%;
+    margin-bottom: 25%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    background-color: var(--secondary);
+    color: white;
+    flex-direction: column;
+    text-align: center;
+}
+
+.navBarOptions.noText { /* different nav bar options */
+
+    margin-top: 18%;
+    margin-bottom: 18%;
+}
+
+.navBarOptionsImages {
+
+    z-index: 1002;
+    aspect-ratio: 1/1;
+    justify-self: center;
+    height: 30px;
+    margin-left: auto;
+    margin-right: auto;
+    border: none;
+    transition: var(--timeInterval);
+}
+
+.navBarOptionsText {
+
+    z-index: 1002;
+    margin-top: 20%;
+    margin-bottom: 0;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 9px;
+    transition: var(--timeInterval);
+}
+
+.navBarOptionsSeparator {
+
+    z-index: 1001;
+    width: 80%;
+    height: .3%;
+    background-color: white;
+    margin-top: 15%;
+    margin-bottom: 15%;
+}
+
+
+/********** CUSTOM ELEMENTS **********/
+
+/***** standard div *****/
+
+.parentDiv { /* used for outer parent div */
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: fit-content;
+    background-color: var(--secondary);
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+/***** standard div sub element ******/
+
+.childDiv { /* used to hold content within parent div */
+
+    margin-top: var(--navBarHeight);
+    margin-bottom: var(--navBarHeight);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--primary);
+    height: calc(100% - 120px);
+    width: 95%;
+}
+
+/***** page title *****/
+
+#pageTitleBox {
+
+    display: flex;
+    flex-direction: row;
+}
+
+/***** standard div body *****/
+
+.divBody { /* used to hold text content within child div */
+
+    height: 90%;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/***** index *****/
+
+#indexBox {
+
+    height: max-content;
+    width: 100%;
+}
+
+#indexTitle {
+
+    font-size: 130%;
+    color: white;
+    margin: 1%;
+    text-align: center;
+}
+
+#index {
+
+    width: 100%;
+    margin-bottom: 5%;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+#index ul {
+
+    width: 100%;
+    list-style-type: none;
+    padding: 0;
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#index li {
+
+    text-align: center;
+    height: 20px;
+    width: max-content;
+    margin: 5px;
+}
+
+#index li::before {
+
+    content: "•";
+    margin-right: 5px;
+}
+
+
+
+/***** content headers *****/
+
+.contentHeaders { /* used to style headers for sub-pages */
+
+    color: white;
+    text-align: center;
+}
+
+/***** jump back *****/
+
+#jumpUpBox {
+
+    aspect-ratio: 1/1;
+    height: 50px;
+    display: none;
+    position: fixed;
+    top: 80px;
+    right: calc(2.5% + 20px);
+    background-color: transparent;
+    z-index: 998;
+}
+
+#jumpUpArrow {
+
+    opacity: 0.25;
+    transition: transform var(--timeInterval) ease-out;
+}
+
+/***** content boxes *****/
+
+.contentBoxes { /* used to hold content */
+
+    display: flex;
+    flex-direction: row;
+    background-color: var(--primary);
+    aspect-ratio: 2/1;
+    width: 90%;
+}
+
+.contentImg {
+
+    margin-top: auto;
+    margin-bottom: auto;
+    align-self: initial;
+    aspect-ratio: initial;
+    height: initial;
+    right: initial;
+    width: 50%;
+    object-position: center;
+}
+
+.contentVideo {
+
+    aspect-ratio: 16/9;
+    margin-top: auto;
+    margin-bottom: auto;
+    align-self: initial;
+    height: initial;
+    right: initial;
+    width: 100%;
+    object-position: center;
+}
+
+.contentTextBox {
+
+    width: fit-content;
+    margin: auto;
+    margin-left: 5%;
+    margin-right: 5%;
+    display: flex;
+    flex-direction: column;
+}
+
+.contentText {
+
+    color: white;
+}
+
+
+
+
+
+/*********************************************/
+/*************** DEVICE SIZING ***************/
+/*********************************************/
+
+
+/********** LARGE DEVICES **********/
+
+@media only screen and (min-width: 1025px) { /* detect if screen is desktop */
+
+    /***** adjust custom element sizes *****/
+
+    /***** adjust image sizes *****/
+
+    /***** adjust text *****/
+
+    #pageTitleBox {
+
+        font-size: 150%;
+    }
+
+    .standardFont {
+
+        font-size: 140%;
+    }
+
+    .programmerTyping {
+
+        font-size: 200%;
+    }
+
+    #projectsInfoHeader {
+
+        font-size: 130%;
+    }
+
+    .foreText {
+
+        display: block;
+    }
+
+    .aftText {
+
+        display: none;
+    }
+}
+
+
+/********** MEDIUM DEVICES **********/
+
+@media only screen and (min-width: 501px) and (max-width: 1024px) { /* detect if screen is tablet */
+
+    /***** adjust custom element sizes *****/
+
+    #index li {
+
+        font-size: 80%;
+    }
+
+    /***** adjust image sizes *****/
+
+    #jumpUpBox {
+
+        height: 40px;
+    }
+
+    /***** adjust text *****/
+
+    #pageTitleBox {
+
+        font-size: 105%;
+    }
+
+    .standardFont {
+
+        font-size: 110%;
+    }
+
+    .programmerTyping {
+
+        font-size: 150%;
+    }
+
+    #projectsInfoHeader {
+
+        font-size: 95%;
+    }
+
+    .foreText {
+
+        display: block;
+    }
+
+    .aftText {
+
+        display: none;
+    }
+}
+
+
+/********** SMALL DEVICES **********/
+
+@media only screen and (max-width: 500px) { /* detect if screen is smartphone */
+
+    /***** adjust custom element sizes *****/
+
+    .contentBoxes {
+
+        flex-direction: column;
+        margin-top: 0;
+        margin-bottom: 5%;
+    }
+
+    /***** adjust image sizes *****/
+
+    #jumpBackBox {
+
+        height: 30px;
+    }
+
+    .contentImg {
+
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    /***** adjust text *****/
+
+    .standardFont {
+
+        font-size: 80%;
+    }
+
+    .programmerTyping {
+
+        font-size: 95%;
+    }
+
+    #projectsInfoHeader {
+
+        font-size: 95%;
+    }
+
+    .contentTextBox {
+
+        justify-content: center;
+        align-content: center;
+        width: 100%;
+        margin-top: 5%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .foreText {
+
+        display: none;
+    }
+
+    .aftText {
+
+        display: block;
+    }
+}

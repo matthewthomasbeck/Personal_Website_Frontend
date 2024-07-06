@@ -1,0 +1,382 @@
+<!------------------------------------------------------------------------------------>
+<!-- Copyright (c) 2024 Matthew Thomas Beck                                         -->
+<!--                                                                                -->
+<!-- All rights reserved. This code and its associated files may not be reproduced, -->
+<!-- modified, distributed, or otherwise used, in part or in whole, by any person   -->
+<!-- or entity without the express written permission of the copyright holder,      -->
+<!-- Matthew Thomas Beck.                                                           -->
+<!------------------------------------------------------------------------------------>
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <!-- PAGE / CHARACTER INITIALIZATION -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- PRELOAD FONTS -->
+    <link rel="preload" as="font" href="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/fonts/Mission_Script.woff" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" as="font" href="assets/fonts/Fira_Code/FiraCode-VariableFont_wght.ttf" type="font/woff2" crossorigin="anonymous">
+
+    <!-- STYLE SHEETS -->
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/index.css">
+
+    <!-- FAVICON -->
+    <link rel="icon" href="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/favicons/favicon-pastel1.png" id="faviconIndex">
+
+    <!-- TAB TITLE -->
+    <title>Matthew Thomas Beck</title>
+</head>
+
+<!-- INDEX PAGE -->
+<body class="body">
+
+<!-- OPTIONS DIMMING -->
+<div id="navBarOptionsDimmer"></div>
+
+<!-- NAVIGATION BAR -->
+<nav id="navBar">
+
+    <!-- OPTIONS BUTTON -->
+    <button id="navBarOptionsButton" class="popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+        <div class="navBarOptionsLines"></div>
+        <div class="navBarOptionsLines"></div>
+        <div class="navBarOptionsLines"></div>
+    </button>
+
+    <!-- NAME -->
+    <a href="index.html" id="navBarNameBox" class="popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+        <p class="programmerFont" id="navBarName" >printf("Matthew Thomas Beck");</p>
+    </a>
+
+    <!-- OPTIONS -->
+    <div class="standardFont" id="navBarOptionsBox">
+
+        <!-- HOME DIRECT -->
+        <a href="index.html" class="navBarOptions noText popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+            <img class="navBarOptionsImages" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/home-navbar.png" alt="">
+        </a>
+
+        <!-- PROJECTS SEPARATOR -->
+        <div class="navBarOptionsSeparator"></div>
+
+        <!-- MACHINE LEARNING PORTFOLIO DIRECT -->
+        <a href="pages/machine_learning_portfolio.html" class="navBarOptions popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+            <img class="navBarOptionsImages" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/machine_learning_portfolio-navbar.png" alt="">
+            <p class="navBarOptionsText">
+                M.L.P.
+            </p>
+        </a>
+
+        <!-- ATHENA DIRECT TODO finish me later! -->
+        <a href="pages/under_construction.html" class="navBarOptions popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+            <img class="navBarOptionsImages" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/athena-navbar.png" alt="">
+            <p class="navBarOptionsText">
+                Athena
+            </p>
+        </a>
+
+        <!-- RECEIPT ANALYZER DIRECT -->
+        <a href="pages/receipt_analyzer.html" class="navBarOptions popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+            <img class="navBarOptionsImages" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/receipt_analyzer-navbar.png" alt="">
+            <p class="navBarOptionsText">
+                Receipt
+                Analyzer
+            </p>
+        </a>
+
+        <!-- CONTACTS SEPARATOR -->
+        <div class="navBarOptionsSeparator"></div>
+
+        <!-- LINKEDIN DIRECT -->
+        <a href="https://www.linkedin.com/in/matthewthomasbeck/" class="navBarOptions noText popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+            <img class="navBarOptionsImages" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/linkedin-navbar.png" alt="">
+        </a>
+
+        <!-- GITHUB DIRECT -->
+        <a href="https://www.github.com/matthewthomasbeck/" class="navBarOptions noText popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+            <img class="navBarOptionsImages" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/github-navbar.png" alt="">
+        </a>
+
+        <!-- YOUTUBE DIRECT -->
+        <a href="https://www.youtube.com/@Matthew_Thomas_Beck" class="navBarOptions noText popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+            <img class="navBarOptionsImages" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/youtube-navbar.png" alt="">
+        </a>
+
+        <!-- INSTAGRAM DIRECT -->
+        <a href="https://www.instagram.com/matthew_thomas_beck/" class="navBarOptions noText popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+            <img class="navBarOptionsImages" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/instagram-navbar.png" alt="">
+        </a>
+    </div>
+</nav>
+
+<!-- INTRODUCTION -->
+<div id="myIntroduction">
+
+    <!-- ABOUT ME -->
+    <div class="firstElement" id="aboutMe">
+
+        <!-- ABOUT ME HEADER -->
+        <div id="aboutMeHeaderBox">
+            <h1 class="programmerFont programmerTyping" id="aboutMeHeader">
+                printf("Hello There\n");
+            </h1>
+        </div>
+
+        <!-- ABOUT ME CONTENT -->
+        <div class="standardFont" id="aboutMeBodyBox">
+            <p>
+                My name is <span id="name">Matthew Thomas Beck</span>, and I am a Computer Science student attending the
+                University of Texas at San Antonio
+            </p>
+
+            <p>
+                I love all things computers, be it working with hardware like single-board computers and
+                microcontrollers, to artsy stuff, like this website you're viewing right now
+            </p>
+
+            <p>
+                I believe that the computer has been the most impactful thing not just in my life, but in all of our
+                lives, and so that is why I believe it is so important to be 'good' at them...
+            </p>
+        </div>
+    </div>
+
+    <!-- PORTRAITS -->
+    <div id="portraitBox">
+        <div class="slide" id="portrait1">
+            <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/images/index/portrait1.png" alt="">
+        </div>
+
+        <div class="slide" id="portrait2">
+            <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/images/index/portrait1.png" alt="">
+        </div>
+
+        <div class="slide" id="portrait3">
+            <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/images/index/portrait1.png" alt="">
+        </div>
+
+        <div class="slide" id="portrait4">
+            <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/images/index/portrait1.png" alt="">
+        </div>
+    </div>
+</div>
+
+<!-- EXPERTISE -->
+<div class="parentDiv" id="myExpertise">
+    <div class="childDiv" id="skillSet">
+
+        <!-- EXPERTISE HEADER -->
+        <div id="skillSetHeaderBox">
+            <h1 class="programmerFont programmerTyping" id="skillSetHeader">
+                printf("So, What Am I Good At?\n");
+            </h1>
+        </div>
+
+        <!-- EXPERTISE CONTENT -->
+        <div class="divBody standardFont" id="skillSetBodyBox">
+
+            <!-- PYTHON -->
+            <div class="skills" style="margin-top: 0;">
+                <img class="skillsIcon" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/python.png" alt="">
+                <p class="skillsBody">
+                    Python: TensorFlow, Numpy, Beautiful Soup, Selenium, Pandas, Matplotlib, Psycopg, YFinance, Quandl,
+                    CCXT, Tkinter, etc.
+                </p>
+            </div>
+
+            <!-- LINUX SYSTEM ADMINISTRATION -->
+            <div class="skills">
+                <img class="skillsIcon" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/linux.png" alt="">
+                <p class="skillsBody">
+                    Linux System Administration: Bash, Nginx, UFW, Fail2Ban, GeoIP
+                </p>
+            </div>
+
+            <!-- SQL DATABASES -->
+            <div class="skills">
+                <img class="skillsIcon" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/postgre_sql.png" alt="">
+                <p class="skillsBody">
+                    SQL Databases: PostgreSQL
+                </p>
+            </div>
+
+            <!-- WEB DEVELOPMENT -->
+            <div class="skills">
+                <img class="skillsIcon" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/web.png" alt="">
+                <p class="skillsBody">
+                    Web Development: Let's Encrypt (SSL), HTML, CSS, JavaScript (Node.js, Plotly.js)
+                </p>
+            </div>
+
+            <!-- C -->
+            <div class="skills">
+                <img class="skillsIcon" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/c.png" alt="">
+                <p class="skillsBody">
+                    C: Programming II (A), Data Structures (B+)
+                </p>
+            </div>
+
+            <!-- MISCELLANEOUS -->
+            <div class="skills">
+                <img class="skillsIcon" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/command_line.png" alt="">
+                <p class="skillsBody">
+                    Environments: AWS (Amplify), JetBrains (IntelliJ, PyCharm, CLion), Adobe (Illustrator,
+                    Photoshop, Premiere Pro, After Effects)
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- PROJECTS -->
+<div id="myProjects">
+
+    <!-- PROJECTS BACKGROUND -->
+    <div id="projectsBackground">
+    </div>
+
+    <!-- PROJECTS WHEEL -->
+    <div id="projectsWheel">
+
+        <!-- MACHINE LEARNING PORTFOLIO PROJECT -->
+        <a href="pages/machine_learning_portfolio.html" class="projects" onmouseover="popUp(this)" onmouseout="popDown(this)">
+            <h1 class="programmerFont projectHeaders">Machine Learning Portfolio</h1>
+            <img class="projectImg" id="machineLearningPortfolio" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/images/index/machine_learning_portfolio.png" alt="">
+        </a>
+
+        <!-- ATHENA PROJECT TODO fix me later! -->
+        <a href="pages/under_construction.html" class="projects" onmouseover="popUp(this)" onmouseout="popDown(this)">
+            <h1 class="programmerFont projectHeaders">Athena</h1>
+            <img class="projectImg" id="athena" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/images/index/athena.png" alt="">
+        </a>
+
+        <!-- RECEIPT Analyzer -->
+        <a href="pages/receipt_analyzer.html" class="projects" onmouseover="popUp(this)" onmouseout="popDown(this)">
+            <h1 class="programmerFont projectHeaders">Receipt Analyzer</h1>
+            <img class="projectImg" id="receiptAnalyzer" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/images/index/receipt_analyzer.png" alt="">
+        </a>
+
+        <!-- WEBSITE PROJECT -->
+        <a href="" class="projects" onmouseover="popUp(this)" onmouseout="popDown(this)">
+            <h1 class="programmerFont projectHeaders">Personal Website</h1>
+            <img class="projectImg" id="personalWebsite" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/images/index/personal_website.png" alt="">
+        </a>
+
+        <!-- VIDEO EDITING PROJECT -->
+        <a href="https://youtu.be/NyUpeTPKruo" class="projects" onmouseover="popUp(this)" onmouseout="popDown(this)">
+            <h1 class="programmerFont projectHeaders">Video Editor</h1>
+            <img class="projectImg" id="videoEditor" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/images/index/video_editor.png" alt="">
+        </a>
+
+        <div id="glitchItem"></div>
+    </div>
+
+    <!-- SWIPE ARROW -->
+
+    <div id="swipeArrowBox">
+        <img id="swipeArrow" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-east.png" alt="">
+        <p class="programmerFont" id="swipeArrowText">
+            Scroll For More
+        </p>
+    </div>
+
+    <!-- PROJECTS INFO-->
+    <div id="projectsInfoBackground"></div>
+
+    <div id="projectsInfoBox">
+
+        <!-- PROJECTS INFO TITLE -->
+        <div id="projectsInfoHeaderBox">
+            <h3 class="programmerFont programmerTyping" id="projectsInfoHeader">
+                printf("My Projects:\n");
+            </h3>
+        </div>
+
+        <!-- PROJECTS INFO NAME -->
+        <div class="programmerFont" id="projectsInfoNameBox">
+            <h2 id="projectsInfoName">
+                Machine Learning Portfolio
+            </h2>
+        </div>
+
+        <!-- PROJECTS INFO CONTENT -->
+        <div class="standardFont" id="projectsInfoBodyBox">
+            <p id="projectsInfoBody">
+                Using a Raspberry Pi 4B, a Coral TPU, TensorFlow, an Nginx web server, and a whole host of data
+                collecting and modeling scripts, I created a portfolio that finds the most volatile financial
+                instruments, predicts their prices, and suggests when you should buy / sell (OBLIGATORY: THIS IS NOT
+                FINANCIAL ADVICE)
+            </p>
+
+            <div class="popUp standardFont" id="aaedMusaNameBoxLarge" onmouseover='popUp(this)' onmouseout='popDown(this)'>
+                <a id="aaedMusaNameLarge" href="https://www.youtube.com/@aaedmusa"></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="popUp standardFont" id="aaedMusaNameBox" onmouseover='popUp(this)' onmouseout='popDown(this)'>
+        <a id="aaedMusaName" href="https://www.youtube.com/@aaedmusa"></a>
+    </div>
+</div>
+
+<!-- CONTACT ME -->
+<div class="parentDiv" id="contactMeBox">
+    <div class="childDiv" id="contactMe">
+
+        <!-- CONTACT ME HEADER -->
+        <div id="contactMeHeaderBox">
+            <h1 class="programmerFont programmerTyping" id="contactMeHeader">
+                printf("Contact Me!\n");
+            </h1>
+        </div>
+
+        <!-- CONTACT ME CONTENT -->
+        <div class="divBody standardFont" id="contactMeBodyBox">
+
+            <!-- LINKEDIN -->
+            <a class="contacts" href="https://www.linkedin.com/in/matthewthomasbeck/" onmouseover="popUp(this)" onmouseout="popDown(this)" style="margin-top: 0;">
+                <img class="contactsIcon" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/linkedin.png" alt="">
+                <h2 class="contactsBody">
+                    Matthew Thomas Beck
+                </h2>
+            </a>
+
+            <!-- GITHUB -->
+            <a class="contacts" href="https://www.github.com/matthewthomasbeck/" onmouseover="popUp(this)" onmouseout="popDown(this)">
+                <img class="contactsIcon" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/github.png" alt="">
+                <h2 class="contactsBody">
+                    owner:matthewthomasbeck
+                </h2>
+            </a>
+
+            <!-- YOUTUBE -->
+            <a class="contacts" href="https://www.youtube.com/@Matthew_Thomas_Beck" onmouseover="popUp(this)" onmouseout="popDown(this)">
+                <img class="contactsIcon" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/youtube.png" alt="">
+                <h2 class="contactsBody">
+                    Matthew Thomas Beck
+                </h2>
+            </a>
+
+            <!-- INSTAGRAM -->
+            <a class="contacts" href="https://www.instagram.com/matthew_thomas_beck/" onmouseover="popUp(this)" onmouseout="popDown(this)">
+                <img class="contactsIcon" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/instagram.png" alt="">
+                <h2 class="contactsBody">
+                    @matthew_thomas_beck
+                </h2>
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- JAVASCRIPT -->
+<script src="./js/global.js"></script>
+<script src="./js/index.js"></script>
+</body>
+</html>

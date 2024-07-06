@@ -1,0 +1,639 @@
+<!------------------------------------------------------------------------------------>
+<!-- Copyright (c) 2024 Matthew Thomas Beck                                         -->
+<!--                                                                                -->
+<!-- All rights reserved. This code and its associated files may not be reproduced, -->
+<!-- modified, distributed, or otherwise used, in part or in whole, by any person   -->
+<!-- or entity without the express written permission of the copyright holder,      -->
+<!-- Matthew Thomas Beck.                                                           -->
+<!------------------------------------------------------------------------------------>
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <!-- PAGE / CHARACTER INITIALIZATION -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- PRELOAD FONTS -->
+  <link rel="preload" as="font" href="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/fonts/Mission_Script.woff" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" as="font" href="../assets/fonts/Fira_Code/FiraCode-VariableFont_wght.ttf" type="font/woff2" crossorigin="anonymous">
+
+  <!-- STYLE SHEETS -->
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/receipt_analyzer.css">
+
+  <!-- FAVICON -->
+  <link rel="icon" href="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/favicons/favicon-pastel1.png" id="favicon">
+
+  <!-- TAB TITLE -->
+  <title>Receipt Analyzer</title>
+</head>
+
+<!-- RECEIPT ANALYZER PAGE -->
+<body class="body">
+
+<!-- OPTIONS DIMMING -->
+<div id="navBarOptionsDimmer"></div>
+
+<!-- NAVIGATION BAR -->
+<nav id="navBar">
+
+  <!-- OPTIONS BUTTON -->
+  <button id="navBarOptionsButton" class="popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+    <div class="navBarOptionsLines"></div>
+    <div class="navBarOptionsLines"></div>
+    <div class="navBarOptionsLines"></div>
+  </button>
+
+  <!-- NAME -->
+  <a href="../index.html" id="navBarNameBox" class="popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+    <p class="programmerFont animateProgrammerTyping" id="navBarName">printf("Matthew Thomas Beck");</p>
+  </a>
+
+  <!-- OPTIONS -->
+  <div class="standardFont" id="navBarOptionsBox">
+
+    <!-- HOME DIRECT -->
+    <a href="../index.html" class="navBarOptions noText popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+      <img class="navBarOptionsImages" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/home-navbar.png" alt="">
+    </a>
+
+    <!-- PROJECTS SEPARATOR -->
+    <div class="navBarOptionsSeparator"></div>
+
+    <!-- MACHINE LEARNING PORTFOLIO DIRECT -->
+    <a href="../pages/machine_learning_portfolio.html" class="navBarOptions popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+      <img class="navBarOptionsImages" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/machine_learning_portfolio-navbar.png" alt="">
+      <p class="navBarOptionsText">
+        M.L.P.
+      </p>
+    </a>
+
+    <!-- ATHENA DIRECT TODO finish me later! -->
+    <a href="../pages/under_construction.html" class="navBarOptions popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+      <img class="navBarOptionsImages" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/athena-navbar.png" alt="">
+      <p class="navBarOptionsText">
+        Athena
+      </p>
+    </a>
+
+    <!-- RECEIPT ANALYZER DIRECT -->
+    <a href="../pages/receipt_analyzer.html" class="navBarOptions popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+      <img class="navBarOptionsImages" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/receipt_analyzer-navbar.png" alt="">
+      <p class="navBarOptionsText">
+        Receipt
+        Analyzer
+      </p>
+    </a>
+
+    <!-- CONTACTS SEPARATOR -->
+    <div class="navBarOptionsSeparator"></div>
+
+    <!-- LINKEDIN DIRECT -->
+    <a href="https://www.linkedin.com/in/matthewthomasbeck/" class="navBarOptions noText popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+      <img class="navBarOptionsImages" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/linkedin-navbar.png" alt="">
+    </a>
+
+    <!-- GITHUB DIRECT -->
+    <a href="https://www.github.com/matthewthomasbeck/" class="navBarOptions noText popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+      <img class="navBarOptionsImages" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/github-navbar.png" alt="">
+    </a>
+
+    <!-- YOUTUBE DIRECT -->
+    <a href="https://www.youtube.com/@Matthew_Thomas_Beck" class="navBarOptions noText popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+      <img class="navBarOptionsImages" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/youtube-navbar.png" alt="">
+    </a>
+
+    <!-- INSTAGRAM DIRECT -->
+    <a href="https://www.instagram.com/matthew_thomas_beck/" class="navBarOptions noText popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+      <img class="navBarOptionsImages" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/instagram-navbar.png" alt="">
+    </a>
+  </div>
+</nav>
+
+<!-- JUMP TO TOP -->
+<a href="#pageTitle" class="popUp" id="jumpUpBox" onmouseover="popUp(this)" onmouseout="popDown(this)" onmousedown="popDown(this)">
+  <img id="jumpUpArrow" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-north.png" alt="">
+</a>
+
+<!-- RECEIPT ANALYZER -->
+<div class="parentDiv" id="pageTitle">
+  <div class="childDiv">
+
+    <!-- INTRODUCTION HEADER -->
+    <div class="contentHeaderBoxes" id="pageTitleBox">
+      <h1 class="contentHeaders programmerFont">
+        Receipt Analyzer
+      </h1>
+    </div>
+
+    <!-- INTRODUCTION -->
+    <div class="contentBoxes">
+      <iframe class="contentVideo" src="https://www.youtube.com/embed/TLnXB63zZYs?si=vztqBDb7CZjC-6Bq" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      <div class="standardFont contentTextBox">
+        <p class="contentText">
+          'Receipt_Analyzer_3.0' is a Python-based application that I made from July to September 2022 that utilizes a
+          scratch-built GUI, a SQL database, and 4,768 lines of Python code in order to collect and then analyze an
+          individual's finances, handling said data with Regex filtering
+        </p>
+        <p class="contentText">
+          Technology: Python, PostgreSQL, and Bash
+        </p>
+        <p class="contentText">
+          Python Libraries: Numpy, Pandas, OS, Matplotlib, Seaborn, Datetime, RE, Psycopg2, TKinter, and Custom TKinter
+        </p>
+        <p class="contentText">
+          Software: PyCharm, PostgreSQL, Git, StackOverflow, YouTube, and Udemy (the previous three for self-teaching)
+        </p>
+      </div>
+    </div>
+
+    <!-- INDEX -->
+    <div class="jumpBackTrigger" id="indexBox">
+      <div class="standardFont contentTextBox" id="index">
+        <p class="standardFont" id="indexTitle">Index</p>
+        <ul class="contentText">
+          <li class="indexContent popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+            <a href="#homePageHeaderBox" class="contentText">Home Page</a>
+          </li>
+          <li class="indexContent popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+            <a href="#addingDataHeaderBox" class="contentText">Adding Data</a>
+          </li>
+          <li class="indexContent popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+            <a href="#ignoringDataHeaderBox" class="contentText">Ignoring Data</a>
+          </li>
+          <li class="indexContent popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+            <a href="#appendingDataHeaderBox" class="contentText">Appending Data</a>
+          </li>
+          <li class="indexContent popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+            <a href="#analyzingDataHeaderBox" class="contentText">Analyzing Data</a>
+          </li>
+          <li class="indexContent popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+            <a href="#comparingDataHeaderBox" class="contentText">Comparing Data</a>
+          </li>
+          <li class="indexContent popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+            <a href="#handlingErrorsHeaderBox" class="contentText">Handling Errors</a>
+          </li>
+          <li class="indexContent popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+            <a href="#receiptAnalyzerConclusionHeaderBox" class="contentText">Conclusion</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- HOME PAGE HEADER -->
+    <div class="contentHeaderBoxes" id="homePageHeaderBox">
+      <h1 class="contentHeaders programmerFont">
+        Home Page
+      </h1>
+    </div>
+
+    <!-- HOME PAGE -->
+    <div class="contentBoxes">
+      <div class="standardFont contentTextBox foreText">
+        <p class="contentText">
+          When opening the app, the user is greeted with the home page, in which a rolling average chart not dissimilar
+          to one seen on the stock market is seen displaying the previous 3 months' worth of entries, as well as a line
+          of best fit that provides a more accurate representation of the data
+        </p>
+        <p class="contentText">
+          On the bottom of the home page view, the current date as well as the date of the latest entry are both
+          displayed, and to the side, a navigation bar that allows the user to select which action they would like to
+          take
+        </p>
+        <p class="contentText">
+          The 'home' button, like all buttons on this app, will change color when hovered over, and when clicked, will
+          take the user back to the home page from anywhere in the app
+        </p>
+      </div>
+      <img class="contentImg" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/images/receipt_analyzer/home_page-open.jpg" alt="">
+      <div class="standardFont contentTextBox aftText">
+        <p class="contentText">
+          When opening the app, the user is greeted with the home page, in which a rolling average chart not dissimilar
+          to one seen on the stock market is seen displaying the previous 3 months' worth of entries, as well as a line
+          of best fit that provides a more accurate representation of the data
+        </p>
+        <p class="contentText">
+          On the bottom of the home page view, the current date as well as the date of the latest entry are both
+          displayed, and to the side, a navigation bar that allows the user to select which action they would like to
+          take
+        </p>
+        <p class="contentText">
+          The 'home' button, like all buttons on this app, will change color when hovered over, and when clicked, will
+          take the user back to the home page from anywhere in the app
+        </p>
+      </div>
+    </div>
+
+    <!-- ADDING DATA HEADER -->
+    <div class="contentHeaderBoxes" id="addingDataHeaderBox">
+      <h1 class="contentHeaders programmerFont">
+        Adding Data
+      </h1>
+    </div>
+
+    <!-- PRESSING ADD DATA -->
+    <div class="contentBoxes">
+      <img class="contentImg" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/images/receipt_analyzer/add_data-open.jpg" alt="">
+      <div class="standardFont contentTextBox">
+        <p class="contentText">
+          As the user presses the 'add data' button, they are taken to a new view in which they can enter the data from
+          their receipt. The user is prompted to enter the date, the store, the total, and any other relevant fields,
+          such as the type of purchase made
+        </p>
+      </div>
+    </div>
+
+    <!-- ADDING DATA -->
+    <div class="contentBoxes">
+      <div class="standardFont contentTextBox">
+        <p class="contentText foreText">
+          When entering data, some items are required to fill out, and others are optional. For example, fields such as
+          the date are always mandatory, some fields are mandatory only if the user has a receipt, such as the purchase
+          amount, and some fields are always optional, such as the employee name
+        </p>
+      </div>
+      <img class="contentImg" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/images/receipt_analyzer/add_data-menu.jpg" alt="">
+      <div class="standardFont contentTextBox aftText">
+        <p class="contentText">
+          When entering data, some items are required to fill out, and others are optional. For example, fields such as
+          the date are always mandatory, some fields are mandatory only if the user has a receipt, such as the purchase
+          amount, and some fields are always optional, such as the employee name
+        </p>
+      </div>
+    </div>
+
+    <!-- ADDING DATA SUCCESS -->
+    <div class="contentBoxes">
+      <img class="contentImg" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/images/receipt_analyzer/add_data-enter.jpg" alt="">
+      <div class="standardFont contentTextBox">
+        <p class="contentText">
+          When the user finally enters the data, they are greeted with a confirmation message that the data has been
+          successfully uploaded, and a blank interface to enter more data if they so choose
+        </p>
+      </div>
+    </div>
+
+    <!-- IGNORING DATA HEADER -->
+    <div class="contentHeaderBoxes" id="ignoringDataHeaderBox">
+      <h1 class="contentHeaders programmerFont">
+        Ignoring Data
+      </h1>
+    </div>
+
+    <!-- FILLING DATE -->
+    <div class="contentBoxes">
+      <div class="standardFont contentTextBox foreText">
+        <p class="contentText">
+          But what happens if no purchase was made? If the user has no receipt to enter, they can simply enter the
+          desired date fields and press enter
+        </p>
+      </div>
+      <img class="contentImg" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/images/receipt_analyzer/add_data-no_data.jpg" alt="">
+      <div class="standardFont contentTextBox aftText">
+        <p class="contentText">
+          But what happens if no purchase was made? If the user has no receipt to enter, they can simply enter the
+          desired date fields and press enter
+        </p>
+      </div>
+    </div>
+
+    <!-- IGNORING DATA -->
+    <div class="contentBoxes">
+      <img class="contentImg" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/images/receipt_analyzer/add_data-enter.jpg" alt="">
+      <div class="standardFont contentTextBox">
+        <p class="contentText">
+          As seen by the 'Data Uploaded' success statement, the day was successfully recorded as having no purchases
+          made, and the user is free to enter more data
+        </p>
+      </div>
+    </div>
+
+    <!-- APPENDING DATA HEADER -->
+    <div class="contentHeaderBoxes" id="appendingDataHeaderBox">
+      <h1 class="contentHeaders programmerFont">
+        Appending Data
+      </h1>
+    </div>
+
+    <!-- APPENDING DATA MENU -->
+    <div class="contentBoxes">
+      <div class="standardFont contentTextBox foreText">
+        <p class="contentText">
+          Nobody is perfect, and sometimes the user may make a mistake when entering data. If this is the case, they can
+          simply press the 'append data' button to then go to the 'append data' menu
+        </p>
+      </div>
+      <img class="contentImg" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/images/receipt_analyzer/append_data-open.jpg" alt="">
+      <div class="standardFont contentTextBox aftText">
+        <p class="contentText">
+          Nobody is perfect, and sometimes the user may make a mistake when entering data. If this is the case, they can
+          simply press the 'append data' button to then go to the 'append data' menu
+        </p>
+      </div>
+    </div>
+
+    <!-- APPENDING DATA DATE -->
+    <div class="contentBoxes">
+      <img class="contentImg" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/images/receipt_analyzer/append_data-date.jpg" alt="">
+      <div class="standardFont contentTextBox">
+        <p class="contentText">
+          Here, the user can select the date of the entry they would like to append, and then press 'enter' to pop up a
+          list of all entries made on that date
+        </p>
+      </div>
+    </div>
+
+    <!-- APPENDING DATA SELECT -->
+    <div class="contentBoxes">
+      <div class="standardFont contentTextBox foreText">
+        <p class="contentText">
+          If there is an entry on the selected day, the user is greeted with an 'Entry(s) Found' success message, as
+          well as a list of entries on the entered date
+        </p>
+        <p class="contentText">
+          The user can then select the entry they would like to append, and then press the entry itself to begin
+          changing data
+        </p>
+      </div>
+      <img class="contentImg" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/images/receipt_analyzer/append_data-select.jpg" alt="">
+      <div class="standardFont contentTextBox aftText">
+        <p class="contentText">
+          If there is an entry on the selected day, the user is greeted with an 'Entry(s) Found' success message, as
+          well as a list of entries on the entered date
+        </p>
+        <p class="contentText">
+          The user can then select the entry they would like to append, and then press the entry itself to begin
+          changing data
+        </p>
+      </div>
+    </div>
+
+    <!-- APPENDING DATA -->
+    <div class="contentBoxes">
+      <img class="contentImg" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/images/receipt_analyzer/append_data-menu.jpg" alt="">
+      <div class="standardFont contentTextBox">
+        <p class="contentText">
+          The user can then change any data they would like, and then press 'enter' to confirm the changes, however in
+          this case, the entry will instead be deleted altogether
+        </p>
+      </div>
+    </div>
+
+    <!-- APPENDING DATA CONFIRMATION -->
+    <div class="contentBoxes">
+      <div class="standardFont contentTextBox foreText">
+        <p class="contentText">
+          Upon pressing the 'delete' button, a confirmation message will appear that asks the user 'Are You Sure?', to
+          which the user can then press the once 'delete' button, now 'press again' button, to confirm the deletion
+        </p>
+      </div>
+      <img class="contentImg" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/images/receipt_analyzer/append_data-confirm.jpg" alt="">
+      <div class="standardFont contentTextBox aftText">
+        <p class="contentText">
+          Upon pressing the 'delete' button, a confirmation message will appear that asks the user 'Are You Sure?', to
+          which the user can then press the once 'delete' button, now 'press again' button, to confirm the deletion
+        </p>
+      </div>
+    </div>
+
+    <!-- APPENDING DATA SUCCESS -->
+    <div class="contentBoxes">
+      <img class="contentImg" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/images/receipt_analyzer/append_data-enter.jpg" alt="">
+      <div class="standardFont contentTextBox">
+        <p class="contentText">
+          Having successfully deleted the entry, the user is greeted with an 'Entry Deleted' success message, and is
+          free to append more data
+        </p>
+      </div>
+    </div>
+
+    <!-- ANALYZING DATA HEADER -->
+    <div class="contentHeaderBoxes" id="analyzingDataHeaderBox">
+      <h1 class="contentHeaders programmerFont">
+        Analyzing Data
+      </h1>
+    </div>
+
+    <!-- ANALYZING DATA MENU -->
+    <div class="contentBoxes">
+      <div class="standardFont contentTextBox foreText">
+        <p class="contentText">
+          After entering all of their data, the user can then press the 'analyze data' button to go begin looking at
+          their earning and spending (in my case, spending, I was in college) habits
+        </p>
+      </div>
+      <img class="contentImg" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/images/receipt_analyzer/analyze_data-open.jpg" alt="">
+      <div class="standardFont contentTextBox aftText">
+        <p class="contentText">
+          After entering all of their data, the user can then press the 'analyze data' button to go begin looking at
+          their earning and spending (in my case, spending, I was in college) habits
+        </p>
+      </div>
+    </div>
+
+    <!-- ANALYZING DATA CREATE BAR -->
+    <div class="contentBoxes">
+      <img class="contentImg" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/images/receipt_analyzer/analyze_data-create-bar.jpg" alt="">
+      <div class="standardFont contentTextBox">
+        <p class="contentText">
+          On this page, the user can see a plethora of useful metrics on a month, quarter, year, or total basis, such as
+          (but not limited to):
+        </p>
+        <p class="contentText">
+          How often they visited a location, city, or state; a line of best fit representing their earning or spending
+          in a particular category; and a rolling average chart that displays the movement of their money in an
+          easy-to-digest manner, as well as a trend line that provides a more accurate representation of the data; and
+          finally, a way to compare different metrics (more on that later)
+        </p>
+        <p class="contentText">
+          In this example, the user will be looking at the 'location' category in order to see how many times they
+          visited a particular location in the past year in the form of a bar graph
+        </p>
+      </div>
+    </div>
+
+    <!-- ANALYZING DATA BAR -->
+    <div class="contentBoxes">
+      <div class="standardFont contentTextBox foreText">
+        <p class="contentText">
+          As seen in the bar graph, the user visited the location 'Heb' the most, with the 4 runner-ups also being
+          displayed
+        </p>
+        <p class="contentText">
+          Fun fact: as of writing, I have been to Walmart 122 times, having used to live next to one (the nearest HEB
+          was a 20-minute drive away)
+        </p>
+      </div>
+      <img class="contentImg" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/images/receipt_analyzer/analyze_data-bar.jpg" alt="">
+      <div class="standardFont contentTextBox aftText">
+        <p class="contentText">
+          As seen in the bar graph, the user visited the location 'Heb' the most, with the 4 runner-ups also being
+          displayed
+        </p>
+        <p class="contentText">
+          Fun fact: as of writing, I have been to Walmart 122 times, having used to live next to one (the nearest HEB
+          was a 20-minute drive away)
+        </p>
+      </div>
+    </div>
+
+    <!-- COMPARING DATA HEADER -->
+    <div class="contentHeaderBoxes" id="comparingDataHeaderBox">
+      <h1 class="contentHeaders programmerFont">
+        Comparing Data
+      </h1>
+    </div>
+
+    <!-- COMPARING DATA CREATE AVG -->
+    <div class="contentBoxes">
+      <img class="contentImg" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/images/receipt_analyzer/analyze_data-create-avg.jpg" alt="">
+      <div class="standardFont contentTextBox">
+        <p class="contentText">
+          Should the user want to compare different metrics, doing so is as straight-forward as selecting a category in
+          is the 'option 2' dropdown menu, and then pressing the 'create' button
+        </p>
+        <p class="contentText">
+          In this example, the user will be comparing the 'all' category with the 'grocery' category in order to see how
+          their grocery spending compares to how much they've spent in total
+        </p>
+      </div>
+    </div>
+
+    <!-- COMPARING DATA AVG -->
+    <div class="contentBoxes">
+      <div class="standardFont contentTextBox foreText">
+        <p class="contentText">
+          As seen in the rolling average chart, the movement of total spending is highly correlated with the movement
+          of grocery spending, suggesting that groceries represent the bulwark of the user's spending
+        </p>
+        <p class="contentText">
+          The utility of the trend line is also seen at work, providing a more accurate representation of the data, as
+          some periods were certainly more expensive than others
+        </p>
+        <p class="contentText">
+          The COVID-19 pandemic, rising gas prices, but surprisingly more than anything else (for me, at least), the
+          holiday season and other real-world events often leave an impact on an individual's finances
+        </p>
+      </div>
+      <img class="contentImg" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/images/receipt_analyzer/analyze_data-avg.jpg" alt="">
+      <div class="standardFont contentTextBox aftText">
+        <p class="contentText">
+          As seen in the rolling average chart, the movement of total spending is highly correlated with the movement
+          of grocery spending, suggesting that groceries represent the bulwark of the user's spending
+        </p>
+        <p class="contentText">
+          The utility of the trend line is also seen at work, providing a more accurate representation of the data, as
+          some periods were certainly more expensive than others
+        </p>
+        <p class="contentText">
+          The COVID-19 pandemic, rising gas prices, but surprisingly more than anything else (for me, at least), the
+          holiday season and other real-world events often leave an impact on an individual's finances
+        </p>
+      </div>
+    </div>
+
+    <!-- HANDLING ERRORS HEADER -->
+    <div class="contentHeaderBoxes" id="handlingErrorsHeaderBox">
+      <h1 class="contentHeaders programmerFont">
+        Handling Errors
+      </h1>
+    </div>
+
+    <!-- ADD DATA ERRORS -->
+    <div class="contentBoxes">
+      <img class="contentImg" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/images/receipt_analyzer/add_data-error.jpg" alt="">
+      <div class="standardFont contentTextBox">
+        <p class="contentText">
+          But what happens if the user makes a mistake when entering data, like leaving out a mandatory field? Or they
+          encounter a problem searching for an entry to append? Or they try to analyze data that either cant be
+          quantified beyond total population, or is incompatible to be compared? Error statements will appear
+        </p>
+        <p class="contentText">
+          In this case, the user has forgotten to enter the name of the location they made a purchase at, and is
+          notified that they have missed a mandatory field
+        </p>
+      </div>
+    </div>
+
+    <!-- APPEND DATA ERRORS -->
+    <div class="contentBoxes">
+      <div class="standardFont contentTextBox foreText">
+        <p class="contentText">
+            In this case, the user has entered a date that has no entries, and is notified that no entries were found
+        </p>
+      </div>
+      <img class="contentImg" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/images/receipt_analyzer/append_data-error.jpg" alt="">
+      <div class="standardFont contentTextBox aftText">
+        <p class="contentText">
+          In this case, the user has entered a date that has no entries, and is notified that no entries were found
+        </p>
+      </div>
+    </div>
+
+    <!-- ANALYZE DATA ERRORS -->
+    <div class="contentBoxes">
+      <img class="contentImg" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/images/receipt_analyzer/analyze_data-error.jpg" alt="">
+      <div class="standardFont contentTextBox">
+        <p class="contentText">
+          Finally, in this case, the user has tried to compare data that cant be represented as a bar graph, and is only
+          logically available as a rolling average chart or as linear regression
+        </p>
+      </div>
+    </div>
+
+    <!-- CONCLUSION HEADER -->
+    <div class="contentHeaderBoxes" id="receiptAnalyzerConclusionHeaderBox">
+      <h1 class="contentHeaders programmerFont">
+        Conclusion
+      </h1>
+    </div>
+
+    <!-- CONCLUSION TEXT -->
+    <div class="contentBoxes">
+      <div class="standardFont contentTextBox" id="receiptAnalyzerConclusionBox">
+        <p class="contentText receiptAnalyzerConclusionText">
+          This receipt analyzer represents the first brick laid in my programmatic foundation, as because it was my
+          first real project, it marks the first time I had to think about how to structure a program, how to make it
+          user-friendly, and how to make it look good
+        </p>
+        <p class="contentText receiptAnalyzerConclusionText">
+          But on a more personal note, it was also what made me realize that if I really wanted to stand out, not just
+          as a student, or as a professional, but as a human being, I would have to do more than what I was currently
+          doing, and I would have to start questioning the ideas that I had held based on the results they had given me
+        </p>
+        <p class="contentText receiptAnalyzerConclusionText">
+          The strategies I learned when trying to juggle everything in life while working on this little project are
+          tools I still use as of writing, and without this project that I started when I was barely 21, who knows how
+          long it would have taken me to eventually learn them
+        </p>
+        <p class="contentText receiptAnalyzerConclusionText">
+          This software needs improvement; Python GUI's leave much to be desired, the code should not only be a handful
+          of files, my regex functions could probably be better, and my database was accidentally OPEN TO THE NETWORK
+          (I closed the ports after an absolute hero family friend n-mapped and found them, and I'm so thankful nobody
+          in my building decided to punish me)
+        </p>
+        <p class="contentText receiptAnalyzerConclusionText">
+          But I'm not deleting a single line of code; 'Receipt_Analyzer_3.0' taught me that if I need to do this again,
+          I'm perfectly capable of writing some more
+        </p>
+        <div class="contentText" id="receiptAnalyzerConclusionSignatureBox">
+          <p class="programmerFont receiptAnalyzerConclusionText" id="receiptAnalyzerConclusionSignature">
+            printf("-Matthew Thomas Beck");
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- JAVASCRIPT -->
+<script src="../js/global.js"></script>
+<script src="../js/receipt_analyzer.js"></script>
+</body>
+</html>

@@ -1,0 +1,365 @@
+/**********************************************************************************/
+/* Copyright (c) 2024 Matthew Thomas Beck                                         */
+/*                                                                                */
+/* All rights reserved. This code and its associated files may not be reproduced, */
+/* modified, distributed, or otherwise used, in part or in whole, by any person   */
+/* or entity without the express written permission of the copyright holder,      */
+/* Matthew Thomas Beck.                                                           */
+/**********************************************************************************/
+
+
+
+
+
+/******************************************************/
+/*************** MODIFY GLOBAL ELEMENTS ***************/
+/******************************************************/
+
+
+
+
+
+/**************************************************************************/
+/*************** machine_learning_portfolio.html ANIMATIONS ***************/
+/**************************************************************************/
+
+
+
+
+
+/*******************************************************************************/
+/*************** machine_learning_portfolio.html CUSTOM ELEMENTS ***************/
+/*******************************************************************************/
+
+
+/********** CUSTOM ELEMENTS **********/
+
+/***** page title *****/
+
+#pageTitleBox {
+
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+/***** warning message *****/
+
+#warningMessage {
+
+    margin-bottom: 4%;
+    width: 85%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/***** graphs *****/
+
+.financialInstrumentGraph {
+
+    margin-left: auto;
+    margin-right: auto;
+    position: absolute;
+    width: 85%;
+}
+
+.financialInstrumentGraph.active {
+
+    z-index: 1;
+}
+
+/***** time frame selection *****/
+
+.timeFrameSelectionBox {
+
+    margin-bottom: 1%;
+    height: max-content;
+    width: 100%;
+}
+
+.timeFrameSelection {
+
+    width: 100%;
+    padding: 0;
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.timeFrameSelection li {
+
+    margin-left: 0.5%;
+    margin-right: 0.5%;
+    text-align: center;
+}
+
+.timeFrameButton {
+
+    height: 20px;
+    padding: 0;
+    border: 0;
+    background-color: var(--primary);
+    color: white;
+}
+
+.timeFrameButton.active {
+
+    background-color: white;
+    color: var(--primary);
+}
+
+/***** financial instrument tables *****/
+
+.financialInstrumentTableBox {
+
+    width: 100%;
+    margin-bottom: 5%;
+    height: max-content;
+}
+
+.financialInstrumentTable {
+
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    padding: 0;
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.financialInstrumentTableItems {
+
+    aspect-ratio: 1/1;
+    font-size: 60%;
+    list-style-type: none;
+    color: var(--primary);
+    opacity: 0.25;
+}
+
+.financialInstrumentTableItems.active {
+
+    opacity: 1;
+}
+
+.tableItemsHeader {
+
+    font-size: 150%;
+    color: var(--primary);
+    text-align: center;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    padding: 0;
+}
+
+.tableItemsContentBox {
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+.tableItemsMetricBox {
+
+    display: flex;
+    flex-direction: row;
+    text-align: left;
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-bottom: 2.5%;
+    padding: 0;
+}
+
+.tableItemsMetricLabel {
+
+    width: 70%;
+    height: auto;
+    text-align: left;
+    margin: 0;
+    padding: 0;
+}
+
+.tableItemsMetricValue {
+
+    width: 30%;
+    height: auto;
+    text-align: center;
+    margin: auto;
+    padding: 0;
+}
+
+/***** table time frames *****/
+
+.tableTimeFrame {
+
+    display: none;
+}
+
+.tableTimeFrame.active {
+
+    display: flex;
+}
+
+/***** under construction *****/
+
+.underConstructionImg {
+
+    width: 30%;
+    margin: auto;
+}
+
+
+
+
+
+/*********************************************/
+/*************** DEVICE SIZING ***************/
+/*********************************************/
+
+
+/********** LARGE DEVICES **********/
+
+@media only screen and (min-width: 1025px) { /* detect if screen is desktop */
+
+    /***** adjust custom element sizes *****/
+
+    .contentBoxes {
+
+        aspect-ratio: 16/9;
+    }
+
+    #index li {
+
+        width: 215px;
+    }
+
+    /***** graphs *****/
+
+    .financialInstrumentGraph {
+
+        aspect-ratio: 16/9;
+    }
+
+    /***** time frame *****/
+
+    .timeFrameButton {
+
+        height: 25px;
+        width: 85px;
+    }
+
+    /***** financial instrument tables *****/
+
+    .financialInstrumentTableItems {
+
+        height: 200px;
+        margin: 9px;
+        font-size: 60%;
+    }
+
+    .tableItemsMetricValue {
+
+        text-align: center;
+    }
+}
+
+
+/********** MEDIUM DEVICES **********/
+
+@media only screen and (min-width: 501px) and (max-width: 1024px) { /* detect if screen is tablet */
+
+    /***** adjust custom element sizes *****/
+
+    .contentBoxes {
+
+        aspect-ratio: 3/2;
+    }
+
+    #index li {
+
+        width: 135px;
+    }
+
+    /***** graphs *****/
+
+    .financialInstrumentGraph {
+
+        aspect-ratio: 3/2;
+    }
+
+    /***** time frame *****/
+
+    .timeFrameButton {
+
+        width: 85px;
+    }
+
+    /***** financial instrument tables *****/
+
+    .financialInstrumentTableItems {
+
+        height: 150px;
+        margin: 6px;
+        font-size: 60%;
+    }
+
+    .tableItemsMetricValue {
+
+        text-align: center;
+    }
+}
+
+
+/********** SMALL DEVICES **********/
+
+@media only screen and (max-width: 500px) { /* detect if screen is smartphone */
+
+    /***** adjust custom element sizes *****/
+
+    .contentBoxes {
+
+        aspect-ratio: 1/1;
+    }
+
+    #index li {
+
+        width: 125px;
+    }
+
+    /***** graphs *****/
+
+    .financialInstrumentGraph {
+
+        aspect-ratio: 1/1;
+    }
+
+    /***** time frame *****/
+
+    .timeFrameButton {
+
+        height: 40px;
+        width: 50px;
+        font-size: 150%;
+    }
+
+    /***** financial instrument tables *****/
+
+    .financialInstrumentTableItems {
+
+        height: 120px;
+        margin: 3px;
+        font-size: 30%;
+    }
+
+    .tableItemsMetricValue {
+
+        text-align: left;
+    }
+}

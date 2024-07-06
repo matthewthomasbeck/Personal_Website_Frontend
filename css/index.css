@@ -1,0 +1,884 @@
+/**********************************************************************************/
+/* Copyright (c) 2024 Matthew Thomas Beck                                         */
+/*                                                                                */
+/* All rights reserved. This code and its associated files may not be reproduced, */
+/* modified, distributed, or otherwise used, in part or in whole, by any person   */
+/* or entity without the express written permission of the copyright holder,      */
+/* Matthew Thomas Beck.                                                           */
+/**********************************************************************************/
+
+
+
+
+
+/******************************************************/
+/*************** MODIFY GLOBAL ELEMENTS ***************/
+/******************************************************/
+
+
+/********** CUSTOM ELEMENTS **********/
+
+.parentDiv {
+
+    height: 100vh;
+}
+
+.childDiv {
+
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+
+
+
+
+/**************************************************************************/
+/*************** machine_learning_portfolio.html ANIMATIONS ***************/
+/**************************************************************************/
+
+
+/********** PORTRAIT SLIDESHOW ANIMATION **********/
+
+/***** portrait slideshow classes *****/
+
+.slide { /* used to hide portrait until correct turn */
+
+    display: none;
+    overflow: hidden;
+}
+
+/***** fade in name keyframes *****/
+
+@keyframes colorChangeName {
+
+    0% {
+
+        color: transparent;
+    }
+
+    100% {
+
+        opacity: var(--pastel-1);
+    }
+}
+
+@keyframes colorChangeAaedName {
+
+    0% {
+
+        opacity: 0;
+        color: transparent;
+        transform: translateY(20px);
+    }
+
+    100% {
+
+        opacity: 1;
+        color: var(--pastel-5);
+        transform: translateY(0);
+    }
+}
+
+/***** fade in name classes *****/
+
+.fadeInName { /* used exclusively for name */
+
+    animation: fadeIn var(--fadeInDuration) var(--fadeInDelay) ease-out forwards, colorChangeName var(--fadeInDuration) var(--fadeInDelay) forwards;
+}
+
+.fadeInAaedName {
+
+    animation: fadeIn var(--fadeInDuration) var(--fadeInDelay) ease-out forwards, colorChangeAaedName var(--fadeInDuration) var(--fadeInDelay) forwards;
+}
+
+
+
+
+
+/**********************************************************/
+/*************** index.html CUSTOM ELEMENTS ***************/
+/**********************************************************/
+
+
+/********** FIRST ELEMENT **********/
+
+.firstElement {
+
+    margin-top: var(--navBarHeight);
+    padding: 1.57%;
+}
+
+
+/********** INTRODUCTION **********/
+
+#myIntroduction {
+
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    background-color: var(--primary);
+}
+
+#aboutMe {
+
+    border-radius: 0;
+    position: absolute;
+    z-index: 2;
+    background-color: var(--secondary);
+    margin: 2.5%;
+}
+
+#aboutMeHeaderBox {
+
+    height: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+#aboutMeBodyBox {
+
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+}
+
+#name {
+
+    opacity: 0;
+}
+
+#portraitBox {
+
+    position: absolute;
+    overflow: hidden;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#portrait1 {
+
+    display: block;
+    align-self: center;
+    overflow: hidden;
+    height: 100%;
+    aspect-ratio: 1/1;
+    background-color: var(--pastel-1);
+}
+
+#portrait2 {
+
+    align-self: center;
+    overflow: hidden;
+    height: 100%;
+    aspect-ratio: 1/1;
+    background-color: var(--pastel-2);
+}
+
+#portrait3 {
+
+    align-self: center;
+    overflow: hidden;
+    height: 100%;
+    aspect-ratio: 1/1;
+    background-color: var(--pastel-3);
+}
+
+#portrait4 {
+
+    align-self: center;
+    overflow: hidden;
+    height: 100%;
+    aspect-ratio: 1/1;
+    background-color: var(--pastel-4);
+}
+
+
+/********** SKILLS **********/
+
+.skills {
+
+    background-color: var(--secondary);
+    width: 100%;
+    margin-left: 1.25%;
+    margin-right: 1.25%;
+    opacity: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.skillsIcon {
+
+    aspect-ratio: 1/1;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 7px;
+    margin-right: 0;
+    height: 80%;
+}
+
+.skillsBody {
+
+    color: white;
+    width: 70%;
+    margin: auto;
+}
+
+#skillSetHeaderBox {
+
+    text-align: center;
+}
+
+
+/********** PROJECTS **********/
+
+#myProjects {
+
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    background-color: var(--primary);
+}
+
+#projectsBackground {
+
+    top: 200vh;
+    background-color: var(--pastel-5);
+    position: absolute;
+    z-index: 1;
+}
+
+#swipeArrowBox {
+
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    position: absolute;
+}
+
+#swipeArrow {
+
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: auto;
+    margin-right: auto;
+    aspect-ratio: 1/1;
+    height: 50px;
+    opacity: 0;
+}
+
+#swipeArrowText {
+
+    text-align: center;
+    margin: 0;
+}
+
+#projectsWheel {
+
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    left: 0;
+}
+
+.projects {
+
+    text-align: center;
+    aspect-ratio: 1/1;
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 8;
+    opacity: 0;
+}
+
+.projectHeaders {
+
+    color: white;
+    text-align: center;
+}
+
+.projectImg {
+
+    margin: auto;
+    aspect-ratio: 1/1;
+}
+
+#lastItem {
+
+    margin-right: 27%;
+}
+
+#glitchItem {
+
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: .01%;
+    height: 100%;
+    z-index: 8;
+}
+
+#projectsInfoBackground {
+
+    right: 0;
+    height: 100vh;
+    width: 21.25%;
+    background-color: var(--primary);
+    position: absolute;
+    z-index: 7;
+}
+
+#projectsInfoBox {
+
+    background-color: var(--secondary);
+    position: absolute;
+    z-index: 9;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#projectsInfoHeaderBox {
+
+    text-align: center;
+}
+
+#projectsInfoHeader {
+
+    color: white;
+}
+
+#projectsInfoNameBox {
+
+    width: 90%;
+}
+
+#projectsInfoName {
+
+    text-align: center;
+    color: transparent;
+}
+
+#projectsInfoBodyBox {
+
+    width: 85%;
+    margin-left: 7.5%;
+    margin-right: 7.5%;
+}
+
+#projectsInfoBody {
+
+    color: transparent;
+}
+
+#aaedMusaNameBoxLarge {
+
+    text-align: center;
+    font-size: 130%;
+}
+
+#aaedMusaNameLarge {
+
+    opacity: 0;
+    color: var(--pastel-5);
+    text-decoration: none;
+}
+
+#aaedMusaNameBox {
+
+    z-index: 11;
+    text-align: center;
+    font-size: 130%;
+}
+
+#aaedMusaName {
+
+    opacity: 0;
+    color: var(--pastel-5);
+    text-decoration: none;
+}
+
+
+/********** CONTACT ME **********/
+
+.contacts {
+
+    background-color: var(--secondary);
+    width: 100%;
+    margin-left: 1.25%;
+    margin-right: 1.25%;
+    opacity: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.contactsIcon {
+
+    aspect-ratio: 1/1;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 13px;
+    margin-right: 0;
+    height: 80%;
+}
+
+.contactsBody {
+
+    color: white;
+    text-align: center;
+    width: 70%;
+    margin: auto;
+}
+
+#contactMeHeaderBox {
+
+    text-align: center;
+}
+
+
+
+
+
+/*********************************************/
+/*************** DEVICE SIZING ***************/
+/*********************************************/
+
+
+/********** LARGE DEVICES **********/
+
+@media only screen and (min-width: 1025px) { /* detect if screen is desktop */
+
+    /***** introduction *****/
+
+    #myIntroduction {
+
+        flex-direction: row;
+    }
+
+    #portraitBox {
+
+        aspect-ratio: 1/1;
+        right: 0;
+        height: 100vh;
+    }
+
+    #aboutMe {
+
+        height: 60%;
+        width: 50%
+    }
+
+    #aboutMeHeaderBox {
+
+        margin-left: 5%;
+        margin-right: auto;
+        width: 460px;
+    }
+
+    /***** skills *****/
+
+    .skills {
+
+        margin-top: 0.75%;
+        height: 12%;
+    }
+
+    #skillSetHeaderBox {
+
+        height: auto;
+        width: 670px;
+    }
+
+    /***** projects *****/
+
+    #myProjects {
+
+        flex-direction: row;
+    }
+
+    #projectsBackground {
+
+        left: 0;
+        height: 100vh;
+        width: 78.75%;
+    }
+
+    #swipeArrowBox {
+
+        font-size: 100%;
+        right: 40vw;
+        height: calc(var(--navBarHeight) * 2);
+        width: calc(var(--navBarHeight) * 2);
+    }
+
+    #projectsInfoBackground {
+
+        display: block;
+    }
+
+    #projectsWheel {
+
+        margin-top: 3%;
+        z-index: 7;
+        height: 100vh;
+        width: 78.75%;
+    }
+
+    .projects {
+
+        width: 50%;
+        margin-left: 18%;
+        margin-right: 32%;
+    }
+
+    .projectImg {
+
+        height: 70%;
+        margin-top: 15%;
+        margin-left: 15%;
+        margin-right: 15%;
+    }
+
+    #projectsInfoName {
+
+        margin-top: 10%;
+        margin-left: 5%;
+        margin-right: 5%;
+    }
+
+    #aaedMusaNameBoxLarge {
+
+        display: block;
+    }
+
+    #aaedMusaNameBox {
+
+        display: none;
+    }
+
+    #projectsInfoBox {
+
+        margin-top: 3%;
+        margin-right: 2.5%;
+        right: 0;
+        height: 75%;
+        width: 375px;
+    }
+
+    /***** contact me *****/
+
+    #contactMeHeaderBox {
+
+        height: auto;
+        width: 460px;
+    }
+
+    .contacts {
+
+        height: 17%;
+        margin-top: 0.75%;
+    }
+}
+
+
+/********** MEDIUM DEVICES **********/
+
+@media only screen and (min-width: 501px) and (max-width: 1024px) { /* detect if screen is tablet */
+
+    /***** introduction *****/
+
+    #myIntroduction {
+
+        flex-direction: column-reverse;
+    }
+
+    #portraitBox {
+
+        top: 0;
+        width: 100vw;
+        aspect-ratio: 1/1;
+    }
+
+    #aboutMe {
+
+        height: 45%;
+        width: 90%;
+    }
+
+    #aboutMeHeaderBox {
+
+        margin-left: 5%;
+        margin-right: auto;
+        width: 345px;
+    }
+
+    /***** skills *****/
+
+    .skills {
+
+        margin-top: 1%;
+        height: 13%;
+    }
+
+    #skillSetHeaderBox {
+
+        height: auto;
+        width: 460px;
+        font-size: 90%;
+    }
+
+    /***** projects *****/
+
+    #myProjects {
+
+        flex-direction: column-reverse;
+    }
+
+    #projectsBackground {
+
+        width: 100vw;
+        height: 70%;
+        margin-bottom: 30vh;
+    }
+
+    #swipeArrowBox {
+
+        font-size: 100%;
+        right: calc(2.5% + 20px);
+        margin-bottom: 63vh;
+        height: calc(var(--navBarHeight) * 2);
+        width: calc(var(--navBarHeight) * 2);
+    }
+
+    #projectsInfoBackground {
+
+        display: none;
+    }
+
+    #projectsWheel {
+
+        z-index: 10;
+        height: 100vh;
+        width: 100%;
+    }
+
+    .projects {
+
+        width: 70%;
+        margin-left: 15%;
+        margin-right: 15%;
+        margin-bottom: 50%;
+    }
+
+    .projectHeaders {
+
+        height: 10%;
+        font-size: 200%;
+    }
+
+    .projectImg {
+
+        height: 65%;
+    }
+
+    #projectsInfoHeaderBox {
+
+        font-size: 150%;
+    }
+
+    #projectsInfoName {
+
+        margin-top: 0;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    #aaedMusaNameBoxLarge {
+
+        display: none;
+    }
+
+    #aaedMusaNameBox {
+
+        margin-bottom: 15%;
+    }
+
+    #projectsInfoBox {
+
+        height: 40%;
+        width: 90%;
+        margin: 2.5%;
+    }
+
+    /***** contact me *****/
+
+    #contactMeHeaderBox {
+
+        height: auto;
+        width: 450px;
+        font-size: 130%;
+    }
+
+    .contacts {
+
+        height: 18%;
+        margin-top: 1%;
+    }
+}
+
+
+/********** SMALL DEVICES **********/
+
+@media only screen and (max-width: 500px) { /* detect if screen is smartphone */
+
+    /***** introduction *****/
+
+    #myIntroduction {
+
+        flex-direction: column-reverse;
+    }
+
+    #portraitBox {
+
+        top: 0;
+        width: 100vw;
+        height: calc(60% + var(--navBarHeight));
+    }
+
+    #aboutMe {
+
+        height: 45%;
+        width: 90%;
+    }
+
+    #aboutMeHeaderBox {
+
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+        width: 220px;
+    }
+
+    /***** skills *****/
+
+    .skills {
+
+        margin-top: 1.25%;
+        height: 14%;
+    }
+
+    #skillSetHeaderBox {
+
+        height: auto;
+        width: 335px;
+        font-size: 105%;
+    }
+
+    /***** projects *****/
+
+    #myProjects {
+
+        flex-direction: column-reverse;
+    }
+
+    #projectsBackground {
+
+        width: 100vw;
+        height: 70%;
+        margin-bottom: 30vh;
+    }
+
+    #swipeArrowBox {
+
+        font-size: 50%;
+        right: calc(2.5% + 20px);
+        margin-bottom: 63vh;
+        height: var(--navBarHeight);
+        width: var(--navBarHeight);
+    }
+
+    #projectsInfoBackground {
+
+        display: none;
+    }
+
+    #projectsWheel {
+
+        z-index: 10;
+        height: 100vh;
+        width: 100%;
+    }
+
+    .projects {
+
+        width: 70%;
+        margin-left: 15%;
+        margin-right: 15%;
+        margin-bottom: 70%;
+    }
+
+    .projectHeaders {
+
+        height: 10%;
+        font-size: 110%;
+    }
+
+    .projectImg {
+
+        height: 65%;
+    }
+
+    #projectsInfoName {
+
+        margin-top: 0;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    #aaedMusaNameBoxLarge {
+
+        display: none;
+    }
+
+    #aaedMusaNameBox {
+
+        margin-bottom: 10%;
+    }
+
+    #projectsInfoBox {
+
+        height: 40%;
+        width: 90%;
+        margin: 2.5%;
+    }
+
+    /***** contact me *****/
+
+    #contactMeHeaderBox {
+
+        height: auto;
+        width: 330px;
+        font-size: 150%;
+    }
+
+    .contacts {
+
+        height: 19%;
+        margin-top: 1.25%;
+    }
+}

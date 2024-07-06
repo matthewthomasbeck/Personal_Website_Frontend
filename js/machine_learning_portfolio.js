@@ -16,55 +16,6 @@
 /************************************************************/
 
 
-/********** DOWNLOAD GRAPHS FUNCTION **********/
-
-function downloadHTMLFromS3(financialInstrument) { // TODO
-
-    /***** set variables *****/
-
-    // set URL to s3 bucket
-    const s3URL = 'https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/machine_learning_portfolio/graphs/';
-    const timeFrames = ['7', '30', '90', '365', 'max']; // set time frames
-
-    /***** fetch data *****/
-
-    for (let i = 0; i < timeFrames.length; i++) { // loop through every time frame
-
-        const graphURL = `${s3URL}${financialInstrument}Plot-${timeFrames[i]}.html`; // set graph URL
-
-        console.log(graphURL);
-
-        fetch(graphURL).then(response => response.text()).then(data => { // fetch data from s3
-
-            saveGraph(data, graphURL); // save graph to local machine
-
-            console.log('Successfully downloaded data from S3');
-
-        }).catch(error => console.error('Error downloading file:', error));
-    }
-}
-
-
-/********** SAVE GRAPHS FUNCTION **********/
-
-function saveGraph(data, graphURL) { // TODO
-
-    const blob = new Blob([data], { type: 'text/html' });
-
-    const link = document.createElement('a');
-
-    link.href = window.URL.createObjectURL(blob);
-
-    link.download = graphURL;
-
-    document.body.appendChild(link);
-
-    link.click();
-
-    document.body.removeChild(link);
-}
-
-
 /********** IMPORT JSON DATA FUNCTION **********/
 
 async function fetchData(financialInstrument) { // function to fetch json data
@@ -522,8 +473,6 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     // loop through every category calling createTables function
     financialInstruments.forEach(financialInstrument => {
-
-        //downloadHTMLFromS3(financialInstrument); // download graphs for each financial instrument category
 
         createTables(financialInstrument); // create table for each category
     });

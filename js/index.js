@@ -357,10 +357,9 @@ projectsWheel.addEventListener('scroll', function() { // when scroll takes place
         projectsInfoName.textContent = "Machine Learning Portfolio"; // set title
 
         // set content from .txt
-        projectsInfoBody.textContent = 'Using a Raspberry Pi 4B, a Coral TPU, TensorFlow, an Nginx web server, and a ' +
-            'whole host of data collecting and modeling scripts, I created a portfolio that finds the most volatile ' +
-            'financial instruments, predicts their prices, and suggests when you should buy / sell (OBLIGATORY: THIS ' +
-            'IS NOT FINANCIAL ADVICE)';
+        projectsInfoBody.textContent = "Using SageMaker, S3, Amplify, ECR, ECS, CodeCommit, the AWS CLI, and IAM " +
+            "roles from the AWS solution suite, as well as my own machine learning algorithm, I created a portfolio " +
+            "that predicts share prices (OBLIGATORY: THIS IS NOT FINANCIAL ADVICE)";
 
         aaedName.textContent = ""; // unset Aaed's name
 

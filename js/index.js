@@ -366,7 +366,22 @@ projectsWheel.addEventListener('scroll', function() { // when scroll takes place
         aaedNameLarge.textContent = ""; // unset Aaed's name large
     }
 
-    else if (currentItem === 1) { // if current item athena...
+    else if (currentItem === 1) { // if current item edge a.i. module...
+
+        projectsInfoName.textContent = "Edge AI Module"; // set title
+
+        // set content from .txt
+        projectsInfoBody.innerHTML = projectsInfoBody.innerHTML = "The Edge AI Module is a device I created while " +
+            "working on <a href='../pages/athena.html'>project Athena</a>, in which I wanted a fexible device that " +
+            "allowed for adjustable voltage to work with any power source, 12 channels of control, a " +
+            "remote control module, a camera, a fan for cooling, neat wiring, and an NCS2 for edge AI";
+
+        aaedName.textContent = ""; // unset Aaed's name
+
+        aaedNameLarge.textContent = ""; // unset Aaed's name large
+    }
+
+    else if (currentItem === 2) { // if current item athena...
 
         projectsInfoName.textContent = "Project Athena"; // set title
 
@@ -382,7 +397,7 @@ projectsWheel.addEventListener('scroll', function() { // when scroll takes place
         swipeArrowBox.style.display = 'none'; // hide swipe arrow box
     }
 
-    else if (currentItem === 2) { // if current item receipt analyzer...
+    else if (currentItem === 3) { // if current item receipt analyzer...
 
         projectsInfoName.textContent = "Receipt Analyzer"; // set title
 
@@ -396,7 +411,7 @@ projectsWheel.addEventListener('scroll', function() { // when scroll takes place
         aaedNameLarge.textContent = ""; // unset Aaed's name large
     }
 
-    else if (currentItem === 3) { // if current item personal website...
+    else if (currentItem === 4) { // if current item personal website...
 
         projectsInfoName.textContent = "Personal Website"; // set title
 
@@ -411,7 +426,7 @@ projectsWheel.addEventListener('scroll', function() { // when scroll takes place
         aaedNameLarge.textContent = ""; // unset Aaed's name large
     }
 
-    else if (currentItem === 4) { // if current item video editor...
+    else if (currentItem === 5) { // if current item video editor...
 
         projectsInfoName.textContent = "Video Editor"; // set title
 

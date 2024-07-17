@@ -372,13 +372,15 @@ projectsWheel.addEventListener('scroll', function() { // when scroll takes place
 
         // set content from .txt
         projectsInfoBody.innerHTML = projectsInfoBody.innerHTML = "The Edge AI Module is a device I created while " +
-            "working on <a href='../pages/athena.html'>project Athena</a>, in which I wanted a fexible device that " +
-            "allowed for adjustable voltage to work with any power source, 12 channels of control, a " +
-            "remote control module, a camera, a fan for cooling, neat wiring, and an NCS2 for edge AI";
+            "working on project Athena, in which I wanted a fexible device that allowed for adjustable voltage to " +
+            " work with any power source, 12 channels of control, a remote control module, a camera, a fan for " +
+            "cooling, neat wiring, and an NCS2 to use edge AI";
 
         aaedName.textContent = ""; // unset Aaed's name
 
         aaedNameLarge.textContent = ""; // unset Aaed's name large
+
+        swipeArrowBox.style.display = 'none'; // hide swipe arrow box
     }
 
     else if (currentItem === 2) { // if current item athena...
@@ -393,8 +395,6 @@ projectsWheel.addEventListener('scroll', function() { // when scroll takes place
         aaedName.textContent = "Aaed Musa!"; // set Aaed's name
 
         aaedNameLarge.textContent = "Aaed Musa!"; // set Aaed's name large
-
-        swipeArrowBox.style.display = 'none'; // hide swipe arrow box
     }
 
     else if (currentItem === 3) { // if current item receipt analyzer...

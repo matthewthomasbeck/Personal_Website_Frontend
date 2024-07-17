@@ -385,6 +385,12 @@
     color: transparent;
 }
 
+#athenaTag {
+
+    color: var(--pastel-2);
+    font-size: 100%;
+}
+
 #aaedMusaNameBoxLarge {
 
     text-align: center;

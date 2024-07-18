@@ -320,6 +320,102 @@ for (let i = 0; i < programmingHeadersReplace.length; i++) { // loop through hea
 }
 
 
+/********** IF IN THE MIDDLE **********/
+
+function isElementInMiddle(element) { // function to check if element is in the middle of the screen
+
+    /***** set variables *****/
+
+    const rect = element.getBoundingClientRect(); // get element bounding rectangle
+    const viewportHeight = window.innerHeight; // get viewport height
+    const elementMiddleY = rect.top + rect.height / 2; // get middle of element
+    const screenMiddleY = viewportHeight / 2; // get middle of screen
+
+    /***** return true if element in middle of screen *****/
+
+    return Math.abs(elementMiddleY - screenMiddleY); // return true if element in middle of screen
+}
+
+
+/********** BOX SLIDING **********/
+
+/***** set variables *****/
+
+const aboutMeBox = document.getElementById('aboutMeBox'); // about me box
+const projectsInfoBox = document.getElementById('projectsInfoBox'); // projects box
+const viewportHeight = window.innerHeight; // viewport height
+const screenMiddleY = viewportHeight / 2; // middle of screen
+
+/***** slide boxes *****/
+
+function slideBox() { // function to slide boxes based on scroll position
+
+    if (window.matchMedia("(min-width: 1025px)").matches) { // if screen large...
+
+        /***** set variables *****/
+
+        const aboutMeBoxDimensions = aboutMeBox.getBoundingClientRect(); // get about me box dimensions
+
+        // get middle of about me box
+        let aboutMeBoxMiddleY = aboutMeBoxDimensions.top + aboutMeBoxDimensions.height / 2;
+
+        // get projects info box dimensions
+        const projectsInfoBoxDimensions = projectsInfoBox.getBoundingClientRect();
+
+        // get middle of projects info box
+        let projectsInfoBoxMiddleY = projectsInfoBoxDimensions.top + projectsInfoBoxDimensions.height / 2;
+        const aboutMeBoxTop = aboutMeBox.getBoundingClientRect().top; // get about me box top
+        const projectsInfoBoxTop = projectsInfoBox.getBoundingClientRect().top; // get projects info box top
+
+        // get projects info box bottom
+        const projectsInfoBoxBottom = projectsInfoBox.getBoundingClientRect().bottom;
+
+        /***** about me box *****/
+
+        if (aboutMeBox) { // if about me box exists...
+
+            // if top of about me box is in view (with nav height)...
+            if (aboutMeBoxTop >= (0 - (((window.innerHeight / 100) * 2.5) + NAV_HEIGHT))) {
+
+                // adjust box top spacing based on position of scroll and allow to move down
+                aboutMeBox.style.marginTop = ((screenMiddleY - aboutMeBoxMiddleY)) + 'px';
+            }
+        }
+
+        /***** projects box *****/
+
+        if ( // if projects info box in middle of screen and exists...
+
+            projectsInfoBox &&
+            isElementInMiddle(projectsInfoBox)
+        ) {
+
+            if ( // if top of projects info box is in view (with nav height) as well as bottom...
+
+                projectsInfoBoxTop >= (0 - (((window.innerHeight / 100) * 2.5) + NAV_HEIGHT)) &&
+                projectsInfoBoxBottom <= (window.innerHeight + ((window.innerHeight / 100) * 2.5) + NAV_HEIGHT)
+            ) {
+
+                // adjust box top spacing based on position of scroll and allow to move down
+                projectsInfoBox.style.marginTop = ((screenMiddleY - projectsInfoBoxMiddleY)) + 'px';
+            }
+        }
+    }
+}
+
+/***** check for elements *****/
+
+function checkSlideBox() { // function to check if elements are in the middle of the screen
+
+    slideBox(); // run slide box function
+
+    requestAnimationFrame(checkSlideBox); // run check slide box function
+}
+
+requestAnimationFrame(checkSlideBox); // run check slide box function
+
+
+
 /********** PROJECTS WHEEL **********/
 
 /***** set variables *****/

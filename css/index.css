@@ -121,13 +121,12 @@
     background-color: var(--primary);
 }
 
-#aboutMe {
+#aboutMeBox {
 
     border-radius: 0;
     position: absolute;
     z-index: 2;
     background-color: var(--secondary);
-    margin: 2.5%;
 }
 
 #aboutMeHeaderBox {
@@ -483,10 +482,11 @@
         height: 100vh;
     }
 
-    #aboutMe {
+    #aboutMeBox {
 
         height: 60%;
-        width: 50%
+        width: 50%;
+        margin-left: 2.5%;
     }
 
     #aboutMeHeaderBox {
@@ -579,7 +579,6 @@
 
     #projectsInfoBox {
 
-        margin-top: 3%;
         margin-right: 2.5%;
         right: 0;
         height: 75%;
@@ -620,10 +619,11 @@
         aspect-ratio: 1/1;
     }
 
-    #aboutMe {
+    #aboutMeBox {
 
         height: 45%;
         width: 90%;
+        margin: 2.5%
     }
 
     #aboutMeHeaderBox {
@@ -766,10 +766,11 @@
         height: calc(60% + var(--navBarHeight));
     }
 
-    #aboutMe {
+    #aboutMeBox {
 
         height: 45%;
         width: 90%;
+        margin: 2.5%
     }
 
     #aboutMeHeaderBox {

@@ -105,7 +105,7 @@
 
 .firstElement {
 
-    margin-top: var(--navBarHeight);
+    /*margin-top: var(--navBarHeight); DO NOT REMOVE FOR LEGACY PURPOSES*/
     padding: 1.57%;
 }
 

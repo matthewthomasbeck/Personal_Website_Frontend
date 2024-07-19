@@ -378,17 +378,13 @@ function slideBox() { // function to slide boxes based on scroll position
             if (aboutMeBoxTop >= (0 - (((window.innerHeight / 100) * 2.5) + NAV_HEIGHT))) {
 
                 // adjust box top spacing based on position of scroll and allow to move down
-                aboutMeBox.style.marginTop = ((screenMiddleY - aboutMeBoxMiddleY)) + 'px';
+                aboutMeBox.style.marginTop = (screenMiddleY - aboutMeBoxMiddleY) + 'px';
             }
         }
 
         /***** projects box *****/
 
-        if ( // if projects info box in middle of screen and exists...
-
-            projectsInfoBox &&
-            isElementInMiddle(projectsInfoBox)
-        ) {
+        if (projectsInfoBox) { // if projects info box exists...
 
             if ( // if top of projects info box is in view (with nav height) as well as bottom...
 

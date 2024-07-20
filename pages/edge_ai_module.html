@@ -1,0 +1,422 @@
+<!------------------------------------------------------------------------------------>
+<!-- Copyright (c) 2024 Matthew Thomas Beck                                         -->
+<!--                                                                                -->
+<!-- All rights reserved. This code and its associated files may not be reproduced, -->
+<!-- modified, distributed, or otherwise used, in part or in whole, by any person   -->
+<!-- or entity without the express written permission of the copyright holder,      -->
+<!-- Matthew Thomas Beck.                                                           -->
+<!------------------------------------------------------------------------------------>
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <!-- PAGE / CHARACTER INITIALIZATION -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- PRELOAD FONTS -->
+    <link rel="preload" as="font" href="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/fonts/Mission_Script.woff" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" as="font" href="../assets/fonts/Fira_Code/FiraCode-VariableFont_wght.ttf" type="font/woff2" crossorigin="anonymous">
+
+    <!-- STYLE SHEETS -->
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/projects.css">
+
+    <!-- FAVICON -->
+    <link rel="icon" href="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/favicons/favicon-pastel1.png" id="favicon">
+
+    <!-- TAB TITLE -->
+    <title>Edge AI Module</title>
+</head>
+
+<!-- EDGE AI MODULE PAGE -->
+<body class="body">
+
+<!-- OPTIONS DIMMING -->
+<div id="navBarOptionsDimmer"></div>
+
+<!-- NAVIGATION BAR -->
+<nav id="navBar">
+
+    <!-- OPTIONS BUTTON -->
+    <button id="navBarOptionsButton" class="popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+        <div class="navBarOptionsLines"></div>
+        <div class="navBarOptionsLines"></div>
+        <div class="navBarOptionsLines"></div>
+    </button>
+
+    <!-- NAME -->
+    <a href="../index.html" id="navBarNameBox" class="popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+        <p class="programmerFont animateProgrammerTyping" id="navBarName">printf("Matthew Thomas Beck");</p>
+    </a>
+
+    <!-- OPTIONS -->
+    <div class="standardFont" id="navBarOptionsBox">
+
+        <!-- HOME DIRECT -->
+        <a href="../index.html" class="navBarOptions noText popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+            <img class="navBarOptionsImages" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/home-navbar.png" alt="">
+        </a>
+
+        <!-- PROJECTS SEPARATOR -->
+        <div class="navBarOptionsSeparator"></div>
+
+        <!-- MACHINE LEARNING PORTFOLIO DIRECT -->
+        <a href="../pages/machine_learning_portfolio.html" class="navBarOptions popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+            <img class="navBarOptionsImages" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/machine_learning_portfolio-navbar.png" alt="">
+            <p class="navBarOptionsText">
+                M.L.P.
+            </p>
+        </a>
+
+        <!-- ATHENA DIRECT TODO finish me later! -->
+        <a href="../pages/under_construction.html" class="navBarOptions popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+            <img class="navBarOptionsImages" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/athena-navbar.png" alt="">
+            <p class="navBarOptionsText">
+                Athena
+            </p>
+        </a>
+
+        <!-- RECEIPT ANALYZER DIRECT -->
+        <a href="../pages/receipt_analyzer.html" class="navBarOptions popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+            <img class="navBarOptionsImages" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/receipt_analyzer-navbar.png" alt="">
+            <p class="navBarOptionsText">
+                Receipt
+                Analyzer
+            </p>
+        </a>
+
+        <!-- CONTACTS SEPARATOR -->
+        <div class="navBarOptionsSeparator"></div>
+
+        <!-- LINKEDIN DIRECT -->
+        <a href="https://www.linkedin.com/in/matthewthomasbeck/" class="navBarOptions noText popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+            <img class="navBarOptionsImages" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/linkedin-navbar.png" alt="">
+        </a>
+
+        <!-- GITHUB DIRECT -->
+        <a href="https://www.github.com/matthewthomasbeck/" class="navBarOptions noText popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+            <img class="navBarOptionsImages" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/github-navbar.png" alt="">
+        </a>
+
+        <!-- YOUTUBE DIRECT -->
+        <a href="https://www.youtube.com/@Matthew_Thomas_Beck" class="navBarOptions noText popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+            <img class="navBarOptionsImages" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/youtube-navbar.png" alt="">
+        </a>
+
+        <!-- INSTAGRAM DIRECT -->
+        <a href="https://www.instagram.com/matthew_thomas_beck/" class="navBarOptions noText popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+            <img class="navBarOptionsImages" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/instagram-navbar.png" alt="">
+        </a>
+    </div>
+</nav>
+
+<!-- JUMP TO TOP -->
+<a href="#pageTitle" class="popUp" id="jumpUpBox" onmouseover="popUp(this)" onmouseout="popDown(this)" onmousedown="popDown(this)">
+    <img id="jumpUpArrow" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-north.png" alt="">
+</a>
+
+<!-- EDGE AI MODULE -->
+<div class="parentDiv" id="pageTitle">
+    <div class="childDiv">
+
+        <!-- INTRODUCTION HEADER -->
+        <div class="contentHeaderBoxes" id="pageTitleBox">
+            <h1 class="contentHeaders programmerFont" id="introductionHeader">
+                Edge AI Module
+            </h1>
+        </div>
+
+        <!-- INTRODUCTION -->
+        <div class="contentBoxes">
+            <iframe class="contentVideo" src="https://www.youtube.com/embed/TLnXB63zZYs?si=vztqBDb7CZjC-6Bq" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+            <div class="standardFont contentTextBox">
+                <p class="contentText">
+                    'Receipt_Analyzer_3.0' is a Python-based application that I made from July to September 2022 that utilizes a
+                    scratch-built GUI, a SQL database, and 4,768 lines of Python code in order to collect and then analyze an
+                    individual's finances, handling said data with Regex filtering
+                </p>
+                <p class="contentText">
+                    Technology: Python, Assembly (basic assembly knowledge helped with PWM decoding)
+                </p>
+                <p class="contentText">
+                    Hardware: RaspberryPi 4B, 12-channel Pololu Maestro, RadioLink R/C receiver and Remote, Intel NCS2,
+                    Picamera Module 3, 3.3V fan, and a two buck converters
+                </p>
+                <p class="contentText">
+                    Software: Autodesk Fusion, PyCharm, Git, StackOverflow, and ChatGPT (the previous two for
+                    self-teaching)
+                </p>
+            </div>
+        </div>
+
+        <!-- INDEX -->
+        <div class="jumpBackTrigger" id="indexBox">
+            <div class="standardFont contentTextBox" id="index">
+                <p class="standardFont" id="indexTitle">Index</p>
+                <ul class="contentText">
+                    <li class="indexContent popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+                        <a href="#moduleOriginsHeaderBox" class="contentText">Module Origins</a>
+                    </li>
+                    <li class="indexContent popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+                        <a href="#moduleMK1HeaderBox" class="contentText">Module Mk-1</a>
+                    </li>
+                    <li class="indexContent popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+                        <a href="#moduleMK2HeaderBox" class="contentText">Module Mk-2</a>
+                    </li>
+                    <li class="indexContent popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+                        <a href="#moduleMK3HeaderBox" class="contentText">Module Mk-3</a>
+                    </li>
+                    <li class="indexContent popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+                        <a href="#moduleMK4HeaderBox" class="contentText">Module Mk-4</a>
+                    </li>
+                    <li class="indexContent popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+                        <a href="#projectConclusionHeaderBox" class="contentText">Conclusion</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- MODULE ORIGINS HEADER -->
+        <div class="contentHeaderBoxes" id="moduleOriginsHeaderBox">
+            <h1 class="contentHeaders programmerFont">
+                Module Origins
+            </h1>
+        </div>
+
+        <!-- MODULE ORIGINS -->
+        <div class="contentBoxes">
+            <div class="standardFont contentTextBox foreText">
+                <p class="contentText">
+                    While working on my robotic dog project Athena, I slowly began to realize that I was going to need
+                    to create my own way to manage all PCB's and devices that would be connected to the robot
+                </p>
+                <p class="contentText">
+                    My problems included the NCS2 possibly overheating, to needing a way to accommodate the Picamera
+                    Module 3, to the fact that the RadioLink R/C receiver didn't even have any mounting screws, and then
+                    finally, incorporating the RaspberryPi 4B and possibly all of Aaed Musa's original electronics
+                </p>
+                <p class="contentText">
+                    With so many individual needs adding up, I decided that I might as well create a module that could
+                    provide all the functionalities I needed, whilst also remaining robust enough to be used in other
+                    projects
+                </p>
+            </div>
+            <img class="contentImg" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/images/edge_ai_module/edge_ai_module-planning.jpg" alt="">
+            <div class="standardFont contentTextBox aftText">
+                <p class="contentText">
+                    While working on my robotic dog project Athena, I slowly began to realize that I was going to need
+                    to create my own way to manage all PCB's and devices that would be connected to the robot
+                </p>
+                <p class="contentText">
+                    My problems included the NCS2 possibly overheating, to needing a way to accommodate the Picamera
+                    Module 3, to the fact that the RadioLink R/C receiver didn't even have any mounting screws, and then
+                    finally, incorporating the RaspberryPi 4B and possibly all of Aaed Musa's original electronics
+                </p>
+                <p class="contentText">
+                    With so many individual needs adding up, I decided that I might as well create a module that could
+                    provide all the functionalities I needed, whilst also remaining robust enough to be used in other
+                    projects
+                </p>
+            </div>
+        </div>
+
+        <!-- MODULE MK1 HEADER -->
+        <div class="contentHeaderBoxes" id="moduleMK1HeaderBox">
+            <h1 class="contentHeaders programmerFont">
+                Module Mk-1
+            </h1>
+        </div>
+
+        <!-- MODULE MK1 -->
+        <div class="contentBoxes">
+            <img class="contentImg" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/images/edge_ai_module/edge_ai_module-mk1.jpg" alt="">
+            <div class="standardFont contentTextBox">
+                <p class="contentText">
+                    After measuring out all of Aaed Musa's original ARES electronics, as well as my additions, and then
+                    designing a three-layered 'box' to hold all the electronics in Autodesk Fusion, I arrived at my
+                    Edge AI Module Mk-1
+                </p>
+                <p class="contentText">
+                    This design, nestled perfectly within Athena's chest, was a good start and held all the
+                    electronics I then thought I would need, but it had its flaws
+                </p>
+                <p class="contentText">
+                    It lacked any kind of air flow, something the NCS2 would need, the wiring for the servo motors
+                    definitely needed improvement as wires had to run through unplanned channels, and it accommodated
+                    the Teensy 4.1 and the logic level converter, components I did not need
+                </p>
+            </div>
+        </div>
+
+        <!-- MODULE MK2 HEADER -->
+        <div class="contentHeaderBoxes" id="moduleMK2HeaderBox">
+            <h1 class="contentHeaders programmerFont">
+                Module Mk-2
+            </h1>
+        </div>
+
+        <!-- MODULE MK2 -->
+        <div class="contentBoxes">
+            <div class="standardFont contentTextBox foreText">
+                <p class="contentText">
+                    Edge AI Module Mk-2 was a notable redesign of Mk-1, in that now it provided airflow from a 3.3V fan,
+                    and was built with the clarity as to what electrical components I actually needed without any
+                    guess work, leading to the upper 2 PCB platforms being completely overhauled
+                </p>
+                <p class="contentText">
+                    This newly acquired project clarity gave me the confidence to actually start programming the
+                    on-board Linux environment to start taking in commands from the R/C receiver, a task that proved
+                    surprisingly difficult
+                </p>
+                <p class="contentText">
+                    After toiling for about 2 weeks in my attempts at trying to receive instructions via the RadioLink
+                    remote controller, I finally arrived at a working solution that worked with the use of PWM signals
+                    and decoding the subsequent received bits into human-readable instructions
+                </p>
+            </div>
+            <img class="contentImg" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/images/edge_ai_module/edge_ai_module-mk2.jpg" alt="">
+            <div class="standardFont contentTextBox aftText">
+                <p class="contentText">
+                    Edge AI Module Mk-2 was a notable redesign of Mk-1, in that now it provided airflow from a 3.3V fan,
+                    and was built with the clarity as to what electrical components I actually needed without any
+                    guess work, leading to the upper 2 PCB platforms being completely overhauled
+                </p>
+                <p class="contentText">
+                    This newly acquired project clarity gave me the confidence to actually start programming the
+                    on-board Linux environment to start taking in commands from the R/C receiver, a task that proved
+                    surprisingly difficult
+                </p>
+                <p class="contentText">
+                    After toiling for about 2 weeks in my attempts at trying to receive instructions via the RadioLink
+                    remote controller, I finally arrived at a working solution that worked with the use of PWM signals
+                    and decoding the subsequent received bits into human-readable instructions
+                </p>
+            </div>
+        </div>
+
+        <!-- MODULE MK3 HEADER -->
+        <div class="contentHeaderBoxes" id="moduleMK3HeaderBox">
+            <h1 class="contentHeaders programmerFont">
+                Module Mk-3
+            </h1>
+        </div>
+
+        <!-- MODULE MK3 -->
+        <div class="contentBoxes">
+            <img class="contentImg" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/images/edge_ai_module/edge_ai_module-mk3.jpg" alt="">
+            <div class="standardFont contentTextBox">
+                <p class="contentText">
+                    After my success in getting custom software to work with Mk-2, the next trial would be to get the
+                    entire system under battery power, which gave me the opportunity to learn some more about electrical
+                    engineering
+                </p>
+                <p class="contentText">
+                    Having worked with PWM signals and the logic level converter before this stage, I knew that voltage
+                    would be a looming concern, as the RaspberryPi 4B could only handle 5V, whereas my power plant
+                    was 7.4V at its lowest
+                </p>
+                <p class="contentText">
+                    This prompted me to add a buck converter to the module, which allowed the battery to be stepped down
+                    to 5V at the price of increasing amperage; a very convenient trade-off when you have a maestro, a
+                    camera, an R/C receiver, a fan, and a TPU accelerator all wired up to a single RaspberryPi
+                </p>
+            </div>
+        </div>
+
+        <!-- MODULE MK4 HEADER -->
+        <div class="contentHeaderBoxes" id="moduleMK4HeaderBox">
+            <h1 class="contentHeaders programmerFont">
+                Module Mk-4
+            </h1>
+        </div>
+
+        <!-- MODULE MK4 -->
+        <div class="contentBoxes">
+            <div class="standardFont contentTextBox foreText">
+                <p class="contentText">
+                    Mk-3 was very close to the finish line, however I made a mistake: I did not account for any possible
+                    voltage requirements regarding the motors and/or servos that would be connected to the 12-channel
+                    Pololu Maestro
+                </p>
+                <p class="contentText">
+                    Mk-4, my current and likely final iteration of the Edge AI Module, addresses this, with its
+                    added upside-down buck converter attached to the uppermost PCB platform
+                </p>
+                <p class="contentText">
+                    With this addition, the module is now capable of handling the voltage requirements of the maestro,
+                    as well as the voltage requirements of the RaspberryPi and its peripherals, completely independently
+                </p>
+            </div>
+            <img class="contentImg" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/images/edge_ai_module/edge_ai_module-mk3.jpg" alt="">
+            <div class="standardFont contentTextBox aftText">
+                <p class="contentText">
+                    Mk-3 was very close to the finish line, however I made a mistake: I did not account for any possible
+                    voltage requirements regarding the motors and/or servos that would be connected to the 12-channel
+                    Pololu Maestro
+                </p>
+                <p class="contentText">
+                    Mk-4, my current and likely final iteration of the Edge AI Module, addresses this, with its
+                    added upside-down buck converter attached to the uppermost PCB platform
+                </p>
+                <p class="contentText">
+                    With this addition, the module is now capable of handling the voltage requirements of the maestro,
+                    as well as the voltage requirements of the RaspberryPi and its peripherals, completely independently
+                </p>
+            </div>
+        </div>
+
+        <!-- CONCLUSION HEADER -->
+        <div class="contentHeaderBoxes" id="projectConclusionHeaderBox">
+            <h1 class="contentHeaders programmerFont">
+                Conclusion
+            </h1>
+        </div>
+
+        <!-- CONCLUSION TEXT -->
+        <div class="contentBoxes">
+            <div class="standardFont contentTextBox" id="projectConclusionBox">
+                <p class="contentText projectConclusionText">
+                    The Intel Movidius NCS2, when it released, was admittedly a mess; there was little to no useful
+                    documentation on how to get it to work, and when you pair that with a retail price at $200, you can
+                    see why these TPU's were discontinued (and why as of writing, you can get one for as low as $50 on
+                    eBay)
+                </p>
+                <p class="contentText projectConclusionText">
+                    That is actually the beauty of this module, as because my mentor Omar Ferrer and I managed to get it
+                    to work, I now have an incredibly powerful and cheap platform that I can use to spearhead my future
+                    in robotics (albeit with proprietary hardware)
+                </p>
+                <p class="contentText projectConclusionText">
+                    With this module, I hope to re-immerse myself into the world of robotics, a place I have not been to
+                    since the early 2010's as a child building Lego Technic with my brother
+                </p>
+                <p class="contentText projectConclusionText">
+                    After its use in my robot dog Athena, who knows where this module will take me? Zeppelins?
+                    Submarines? Smart cameras? Perhaps another, more capable robot dog? Who knows?
+                </p>
+                <p class="contentText projectConclusionText">
+                    Whatever the case, I can count this module as another wonderful learning experience, and an
+                    exciting stepping stone in my journey towards learning more about AI and its many applications
+                </p>
+                <div class="contentText" id="projectConclusionSignatureBox">
+                    <p class="programmerFont ConclusionText" id="projectConclusionSignature">
+                        printf("-Matthew Thomas Beck");
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JAVASCRIPT -->
+<script src="../js/global.js"></script>
+<script src="../js/projects.js"></script>
+</body>
+</html>

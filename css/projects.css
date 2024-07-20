@@ -27,32 +27,32 @@
 
 
 
-/*********************************************************************/
-/*************** receipt_analyzer.html CUSTOM ELEMENTS ***************/
-/*********************************************************************/
+/*******************************************************/
+/*************** PROJECT CUSTOM ELEMENTS ***************/
+/*******************************************************/
 
 
 /********** CUSTOM ELEMENTS **********/
 
-.receiptAnalyzerConclusionText {
+.projectConclusionText {
 
     color: transparent;
 }
 
-#receiptAnalyzerConclusionBox {
+#projectConclusionBox {
 
     display: flex;
     flex-direction: column;
 }
 
-#receiptAnalyzerConclusionSignatureBox {
+#projectConclusionSignatureBox {
 
     margin-top: 6%;
     margin-bottom: 6%;
     color: transparent;
 }
 
-#receiptAnalyzerConclusionSignature {
+#projectConclusionSignature {
 
     font-size: 100%;
     margin: 0;
@@ -81,7 +81,7 @@
 
     /***** signature *****/
 
-    #receiptAnalyzerConclusionSignatureBox {
+    #projectConclusionSignatureBox {
 
         margin-left: auto;
         height: 20px;
@@ -103,7 +103,7 @@
 
     /***** signature *****/
 
-    #receiptAnalyzerConclusionSignatureBox {
+    #projectConclusionSignatureBox {
 
         margin-left: auto;
         height: 15px;
@@ -125,7 +125,7 @@
 
     /***** signature *****/
 
-    #receiptAnalyzerConclusionSignatureBox {
+    #projectConclusionSignatureBox {
 
         margin-left: auto;
         margin-right: auto;

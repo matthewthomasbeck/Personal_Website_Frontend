@@ -19,9 +19,9 @@
 
 
 
-/**************************************************************/
-/*************** receipt_analyzer.js JAVASCRIPT ***************/
-/**************************************************************/
+/************************************************************/
+/*************** edge_ai_module.js JAVASCRIPT ***************/
+/************************************************************/
 
 
 /********** FADE IN ANIMATION **********/
@@ -29,7 +29,7 @@
 /***** set variables *****/
 
 // find conclusion header
-const conclusionHeader = document.getElementById('receiptAnalyzerConclusionHeaderBox');
+const conclusionHeader = document.getElementById('projectConclusionHeaderBox');
 
 /***** animate conclusion *****/
 
@@ -42,8 +42,8 @@ const conclusionHeaderObserver = new IntersectionObserver(entries => {
 
             /***** set variables *****/
 
-            // get content text
-            const conclusionTags = document.getElementById('receiptAnalyzerConclusionBox').getElementsByTagName('p');
+                // get content text
+            const conclusionTags = document.getElementById('projectConclusionBox').getElementsByTagName('p');
 
             /***** animate conclusion content *****/
 
@@ -74,10 +74,10 @@ if (conclusionHeader) { // if conclusion header exists...
 /***** set variables *****/
 
 // find final tag
-const finalTag = document.getElementById('receiptAnalyzerConclusionBox').getElementsByTagName('p')[4];
+const finalTag = document.getElementById('projectConclusionBox').getElementsByTagName('p')[4];
 
 // get content signature box text
-const conclusionSignatureBox = document.getElementById('receiptAnalyzerConclusionSignature')
+const conclusionSignatureBox = document.getElementById('projectConclusionSignature')
 
 /***** observe last fade in *****/
 

@@ -354,10 +354,9 @@ img {
 
 #navBar { /* used to hold nav bar content */
 
-    z-index: 1000;
+    z-index: 1001;
     text-align: center;
     background-color: var(--secondary);
-    color: white;
     position: fixed;
     display: flex;
     align-items: center;
@@ -368,7 +367,7 @@ img {
 
 #navBarOptionsButton { /* used to select options */
 
-    z-index: 1001;
+    z-index: 1002;
     aspect-ratio: 1/1;
     height: 50%;
     margin-left: 10px;
@@ -387,7 +386,7 @@ img {
 
 .navBarOptionsLines {
 
-    z-index: 1002;
+    z-index: 1003;
     background-color: white;
     width: 130%;
     height: 10%;
@@ -397,20 +396,20 @@ img {
 #navBarNameBox { /* used to hold my name */
 
     /* margins left and right is dynamically calculated in global.js */
-    z-index: 1001;
+    z-index: 1002;
     margin-top: 5px;
     width: 232px;
 }
 
 #navBarName { /* my name */
 
-    z-index: 1002;
+    z-index: 1003;
     font-size: 80%;
 }
 
 #navBarOptionsBox { /* used to hold nav bar options */
 
-    z-index: 1000;
+    z-index: 1001;
     position: fixed;
     display: flex;
     flex-direction: column;
@@ -432,8 +431,9 @@ img {
 
 .navBarOptions { /* different nav bar options */
 
-    z-index: 1001;
+    z-index: 1002;
     aspect-ratio: 1/1;
+    padding: 0;
     width: 60%;
     margin-top: 25%;
     margin-bottom: 25%;
@@ -455,7 +455,7 @@ img {
 
 .navBarOptionsImages {
 
-    z-index: 1002;
+    z-index: 1003;
     aspect-ratio: 1/1;
     justify-self: center;
     height: 30px;
@@ -467,23 +467,67 @@ img {
 
 .navBarOptionsText {
 
-    z-index: 1002;
+    z-index: 1003;
     margin-top: 20%;
     margin-bottom: 0;
     margin-left: auto;
     margin-right: auto;
+    text-align: center;
     font-size: 9px;
     transition: var(--timeInterval);
 }
 
 .navBarOptionsSeparator {
 
-    z-index: 1001;
+    z-index: 1002;
     width: 80%;
     height: .3%;
     background-color: white;
     margin-top: 15%;
     margin-bottom: 15%;
+}
+
+
+/********** PROJECTS BAR **********/
+
+#projectsBarOptionsBox {
+
+    z-index: 1000;
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    height: calc(100% - var(--navBarHeight));
+    width: var(--navBarHeight);
+    margin-left: calc(-1 * 2 * var(--navBarHeight));
+    background-color: var(--primary);
+    bottom: 0;
+    left: 0;
+    transition: margin-left var(--timeInterval) ease-out;
+}
+
+#projectsBarOptionsBox.showProjectsBarOptionsBox { /* show nav bar options */
+
+    margin-left: var(--navBarHeight);
+}
+
+.projectsBarOptions { /* projects bar options */
+
+    z-index: 1002;
+    aspect-ratio: 1/1;
+    padding: 0;
+    width: 60%;
+    margin-top: 25%;
+    margin-bottom: 25%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    background-color: var(--primary);
+    color: white;
+    flex-direction: column;
+    text-align: center;
 }
 
 

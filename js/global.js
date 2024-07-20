@@ -209,13 +209,34 @@ document.getElementById('navBarOptionsButton').addEventListener('click', functio
     const navBarOptionsBox = document.getElementById('navBarOptionsBox'); // options box
     const navBarOptionsDimmer = document.getElementById('navBarOptionsDimmer'); // options dimmer
 
+    // projects options box
+    const projectsBarOptionsBox = document.getElementById('projectsBarOptionsBox');
+
     /***** rotate options button *****/
 
     navBarOptionsButtonBox.classList.toggle('rotateNavBarOptionsButton'); // toggle rotation of options button
 
     navBarOptionsBox.classList.toggle('showNavBarOptionsBox'); // toggle visibility of options box
 
+    projectsBarOptionsBox.classList.remove('showProjectsBarOptionsBox'); // remove visibility of options box
+
     navBarOptionsDimmer.classList.toggle('showNavBarOptionsDimmer'); // toggle visibility of options dimmer
+});
+
+
+/********** PROJECTS BAR BUTTON **********/
+
+// create event listener for projects button
+document.getElementById('projectsBarOptionsButton').addEventListener('click', function() {
+
+    /***** set variables *****/
+
+    // projects options box
+    const projectsBarOptionsBox = document.getElementById('projectsBarOptionsBox');
+
+    /***** rotate options button *****/
+
+    projectsBarOptionsBox.classList.toggle('showProjectsBarOptionsBox'); // toggle visibility of options box
 });
 
 
@@ -233,11 +254,16 @@ document.getElementById('navBarOptionsDimmer').addEventListener('click', functio
     const navBarOptionsBox = document.getElementById('navBarOptionsBox'); // options box
     const navBarOptionsDimmer = document.getElementById('navBarOptionsDimmer'); // options dimmer
 
+    // projects options box
+    const projectsBarOptionsBox = document.getElementById('projectsBarOptionsBox');
+
     /***** remove dimmer *****/
 
     navBarOptionsButtonBox.classList.remove('rotateNavBarOptionsButton'); // remove rotation of options button
 
     navBarOptionsBox.classList.remove('showNavBarOptionsBox'); // remove visibility of options box
+
+    projectsBarOptionsBox.classList.remove('showProjectsBarOptionsBox'); // remove visibility of options box
 
     navBarOptionsDimmer.classList.remove('showNavBarOptionsDimmer'); // remove visibility of options dimmer
 });

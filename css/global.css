@@ -631,8 +631,6 @@ img {
     margin-right: 5px;
 }
 
-
-
 /***** content headers *****/
 
 .contentHeaders { /* used to style headers for sub-pages */
@@ -684,7 +682,7 @@ img {
     object-position: center;
 }
 
-.contentVideo {
+.contentVideoYouTube {
 
     aspect-ratio: 16/9;
     margin-top: auto;
@@ -693,6 +691,17 @@ img {
     height: initial;
     right: initial;
     width: 100%;
+    object-position: center;
+}
+
+.contentVideoS3 {
+
+    aspect-ratio: 16/9;
+    margin-top: auto;
+    margin-bottom: auto;
+    align-self: initial;
+    height: initial;
+    right: initial;
     object-position: center;
 }
 
@@ -725,6 +734,13 @@ img {
 @media only screen and (min-width: 1025px) { /* detect if screen is desktop */
 
     /***** adjust custom element sizes *****/
+
+    /***** content boxes *****/
+
+    .contentVideoS3 {
+
+        width: 50%;
+    }
 
     /***** adjust image sizes *****/
 
@@ -767,6 +783,15 @@ img {
 @media only screen and (min-width: 501px) and (max-width: 1024px) { /* detect if screen is tablet */
 
     /***** adjust custom element sizes *****/
+
+    /***** content boxes *****/
+
+    .contentVideoS3 {
+
+        width: 50%;
+    }
+
+    /***** index *****/
 
     #index li {
 
@@ -820,11 +845,18 @@ img {
 
     /***** adjust custom element sizes *****/
 
+    /***** content boxes *****/
+
     .contentBoxes {
 
         flex-direction: column;
         margin-top: 0;
         margin-bottom: 5%;
+    }
+
+    .contentVideoS3 {
+
+        width: 50%;
     }
 
     /***** adjust image sizes *****/

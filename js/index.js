@@ -125,6 +125,17 @@ const aboutMeName = document.getElementById('name'); // find name
 const aaedName = document.getElementById('aaedMusaName'); // find Aaed's name
 const aaedNameLarge = document.getElementById('aaedMusaNameLarge'); // find Aaed's name large
 
+// find projects elements class and set to variable
+const projects = document.getElementsByClassName('projects');
+const arrowLeft = document.getElementById('swipeArrowLeft'); // left arrow
+const arrowRight = document.getElementById('swipeArrowRight'); // right arrow
+
+// find skills elements class and set to variable
+const skills = document.getElementsByClassName('skills');
+
+// find contacts elements class and set to variable
+const contacts = document.getElementsByClassName('contacts');
+
 /***** animate programmer typing headers *****/
 
 // initialize intersection observer
@@ -161,11 +172,6 @@ const programmerTypingObserver = new IntersectionObserver(entries => {
 
             else if (currentID === 'skillSetHeader') { // if current id skill set header...
 
-                /***** set variables *****/
-
-                // find skills elements class and set to variable
-                const skills = document.getElementsByClassName('skills');
-
                 /***** trigger fade in animation *****/
 
                 for (let i = 0; i < skills.length; i++) { // loop through all skills to apply fade in update
@@ -180,15 +186,6 @@ const programmerTypingObserver = new IntersectionObserver(entries => {
 
             else if (currentID === 'projectsInfoHeader') { // if current id project info header...
 
-                /***** set variables *****/
-
-                // find projects elements class and set to variable
-                const projects = document.getElementsByClassName('projects');
-                const arrow = document.getElementById('swipeArrow'); // find swipe arrow
-
-                // find swipe arrow text
-                const arrowText = document.getElementById('swipeArrowText');
-
                 /***** trigger fade in animation *****/
 
                 for (let i = 0; i < projects.length; i++) { // loop through projects to apply fade in update
@@ -200,9 +197,17 @@ const programmerTypingObserver = new IntersectionObserver(entries => {
                     projects[i].getElementsByTagName('img')[0].classList.add('popUp'); // add pop up to img
                 }
 
-                arrow.classList.add('fadeIn'); // add animations to arrow
+                // if the left arrow has the show class (not first project)...
+                if (arrowLeft.classList.contains('showArrow')) {
 
-                arrowText.classList.add('fadeIn'); // add animations to arrow text
+                    arrowLeft.classList.add('fadeIn'); // add animations to arrow
+                }
+
+                // if the right arrow has the show class (not last project)...
+                if (arrowRight.classList.contains('showArrow')) {
+
+                    arrowRight.classList.add('fadeIn'); // add animations to arrow
+                }
 
                 // additional content fade in
                 document.getElementById('projectsInfoName').classList.add('fadeIn');
@@ -219,14 +224,17 @@ const programmerTypingObserver = new IntersectionObserver(entries => {
                     aaedNameLarge.classList.add('fadeInAaedName');
 
                 }, TIME_INTERVAL); // add delay to body
+
+                arrowLeft.classList.add('postFadeIn'); // add animation has ended flag to left arrow
+
+                setTimeout(function() { // add flags to arrows with delay
+
+                    arrowRight.classList.add('postFadeIn'); // add animation has ended flag to right arrow
+
+                }, 13 * TIME_INTERVAL); // add delay to flag
             }
 
             else if (currentID === 'contactMeHeader') { // if current id contact me header...
-
-                /***** set variables *****/
-
-                // find contacts elements class and set to variable
-                const contacts = document.getElementsByClassName('contacts');
 
                 /***** trigger fade in animation *****/
 
@@ -419,10 +427,134 @@ requestAnimationFrame(checkSlideBox); // run check slide box function
 
 /***** set variables *****/
 
+// swipe arrow right
+const swipeArrowBoxRight = document.getElementById('swipeArrowRightBox');
+const swipeArrowBoxLeft = document.getElementById('swipeArrowLeftBox'); // swipe arrow left
 const projectsWheel = document.getElementById('projectsWheel'); // projects scroll
 const projectsBackground = document.getElementById('projectsBackground'); // projects background
 const projectsInfoName = document.getElementById('projectsInfoName'); // name of project
 const projectsInfoBody = document.getElementById('projectsInfoBody'); // content of project
+let itemWidth = document.querySelector('.projects').offsetWidth * 2; // width of a project item
+
+/***** left arrow swipe *****/
+
+swipeArrowBoxLeft.addEventListener('click', function() { // when swipe arrow left is clicked...
+
+    /***** set variables *****/
+
+    let scrollPosition = projectsWheel.scrollLeft; // update div based on scroll position
+
+    /***** move left *****/
+
+    if (scrollPosition < (projectsWheel.scrollWidth / 6)) { // if scroll at first item...
+
+        projectsWheel.scrollTo({ // scroll to next left item
+
+            left: 0,
+            behavior: 'smooth'
+        })
+
+    } else if (scrollPosition < ((projectsWheel.scrollWidth / 6) * 2)) { // if scroll at second item...
+
+        projectsWheel.scrollTo({ // scroll to next left item
+
+            left: 0,
+            behavior: 'smooth'
+        })
+
+    } else if (scrollPosition < ((projectsWheel.scrollWidth / 6) * 3)) { // if scroll at third item...
+
+        projectsWheel.scrollTo({ // scroll to next left item
+
+            left: (projectsWheel.scrollWidth / 6),
+            behavior: 'smooth'
+        })
+
+    } else if (scrollPosition < ((projectsWheel.scrollWidth / 6) * 4)) { // if scroll at fourth item...
+
+        projectsWheel.scrollTo({ // scroll to next left item
+
+            left: ((projectsWheel.scrollWidth / 6) * 2),
+            behavior: 'smooth'
+        })
+
+    } else if (scrollPosition < ((projectsWheel.scrollWidth / 6) * 5)) { // if scroll at fifth item...
+
+        projectsWheel.scrollTo({ // scroll to next left item
+
+            left: ((projectsWheel.scrollWidth / 6) * 3),
+            behavior: 'smooth'
+        })
+
+    } else if (scrollPosition < projectsWheel.scrollWidth) { // if scroll at sixth item...
+
+        projectsWheel.scrollTo({ // scroll to next left item
+
+            left: ((projectsWheel.scrollWidth / 6) * 4),
+            behavior: 'smooth'
+        })
+    }
+});
+
+/***** right arrow swipe *****/
+
+swipeArrowBoxRight.addEventListener('click', function() { // when swipe arrow right is clicked...
+
+    /***** set variables *****/
+
+    let scrollPosition = projectsWheel.scrollLeft; // update div based on scroll position
+
+    /***** move right *****/
+
+    if (scrollPosition < (projectsWheel.scrollWidth / 6)) { // if scroll at first item...
+
+        projectsWheel.scrollTo({ // scroll to next right item
+
+            left: (projectsWheel.scrollWidth / 6),
+            behavior: 'smooth'
+        })
+
+    } else if (scrollPosition < ((projectsWheel.scrollWidth / 6) * 2)) { // if scroll at second item...
+
+        projectsWheel.scrollTo({ // scroll to next right item
+
+            left: ((projectsWheel.scrollWidth / 6) * 2),
+            behavior: 'smooth'
+        })
+
+    } else if (scrollPosition < ((projectsWheel.scrollWidth / 6) * 3)) { // if scroll at third item...
+
+        projectsWheel.scrollTo({ // scroll to next right item
+
+            left: ((projectsWheel.scrollWidth / 6) * 3),
+            behavior: 'smooth'
+        })
+
+    } else if (scrollPosition < ((projectsWheel.scrollWidth / 6) * 4)) { // if scroll at fourth item...
+
+        projectsWheel.scrollTo({ // scroll to next right item
+
+            left: ((projectsWheel.scrollWidth / 6) * 4),
+            behavior: 'smooth'
+        })
+
+    } else if (scrollPosition < ((projectsWheel.scrollWidth / 6) * 5)) { // if scroll at fifth item...
+
+        projectsWheel.scrollTo({ // scroll to next right item
+
+            left: ((projectsWheel.scrollWidth / 6) * 5),
+            behavior: 'smooth'
+        })
+
+    } else if (scrollPosition < projectsWheel.scrollWidth) { // if scroll at sixth item...
+
+        projectsWheel.scrollTo({ // scroll to next right item
+
+            left: ((projectsWheel.scrollWidth / 6) * 5),
+            behavior: 'smooth'
+        })
+    }
+});
 
 /***** create scroll wheel *****/
 
@@ -431,10 +563,10 @@ projectsWheel.addEventListener('scroll', function() { // when scroll takes place
     /***** set variables *****/
 
     let scrollPosition = projectsWheel.scrollLeft; // update div based on scroll position
-    let itemWidth = document.querySelector('.projects').offsetWidth * 2; // width of a project item
-    const aaedName = document.getElementById('aaedMusaName'); // get Aaed's name
-    const aaedNameLarge = document.getElementById('aaedMusaNameLarge'); // get Aaed's name large
-    const swipeArrowBox = document.getElementById('swipeArrowBox'); // get swipe arrow box
+
+    /***** adjust arrow opacity *****/
+
+    // TODO
 
     /***** calculate scroll position based on screen width *****/
 
@@ -449,6 +581,9 @@ projectsWheel.addEventListener('scroll', function() { // when scroll takes place
 
     if (currentItem === 0) { // if current item machine learning portfolio...
 
+        arrowLeft.classList.remove('showArrow'); // remove show class from left arrow
+        swipeArrowBoxLeft.style.opacity = '0'; // hide the left arrow
+        swipeArrowBoxRight.style.opacity = '1'; // show the right arrow
         projectsInfoName.textContent = "Machine Learning Portfolio"; // set title
 
         // set content from .txt
@@ -457,13 +592,31 @@ projectsWheel.addEventListener('scroll', function() { // when scroll takes place
             "that predicts share prices (OBLIGATORY: THIS IS NOT FINANCIAL ADVICE)";
 
         aaedName.textContent = ""; // unset Aaed's name
-
         aaedNameLarge.textContent = ""; // unset Aaed's name large
     }
 
     else if (currentItem === 1) { // if current item edge a.i. module...
 
+        arrowLeft.classList.add('showArrow'); // add show class to left arrow
+        swipeArrowBoxLeft.style.opacity = '1'; // show the left arrow
+        swipeArrowBoxRight.style.opacity = '1'; // show the right arrow
         projectsInfoName.textContent = "Edge AI Module"; // set title
+
+        if (arrowLeft.classList.contains('postFadeIn')) { // if fadeIn animation has ended...
+
+            if (arrowRight.classList.contains('postFadeIn')) { // if right arrow has already completely loaded...
+
+                console.log("Full opacity...");
+
+                arrowLeft.style.opacity = '1'; // show left arrow immediately
+
+            } else { // if right arrow has not completely loaded...
+
+                console.log("Adding fadeIn...");
+
+                arrowLeft.classList.add('fadeIn'); // add animations to arrow
+            }
+        }
 
         // set content from .txt
         projectsInfoBody.innerHTML = projectsInfoBody.innerHTML = "The Edge AI Module is a device I created while " +
@@ -472,14 +625,13 @@ projectsWheel.addEventListener('scroll', function() { // when scroll takes place
             "cooling, neat wiring, and an NCS2 to use edge AI";
 
         aaedName.textContent = ""; // unset Aaed's name
-
         aaedNameLarge.textContent = ""; // unset Aaed's name large
-
-        swipeArrowBox.style.display = 'none'; // hide swipe arrow box
     }
 
     else if (currentItem === 2) { // if current item athena...
 
+        swipeArrowBoxLeft.style.opacity = '1'; // show the left arrow
+        swipeArrowBoxRight.style.opacity = '1'; // show the right arrow
         projectsInfoName.textContent = "Project Athena"; // set title
 
         // set content from .txt
@@ -488,12 +640,13 @@ projectsWheel.addEventListener('scroll', function() { // when scroll takes place
             "robotic dog to somewhat think for itself using the ARES platform by the talented:";
 
         aaedName.textContent = "Aaed Musa!"; // set Aaed's name
-
         aaedNameLarge.textContent = "Aaed Musa!"; // set Aaed's name large
     }
 
     else if (currentItem === 3) { // if current item receipt analyzer...
 
+        swipeArrowBoxLeft.style.opacity = '1'; // show the left arrow
+        swipeArrowBoxRight.style.opacity = '1'; // show the right arrow
         projectsInfoName.textContent = "Receipt Analyzer"; // set title
 
         // set content from .txt
@@ -502,12 +655,14 @@ projectsWheel.addEventListener('scroll', function() { // when scroll takes place
             "the early days of university";
 
         aaedName.textContent = ""; // unset Aaed's name
-
         aaedNameLarge.textContent = ""; // unset Aaed's name large
     }
 
     else if (currentItem === 4) { // if current item personal website...
 
+        arrowRight.classList.add('showArrow'); // add show class to right arrow
+        swipeArrowBoxLeft.style.opacity = '1'; // show the left arrow
+        swipeArrowBoxRight.style.opacity = '1'; // show the right arrow
         projectsInfoName.textContent = "Personal Website"; // set title
 
         // set content from .txt
@@ -517,12 +672,14 @@ projectsWheel.addEventListener('scroll', function() { // when scroll takes place
             "black coffee";
 
         aaedName.textContent = ""; // unset Aaed's name
-
         aaedNameLarge.textContent = ""; // unset Aaed's name large
     }
 
     else if (currentItem === 5) { // if current item video editor...
 
+        arrowRight.classList.remove('showArrow'); // remove show class from right arrow
+        swipeArrowBoxLeft.style.opacity = '1'; // show the left arrow
+        swipeArrowBoxRight.style.opacity = '0'; // hide the right arrow
         projectsInfoName.textContent = "Video Editor"; // set title
 
         // set content from .txt
@@ -531,7 +688,6 @@ projectsWheel.addEventListener('scroll', function() { // when scroll takes place
             "control my screen and edit videos for me";
 
         aaedName.textContent = ""; // unset Aaed's name
-
         aaedNameLarge.textContent = ""; // unset Aaed's name large
     }
 

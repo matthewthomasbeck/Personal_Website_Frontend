@@ -253,7 +253,7 @@
     z-index: 1;
 }
 
-#swipeArrowBox {
+#swipeArrowLeftBox {
 
     z-index: 10;
     display: flex;
@@ -263,7 +263,17 @@
     position: absolute;
 }
 
-#swipeArrow {
+#swipeArrowRightBox {
+
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    position: absolute;
+}
+
+#swipeArrowLeft {
 
     margin-top: 0;
     margin-bottom: 0;
@@ -274,10 +284,15 @@
     opacity: 0;
 }
 
-#swipeArrowText {
+#swipeArrowRight {
 
-    text-align: center;
-    margin: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: auto;
+    margin-right: auto;
+    aspect-ratio: 1/1;
+    height: 50px;
+    opacity: 0;
 }
 
 #projectsWheel {
@@ -525,7 +540,15 @@
         width: 78.75%;
     }
 
-    #swipeArrowBox {
+    #swipeArrowLeftBox {
+
+        font-size: 100%;
+        left: 8vw;
+        height: calc(var(--navBarHeight) * 2);
+        width: calc(var(--navBarHeight) * 2);
+    }
+
+    #swipeArrowRightBox {
 
         font-size: 100%;
         right: 40vw;
@@ -663,7 +686,16 @@
         margin-bottom: 30vh;
     }
 
-    #swipeArrowBox {
+    #swipeArrowLeftBox {
+
+        font-size: 100%;
+        left: calc(2.5% + 20px);
+        margin-bottom: 63vh;
+        height: calc(var(--navBarHeight) * 2);
+        width: calc(var(--navBarHeight) * 2);
+    }
+
+    #swipeArrowRightBox {
 
         font-size: 100%;
         right: calc(2.5% + 20px);
@@ -811,7 +843,16 @@
         margin-bottom: 30vh;
     }
 
-    #swipeArrowBox {
+    #swipeArrowLeftBox {
+
+        font-size: 50%;
+        left: calc(2.5% + 20px);
+        margin-bottom: 63vh;
+        height: var(--navBarHeight);
+        width: var(--navBarHeight);
+    }
+
+    #swipeArrowRightBox {
 
         font-size: 50%;
         right: calc(2.5% + 20px);

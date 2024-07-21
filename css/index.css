@@ -345,6 +345,7 @@
 
     background-color: var(--secondary);
     position: absolute;
+    margin-bottom: calc(9% + var(--navBarHeight));
     z-index: 9;
     display: flex;
     flex-direction: column;

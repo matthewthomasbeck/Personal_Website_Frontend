@@ -394,6 +394,9 @@ function slideBox() { // function to slide boxes based on scroll position
 
                 // adjust box top spacing based on position of scroll and allow to move down
                 projectsInfoBox.style.marginTop = ((screenMiddleY - projectsInfoBoxMiddleY)) + 'px';
+
+                // adjust margin bottom to be 0
+                projectsInfoBox.style.marginBottom = '0px';
             }
         }
     }

@@ -397,29 +397,3 @@ sectionHeaderLinks.forEach(function(link) { // loop through each link
         }
     });
 });
-
-
-/********** JUMP UP FUNCTION **********/
-
-window.onscroll = function() {scrollFunction()}; // create event listener for scrolling
-
-function scrollFunction() { // function used to jump up to the top
-
-    /***** set variables *****/
-
-    // activation point for jump up
-    const jumpBackTrigger = document.getElementsByClassName("jumpBackTrigger")[0].offsetTop;
-    let jumpUpBox = document.getElementById("jumpUpBox"); // set jump up div
-
-    /***** jump up to the top *****/
-
-    if (window.pageYOffset > jumpBackTrigger) { // if user has scrolled past trigger point...
-
-        jumpUpBox.style.display = "block"; // show the jump back div
-    }
-
-    else { // if user has not scrolled past trigger point...
-
-        jumpUpBox.style.display = "none"; // hide the jump back div
-    }
-}

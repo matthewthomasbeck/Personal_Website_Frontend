@@ -34,6 +34,8 @@
 
 /********** CUSTOM ELEMENTS **********/
 
+/***** conclusion *****/
+
 .projectConclusionText {
 
     color: transparent;
@@ -57,6 +59,26 @@
     font-size: 100%;
     margin: 0;
     color: transparent;
+}
+
+/***** jump back *****/
+
+#jumpUpBox {
+
+    aspect-ratio: 1/1;
+    height: 50px;
+    display: none;
+    position: fixed;
+    top: 80px;
+    right: calc(2.5% + 20px);
+    background-color: transparent;
+    z-index: 998;
+}
+
+#jumpUpArrow {
+
+    opacity: 0.25;
+    transition: transform var(--timeInterval) ease-out;
 }
 
 
@@ -101,6 +123,13 @@
         width: 130px;
     }
 
+    /***** adjust custom image sizes *****/
+
+    #jumpUpBox {
+
+        height: 40px;
+    }
+
     /***** signature *****/
 
     #projectConclusionSignatureBox {
@@ -121,6 +150,13 @@
     #index li {
 
         width: 120px;
+    }
+
+    /***** adjust custom image sizes *****/
+
+    #jumpUpBox {
+
+        height: 30px;
     }
 
     /***** signature *****/

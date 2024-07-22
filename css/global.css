@@ -639,26 +639,6 @@ img {
     text-align: center;
 }
 
-/***** jump back *****/
-
-#jumpUpBox {
-
-    aspect-ratio: 1/1;
-    height: 50px;
-    display: none;
-    position: fixed;
-    top: 80px;
-    right: calc(2.5% + 20px);
-    background-color: transparent;
-    z-index: 998;
-}
-
-#jumpUpArrow {
-
-    opacity: 0.25;
-    transition: transform var(--timeInterval) ease-out;
-}
-
 /***** content boxes *****/
 
 .contentBoxes { /* used to hold content */
@@ -742,8 +722,6 @@ img {
         width: 50%;
     }
 
-    /***** adjust image sizes *****/
-
     /***** adjust text *****/
 
     #pageTitleBox {
@@ -796,13 +774,6 @@ img {
     #index li {
 
         font-size: 80%;
-    }
-
-    /***** adjust image sizes *****/
-
-    #jumpUpBox {
-
-        height: 40px;
     }
 
     /***** adjust text *****/
@@ -860,11 +831,6 @@ img {
     }
 
     /***** adjust image sizes *****/
-
-    #jumpBackBox {
-
-        height: 30px;
-    }
 
     .contentImg {
 

@@ -96,6 +96,8 @@
     --pastel-4: #fcf6bd;
 
     --pastel-5: #ffd670;
+
+    --pastel-6: #ff6464;
 }
 
 
@@ -739,11 +741,6 @@ img {
         font-size: 200%;
     }
 
-    #projectsInfoHeader {
-
-        font-size: 130%;
-    }
-
     .foreText {
 
         display: block;
@@ -791,11 +788,6 @@ img {
     .programmerTyping {
 
         font-size: 150%;
-    }
-
-    #projectsInfoHeader {
-
-        font-size: 95%;
     }
 
     .foreText {
@@ -847,11 +839,6 @@ img {
     }
 
     .programmerTyping {
-
-        font-size: 95%;
-    }
-
-    #projectsInfoHeader {
 
         font-size: 95%;
     }

@@ -127,11 +127,20 @@ const aaedNameLarge = document.getElementById('aaedMusaNameLarge'); // find Aaed
 
 // find projects elements class and set to variable
 const projects = document.getElementsByClassName('projects');
-const arrowLeft = document.getElementById('swipeArrowLeft'); // left arrow
-const arrowRight = document.getElementById('swipeArrowRight'); // right arrow
+
+// find videos elements class and set to variable
+const videos = document.getElementsByClassName('videos');
+
+const videosArrowLeft = document.getElementById('videosArrowLeft'); // videos left arrow
+const videosArrowRight = document.getElementById('videosArrowRight'); // videos right arrow
+const projectsArrowLeft = document.getElementById('projectsArrowLeft'); // projects left arrow
+const projectsArrowRight = document.getElementById('projectsArrowRight'); // projects right arrow
 
 // find skills elements class and set to variable
 const skills = document.getElementsByClassName('skills');
+
+// find experiences elements class and set to variable
+const experiences = document.getElementsByClassName('experiences');
 
 // find contacts elements class and set to variable
 const contacts = document.getElementsByClassName('contacts');
@@ -150,6 +159,8 @@ const programmerTypingObserver = new IntersectionObserver(entries => {
             /***** trigger fade in animation *****/
 
             const currentID = entry.target.id; // find current id and store as variable
+
+            /***** about me *****/
 
             if (currentID === 'aboutMeHeader') { // if current id about me header...
 
@@ -170,6 +181,8 @@ const programmerTypingObserver = new IntersectionObserver(entries => {
                 }
             }
 
+            /***** skills *****/
+
             else if (currentID === 'skillSetHeader') { // if current id skill set header...
 
                 /***** trigger fade in animation *****/
@@ -183,6 +196,8 @@ const programmerTypingObserver = new IntersectionObserver(entries => {
                     }, i * TIME_INTERVAL, skills[i]); // add delay to each p tag
                 }
             }
+
+            /***** projects *****/
 
             else if (currentID === 'projectsInfoHeader') { // if current id project info header...
 
@@ -198,15 +213,15 @@ const programmerTypingObserver = new IntersectionObserver(entries => {
                 }
 
                 // if the left arrow has the show class (not first project)...
-                if (arrowLeft.classList.contains('showArrow')) {
+                if (projectsArrowLeft.classList.contains('showArrow')) {
 
-                    arrowLeft.classList.add('fadeIn'); // add animations to arrow
+                    projectsArrowLeft.classList.add('fadeIn'); // add animations to arrow
                 }
 
                 // if the right arrow has the show class (not last project)...
-                if (arrowRight.classList.contains('showArrow')) {
+                if (projectsArrowRight.classList.contains('showArrow')) {
 
-                    arrowRight.classList.add('fadeIn'); // add animations to arrow
+                    projectsArrowRight.classList.add('fadeIn'); // add animations to arrow
                 }
 
                 // additional content fade in
@@ -225,14 +240,79 @@ const programmerTypingObserver = new IntersectionObserver(entries => {
 
                 }, TIME_INTERVAL); // add delay to body
 
-                arrowLeft.classList.add('postFadeIn'); // add animation has ended flag to left arrow
+                projectsArrowLeft.classList.add('postFadeIn'); // add animation has ended flag to left arrow
 
                 setTimeout(function() { // add flags to arrows with delay
 
-                    arrowRight.classList.add('postFadeIn'); // add animation has ended flag to right arrow
+                    projectsArrowRight.classList.add('postFadeIn'); // add animation has ended flag to right arrow
 
                 }, 13 * TIME_INTERVAL); // add delay to flag
             }
+
+            /***** experiences *****/
+
+            else if (currentID === 'experiencesHeader') { // if current id experiences header...
+
+                /***** trigger fade in animation *****/
+
+                // loop through all experiences to apply fade in update
+                for (let i = 0; i < experiences.length; i++) {
+
+                    setTimeout(function(skill) { // add animations to each experience with delay
+
+                        skill.classList.add('fadeIn'); // add animations to experience
+
+                    }, i * TIME_INTERVAL, experiences[i]); // add delay to each p tag
+                }
+            }
+
+            /***** videos *****/
+
+            else if (currentID === 'videosInfoHeader') { // if current id video info header...
+
+                /***** trigger fade in animation *****/
+
+                for (let i = 0; i < videos.length; i++) { // loop through videos to apply fade in update
+
+                    videos[i].classList.add('fadeIn', 'popUp'); // add animations to each video
+
+                    videos[i].getElementsByTagName('h1')[0].classList.add('popUp'); // pop up to title
+
+                    videos[i].getElementsByTagName('img')[0].classList.add('popUp'); // add pop up to img
+                }
+
+                // if the left arrow has the show class (not first video)...
+                if (videosArrowLeft.classList.contains('showArrow')) {
+
+                    videosArrowLeft.classList.add('fadeIn'); // add animations to arrow
+                }
+
+                // if the right arrow has the show class (not last video)...
+                if (videosArrowRight.classList.contains('showArrow')) {
+
+                    videosArrowRight.classList.add('fadeIn'); // add animations to arrow
+                }
+
+                // additional content fade in
+                document.getElementById('videosInfoName').classList.add('fadeIn');
+
+                setTimeout(function() { // add animations to body with delay
+
+                    // trigger fade in for additional content
+                    document.getElementById('videosInfoBody').classList.add('fadeIn');
+
+                }, TIME_INTERVAL); // add delay to body
+
+                videosArrowLeft.classList.add('postFadeIn'); // add animation has ended flag to left arrow
+
+                setTimeout(function() { // add flags to arrows with delay
+
+                    videosArrowRight.classList.add('postFadeIn'); // add animation has ended flag to right arrow
+
+                }, 13 * TIME_INTERVAL); // add delay to flag
+            }
+
+            /***** contacts *****/
 
             else if (currentID === 'contactMeHeader') { // if current id contact me header...
 
@@ -310,6 +390,16 @@ for (let i = 0; i < programmingHeadersReplace.length; i++) { // loop through hea
             replacementText.textContent = "My Projects:"; // set replacement span content
         }
 
+        else if (currentID === 'experiencesHeader') { // if current id experiences header...
+
+            replacementText.textContent = "My Experiences:"; // set replacement span content
+        }
+
+        else if (currentID === 'videosInfoHeader') { // if current id videos header...
+
+            replacementText.textContent = "My Videos:"; // set replacement span content
+        }
+
         else if (currentID === 'contactMeHeader') { // if current id contact me header...
 
             replacementText.textContent = "Contact Me!"; // set replacement span content
@@ -351,6 +441,7 @@ function isElementInMiddle(element) { // function to check if element is in the 
 
 const aboutMeBox = document.getElementById('aboutMeBox'); // about me box
 const projectsInfoBox = document.getElementById('projectsInfoBox'); // projects box
+const videosInfoBox = document.getElementById('videosInfoBox'); // videos box
 const viewportHeight = window.innerHeight; // viewport height
 const screenMiddleY = viewportHeight / 2; // middle of screen
 
@@ -370,13 +461,23 @@ function slideBox() { // function to slide boxes based on scroll position
         // get projects info box dimensions
         const projectsInfoBoxDimensions = projectsInfoBox.getBoundingClientRect();
 
+        // get videos info box dimensions
+        const videosInfoBoxDimensions = videosInfoBox.getBoundingClientRect();
+
         // get middle of projects info box
         let projectsInfoBoxMiddleY = projectsInfoBoxDimensions.top + projectsInfoBoxDimensions.height / 2;
+
+        // get middle of videos info box
+        let videosInfoBoxMiddleY = videosInfoBoxDimensions.top + videosInfoBoxDimensions.height / 2;
         const aboutMeBoxTop = aboutMeBox.getBoundingClientRect().top; // get about me box top
         const projectsInfoBoxTop = projectsInfoBox.getBoundingClientRect().top; // get projects info box top
+        const videosInfoBoxTop = videosInfoBox.getBoundingClientRect().top; // get videos info box top
 
         // get projects info box bottom
         const projectsInfoBoxBottom = projectsInfoBox.getBoundingClientRect().bottom;
+
+        // get videos info box bottom
+        const videosInfoBoxBottom = videosInfoBox.getBoundingClientRect().bottom;
 
         /***** about me box *****/
 
@@ -407,6 +508,24 @@ function slideBox() { // function to slide boxes based on scroll position
                 projectsInfoBox.style.marginBottom = '0px';
             }
         }
+
+        /***** videos box *****/
+
+        if (videosInfoBox) { // if videos info box exists...
+
+            if ( // if top of videos info box is in view (with nav height) as well as bottom...
+
+                videosInfoBoxTop >= (0 - (((window.innerHeight / 100) * 2.5) + NAV_HEIGHT)) &&
+                videosInfoBoxBottom <= (window.innerHeight + ((window.innerHeight / 100) * 2.5) + NAV_HEIGHT)
+            ) {
+
+                // adjust box top spacing based on position of scroll and allow to move down
+                videosInfoBox.style.marginTop = ((screenMiddleY - videosInfoBoxMiddleY)) + 'px';
+
+                // adjust margin bottom to be 0
+                videosInfoBox.style.marginBottom = '0px';
+            }
+        }
     }
 }
 
@@ -422,23 +541,23 @@ function checkSlideBox() { // function to check if elements are in the middle of
 requestAnimationFrame(checkSlideBox); // run check slide box function
 
 
-
 /********** PROJECTS WHEEL **********/
 
 /***** set variables *****/
 
 // swipe arrow right
-const swipeArrowBoxRight = document.getElementById('swipeArrowRightBox');
-const swipeArrowBoxLeft = document.getElementById('swipeArrowLeftBox'); // swipe arrow left
+const projectsArrowBoxRight = document.getElementById('projectsArrowRightBox');
+const projectsArrowBoxLeft = document.getElementById('projectsArrowLeftBox'); // swipe arrow left
 const projectsWheel = document.getElementById('projectsWheel'); // projects scroll
 const projectsBackground = document.getElementById('projectsBackground'); // projects background
 const projectsInfoName = document.getElementById('projectsInfoName'); // name of project
 const projectsInfoBody = document.getElementById('projectsInfoBody'); // content of project
-let itemWidth = document.querySelector('.projects').offsetWidth * 2; // width of a project item
+let projectItemWidth = document.querySelector('.projects').offsetWidth * 2; // width of a project item
+const numProjects = document.getElementsByClassName('projects').length; // number of projects
 
 /***** left arrow swipe *****/
 
-swipeArrowBoxLeft.addEventListener('click', function() { // when swipe arrow left is clicked...
+projectsArrowBoxLeft.addEventListener('click', function() { // when swipe arrow left is clicked...
 
     /***** set variables *****/
 
@@ -446,7 +565,7 @@ swipeArrowBoxLeft.addEventListener('click', function() { // when swipe arrow lef
 
     /***** move left *****/
 
-    if (scrollPosition < (projectsWheel.scrollWidth / 6)) { // if scroll at first item...
+    if (scrollPosition < (projectsWheel.scrollWidth / numProjects)) { // if scroll at first item...
 
         projectsWheel.scrollTo({ // scroll to next left item
 
@@ -454,7 +573,7 @@ swipeArrowBoxLeft.addEventListener('click', function() { // when swipe arrow lef
             behavior: 'smooth'
         })
 
-    } else if (scrollPosition < ((projectsWheel.scrollWidth / 6) * 2)) { // if scroll at second item...
+    } else if (scrollPosition < ((projectsWheel.scrollWidth / numProjects) * 2)) { // if scroll at second item...
 
         projectsWheel.scrollTo({ // scroll to next left item
 
@@ -462,27 +581,27 @@ swipeArrowBoxLeft.addEventListener('click', function() { // when swipe arrow lef
             behavior: 'smooth'
         })
 
-    } else if (scrollPosition < ((projectsWheel.scrollWidth / 6) * 3)) { // if scroll at third item...
+    } else if (scrollPosition < ((projectsWheel.scrollWidth / numProjects) * 3)) { // if scroll at third item...
 
         projectsWheel.scrollTo({ // scroll to next left item
 
-            left: (projectsWheel.scrollWidth / 6),
+            left: (projectsWheel.scrollWidth / numProjects),
             behavior: 'smooth'
         })
 
-    } else if (scrollPosition < ((projectsWheel.scrollWidth / 6) * 4)) { // if scroll at fourth item...
+    } else if (scrollPosition < ((projectsWheel.scrollWidth / numProjects) * 4)) { // if scroll at fourth item...
 
         projectsWheel.scrollTo({ // scroll to next left item
 
-            left: ((projectsWheel.scrollWidth / 6) * 2),
+            left: ((projectsWheel.scrollWidth / numProjects) * 2),
             behavior: 'smooth'
         })
 
-    } else if (scrollPosition < ((projectsWheel.scrollWidth / 6) * 5)) { // if scroll at fifth item...
+    } else if (scrollPosition < ((projectsWheel.scrollWidth / numProjects) * 5)) { // if scroll at fifth item...
 
         projectsWheel.scrollTo({ // scroll to next left item
 
-            left: ((projectsWheel.scrollWidth / 6) * 3),
+            left: ((projectsWheel.scrollWidth / numProjects) * 3),
             behavior: 'smooth'
         })
 
@@ -490,7 +609,7 @@ swipeArrowBoxLeft.addEventListener('click', function() { // when swipe arrow lef
 
         projectsWheel.scrollTo({ // scroll to next left item
 
-            left: ((projectsWheel.scrollWidth / 6) * 4),
+            left: ((projectsWheel.scrollWidth / numProjects) * 4),
             behavior: 'smooth'
         })
     }
@@ -498,7 +617,7 @@ swipeArrowBoxLeft.addEventListener('click', function() { // when swipe arrow lef
 
 /***** right arrow swipe *****/
 
-swipeArrowBoxRight.addEventListener('click', function() { // when swipe arrow right is clicked...
+projectsArrowBoxRight.addEventListener('click', function() { // when swipe arrow right is clicked...
 
     /***** set variables *****/
 
@@ -506,43 +625,43 @@ swipeArrowBoxRight.addEventListener('click', function() { // when swipe arrow ri
 
     /***** move right *****/
 
-    if (scrollPosition < (projectsWheel.scrollWidth / 6)) { // if scroll at first item...
+    if (scrollPosition < (projectsWheel.scrollWidth / numProjects)) { // if scroll at first item...
 
         projectsWheel.scrollTo({ // scroll to next right item
 
-            left: (projectsWheel.scrollWidth / 6),
+            left: (projectsWheel.scrollWidth / numProjects),
             behavior: 'smooth'
         })
 
-    } else if (scrollPosition < ((projectsWheel.scrollWidth / 6) * 2)) { // if scroll at second item...
+    } else if (scrollPosition < ((projectsWheel.scrollWidth / numProjects) * 2)) { // if scroll at second item...
 
         projectsWheel.scrollTo({ // scroll to next right item
 
-            left: ((projectsWheel.scrollWidth / 6) * 2),
+            left: ((projectsWheel.scrollWidth / numProjects) * 2),
             behavior: 'smooth'
         })
 
-    } else if (scrollPosition < ((projectsWheel.scrollWidth / 6) * 3)) { // if scroll at third item...
+    } else if (scrollPosition < ((projectsWheel.scrollWidth / numProjects) * 3)) { // if scroll at third item...
 
         projectsWheel.scrollTo({ // scroll to next right item
 
-            left: ((projectsWheel.scrollWidth / 6) * 3),
+            left: ((projectsWheel.scrollWidth / numProjects) * 3),
             behavior: 'smooth'
         })
 
-    } else if (scrollPosition < ((projectsWheel.scrollWidth / 6) * 4)) { // if scroll at fourth item...
+    } else if (scrollPosition < ((projectsWheel.scrollWidth / numProjects) * 4)) { // if scroll at fourth item...
 
         projectsWheel.scrollTo({ // scroll to next right item
 
-            left: ((projectsWheel.scrollWidth / 6) * 4),
+            left: ((projectsWheel.scrollWidth / numProjects) * 4),
             behavior: 'smooth'
         })
 
-    } else if (scrollPosition < ((projectsWheel.scrollWidth / 6) * 5)) { // if scroll at fifth item...
+    } else if (scrollPosition < ((projectsWheel.scrollWidth / numProjects) * 5)) { // if scroll at fifth item...
 
         projectsWheel.scrollTo({ // scroll to next right item
 
-            left: ((projectsWheel.scrollWidth / 6) * 5),
+            left: ((projectsWheel.scrollWidth / numProjects) * 5),
             behavior: 'smooth'
         })
 
@@ -550,7 +669,7 @@ swipeArrowBoxRight.addEventListener('click', function() { // when swipe arrow ri
 
         projectsWheel.scrollTo({ // scroll to next right item
 
-            left: ((projectsWheel.scrollWidth / 6) * 5),
+            left: ((projectsWheel.scrollWidth / numProjects) * 5),
             behavior: 'smooth'
         })
     }
@@ -575,15 +694,15 @@ projectsWheel.addEventListener('scroll', function() { // when scroll takes place
         scrollPosition *= 1.3; // add 30% to scroll position as scroll wheel is 30% smaller
     }
 
-    let currentItem = Math.round(scrollPosition / itemWidth); // index of visible item based on position
+    let currentItem = Math.round(scrollPosition / projectItemWidth); // index of visible item based on position
 
     /***** replace project info *****/
 
     if (currentItem === 0) { // if current item machine learning portfolio...
 
-        arrowLeft.classList.remove('showArrow'); // remove show class from left arrow
-        swipeArrowBoxLeft.style.opacity = '0'; // hide the left arrow
-        swipeArrowBoxRight.style.opacity = '1'; // show the right arrow
+        projectsArrowLeft.classList.remove('showArrow'); // remove show class from left arrow
+        projectsArrowBoxLeft.style.opacity = '0'; // hide the left arrow
+        projectsArrowBoxRight.style.opacity = '1'; // show the right arrow
         projectsInfoName.textContent = "Machine Learning Portfolio"; // set title
 
         // set content from .txt
@@ -593,28 +712,27 @@ projectsWheel.addEventListener('scroll', function() { // when scroll takes place
 
         aaedName.textContent = ""; // unset Aaed's name
         aaedNameLarge.textContent = ""; // unset Aaed's name large
-    }
 
-    else if (currentItem === 1) { // if current item edge a.i. module...
+    } else if (currentItem === 1) { // if current item edge a.i. module...
 
-        arrowLeft.classList.add('showArrow'); // add show class to left arrow
-        swipeArrowBoxLeft.style.opacity = '1'; // show the left arrow
-        swipeArrowBoxRight.style.opacity = '1'; // show the right arrow
+        projectsArrowLeft.classList.add('showArrow'); // add show class to left arrow
+        projectsArrowBoxLeft.style.opacity = '1'; // show the left arrow
+        projectsArrowBoxRight.style.opacity = '1'; // show the right arrow
         projectsInfoName.textContent = "Edge AI Module"; // set title
 
-        if (arrowLeft.classList.contains('postFadeIn')) { // if fadeIn animation has ended...
+        if (projectsArrowLeft.classList.contains('postFadeIn')) { // if fadeIn animation has ended...
 
-            if (arrowRight.classList.contains('postFadeIn')) { // if right arrow has already completely loaded...
+            if (projectsArrowRight.classList.contains('postFadeIn')) { // if right arrow has already completely loaded...
 
                 console.log("Full opacity...");
 
-                arrowLeft.style.opacity = '1'; // show left arrow immediately
+                projectsArrowLeft.style.opacity = '1'; // show left arrow immediately
 
             } else { // if right arrow has not completely loaded...
 
                 console.log("Adding fadeIn...");
 
-                arrowLeft.classList.add('fadeIn'); // add animations to arrow
+                projectsArrowLeft.classList.add('fadeIn'); // add animations to arrow
             }
         }
 
@@ -626,12 +744,11 @@ projectsWheel.addEventListener('scroll', function() { // when scroll takes place
 
         aaedName.textContent = ""; // unset Aaed's name
         aaedNameLarge.textContent = ""; // unset Aaed's name large
-    }
 
-    else if (currentItem === 2) { // if current item athena...
+    } else if (currentItem === 2) { // if current item athena...
 
-        swipeArrowBoxLeft.style.opacity = '1'; // show the left arrow
-        swipeArrowBoxRight.style.opacity = '1'; // show the right arrow
+        projectsArrowBoxLeft.style.opacity = '1'; // show the left arrow
+        projectsArrowBoxRight.style.opacity = '1'; // show the right arrow
         projectsInfoName.textContent = "Project Athena"; // set title
 
         // set content from .txt
@@ -641,12 +758,11 @@ projectsWheel.addEventListener('scroll', function() { // when scroll takes place
 
         aaedName.textContent = "Aaed Musa!"; // set Aaed's name
         aaedNameLarge.textContent = "Aaed Musa!"; // set Aaed's name large
-    }
 
-    else if (currentItem === 3) { // if current item receipt analyzer...
+    } else if (currentItem === 3) { // if current item receipt analyzer...
 
-        swipeArrowBoxLeft.style.opacity = '1'; // show the left arrow
-        swipeArrowBoxRight.style.opacity = '1'; // show the right arrow
+        projectsArrowBoxLeft.style.opacity = '1'; // show the left arrow
+        projectsArrowBoxRight.style.opacity = '1'; // show the right arrow
         projectsInfoName.textContent = "Receipt Analyzer"; // set title
 
         // set content from .txt
@@ -656,13 +772,12 @@ projectsWheel.addEventListener('scroll', function() { // when scroll takes place
 
         aaedName.textContent = ""; // unset Aaed's name
         aaedNameLarge.textContent = ""; // unset Aaed's name large
-    }
 
-    else if (currentItem === 4) { // if current item personal website...
+    } else if (currentItem === 4) { // if current item personal website...
 
-        arrowRight.classList.add('showArrow'); // add show class to right arrow
-        swipeArrowBoxLeft.style.opacity = '1'; // show the left arrow
-        swipeArrowBoxRight.style.opacity = '1'; // show the right arrow
+        projectsArrowRight.classList.add('showArrow'); // add show class to right arrow
+        projectsArrowBoxLeft.style.opacity = '1'; // show the left arrow
+        projectsArrowBoxRight.style.opacity = '1'; // show the right arrow
         projectsInfoName.textContent = "Personal Website"; // set title
 
         // set content from .txt
@@ -673,13 +788,12 @@ projectsWheel.addEventListener('scroll', function() { // when scroll takes place
 
         aaedName.textContent = ""; // unset Aaed's name
         aaedNameLarge.textContent = ""; // unset Aaed's name large
-    }
 
-    else if (currentItem === 5) { // if current item video editor...
+    } else if (currentItem === 5) { // if current item video editor...
 
-        arrowRight.classList.remove('showArrow'); // remove show class from right arrow
-        swipeArrowBoxLeft.style.opacity = '1'; // show the left arrow
-        swipeArrowBoxRight.style.opacity = '0'; // hide the right arrow
+        projectsArrowRight.classList.remove('showArrow'); // remove show class from right arrow
+        projectsArrowBoxLeft.style.opacity = '1'; // show the left arrow
+        projectsArrowBoxRight.style.opacity = '0'; // hide the right arrow
         projectsInfoName.textContent = "Video Editor"; // set title
 
         // set content from .txt
@@ -692,4 +806,168 @@ projectsWheel.addEventListener('scroll', function() { // when scroll takes place
     }
 
     projectsInfoBody.style.textAlign = 'left'; // set text alignment to left
+});
+
+
+/********** VIDEOS WHEEL **********/
+
+/***** set variables *****/
+
+// swipe arrow right
+const videosArrowBoxRight = document.getElementById('videosArrowRightBox');
+const videosArrowBoxLeft = document.getElementById('videosArrowLeftBox'); // swipe arrow left
+const videosWheel = document.getElementById('videosWheel'); // projects scroll
+const videosBackground = document.getElementById('videosBackground'); // projects background
+const videosInfoName = document.getElementById('videosInfoName'); // name of project
+const videosInfoBody = document.getElementById('videosInfoBody'); // content of project
+let videoItemWidth = document.querySelector('.videos').offsetWidth * 2; // width of a project item
+const numVideos = document.getElementsByClassName('videos').length; // number of videos
+
+/***** left arrow swipe *****/
+
+videosArrowBoxLeft.addEventListener('click', function() { // when swipe arrow left is clicked...
+
+    /***** set variables *****/
+
+    let scrollPosition = videosWheel.scrollLeft; // update div based on scroll position
+
+    /***** move left *****/
+
+    if (scrollPosition < (videosWheel.scrollWidth / numVideos)) { // if scroll at first item...
+
+        videosWheel.scrollTo({ // scroll to next left item
+
+            left: 0,
+            behavior: 'smooth'
+        })
+
+    } else if (scrollPosition < ((videosWheel.scrollWidth / numVideos) * 2)) { // if scroll at second item...
+
+        videosWheel.scrollTo({ // scroll to next left item
+
+            left: 0,
+            behavior: 'smooth'
+        })
+
+    } else if (scrollPosition < ((videosWheel.scrollWidth / numVideos) * 3)) { // if scroll at third item...
+
+        videosWheel.scrollTo({ // scroll to next left item
+
+            left: (videosWheel.scrollWidth / numVideos),
+            behavior: 'smooth'
+        })
+    }
+});
+
+/***** right arrow swipe *****/
+
+videosArrowBoxRight.addEventListener('click', function() { // when swipe arrow right is clicked...
+
+    /***** set variables *****/
+
+    let scrollPosition = videosWheel.scrollLeft; // update div based on scroll position
+
+    /***** move right *****/
+
+    if (scrollPosition < (videosWheel.scrollWidth / numVideos)) { // if scroll at first item...
+
+        videosWheel.scrollTo({ // scroll to next right item
+
+            left: (videosWheel.scrollWidth / numVideos),
+            behavior: 'smooth'
+        })
+
+    } else if (scrollPosition < ((videosWheel.scrollWidth / numVideos) * 2)) { // if scroll at second item...
+
+        videosWheel.scrollTo({ // scroll to next right item
+
+            left: ((videosWheel.scrollWidth / numVideos) * 2),
+            behavior: 'smooth'
+        })
+
+    } else if (scrollPosition < ((videosWheel.scrollWidth / numVideos) * 3)) { // if scroll at third item...
+
+        videosWheel.scrollTo({ // scroll to next right item
+
+            left: ((videosWheel.scrollWidth / numVideos) * 3),
+            behavior: 'smooth'
+        })
+    }
+});
+
+/***** create scroll wheel *****/
+
+videosWheel.addEventListener('scroll', function() { // when scroll takes place in projectsWheel...
+
+    /***** set variables *****/
+
+    let scrollPosition = videosWheel.scrollLeft; // update div based on scroll position
+
+    /***** adjust arrow opacity *****/
+
+    // TODO
+
+    /***** calculate scroll position based on screen width *****/
+
+    if (window.innerWidth <= 1024) { // if screen is small size...
+
+        scrollPosition *= 1.3; // add 30% to scroll position as scroll wheel is 30% smaller
+    }
+
+    let currentItem = Math.round(scrollPosition / videoItemWidth); // index of visible item based on position
+
+    /***** replace project info *****/
+
+    if (currentItem === 0) { // if current item latest video...
+
+        videosArrowLeft.classList.remove('showArrow'); // remove show class from left arrow
+        videosArrowBoxLeft.style.opacity = '0'; // hide the left arrow
+        videosArrowBoxRight.style.opacity = '1'; // show the right arrow
+        videosInfoName.textContent = "Receipt Analyzer"; // set title
+
+        // set content from .txt
+        videosInfoBody.textContent = "I built a Python app that uses Custom TKinter, Matplotlib, Psycopg2, and a " +
+            "host of other technologies including its own SQL database in order to better track my spending during " +
+            "the early days of university";
+
+    } else if (currentItem === 1) { // if current item video editor...
+
+        videosArrowLeft.classList.add('showArrow'); // add show class to left arrow
+        videosArrowBoxLeft.style.opacity = '1'; // show the left arrow
+        videosArrowBoxRight.style.opacity = '1'; // show the right arrow
+        videosInfoName.textContent = "Video Editor"; // set title
+
+        if (videosArrowLeft.classList.contains('postFadeIn')) { // if fadeIn animation has ended...
+
+            if (videosArrowRight.classList.contains('postFadeIn')) { // if right arrow has already completely loaded...
+
+                console.log("Full opacity...");
+
+                videosArrowLeft.style.opacity = '1'; // show left arrow immediately
+
+            } else { // if right arrow has not completely loaded...
+
+                console.log("Adding fadeIn...");
+
+                videosArrowLeft.classList.add('fadeIn'); // add animations to arrow
+            }
+        }
+
+        // set content from .txt
+        videosInfoBody.innerHTML = videosInfoBody.innerHTML = "As Adobe Premiere Pro did not have any kind of API I +" +
+            "could use to edit my videos automatically (at the time of writing), I created a script that primarily" +
+            "uses PyAutoGUI to control my screen and edit videos for me";
+
+    } else if (currentItem === 2) { // if current item last video...
+
+        videosArrowRight.classList.remove('showArrow'); // remove show class from right arrow
+        videosArrowBoxLeft.style.opacity = '1'; // show the left arrow
+        videosArrowBoxRight.style.opacity = '0'; // hide the right arrow
+        videosInfoName.textContent = "Under Construction"; // set title
+
+        // set content from .txt
+        videosInfoBody.textContent = "Stay tuned; more coming soon!";
+    }
+
+    videosInfoBody.style.textAlign = 'left'; // set text alignment to left
 });

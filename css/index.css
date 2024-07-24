@@ -253,7 +253,7 @@
     z-index: 1;
 }
 
-#swipeArrowLeftBox {
+#projectsArrowLeftBox {
 
     z-index: 10;
     display: flex;
@@ -263,7 +263,7 @@
     position: absolute;
 }
 
-#swipeArrowRightBox {
+#projectsArrowRightBox {
 
     z-index: 10;
     display: flex;
@@ -273,7 +273,7 @@
     position: absolute;
 }
 
-#swipeArrowLeft {
+#projectsArrowLeft {
 
     margin-top: 0;
     margin-bottom: 0;
@@ -284,7 +284,7 @@
     opacity: 0;
 }
 
-#swipeArrowRight {
+#projectsArrowRight {
 
     margin-top: 0;
     margin-bottom: 0;
@@ -330,12 +330,12 @@
     aspect-ratio: 1/1;
 }
 
-#lastItem {
+#projectsLastItem {
 
     margin-right: 27%;
 }
 
-#glitchItem {
+#projectsGlitchItem {
 
     flex: 0 0 auto;
     display: flex;
@@ -431,6 +431,216 @@
     opacity: 0;
     color: var(--pastel-5);
     text-decoration: none;
+}
+
+
+/********** EXPERIENCE **********/
+
+.experiences {
+
+    background-color: var(--secondary);
+    width: 100%;
+    margin-left: 1.25%;
+    margin-right: 1.25%;
+    opacity: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.experiencesIcon {
+
+    aspect-ratio: 1/1;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 7px;
+    margin-right: 0;
+    height: 80%;
+}
+
+.experiencesBody {
+
+    color: white;
+    width: 70%;
+    margin: auto;
+}
+
+#experiencesHeaderBox {
+
+    text-align: center;
+}
+
+
+/********** VIDEOS **********/
+
+#myVideos {
+
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    background-color: var(--primary);
+}
+
+#videosBackground {
+
+    top: 400vh;
+    background-color: var(--pastel-6);
+    position: absolute;
+    z-index: 1;
+}
+
+#videosArrowLeftBox {
+
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    position: absolute;
+}
+
+#videosArrowRightBox {
+
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    position: absolute;
+}
+
+#videosArrowLeft {
+
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: auto;
+    margin-right: auto;
+    aspect-ratio: 1/1;
+    height: 50px;
+    opacity: 0;
+}
+
+#videosArrowRight {
+
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: auto;
+    margin-right: auto;
+    aspect-ratio: 1/1;
+    height: 50px;
+    opacity: 0;
+}
+
+#videosWheel {
+
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    right: 0;
+}
+
+.videos {
+
+    text-align: center;
+    aspect-ratio: 1/1;
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 8;
+    opacity: 0;
+}
+
+.videoHeaders {
+
+    color: white;
+    text-align: center;
+}
+
+.videoImg {
+
+    margin: auto;
+    aspect-ratio: 1/1;
+}
+
+#videosLastItem {
+
+    margin-right: 27%;
+}
+
+#videosGlitchItem {
+
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: .01%;
+    height: 100%;
+    z-index: 8;
+}
+
+#videosInfoBackground {
+
+    left: 0;
+    height: 100vh;
+    width: 21.25%;
+    background-color: var(--primary);
+    position: absolute;
+    z-index: 7;
+}
+
+#videosInfoBox {
+
+    background-color: var(--secondary);
+    position: absolute;
+    margin-bottom: calc(9% + var(--navBarHeight));
+    z-index: 9;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#videosInfoHeaderBox {
+
+    text-align: center;
+}
+
+#videosInfoHeader {
+
+    color: white;
+}
+
+#videosInfoNameBox {
+
+    width: 90%;
+}
+
+#videosInfoName {
+
+    text-align: center;
+    color: transparent;
+}
+
+#videosInfoBodyBox {
+
+    width: 85%;
+    margin-left: 7.5%;
+    margin-right: 7.5%;
+}
+
+#videosInfoBody {
+
+    color: transparent;
+}
+
+#video1 {
+
+    color: var(--pastel-2);
+    font-size: 100%;
 }
 
 
@@ -540,7 +750,7 @@
         width: 78.75%;
     }
 
-    #swipeArrowLeftBox {
+    #projectsArrowLeftBox {
 
         font-size: 100%;
         left: 8vw;
@@ -548,7 +758,7 @@
         width: calc(var(--navBarHeight) * 2);
     }
 
-    #swipeArrowRightBox {
+    #projectsArrowRightBox {
 
         font-size: 100%;
         right: 40vw;
@@ -584,6 +794,11 @@
         margin-right: 15%;
     }
 
+    #projectsInfoHeader {
+
+        font-size: 130%;
+    }
+
     #projectsInfoName {
 
         margin-top: 10%;
@@ -605,6 +820,98 @@
 
         margin-right: 2.5%;
         right: 0;
+        height: 75%;
+        width: 375px;
+    }
+
+    /***** experiences *****/
+
+    .experiences {
+
+        margin-top: 0.75%;
+        height: 12%;
+    }
+
+    #experiencesHeaderBox {
+
+        height: auto;
+        width: 540px;
+    }
+
+    /***** videos *****/
+
+    #myVideos {
+
+        flex-direction: row;
+    }
+
+    #videosBackground {
+
+        right: 0;
+        height: 100vh;
+        width: 78.75%;
+    }
+
+    #videosArrowLeftBox {
+
+        font-size: 100%;
+        left: 40vw;
+        height: calc(var(--navBarHeight) * 2);
+        width: calc(var(--navBarHeight) * 2);
+    }
+
+    #videosArrowRightBox {
+
+        font-size: 100%;
+        right: 8vw;
+        height: calc(var(--navBarHeight) * 2);
+        width: calc(var(--navBarHeight) * 2);
+    }
+
+    #videosInfoBackground {
+
+        display: block;
+    }
+
+    #videosWheel {
+
+        margin-top: 3%;
+        z-index: 7;
+        height: 100vh;
+        width: 78.75%;
+    }
+
+    .videos {
+
+        width: 50%;
+        margin-left: 32%;
+        margin-right: 18%;
+    }
+
+    .videoImg {
+
+        height: 70%;
+        margin-top: 15%;
+        margin-left: 15%;
+        margin-right: 15%;
+    }
+
+    #videosInfoHeader {
+
+        font-size: 130%;
+    }
+
+    #videosInfoName {
+
+        margin-top: 10%;
+        margin-left: 5%;
+        margin-right: 5%;
+    }
+
+    #videosInfoBox {
+
+        margin-left: 2.5%;
+        left: 0;
         height: 75%;
         width: 375px;
     }
@@ -686,7 +993,7 @@
         margin-bottom: 30vh;
     }
 
-    #swipeArrowLeftBox {
+    #projectsArrowLeftBox {
 
         font-size: 100%;
         left: calc(2.5% + 20px);
@@ -695,7 +1002,7 @@
         width: calc(var(--navBarHeight) * 2);
     }
 
-    #swipeArrowRightBox {
+    #projectsArrowRightBox {
 
         font-size: 100%;
         right: calc(2.5% + 20px);
@@ -735,6 +1042,11 @@
         height: 65%;
     }
 
+    #projectsInfoHeader {
+
+        font-size: 95%;
+    }
+
     #projectsInfoHeaderBox {
 
         font-size: 150%;
@@ -758,6 +1070,108 @@
     }
 
     #projectsInfoBox {
+
+        height: 40%;
+        width: 90%;
+        margin: 2.5%;
+    }
+
+    /***** experiences *****/
+
+    .experiences {
+
+        margin-top: 1%;
+        height: 14%;
+    }
+
+    #experiencesHeaderBox {
+
+        height: auto;
+        width: 365px;
+        font-size: 90%;
+    }
+
+    /***** videos *****/
+
+    #myVideos {
+
+        flex-direction: column-reverse;
+    }
+
+    #videosBackground {
+
+        width: 100vw;
+        height: 70%;
+        margin-bottom: 30vh;
+    }
+
+    #videosArrowLeftBox {
+
+        font-size: 100%;
+        left: calc(2.5% + 20px);
+        margin-bottom: 63vh;
+        height: calc(var(--navBarHeight) * 2);
+        width: calc(var(--navBarHeight) * 2);
+    }
+
+    #videosArrowRightBox {
+
+        font-size: 100%;
+        right: calc(2.5% + 20px);
+        margin-bottom: 63vh;
+        height: calc(var(--navBarHeight) * 2);
+        width: calc(var(--navBarHeight) * 2);
+    }
+
+    #videosInfoBackground {
+
+        display: none;
+    }
+
+    #videosWheel {
+
+        z-index: 10;
+        height: 100vh;
+        width: 100%;
+    }
+
+    .videos {
+
+        width: 70%;
+        margin-left: 15%;
+        margin-right: 15%;
+        margin-bottom: 50%;
+    }
+
+    .videoHeaders {
+
+        height: 10%;
+        font-size: 200%;
+    }
+
+    .videoImg {
+
+        height: 65%;
+    }
+
+    #videosInfoHeader {
+
+        font-size: 95%;
+    }
+
+    #videosInfoHeaderBox {
+
+        font-size: 150%;
+    }
+
+    #videosInfoName {
+
+        margin-top: 0;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    #videosInfoBox {
 
         height: 40%;
         width: 90%;
@@ -843,7 +1257,7 @@
         margin-bottom: 30vh;
     }
 
-    #swipeArrowLeftBox {
+    #projectsArrowLeftBox {
 
         font-size: 50%;
         left: calc(2.5% + 20px);
@@ -852,7 +1266,7 @@
         width: var(--navBarHeight);
     }
 
-    #swipeArrowRightBox {
+    #projectsArrowRightBox {
 
         font-size: 50%;
         right: calc(2.5% + 20px);
@@ -892,6 +1306,11 @@
         height: 65%;
     }
 
+    #projectsInfoHeader {
+
+        font-size: 95%;
+    }
+
     #projectsInfoName {
 
         margin-top: 0;
@@ -910,6 +1329,103 @@
     }
 
     #projectsInfoBox {
+
+        height: 40%;
+        width: 90%;
+        margin: 2.5%;
+    }
+
+    /***** experiences *****/
+
+    .experiences {
+
+        margin-top: 1.25%;
+        height: 14%;
+    }
+
+    #experiencesHeaderBox {
+
+        height: auto;
+        width: 270px;
+        font-size: 105%;
+    }
+
+    /***** videos *****/
+
+    #myVideos {
+
+        flex-direction: column-reverse;
+    }
+
+    #videosBackground {
+
+        width: 100vw;
+        height: 70%;
+        margin-bottom: 30vh;
+    }
+
+    #videosArrowLeftBox {
+
+        font-size: 50%;
+        left: calc(2.5% + 20px);
+        margin-bottom: 63vh;
+        height: var(--navBarHeight);
+        width: var(--navBarHeight);
+    }
+
+    #videosArrowRightBox {
+
+        font-size: 50%;
+        right: calc(2.5% + 20px);
+        margin-bottom: 63vh;
+        height: var(--navBarHeight);
+        width: var(--navBarHeight);
+    }
+
+    #videosInfoBackground {
+
+        display: none;
+    }
+
+    #videosWheel {
+
+        z-index: 10;
+        height: 100vh;
+        width: 100%;
+    }
+
+    .videos {
+
+        width: 70%;
+        margin-left: 15%;
+        margin-right: 15%;
+        margin-bottom: 70%;
+    }
+
+    .videoHeaders {
+
+        height: 10%;
+        font-size: 110%;
+    }
+
+    .videoImg {
+
+        height: 65%;
+    }
+
+    #videosInfoHeader {
+
+        font-size: 95%;
+    }
+
+    #videosInfoName {
+
+        margin-top: 0;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    #videosInfoBox {
 
         height: 40%;
         width: 90%;

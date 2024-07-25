@@ -274,11 +274,36 @@ const programmerTypingObserver = new IntersectionObserver(entries => {
 
                 for (let i = 0; i < videos.length; i++) { // loop through videos to apply fade in update
 
-                    videos[i].classList.add('fadeIn', 'popUp'); // add animations to each video
+                    try { // try to add fadeIn and popUp to each video...
 
-                    videos[i].getElementsByTagName('h1')[0].classList.add('popUp'); // pop up to title
+                        videos[i].classList.add('fadeIn', 'popUp'); // add animations to each video
 
-                    videos[i].getElementsByTagName('img')[0].classList.add('popUp'); // add pop up to img
+                        videos[i].getElementsByTagName('h1')[0].classList.add('popUp'); // pop up to title
+
+                        try { // try to load iframe...
+
+                            // add pop up to iframe
+                            videos[i].getElementsByTagName('iframe')[0].classList.add('popUp');
+
+                        } catch (error) { // if failure...
+
+                            console.log(error); // log error
+                        }
+
+                        try { // try to load img tag...
+
+                            // add pop up to img
+                            videos[i].getElementsByTagName('img')[0].classList.add('popUp');
+
+                        } catch (error) { // if failure...
+
+                            console.log(error); // log error
+                        }
+
+                    } catch (error) { // if failure...
+
+                        console.log(error); // log error
+                    }
                 }
 
                 // if the left arrow has the show class (not first video)...

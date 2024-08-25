@@ -763,7 +763,7 @@ projectsWheel.addEventListener('scroll', function() { // when scroll takes place
 
         // set content from .txt
         projectsInfoBody.innerHTML = projectsInfoBody.innerHTML = "The Edge AI Module is a device I created while " +
-            "working on project Athena, in which I wanted a fexible device that allowed for adjustable voltage to " +
+            "working on project Athena, in which I wanted a flexible device that allowed for adjustable voltage to " +
             " work with any power source, 12 channels of control, a remote control module, a camera, a fan for " +
             "cooling, neat wiring, and an NCS2 to use edge AI";
 

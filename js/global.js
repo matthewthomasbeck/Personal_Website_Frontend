@@ -269,6 +269,64 @@ document.getElementById('navBarOptionsDimmer').addEventListener('click', functio
 });
 
 
+/********** NAV BAR LOGIN **********/
+
+function redirectToLogin() { // function to redirect to login page
+
+    /***** set variables *****/
+
+    const currentPath = encodeURIComponent(window.location.pathname);
+    const clientId = 'YOUR_COGNITO_CLIENT_ID';
+    const domain = 'YOUR_DOMAIN.auth.YOUR_REGION.amazoncognito.com';
+    const redirectBase = 'https://'+domain+'/login';
+    const redirectUri = encodeURIComponent(`https://yourdomain.com/after-login?returnTo=${currentPath}`);
+    const loginUrl = `${redirectBase}?client_id=${clientId}&response_type=code&scope=email+openid+profile&redirect_uri=${redirectUri}`;
+
+    /***** redirect to login page *****/
+
+    window.location.href = loginUrl; // redirect to login page
+}
+
+
+/********** AMPLIFY AUTHENTICATION **********/
+
+Amplify.configure({ // configure amplify for authentication
+    Auth: {
+        region: 'us-east-1',
+        userPoolId: 'us-east-1_XXXXXXXXX',
+        userPoolWebClientId: 'XXXXXXXXXXXXXXXXXXX',
+        oauth: {
+            domain: 'yourdomain.auth.us-east-1.amazoncognito.com',
+            scope: ['email', 'openid', 'profile'],
+            redirectSignIn: 'https://yourdomain.com/after-login',
+            redirectSignOut: 'https://yourdomain.com/',
+            responseType: 'code'
+        }
+    }
+});
+
+
+/********** HANDLE LOGIN **********/
+
+(async function handleLogin() { // immediately invoked function to handle login
+
+    /***** set variables *****/
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const returnTo = urlParams.get('returnTo') || '/';
+
+    /***** check if code parameter exists in URL *****/
+
+    try {
+        await Amplify.Auth.federatedSignIn(); // exchanges ?code= for tokens
+        window.location.href = returnTo;
+    } catch (err) {
+        console.error('Login failed:', err);
+        document.body.innerHTML = '<p>Login failed. Please try again.</p>';
+    }
+})();
+
+
 /********** POP UP FUNCTION **********/
 
 function popUp(element) { // used to inflate the project content

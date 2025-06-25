@@ -281,7 +281,7 @@ function redirectToLogin(event) {
     const fullRedirect = `https://www.matthewthomasbeck.com/pages/logging_in.html?returnTo=${currentPath}`;
     const redirectUri = encodeURIComponent(fullRedirect);
 
-    const loginUrl = `https://${domain}/login?client_id=${clientId}&response_type=code&scope=email+openid+profile&redirect_uri=${redirectUri}`;
+    const loginUrl = `https://${domain}/login?client_id=${clientId}&response_type=code&scope=email+openid+phone&redirect_uri=${redirectUri}`;
     window.location.href = loginUrl;
 }
 

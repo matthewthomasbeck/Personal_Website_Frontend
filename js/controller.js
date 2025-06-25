@@ -18,9 +18,21 @@ Amplify.configure({
 
 (async function enforceAuth() {
     try {
-        await getCurrentUser(); // Checks identity
-        await fetchAuthSession(); // Ensures session is active
-        console.log('[Controller] User authenticated — loading UI.');
+        const user = await getCurrentUser();
+        const session = await fetchAuthSession();
+
+        const idToken = session.tokens.idToken.toString();
+        const payload = JSON.parse(atob(idToken.split('.')[1]));
+        const groups = payload['cognito:groups'] || [];
+
+        console.log('[Controller] Authenticated user:', user.username);
+        console.log('[Controller] Cognito groups:', groups);
+
+        if (!groups.includes('owner') && !groups.includes('privileged')) {
+            throw new Error('Access denied: user not in authorized groups');
+        }
+
+        console.log('[Controller] Access granted — loading UI');
 
         document.body.innerHTML = `
             <h1>Robot Controller 🦾</h1>
@@ -31,10 +43,10 @@ Amplify.configure({
         // TODO: Add keyboard input handler here later
 
     } catch (err) {
-        console.warn('[Controller] Not authenticated or session invalid:', err);
+        console.warn('[Controller] Authentication failed or user not authorized:', err);
         document.body.innerHTML = `
             <h1>Access Denied</h1>
-            <p>You must be <a href="/">logged in</a> to access the controller.</p>
+            <p>You must be <a href="/">logged in</a> and authorized to use the controller.</p>
         `;
     }
 })();

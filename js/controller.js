@@ -27,7 +27,9 @@ Amplify.configure({
         console.log('[Controller] Authenticated user:', user);
         console.log('[Controller] Cognito groups:', session.tokens?.accessToken?.payload["cognito:groups"]);
 
-        const groups = session.tokens?.accessToken?.payload["cognito:groups"] || [];
+        const accessToken = session.tokens?.accessToken?.toString();
+        const payload = JSON.parse(atob(accessToken.split('.')[1]));
+        const groups = payload["cognito:groups"] || [];
 
         if (groups.includes("owner") || groups.includes("privileged")) {
             document.body.innerHTML = `

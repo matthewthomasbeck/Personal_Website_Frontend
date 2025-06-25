@@ -1,3 +1,5 @@
+import { getCurrentUser, fetchAuthSession } from 'aws-amplify/auth';
+
 Amplify.configure({
     Auth: {
         region: 'us-east-2',
@@ -15,17 +17,23 @@ Amplify.configure({
 
 (async function enforceAuth() {
     try {
-        const user = await Amplify.Auth.currentAuthenticatedUser();
-        console.log('[Controller] Authenticated user:', user);
+        await getCurrentUser(); // checks identity
+        await fetchAuthSession(); // ensures session is active
+        console.log('[Controller] User authenticated — loading UI.');
 
         document.body.innerHTML = `
-      <h1>Robot Controller</h1>
-      <p>Use WASD or arrow keys to drive.</p>
+      <h1>Robot Controller 🦾</h1>
+      <p>Use WASD or arrow keys to control the robot.</p>
+      <div id="status">Ready</div>
     `;
 
-        // You’ll handle key input and backend logic here next
+        // Setup keyboard input listener here later…
+
     } catch (err) {
-        console.warn('[Controller] Not logged in:', err);
-        window.location.href = '/'; // send them home if unauthorized
+        console.warn('[Controller] Not authenticated or session invalid:', err);
+        document.body.innerHTML = `
+      <h1>Access Denied</h1>
+      <p>You must be <a href="/">logged in</a> to access the controller.</p>
+    `;
     }
 })();

@@ -313,23 +313,29 @@ Amplify.configure({ // configure amplify for authentication
 
 /********** HANDLE LOGIN **********/
 
-(async function handleLogin() { // immediately invoked function to handle login
-
-    /***** set variables *****/
-
+(async function handleLogin() {
     const urlParams = new URLSearchParams(window.location.search);
     const returnTo = urlParams.get('returnTo') || '/';
 
-    /***** check if code parameter exists in URL *****/
-
     try {
-        await Amplify.Auth.federatedSignIn(); // exchanges ?code= for tokens
+        // This triggers the full OAuth flow, including code exchange
+        await Amplify.Auth.currentAuthenticatedUser();
+
+        // If the above line doesn't throw, user is now logged in
         window.location.href = returnTo;
     } catch (err) {
-        console.error('Login failed:', err);
-        document.body.innerHTML = '<p>Login failed. Please try again.</p>';
+        console.log("User not logged in yet, trying to complete sign-in...");
+
+        try {
+            await Amplify.Auth._handleAuthResponse();
+            window.location.href = returnTo;
+        } catch (e) {
+            console.error("Login failed during code exchange:", e);
+            document.body.innerHTML = '<p>Login failed. Please try again.</p>';
+        }
     }
 })();
+
 
 
 /********** POP UP FUNCTION **********/

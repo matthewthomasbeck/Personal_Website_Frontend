@@ -271,7 +271,7 @@ document.getElementById('navBarOptionsDimmer').addEventListener('click', functio
 
 /********** NAV BAR LOGIN **********/
 
-function redirectToLogin() {
+/*function redirectToLogin() {
     const currentPath = encodeURIComponent(window.location.pathname);
     const clientId = '5tmo99341gnafobp9h5actl3g2';
     const domain = 'us-east-2f7zpo0say.auth.us-east-2.amazoncognito.com';
@@ -283,7 +283,7 @@ function redirectToLogin() {
 
     console.log('[DEBUG] Login URL:', loginUrl);
     window.location.href = loginUrl;
-}
+}*/
 
 
 /********** AMPLIFY AUTHENTICATION **********/
@@ -296,7 +296,7 @@ Amplify.configure({
         oauth: {
             domain: 'us-east-2f7zpo0say.auth.us-east-2.amazoncognito.com',
             scope: ['email', 'openid', 'profile'],
-            redirectSignIn: 'https://www.matthewthomasbeck.com/',
+            redirectSignIn: 'https://www.matthewthomasbeck.com/pages/logging_in.html',
             redirectSignOut: 'https://www.matthewthomasbeck.com/',
             responseType: 'code'
         }
@@ -306,7 +306,7 @@ Amplify.configure({
 
 /********** HANDLE LOGIN **********/
 
-(async function handleLogin() {
+/*(async function handleLogin() {
     const urlParams = new URLSearchParams(window.location.search);
     const returnTo = urlParams.get('returnTo') || '/';
 
@@ -328,7 +328,7 @@ Amplify.configure({
             document.body.innerHTML = '<p>Login failed. Please try again.</p>';
         }
     }
-})();
+})();*/
 
 
 /********** POP UP FUNCTION **********/

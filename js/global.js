@@ -271,7 +271,7 @@ document.getElementById('navBarOptionsDimmer').addEventListener('click', functio
 
 /********** NAV BAR LOGIN **********/
 
-function redirectToLogin() { TODO login page works, returning does not
+function redirectToLogin() {
     const currentPath = encodeURIComponent(window.location.pathname);
     const clientId = '5tmo99341gnafobp9h5actl3g2';
     const domain = 'us-east-2f7zpo0say.auth.us-east-2.amazoncognito.com';

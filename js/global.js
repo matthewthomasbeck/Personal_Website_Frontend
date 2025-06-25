@@ -296,7 +296,7 @@ Amplify.configure({
         oauth: {
             domain: 'us-east-2f7zpo0say.auth.us-east-2.amazoncognito.com',
             scope: ['email', 'openid', 'profile'],
-            redirectSignIn: 'https://www.matthewthomasbeck.com/pages/logging_in.html',
+            redirectSignIn: 'https://www.matthewthomasbeck.com/',
             redirectSignOut: 'https://www.matthewthomasbeck.com/',
             responseType: 'code'
         }

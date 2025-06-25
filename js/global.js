@@ -271,36 +271,7 @@ document.getElementById('navBarOptionsDimmer').addEventListener('click', functio
 
 /********** NAV BAR LOGIN **********/
 
-function redirectToLogin() {
-    const currentPath = window.location.pathname;
-    const clientId = '5tmo99341gnafobp9h5actl3g2';
-    const domain = 'us-east-2f7zpo0say.auth.us-east-2.amazoncognito.com';
-
-    const fullRedirect = `https://www.matthewthomasbeck.com/pages/logging_in.html?returnTo=${encodeURIComponent(currentPath)}`;
-    const redirectUri = encodeURIComponent(fullRedirect);
-
-    const loginUrl = `https://${domain}/login?client_id=${clientId}&response_type=code&scope=email+openid+phone&redirect_uri=${redirectUri}`;
-
-    console.log('[DEBUG] Login URL:', loginUrl);
-    window.location.href = loginUrl;
-}
-
-/*function redirectToLogin() { TODO login page doesn't work, returning maybe works?
-    const currentPath = encodeURIComponent(window.location.pathname); // <== DO NOT encode this
-    const clientId = '5tmo99341gnafobp9h5actl3g2';
-    const domain = 'us-east-2f7zpo0say.auth.us-east-2.amazoncognito.com';
-
-    // Build full redirect URI including returnTo query param
-    const fullRedirectUri = `https://www.matthewthomasbeck.com/pages/logging_in.html?returnTo=${encodeURIComponent(currentPath)}`;
-    const redirectUri = encodeURIComponent(fullRedirectUri);
-
-    const loginUrl = `https://${domain}/login/continue?client_id=${clientId}&response_type=code&scope=email+openid+phone&redirect_uri=${redirectUri}`;
-
-    console.log('[DEBUG] Login URL:', loginUrl);
-    window.location.href = loginUrl;
-}*/
-
-/*function redirectToLogin() { TODO login page works, returning does not
+function redirectToLogin() { TODO login page works, returning does not
     const currentPath = encodeURIComponent(window.location.pathname);
     const clientId = '5tmo99341gnafobp9h5actl3g2';
     const domain = 'us-east-2f7zpo0say.auth.us-east-2.amazoncognito.com';
@@ -312,10 +283,10 @@ function redirectToLogin() {
 
     console.log('[DEBUG] Login URL:', loginUrl);
     window.location.href = loginUrl;
-}*/
+}
 
-import { getCurrentUser, fetchAuthSession } from 'aws-amplify/auth';
-import { Amplify } from 'aws-amplify';
+
+/********** AMPLIFY AUTHENTICATION **********/
 
 Amplify.configure({
     Auth: {
@@ -332,53 +303,10 @@ Amplify.configure({
     }
 });
 
-(async function handleLogin() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const returnTo = urlParams.get('returnTo') || '/';
-
-    console.log('[Login] returnTo =', returnTo);
-
-    try {
-        const user = await getCurrentUser();
-        console.log('[Login] Already signed in:', user);
-        window.location.href = returnTo;
-    } catch {
-        try {
-            console.log('[Login] Attempting token exchange...');
-            await fetchAuthSession(); // fetches and stores tokens
-            const user = await getCurrentUser();
-            console.log('[Login] Auth success after exchange:', user);
-            window.location.href = returnTo;
-        } catch (err) {
-            console.error('[Login] Failed to authenticate:', err);
-            document.body.innerHTML = '<p>Login failed. Please try again.</p>';
-        }
-    }
-})();
-
-
-
-/********** AMPLIFY AUTHENTICATION **********/
-
-/*Amplify.configure({
-    Auth: {
-        region: 'us-east-2',
-        userPoolId: 'us-east-2_f7ZPo0sAY',
-        userPoolWebClientId: '5tmo99341gnafobp9h5actl3g2',
-        oauth: {
-            domain: 'us-east-2f7zpo0say.auth.us-east-2.amazoncognito.com',
-            scope: ['email', 'openid', 'profile'],
-            redirectSignIn: 'https://www.matthewthomasbeck.com/pages/logging_in.html',
-            redirectSignOut: 'https://www.matthewthomasbeck.com/',
-            responseType: 'code'
-        }
-    }
-});*/
-
 
 /********** HANDLE LOGIN **********/
 
-/*(async function handleLogin() { TODO WORKS
+(async function handleLogin() {
     const urlParams = new URLSearchParams(window.location.search);
     const returnTo = urlParams.get('returnTo') || '/';
 
@@ -400,7 +328,7 @@ Amplify.configure({
             document.body.innerHTML = '<p>Login failed. Please try again.</p>';
         }
     }
-})();*/
+})();
 
 
 /********** POP UP FUNCTION **********/

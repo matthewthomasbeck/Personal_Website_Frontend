@@ -1,3 +1,4 @@
+import { Amplify } from 'aws-amplify';
 import { getCurrentUser, fetchAuthSession } from 'aws-amplify/auth';
 
 Amplify.configure({
@@ -8,7 +9,7 @@ Amplify.configure({
         oauth: {
             domain: 'us-east-2f7zpo0say.auth.us-east-2.amazoncognito.com',
             scope: ['email', 'openid', 'profile'],
-            redirectSignIn: 'https://www.matthewthomasbeck.com/',
+            redirectSignIn: 'https://www.matthewthomasbeck.com/pages/logging_in.html',
             redirectSignOut: 'https://www.matthewthomasbeck.com/',
             responseType: 'code'
         }
@@ -17,23 +18,23 @@ Amplify.configure({
 
 (async function enforceAuth() {
     try {
-        await getCurrentUser(); // checks identity
-        await fetchAuthSession(); // ensures session is active
+        await getCurrentUser(); // Checks identity
+        await fetchAuthSession(); // Ensures session is active
         console.log('[Controller] User authenticated — loading UI.');
 
         document.body.innerHTML = `
-      <h1>Robot Controller 🦾</h1>
-      <p>Use WASD or arrow keys to control the robot.</p>
-      <div id="status">Ready</div>
-    `;
+            <h1>Robot Controller 🦾</h1>
+            <p>Use WASD or arrow keys to control the robot.</p>
+            <div id="status">Ready</div>
+        `;
 
-        // Setup keyboard input listener here later…
+        // TODO: Add keyboard input handler here later
 
     } catch (err) {
         console.warn('[Controller] Not authenticated or session invalid:', err);
         document.body.innerHTML = `
-      <h1>Access Denied</h1>
-      <p>You must be <a href="/">logged in</a> to access the controller.</p>
-    `;
+            <h1>Access Denied</h1>
+            <p>You must be <a href="/">logged in</a> to access the controller.</p>
+        `;
     }
 })();

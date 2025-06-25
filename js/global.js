@@ -276,22 +276,6 @@ function redirectToLogin() {
     const clientId = '5tmo99341gnafobp9h5actl3g2';
     const domain = 'us-east-2f7zpo0say.auth.us-east-2.amazoncognito.com';
 
-    // Add returnTo parameter to logging_in.html
-    const redirectUri = encodeURIComponent(
-        `https://www.matthewthomasbeck.com/pages/logging_in.html?returnTo=${currentPath}`
-    );
-
-    const loginUrl = `https://${domain}/login/continue?client_id=${clientId}&response_type=code&scope=email+openid+phone&redirect_uri=${redirectUri}`;
-
-    console.log('[DEBUG] Login URL:', loginUrl);
-    window.location.href = loginUrl;
-}
-
-/*function redirectToLogin() {
-    const currentPath = encodeURIComponent(window.location.pathname);
-    const clientId = '5tmo99341gnafobp9h5actl3g2';
-    const domain = 'us-east-2f7zpo0say.auth.us-east-2.amazoncognito.com';
-
     // DO NOT add returnTo param here — test just the working link structure
     const redirectUri = encodeURIComponent('https://www.matthewthomasbeck.com/pages/logging_in.html');
 
@@ -299,7 +283,7 @@ function redirectToLogin() {
 
     console.log('[DEBUG] Login URL:', loginUrl);
     window.location.href = loginUrl;
-}*/
+}
 
 
 /********** AMPLIFY AUTHENTICATION **********/

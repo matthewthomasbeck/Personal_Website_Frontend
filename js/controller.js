@@ -1,5 +1,5 @@
-import { Amplify } from 'https://esm.sh/aws-amplify';
-import { Auth, getCurrentUser, fetchAuthSession } from 'https://esm.sh/@aws-amplify/auth';
+import { Amplify } from 'https://cdn.skypack.dev/aws-amplify';
+import { getCurrentUser, fetchAuthSession } from 'https://cdn.skypack.dev/@aws-amplify/auth';
 
 Amplify.configure({
     Auth: {

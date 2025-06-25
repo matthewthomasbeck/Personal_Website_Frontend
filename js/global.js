@@ -272,11 +272,10 @@ document.getElementById('navBarOptionsDimmer').addEventListener('click', functio
 /********** NAV BAR LOGIN **********/
 
 function redirectToLogin() {
-    const currentPath = window.location.pathname; // don't encode yet
+    const currentPath = window.location.pathname;
     const clientId = '5tmo99341gnafobp9h5actl3g2';
     const domain = 'us-east-2f7zpo0say.auth.us-east-2.amazoncognito.com';
 
-    // ✅ Build redirect URI without encoding currentPath first
     const fullRedirect = `https://www.matthewthomasbeck.com/pages/logging_in.html?returnTo=${encodeURIComponent(currentPath)}`;
     const redirectUri = encodeURIComponent(fullRedirect);
 
@@ -315,8 +314,8 @@ function redirectToLogin() {
     window.location.href = loginUrl;
 }*/
 
-
-/********** AMPLIFY AUTHENTICATION **********/
+import { getCurrentUser, fetchAuthSession } from 'aws-amplify/auth';
+import { Amplify } from 'aws-amplify';
 
 Amplify.configure({
     Auth: {
@@ -333,10 +332,53 @@ Amplify.configure({
     }
 });
 
+(async function handleLogin() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const returnTo = urlParams.get('returnTo') || '/';
+
+    console.log('[Login] returnTo =', returnTo);
+
+    try {
+        const user = await getCurrentUser();
+        console.log('[Login] Already signed in:', user);
+        window.location.href = returnTo;
+    } catch {
+        try {
+            console.log('[Login] Attempting token exchange...');
+            await fetchAuthSession(); // fetches and stores tokens
+            const user = await getCurrentUser();
+            console.log('[Login] Auth success after exchange:', user);
+            window.location.href = returnTo;
+        } catch (err) {
+            console.error('[Login] Failed to authenticate:', err);
+            document.body.innerHTML = '<p>Login failed. Please try again.</p>';
+        }
+    }
+})();
+
+
+
+/********** AMPLIFY AUTHENTICATION **********/
+
+/*Amplify.configure({
+    Auth: {
+        region: 'us-east-2',
+        userPoolId: 'us-east-2_f7ZPo0sAY',
+        userPoolWebClientId: '5tmo99341gnafobp9h5actl3g2',
+        oauth: {
+            domain: 'us-east-2f7zpo0say.auth.us-east-2.amazoncognito.com',
+            scope: ['email', 'openid', 'profile'],
+            redirectSignIn: 'https://www.matthewthomasbeck.com/pages/logging_in.html',
+            redirectSignOut: 'https://www.matthewthomasbeck.com/',
+            responseType: 'code'
+        }
+    }
+});*/
+
 
 /********** HANDLE LOGIN **********/
 
-(async function handleLogin() {
+/*(async function handleLogin() { TODO WORKS
     const urlParams = new URLSearchParams(window.location.search);
     const returnTo = urlParams.get('returnTo') || '/';
 
@@ -358,7 +400,7 @@ Amplify.configure({
             document.body.innerHTML = '<p>Login failed. Please try again.</p>';
         }
     }
-})();
+})();*/
 
 
 /********** POP UP FUNCTION **********/

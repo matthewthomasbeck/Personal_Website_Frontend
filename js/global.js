@@ -271,31 +271,21 @@ document.getElementById('navBarOptionsDimmer').addEventListener('click', functio
 
 /********** NAV BAR LOGIN **********/
 
-function redirectToLogin() { // function to redirect to login page
-
-    /***** set variables *****/
-
+function redirectToLogin() {
     const currentPath = encodeURIComponent(window.location.pathname);
     const clientId = '5tmo99341gnafobp9h5actl3g2';
     const domain = 'us-east-2f7zpo0say.auth.us-east-2.amazoncognito.com';
-    const redirectUri = encodeURIComponent(`https://www.matthewthomasbeck.com/logging_in.html?returnTo=${currentPath}`);
+
+    const redirectUri = encodeURIComponent(`https://www.matthewthomasbeck.com/pages/logging_in.html?returnTo=${currentPath}`);
     const loginUrl = `https://${domain}/login?client_id=${clientId}&response_type=code&scope=email+openid+profile&redirect_uri=${redirectUri}`;
 
-    //const returnTo = encodeURIComponent(window.location.pathname);
-    //const clientId = 'YOUR_CLIENT_ID';
-    //const domain = 'YOUR_DOMAIN.auth.us-east-2.amazoncognito.com'; // or us-east-1, whatever it is
-    //const redirectUri = encodeURIComponent('https://www.matthewthomasbeck.com/logging_in.html?returnTo=' + returnTo);
-    //const loginUrl = `https://${domain}/login?client_id=${clientId}&response_type=code&scope=email+openid+profile&redirect_uri=${redirectUri}`;
-
-    /***** redirect to login page *****/
-
-    window.location.href = loginUrl; // redirect to login page
+    window.location.href = loginUrl;
 }
 
 
 /********** AMPLIFY AUTHENTICATION **********/
 
-Amplify.configure({ // configure amplify for authentication
+Amplify.configure({
     Auth: {
         region: 'us-east-2',
         userPoolId: 'us-east-2_f7ZPo0sAY',
@@ -303,7 +293,7 @@ Amplify.configure({ // configure amplify for authentication
         oauth: {
             domain: 'us-east-2f7zpo0say.auth.us-east-2.amazoncognito.com',
             scope: ['email', 'openid', 'profile'],
-            redirectSignIn: 'https://www.matthewthomasbeck.com/logging_in.html',
+            redirectSignIn: 'https://www.matthewthomasbeck.com/pages/logging_in.html',
             redirectSignOut: 'https://www.matthewthomasbeck.com/',
             responseType: 'code'
         }
@@ -318,23 +308,20 @@ Amplify.configure({ // configure amplify for authentication
     const returnTo = urlParams.get('returnTo') || '/';
 
     console.log('[Login] ReturnTo target:', returnTo);
-    console.log('[Login] Checking if user is already authenticated...');
 
     try {
         const user = await Amplify.Auth.currentAuthenticatedUser();
         console.log('[Login] User is already authenticated:', user);
-        console.log('[Login] Redirecting to returnTo page...');
         window.location.href = returnTo;
     } catch (err) {
-        console.warn('[Login] User not authenticated yet. Attempting token exchange...');
+        console.warn('[Login] Not logged in yet. Attempting token exchange...');
+
         try {
             const result = await Amplify.Auth._handleAuthResponse();
             console.log('[Login] Token exchange successful:', result);
 
-            // Optional: Inspect token
             const session = await Amplify.Auth.currentSession();
             console.log('[Login] ID Token:', session.getIdToken().getJwtToken());
-            console.log('[Login] Redirecting to returnTo page...');
             window.location.href = returnTo;
         } catch (exchangeError) {
             console.error('[Login] Token exchange failed:', exchangeError);
@@ -342,8 +329,6 @@ Amplify.configure({ // configure amplify for authentication
         }
     }
 })();
-
-
 
 
 /********** POP UP FUNCTION **********/

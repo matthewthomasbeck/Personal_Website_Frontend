@@ -272,6 +272,36 @@ document.getElementById('navBarOptionsDimmer').addEventListener('click', functio
 /********** NAV BAR LOGIN **********/
 
 function redirectToLogin() {
+    const currentPath = window.location.pathname;
+    const clientId = '5tmo99341gnafobp9h5actl3g2';
+    const domain = 'us-east-2f7zpo0say.auth.us-east-2.amazoncognito.com';
+
+    // ✅ Now encode the full redirect URI exactly once
+    const fullRedirectUri = `https://www.matthewthomasbeck.com/pages/logging_in.html?returnTo=${encodeURIComponent(currentPath)}`;
+    const encodedRedirectUri = encodeURIComponent(fullRedirectUri);
+
+    const loginUrl = `https://${domain}/login/continue?client_id=${clientId}&response_type=code&scope=email+openid+phone&redirect_uri=${encodedRedirectUri}`;
+
+    console.log('[DEBUG] Login URL:', loginUrl);
+    window.location.href = loginUrl;
+}
+
+/*function redirectToLogin() { TODO login page doesn't work, returning maybe works?
+    const currentPath = encodeURIComponent(window.location.pathname); // <== DO NOT encode this
+    const clientId = '5tmo99341gnafobp9h5actl3g2';
+    const domain = 'us-east-2f7zpo0say.auth.us-east-2.amazoncognito.com';
+
+    // Build full redirect URI including returnTo query param
+    const fullRedirectUri = `https://www.matthewthomasbeck.com/pages/logging_in.html?returnTo=${encodeURIComponent(currentPath)}`;
+    const redirectUri = encodeURIComponent(fullRedirectUri);
+
+    const loginUrl = `https://${domain}/login/continue?client_id=${clientId}&response_type=code&scope=email+openid+phone&redirect_uri=${redirectUri}`;
+
+    console.log('[DEBUG] Login URL:', loginUrl);
+    window.location.href = loginUrl;
+}*/
+
+/*function redirectToLogin() { TODO login page works, returning does not
     const currentPath = encodeURIComponent(window.location.pathname);
     const clientId = '5tmo99341gnafobp9h5actl3g2';
     const domain = 'us-east-2f7zpo0say.auth.us-east-2.amazoncognito.com';
@@ -283,7 +313,7 @@ function redirectToLogin() {
 
     console.log('[DEBUG] Login URL:', loginUrl);
     window.location.href = loginUrl;
-}
+}*/
 
 
 /********** AMPLIFY AUTHENTICATION **********/

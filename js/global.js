@@ -280,6 +280,8 @@ function redirectToLogin() {
     const redirectUri = encodeURIComponent(fullRedirect);
 
     const loginUrl = `https://${domain}/login/continue?client_id=${clientId}&response_type=code&scope=email+openid+phone&redirect_uri=${redirectUri}`;
+
+    console.log('[DEBUG] Login URL:', loginUrl);
     window.location.href = loginUrl;
 }
 

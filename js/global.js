@@ -275,11 +275,17 @@ function redirectToLogin() { // function to redirect to login page
 
     /***** set variables *****/
 
-    const returnTo = encodeURIComponent(window.location.pathname);
-    const clientId = 'YOUR_CLIENT_ID';
-    const domain = 'YOUR_DOMAIN.auth.us-east-2.amazoncognito.com'; // or us-east-1, whatever it is
-    const redirectUri = encodeURIComponent('https://www.matthewthomasbeck.com/logging_in.html?returnTo=' + returnTo);
+    const currentPath = encodeURIComponent(window.location.pathname);
+    const clientId = '5tmo99341gnafobp9h5actl3g2';
+    const domain = 'us-east-2f7zpo0say.auth.us-east-2.amazoncognito.com';
+    const redirectUri = encodeURIComponent(`https://www.matthewthomasbeck.com/logging_in.html?returnTo=${currentPath}`);
     const loginUrl = `https://${domain}/login?client_id=${clientId}&response_type=code&scope=email+openid+profile&redirect_uri=${redirectUri}`;
+
+    //const returnTo = encodeURIComponent(window.location.pathname);
+    //const clientId = 'YOUR_CLIENT_ID';
+    //const domain = 'YOUR_DOMAIN.auth.us-east-2.amazoncognito.com'; // or us-east-1, whatever it is
+    //const redirectUri = encodeURIComponent('https://www.matthewthomasbeck.com/logging_in.html?returnTo=' + returnTo);
+    //const loginUrl = `https://${domain}/login?client_id=${clientId}&response_type=code&scope=email+openid+profile&redirect_uri=${redirectUri}`;
 
     /***** redirect to login page *****/
 

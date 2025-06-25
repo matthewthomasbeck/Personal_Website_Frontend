@@ -1,12 +1,150 @@
+<!------------------------------------------------------------------------------------>
+<!-- Copyright (c) 2025 Matthew Thomas Beck                                         -->
+<!--                                                                                -->
+<!-- All rights reserved. This code and its associated files may not be reproduced, -->
+<!-- modified, distributed, or otherwise used, in part or in whole, by any person   -->
+<!-- or entity without the express written permission of the copyright holder,      -->
+<!-- Matthew Thomas Beck.                                                           -->
+<!------------------------------------------------------------------------------------>
+
+
+
+
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Robot Controller</title>
-  <link rel="stylesheet" href="/css/global.css">
-  <script src="https://unpkg.com/aws-amplify"></script>
-  <script type="module" src="/js/controller.js" defer></script>
+
+  <!-- PAGE / CHARACTER INITIALIZATION -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- PRELOAD FONTS -->
+  <link rel="preload" as="font" href="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/fonts/Mission_Script.woff" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" as="font" href="../assets/fonts/Fira_Code/FiraCode-VariableFont_wght.ttf" type="font/woff2" crossorigin="anonymous">
+
+  <!-- STYLE SHEETS -->
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/projects.css">
+  <link rel="stylesheet" href="../css/controller.css">
+
+  <!-- FAVICON -->
+  <link rel="icon" href="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/favicons/favicon-pastel1.png" id="favicon">
+
+  <!-- TAB TITLE -->
+  <title>Athena</title>
 </head>
-<body>
-<h1>Loading controller...</h1>
+
+<!-- ATHENA PAGE -->
+<body class="body">
+
+<!-- OPTIONS DIMMING -->
+<div id="navBarOptionsDimmer"></div>
+
+<!-- NAVIGATION BAR -->
+<nav id="navBar">
+
+  <!-- OPTIONS BUTTON -->
+  <button id="navBarOptionsButton" class="popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+    <div class="navBarOptionsLines"></div>
+    <div class="navBarOptionsLines"></div>
+    <div class="navBarOptionsLines"></div>
+  </button>
+
+  <!-- NAME -->
+  <a href="../index.html" id="navBarNameBox" class="popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+    <p class="programmerFont animateProgrammerTyping" id="navBarName">printf("Matthew Thomas Beck");</p>
+  </a>
+
+  <!-- OPTIONS -->
+  <div class="standardFont" id="navBarOptionsBox">
+
+    <!-- LOGIN DIRECT -->
+    <a href="https://us-east-2f7zpo0say.auth.us-east-2.amazoncognito.com/login/continue?client_id=5tmo99341gnafobp9h5actl3g2&redirect_uri=https%3A%2F%2Fwww.matthewthomasbeck.com&response_type=code&scope=email+openid+phone" class="navBarOptions noText popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+      <img class="navBarOptionsImages" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/login-navbar.png" alt="">
+    </a>
+
+    <!-- HOME DIRECT -->
+    <a href="../index.html" class="navBarOptions noText popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+      <img class="navBarOptionsImages" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/home-navbar.png" alt="">
+    </a>
+
+    <!-- PROJECTS SEPARATOR -->
+    <div class="navBarOptionsSeparator"></div>
+
+    <!-- PROJECTS -->
+    <button class="navBarOptions noText popUp" id="projectsBarOptionsButton" onmouseover="popUp(this)" onmouseout="popDown(this)">
+      <img class="navBarOptionsImages" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/projects-navbar.png" alt="">
+      <p class="navBarOptionsText">
+        Projects
+      </p>
+    </button>
+
+    <!-- PROJECTS SEPARATOR -->
+    <div class="navBarOptionsSeparator"></div>
+
+    <!-- LINKEDIN DIRECT -->
+    <a href="https://www.linkedin.com/in/matthewthomasbeck/" class="navBarOptions noText popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+      <img class="navBarOptionsImages" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/linkedin-navbar.png" alt="">
+    </a>
+
+    <!-- GITHUB DIRECT -->
+    <a href="https://www.github.com/matthewthomasbeck/" class="navBarOptions noText popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+      <img class="navBarOptionsImages" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/github-navbar.png" alt="">
+    </a>
+
+    <!-- YOUTUBE DIRECT -->
+    <a href="https://www.youtube.com/@Matthew_Thomas_Beck" class="navBarOptions noText popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+      <img class="navBarOptionsImages" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/youtube-navbar.png" alt="">
+    </a>
+
+    <!-- INSTAGRAM DIRECT -->
+    <a href="https://www.instagram.com/matthew_thomas_beck/" class="navBarOptions noText popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+      <img class="navBarOptionsImages" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/instagram-navbar.png" alt="">
+    </a>
+  </div>
+
+  <!-- PROJECTS BAR -->
+  <div class="standardFont" id="projectsBarOptionsBox">
+
+    <!-- MACHINE LEARNING PORTFOLIO DIRECT -->
+    <a href="../pages/machine_learning_portfolio.html" class="projectsBarOptions popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+      <img class="navBarOptionsImages" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/machine_learning_portfolio-navbar.png" alt="">
+      <p class="navBarOptionsText">
+        M.L.P.
+      </p>
+    </a>
+
+    <!-- ATHENA DIRECT -->
+    <a href="../pages/athena.html" class="projectsBarOptions popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+      <img class="navBarOptionsImages" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/athena-navbar.png" alt="">
+      <p class="navBarOptionsText">
+        Athena
+      </p>
+    </a>
+
+    <!-- EDGE AI MODULE DIRECT -->
+    <a href="../pages/edge_ai_module.html" class="projectsBarOptions popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+      <img class="navBarOptionsImages" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/edge_ai_module-navbar.png" alt="">
+      <p class="navBarOptionsText">
+        Edge AI
+        Module
+      </p>
+    </a>
+
+    <!-- RECEIPT ANALYZER DIRECT -->
+    <a href="../pages/receipt_analyzer.html" class="projectsBarOptions popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
+      <img class="navBarOptionsImages" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/receipt_analyzer-navbar.png" alt="">
+      <p class="navBarOptionsText">
+        Receipt
+        Analyzer
+      </p>
+    </a>
+  </div>
+</nav>
+
+<!-- JAVASCRIPT -->
+<script src="../js/global.js"></script>
+<script src="../js/controller.js"></script>
 </body>
 </html>

@@ -269,68 +269,6 @@ document.getElementById('navBarOptionsDimmer').addEventListener('click', functio
 });
 
 
-/********** NAV BAR LOGIN **********/
-
-/*function redirectToLogin() {
-    const currentPath = encodeURIComponent(window.location.pathname);
-    const clientId = '5tmo99341gnafobp9h5actl3g2';
-    const domain = 'us-east-2f7zpo0say.auth.us-east-2.amazoncognito.com';
-
-    // DO NOT add returnTo param here — test just the working link structure
-    const redirectUri = encodeURIComponent('https://www.matthewthomasbeck.com/pages/logging_in.html');
-
-    const loginUrl = `https://${domain}/login/continue?client_id=${clientId}&response_type=code&scope=email+openid+phone&redirect_uri=${redirectUri}`;
-
-    console.log('[DEBUG] Login URL:', loginUrl);
-    window.location.href = loginUrl;
-}*/
-
-
-/********** AMPLIFY AUTHENTICATION **********/
-
-Amplify.configure({
-    Auth: {
-        region: 'us-east-2',
-        userPoolId: 'us-east-2_f7ZPo0sAY',
-        userPoolWebClientId: '5tmo99341gnafobp9h5actl3g2',
-        oauth: {
-            domain: 'us-east-2f7zpo0say.auth.us-east-2.amazoncognito.com',
-            scope: ['email', 'openid', 'profile'],
-            redirectSignIn: 'https://www.matthewthomasbeck.com/',
-            redirectSignOut: 'https://www.matthewthomasbeck.com/',
-            responseType: 'code'
-        }
-    }
-});
-
-
-/********** HANDLE LOGIN **********/
-
-/*(async function handleLogin() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const returnTo = urlParams.get('returnTo') || '/';
-
-    console.log('[Login] ReturnTo target:', returnTo);
-
-    try {
-        const user = await Amplify.Auth.currentAuthenticatedUser();
-        console.log('[Login] Already authenticated:', user);
-        window.location.href = returnTo;
-    } catch (err) {
-        console.warn('[Login] Not logged in yet. Attempting token exchange...');
-        try {
-            await Amplify.Auth._handleAuthResponse();
-            const session = await Amplify.Auth.currentSession();
-            console.log('[Login] Token exchange successful');
-            window.location.href = returnTo;
-        } catch (exchangeError) {
-            console.error('[Login] Token exchange failed:', exchangeError);
-            document.body.innerHTML = '<p>Login failed. Please try again.</p>';
-        }
-    }
-})();*/
-
-
 /********** POP UP FUNCTION **********/
 
 function popUp(element) { // used to inflate the project content

@@ -297,14 +297,14 @@ function redirectToLogin() { // function to redirect to login page
 
 Amplify.configure({ // configure amplify for authentication
     Auth: {
-        region: 'us-east-1',
-        userPoolId: 'us-east-1_XXXXXXXXX',
-        userPoolWebClientId: 'XXXXXXXXXXXXXXXXXXX',
+        region: 'us-east-2',
+        userPoolId: 'us-east-2_f7ZPo0sAY',
+        userPoolWebClientId: '5tmo99341gnafobp9h5actl3g2',
         oauth: {
-            domain: 'yourdomain.auth.us-east-1.amazoncognito.com',
+            domain: 'us-east-2f7zpo0say.auth.us-east-2.amazoncognito.com',
             scope: ['email', 'openid', 'profile'],
-            redirectSignIn: 'https://yourdomain.com/logging_in',
-            redirectSignOut: 'https://yourdomain.com/',
+            redirectSignIn: 'https://www.matthewthomasbeck.com/logging_in.html',
+            redirectSignOut: 'https://www.matthewthomasbeck.com/',
             responseType: 'code'
         }
     }

@@ -317,24 +317,32 @@ Amplify.configure({ // configure amplify for authentication
     const urlParams = new URLSearchParams(window.location.search);
     const returnTo = urlParams.get('returnTo') || '/';
 
-    try {
-        // This triggers the full OAuth flow, including code exchange
-        await Amplify.Auth.currentAuthenticatedUser();
+    console.log('[Login] ReturnTo target:', returnTo);
+    console.log('[Login] Checking if user is already authenticated...');
 
-        // If the above line doesn't throw, user is now logged in
+    try {
+        const user = await Amplify.Auth.currentAuthenticatedUser();
+        console.log('[Login] User is already authenticated:', user);
+        console.log('[Login] Redirecting to returnTo page...');
         window.location.href = returnTo;
     } catch (err) {
-        console.log("User not logged in yet, trying to complete sign-in...");
-
+        console.warn('[Login] User not authenticated yet. Attempting token exchange...');
         try {
-            await Amplify.Auth._handleAuthResponse();
+            const result = await Amplify.Auth._handleAuthResponse();
+            console.log('[Login] Token exchange successful:', result);
+
+            // Optional: Inspect token
+            const session = await Amplify.Auth.currentSession();
+            console.log('[Login] ID Token:', session.getIdToken().getJwtToken());
+            console.log('[Login] Redirecting to returnTo page...');
             window.location.href = returnTo;
-        } catch (e) {
-            console.error("Login failed during code exchange:", e);
+        } catch (exchangeError) {
+            console.error('[Login] Token exchange failed:', exchangeError);
             document.body.innerHTML = '<p>Login failed. Please try again.</p>';
         }
     }
 })();
+
 
 
 

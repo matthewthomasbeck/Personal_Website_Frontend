@@ -272,12 +272,14 @@ document.getElementById('navBarOptionsDimmer').addEventListener('click', functio
 /********** NAV BAR LOGIN **********/
 
 function redirectToLogin() {
-    const currentPath = encodeURIComponent(window.location.pathname);
+    const currentPath = window.location.pathname; // don't encode yet
     const clientId = '5tmo99341gnafobp9h5actl3g2';
     const domain = 'us-east-2f7zpo0say.auth.us-east-2.amazoncognito.com';
 
-    const fullRedirect = `https://www.matthewthomasbeck.com/pages/logging_in.html?returnTo=${currentPath}`;
-    const redirectUri = encodeURIComponent(fullRedirect);
+    // Build returnTo as part of the full URL, then encode the entire redirect_uri once
+    const redirectUri = encodeURIComponent(
+        `https://www.matthewthomasbeck.com/pages/logging_in.html?returnTo=${currentPath}`
+    );
 
     const loginUrl = `https://${domain}/login/continue?client_id=${clientId}&response_type=code&scope=email+openid+phone&redirect_uri=${redirectUri}`;
 

@@ -298,7 +298,7 @@ Amplify.configure({ // configure amplify for authentication
         oauth: {
             domain: 'yourdomain.auth.us-east-1.amazoncognito.com',
             scope: ['email', 'openid', 'profile'],
-            redirectSignIn: 'https://yourdomain.com/after-login',
+            redirectSignIn: 'https://yourdomain.com/logging_in',
             redirectSignOut: 'https://yourdomain.com/',
             responseType: 'code'
         }

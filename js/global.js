@@ -272,14 +272,12 @@ document.getElementById('navBarOptionsDimmer').addEventListener('click', functio
 /********** NAV BAR LOGIN **********/
 
 function redirectToLogin() {
-    const currentPath = window.location.pathname; // don't encode yet
+    const currentPath = encodeURIComponent(window.location.pathname);
     const clientId = '5tmo99341gnafobp9h5actl3g2';
     const domain = 'us-east-2f7zpo0say.auth.us-east-2.amazoncognito.com';
 
-    // Build returnTo as part of the full URL, then encode the entire redirect_uri once
-    const redirectUri = encodeURIComponent(
-        `https://www.matthewthomasbeck.com/pages/logging_in.html?returnTo=${currentPath}`
-    );
+    // DO NOT add returnTo param here — test just the working link structure
+    const redirectUri = encodeURIComponent('https://www.matthewthomasbeck.com/pages/logging_in.html');
 
     const loginUrl = `https://${domain}/login/continue?client_id=${clientId}&response_type=code&scope=email+openid+phone&redirect_uri=${redirectUri}`;
 
@@ -316,17 +314,14 @@ Amplify.configure({
 
     try {
         const user = await Amplify.Auth.currentAuthenticatedUser();
-        console.log('[Login] User is already authenticated:', user);
+        console.log('[Login] Already authenticated:', user);
         window.location.href = returnTo;
     } catch (err) {
         console.warn('[Login] Not logged in yet. Attempting token exchange...');
-
         try {
-            const result = await Amplify.Auth._handleAuthResponse();
-            console.log('[Login] Token exchange successful:', result);
-
+            await Amplify.Auth._handleAuthResponse();
             const session = await Amplify.Auth.currentSession();
-            console.log('[Login] ID Token:', session.getIdToken().getJwtToken());
+            console.log('[Login] Token exchange successful');
             window.location.href = returnTo;
         } catch (exchangeError) {
             console.error('[Login] Token exchange failed:', exchangeError);

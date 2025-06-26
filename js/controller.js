@@ -1,9 +1,5 @@
 const childDiv = document.querySelector('.childDiv');
 
-// Use modular CDN globals
-const { Amplify } = aws_amplify_core;
-const { Auth } = aws_amplify_auth;
-
 // Configure Amplify Auth
 Amplify.configure({
     Auth: {
@@ -23,8 +19,8 @@ Amplify.configure({
 (async function enforceAuth() {
     try {
         // Get current user and session
-        const user = await Auth.currentAuthenticatedUser();
-        const session = await Auth.currentSession();
+        const user = await Amplify.Auth.currentAuthenticatedUser();
+        const session = await Amplify.Auth.currentSession();
 
         // Decode JWT to get groups
         const accessToken = session.getAccessToken().getJwtToken();

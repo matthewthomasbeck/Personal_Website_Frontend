@@ -1,65 +1,67 @@
+// Helper: Parse query string
+function getQueryParam(name) {
+  const url = new URL(window.location.href);
+  return url.searchParams.get(name);
+}
+
 const childDiv = document.querySelector('.childDiv');
+const code = getQueryParam('code');
 
-// Configure Amplify Auth
-Amplify.configure({
-    Auth: {
-        region: 'us-east-2',
-        userPoolId: 'us-east-2_f7ZPo0sAY',
-        userPoolWebClientId: '74g6ttg50amd7uqcecbngv64mh',
-        oauth: {
-            domain: 'us-east-2f7zpo0say.auth.us-east-2.amazoncognito.com',
-            scope: ['email', 'openid', 'profile'],
-            redirectSignIn: 'https://www.matthewthomasbeck.com/pages/controller.html',
-            redirectSignOut: 'https://www.matthewthomasbeck.com/pages/controller.html',
-            responseType: 'code'
-        }
+if (code) {
+  // Step 2: Exchange code for tokens via your backend
+  fetch('http://18.188.23.76:3001/auth/token', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      code: code,
+      redirectUri: window.location.origin + window.location.pathname
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.access_token) {
+      // Store tokens in sessionStorage
+      window.sessionStorage.setItem('access_token', data.access_token);
+      window.sessionStorage.setItem('id_token', data.id_token);
+      window.sessionStorage.setItem('refresh_token', data.refresh_token);
+      // Remove code from URL
+      window.history.replaceState({}, document.title, window.location.pathname);
+      // Show authenticated UI
+      childDiv.innerHTML = `
+        <div class="statusBox success">
+          ✅ Access Granted – You are logged in!
+        </div>
+        <h1>Robot Controller 🤖</h1>
+        <div id="videoStreamPlaceholder">
+          <p>[ Video Stream Loading... or Robot is Off ]</p>
+        </div>
+        <p class="controllerInstructions">Use <strong>WASD</strong> or <strong>Arrow Keys</strong> to control the robot.</p>
+        <div id="status">Ready</div>
+      `;
+    } else {
+      childDiv.innerHTML = `
+        <div class="statusBox denied">
+          ❌ Access Denied – Login failed.
+        </div>
+        <h1>Access Denied</h1>
+        <p>${data.error?.error || 'Unknown error'}</p>
+      `;
     }
-});
-
-(async function enforceAuth() {
-    try {
-        // Get current user and session
-        const user = await Amplify.Auth.currentAuthenticatedUser();
-        const session = await Amplify.Auth.currentSession();
-
-        // Decode JWT to get groups
-        const accessToken = session.getAccessToken().getJwtToken();
-        const payload = JSON.parse(atob(accessToken.split('.')[1]));
-        const groups = payload["cognito:groups"] || [];
-
-        if (groups.includes("owner") || groups.includes("privileged")) {
-            // Access granted
-            childDiv.innerHTML = `
-              <div class="statusBox success">
-                ✅ Access Granted – You are logged in as <strong>${user.getUsername()}</strong>
-              </div>
-              <h1>Robot Controller 🤖</h1>
-              <div id="videoStreamPlaceholder">
-                <p>[ Video Stream Loading... or Robot is Off ]</p>
-              </div>
-              <p class="controllerInstructions">Use <strong>WASD</strong> or <strong>Arrow Keys</strong> to control the robot.</p>
-              <div id="status">Ready</div>
-            `;
-            // TODO: Initialize your WebRTC/video and keyboard logic here
-        } else {
-            // Not in allowed group
-            childDiv.innerHTML = `
-              <div class="statusBox denied">
-                ❌ Access Denied – You are not in the 'owner' or 'privileged' group.
-              </div>
-              <h1>Access Denied</h1>
-              <p>Please contact the site administrator if you believe this is an error.</p>
-            `;
-        }
-    } catch (err) {
-        // Not authenticated
-        console.warn('[Controller] Not authenticated or session invalid:', err);
-        childDiv.innerHTML = `
-            <div class="statusBox denied">
-              ❌ Access Denied – You are not logged in.
-            </div>
-            <h1>Access Denied</h1>
-            <p>You must be <a href="https://us-east-2f7zpo0say.auth.us-east-2.amazoncognito.com/login?client_id=5tmo99341gnafobp9h5actl3g2&redirect_uri=https%3A%2F%2Fwww.matthewthomasbeck.com%2Fpages%2Fcontroller.html&response_type=code&scope=email+openid+profile">logged in</a> to access the controller.</p>
-        `;
-    }
-})();
+  });
+} else {
+  // Not logged in, show login link
+  const cognitoDomain = 'https://us-east-2f7zpo0say.auth.us-east-2.amazoncognito.com'; // Replace with your domain
+  const clientId = '5tmo99341gnafobp9h5actl3g2'; // Replace with your client ID
+  const redirectUri = encodeURIComponent(window.location.origin + window.location.pathname);
+  childDiv.innerHTML = `
+    <div class="statusBox denied">
+      ❌ Access Denied – You are not logged in.
+    </div>
+    <h1>Access Denied</h1>
+    <p>
+      <a href="${cognitoDomain}/login?client_id=${clientId}&response_type=code&scope=email+openid+profile&redirect_uri=${redirectUri}">
+        Click here to log in
+      </a>
+    </p>
+  `;
+}

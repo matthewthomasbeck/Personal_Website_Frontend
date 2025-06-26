@@ -33,3 +33,10 @@
 
 
 /********** CUSTOM ELEMENTS **********/
+
+/***** login button id *****/
+
+#loginButton { /* make button position absolute */
+
+    position: absolute;
+}

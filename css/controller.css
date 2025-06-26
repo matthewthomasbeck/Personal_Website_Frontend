@@ -37,3 +37,31 @@
 
 
 /********** CUSTOM ELEMENTS **********/
+
+.statusBox {
+    font-family: sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 1em;
+    margin: 1em;
+    border-radius: 8px;
+    width: fit-content;
+}
+
+.statusBox.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 2px solid #c3e6cb;
+}
+
+.statusBox.denied {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 2px solid #f5c6cb;
+}
+
+.controllerInstructions {
+    font-family: sans-serif;
+    margin-top: 10px;
+    font-size: 18px;
+}

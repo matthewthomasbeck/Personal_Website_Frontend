@@ -1,5 +1,3 @@
-import Amplify, { Auth } from 'https://cdn.skypack.dev/aws-amplify';
-
 Amplify.configure({
     Auth: {
         region: 'us-east-2',
@@ -19,8 +17,8 @@ const childDiv = document.querySelector('.childDiv');
 
 (async function enforceAuth() {
     try {
-        const user = await Auth.currentAuthenticatedUser();
-        const session = await Auth.currentSession();
+        const user = await Amplify.Auth.currentAuthenticatedUser();
+        const session = await Amplify.Auth.currentSession();
 
         const accessToken = session.getAccessToken().getJwtToken();
         const payload = JSON.parse(atob(accessToken.split('.')[1]));

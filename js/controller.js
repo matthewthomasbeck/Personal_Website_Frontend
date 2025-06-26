@@ -1,20 +1,16 @@
-import { Amplify } from 'https://cdn.skypack.dev/aws-amplify';
-import { Auth } from 'https://cdn.skypack.dev/@aws-amplify/auth';
+import Amplify, { Auth } from 'https://cdn.skypack.dev/aws-amplify';
 
 Amplify.configure({
     Auth: {
-        Cognito: {
-            userPoolId: 'us-east-2_f7ZPo0sAY',
-            userPoolClientId: '5tmo99341gnafobp9h5actl3g2',
-            loginWith: {
-                oauth: {
-                    domain: 'us-east-2f7zpo0say.auth.us-east-2.amazoncognito.com',
-                    scopes: ['email', 'openid', 'profile'],
-                    redirectSignIn: ['https://www.matthewthomasbeck.com/pages/controller.html'],
-                    redirectSignOut: ['https://www.matthewthomasbeck.com/pages/controller.html'],
-                    responseType: 'code'
-                }
-            }
+        region: 'us-east-2',
+        userPoolId: 'us-east-2_f7ZPo0sAY',
+        userPoolWebClientId: '5tmo99341gnafobp9h5actl3g2',
+        oauth: {
+            domain: 'us-east-2f7zpo0say.auth.us-east-2.amazoncognito.com',
+            scope: ['email', 'openid', 'profile'],
+            redirectSignIn: 'https://www.matthewthomasbeck.com/pages/controller.html',
+            redirectSignOut: 'https://www.matthewthomasbeck.com/pages/controller.html',
+            responseType: 'code'
         }
     }
 });
@@ -24,16 +20,16 @@ const childDiv = document.querySelector('.childDiv');
 (async function enforceAuth() {
     try {
         const user = await Auth.currentAuthenticatedUser();
-        const session = await Auth.fetchAuthSession();
+        const session = await Auth.currentSession();
 
-        const accessToken = session.tokens?.accessToken?.toString();
+        const accessToken = session.getAccessToken().getJwtToken();
         const payload = JSON.parse(atob(accessToken.split('.')[1]));
         const groups = payload["cognito:groups"] || [];
 
         if (groups.includes("owner") || groups.includes("privileged")) {
             childDiv.innerHTML = `
         <div class="statusBox success">
-          ✅ Access Granted – You are logged in as <strong>${user.username}</strong>
+          ✅ Access Granted – You are logged in as <strong>${user.getUsername()}</strong>
         </div>
         <h1>Robot Controller 🦾</h1>
         <div id="videoStreamPlaceholder">

@@ -1,5 +1,5 @@
 import { Amplify } from 'https://cdn.skypack.dev/aws-amplify';
-import { getCurrentUser, fetchAuthSession, handleSignIn } from 'https://cdn.skypack.dev/@aws-amplify/auth';
+import { Auth } from 'https://cdn.skypack.dev/@aws-amplify/auth';
 
 Amplify.configure({
     Auth: {
@@ -19,19 +19,12 @@ Amplify.configure({
     }
 });
 
+const childDiv = document.querySelector('.childDiv');
+
 (async function enforceAuth() {
-
-    const childDiv = document.querySelector('.childDiv');
-
     try {
-
-        await handleSignIn()
-
-        const user = await getCurrentUser(); // Checks identity
-        const session = await fetchAuthSession(); // Ensures session is active
-
-        console.log('[Controller] Authenticated user:', user);
-        console.log('[Controller] Cognito groups:', session.tokens?.accessToken?.payload["cognito:groups"]);
+        const user = await Auth.currentAuthenticatedUser();
+        const session = await Auth.fetchAuthSession();
 
         const accessToken = session.tokens?.accessToken?.toString();
         const payload = JSON.parse(atob(accessToken.split('.')[1]));
@@ -39,33 +32,33 @@ Amplify.configure({
 
         if (groups.includes("owner") || groups.includes("privileged")) {
             childDiv.innerHTML = `
-            <div class="statusBox success">
-              ✅ Access Granted – You are logged in as <strong>${user.username}</strong>
-            </div>
-            <h1>Robot Controller 🦾</h1>
-            <div id="videoStreamPlaceholder">
-              <p>[ Video Stream Loading... or Robot is Off ]</p>
-            </div>
-            <p class="controllerInstructions">Use <strong>WASD</strong> or <strong>Arrow Keys</strong> to control the robot.</p>
-            <div id="status">Ready</div>
-          `;
+        <div class="statusBox success">
+          ✅ Access Granted – You are logged in as <strong>${user.username}</strong>
+        </div>
+        <h1>Robot Controller 🦾</h1>
+        <div id="videoStreamPlaceholder">
+          <p>[ Video Stream Loading... or Robot is Off ]</p>
+        </div>
+        <p class="controllerInstructions">Use <strong>WASD</strong> or <strong>Arrow Keys</strong> to control the robot.</p>
+        <div id="status">Ready</div>
+      `;
         } else {
             childDiv.innerHTML = `
-            <div class="statusBox denied">
-              ❌ Access Denied – You are not in the 'owner' or 'privileged' group.
-            </div>
-            <h1>Access Denied</h1>
-            <p>Please contact the site administrator if you believe this is an error.</p>
-          `;
+        <div class="statusBox denied">
+          ❌ Access Denied – You are not in the 'owner' or 'privileged' group.
+        </div>
+        <h1>Access Denied</h1>
+        <p>Please contact the site administrator if you believe this is an error.</p>
+      `;
         }
     } catch (err) {
         console.warn('[Controller] Not authenticated or session invalid:', err);
         childDiv.innerHTML = `
-          <div class="statusBox denied">
-            ❌ Access Denied – You are not logged in.
-          </div>
-          <h1>Access Denied</h1>
-          <p>You must be <a href="https://us-east-2f7zpo0say.auth.us-east-2.amazoncognito.com/login?client_id=5tmo99341gnafobp9h5actl3g2&redirect_uri=https%3A%2F%2Fwww.matthewthomasbeck.com%2Fpages%2Fcontroller.html&response_type=code&scope=email+openid+profile">logged in</a> to access the controller.</p>
-        `;
+      <div class="statusBox denied">
+        ❌ Access Denied – You are not logged in.
+      </div>
+      <h1>Access Denied</h1>
+      <p>You must be <a href="https://us-east-2f7zpo0say.auth.us-east-2.amazoncognito.com/login?client_id=5tmo99341gnafobp9h5actl3g2&redirect_uri=https%3A%2F%2Fwww.matthewthomasbeck.com%2Fpages%2Fcontroller.html&response_type=code&scope=email+openid+profile">logged in</a> to access the controller.</p>
+    `;
     }
 })();

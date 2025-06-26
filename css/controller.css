@@ -50,3 +50,34 @@
     text-align: center;
     color: white;
 }
+
+.statusBox {
+    margin: 20px auto;
+    padding: 20px 30px;
+    border-radius: 8px;
+    font-size: 1.2em;
+    width: fit-content;
+    text-align: center;
+}
+.statusBox.success {
+    background: #2ecc40;
+    color: #fff;
+    border: 2px solid #27ae60;
+}
+.statusBox.denied {
+    background: #ff4136;
+    color: #fff;
+    border: 2px solid #c0392b;
+}
+.controllerInstructions {
+    margin-top: 20px;
+    font-size: 1.1em;
+    color: #fff;
+}
+#videoStreamPlaceholder {
+    margin: 30px 0;
+    padding: 20px;
+    background: #222;
+    color: #bbb;
+    border-radius: 8px;
+}

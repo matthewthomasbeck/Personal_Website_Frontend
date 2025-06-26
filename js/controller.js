@@ -5,7 +5,7 @@ Amplify.configure({
     Auth: {
         region: 'us-east-2',
         userPoolId: 'us-east-2_f7ZPo0sAY',
-        userPoolWebClientId: '5tmo99341gnafobp9h5actl3g2',
+        userPoolWebClientId: '74g6ttg50amd7uqcecbngv64mh',
         oauth: {
             domain: 'us-east-2f7zpo0say.auth.us-east-2.amazoncognito.com',
             scope: ['email', 'openid', 'profile'],

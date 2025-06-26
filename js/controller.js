@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+window.addEventListener("load", () => {
     const childDiv = document.querySelector('.childDiv');
 
     Amplify.configure({

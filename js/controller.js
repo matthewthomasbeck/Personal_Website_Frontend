@@ -30,9 +30,10 @@ Amplify.configure({
         const accessToken = session.tokens?.accessToken?.toString();
         const payload = JSON.parse(atob(accessToken.split('.')[1]));
         const groups = payload["cognito:groups"] || [];
+        const childDiv = document.querySelector('.childDiv');
 
         if (groups.includes("owner") || groups.includes("privileged")) {
-            document.body.innerHTML = `
+            childDiv.innerHTML = `
             <div class="statusBox success">
               ✅ Access Granted – You are logged in as <strong>${user.username}</strong>
             </div>
@@ -44,7 +45,7 @@ Amplify.configure({
             <div id="status">Ready</div>
           `;
         } else {
-            document.body.innerHTML = `
+            childDiv.innerHTMLL = `
             <div class="statusBox denied">
               ❌ Access Denied – You are not in the 'owner' or 'privileged' group.
             </div>
@@ -54,7 +55,7 @@ Amplify.configure({
         }
     } catch (err) {
         console.warn('[Controller] Not authenticated or session invalid:', err);
-        document.body.innerHTML = `
+        childDiv.innerHTML = `
           <div class="statusBox denied">
             ❌ Access Denied – You are not logged in.
           </div>

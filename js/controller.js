@@ -1,5 +1,5 @@
 import { Amplify } from 'https://cdn.skypack.dev/aws-amplify';
-import { getCurrentUser, fetchAuthSession } from 'https://cdn.skypack.dev/@aws-amplify/auth';
+import { getCurrentUser, fetchAuthSession, handleSignIn } from 'https://cdn.skypack.dev/@aws-amplify/auth';
 
 Amplify.configure({
     Auth: {
@@ -24,6 +24,9 @@ Amplify.configure({
     const childDiv = document.querySelector('.childDiv');
 
     try {
+
+        await handleSignIn()
+
         const user = await getCurrentUser(); // Checks identity
         const session = await fetchAuthSession(); // Ensures session is active
 

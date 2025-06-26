@@ -20,6 +20,9 @@ Amplify.configure({
 });
 
 (async function enforceAuth() {
+
+    const childDiv = document.querySelector('.childDiv');
+
     try {
         const user = await getCurrentUser(); // Checks identity
         const session = await fetchAuthSession(); // Ensures session is active
@@ -30,7 +33,6 @@ Amplify.configure({
         const accessToken = session.tokens?.accessToken?.toString();
         const payload = JSON.parse(atob(accessToken.split('.')[1]));
         const groups = payload["cognito:groups"] || [];
-        const childDiv = document.querySelector('.childDiv');
 
         if (groups.includes("owner") || groups.includes("privileged")) {
             childDiv.innerHTML = `
@@ -45,7 +47,7 @@ Amplify.configure({
             <div id="status">Ready</div>
           `;
         } else {
-            childDiv.innerHTMLL = `
+            childDiv.innerHTML = `
             <div class="statusBox denied">
               ❌ Access Denied – You are not in the 'owner' or 'privileged' group.
             </div>

@@ -27,20 +27,38 @@ if (code) {
       window.sessionStorage.setItem('access_token', data.access_token);
       window.sessionStorage.setItem('id_token', data.id_token);
       window.sessionStorage.setItem('refresh_token', data.refresh_token);
+
+      // Decode the id_token to get user groups
+      const idToken = data.id_token;
+      const payload = JSON.parse(atob(idToken.split('.')[1]));
+      const groups = payload['cognito:groups'] || [];
+
+      if (groups.includes('owner') || groups.includes('privileged')) {
+        // Show privileged UI
+        childDiv.innerHTML = `
+          <div class="statusBox success">
+            ✅ Access Granted – You are logged in!
+          </div>
+          <h1>Robot Controller 🤖</h1>
+          <div id="videoStreamPlaceholder">
+            <p>[ Video Stream Loading... or Robot is Off ]</p>
+          </div>
+          <p class="controllerInstructions">Use <strong>WASD</strong> or <strong>Arrow Keys</strong> to control the robot.</p>
+          <div id="status">Ready</div>
+        `;
+      } else {
+        // Show access denied for non-privileged users
+        childDiv.innerHTML = `
+          <div class="statusBox denied">
+            ❌ Access Denied – You are not in the 'owner' or 'privileged' group.
+          </div>
+          <h1>Access Denied</h1>
+          <p>Please contact the site administrator if you believe this is an error.</p>
+        `;
+      }
+
       // Remove code from URL
       window.history.replaceState({}, document.title, window.location.pathname);
-      // Show authenticated UI
-      childDiv.innerHTML = `
-        <div class="statusBox success">
-          ✅ Access Granted – You are logged in!
-        </div>
-        <h1>Robot Controller 🤖</h1>
-        <div id="videoStreamPlaceholder">
-          <p>[ Video Stream Loading... or Robot is Off ]</p>
-        </div>
-        <p class="controllerInstructions">Use <strong>WASD</strong> or <strong>Arrow Keys</strong> to control the robot.</p>
-        <div id="status">Ready</div>
-      `;
     } else {
       childDiv.innerHTML = `
         <div class="statusBox denied">

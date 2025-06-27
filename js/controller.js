@@ -8,7 +8,7 @@ const childDiv = document.querySelector('.childDiv');
 const code = getQueryParam('code');
 
 // Set your backend URL here (e.g., ngrok HTTPS URL)
-const BACKEND_URL = 'https://cc12-18-188-23-76.ngrok-free.app'; // <-- Replace with your ngrok URL
+const BACKEND_URL = 'https://api.matthewthomasbeck.com'; // <-- Replace with your ngrok URL
 
 if (code) {
   // Step 2: Exchange code for tokens via your backend

@@ -61,8 +61,8 @@ function showNotLoggedIn() {
   `;
 }
 
-// Check if there's an OAuth code in the URL (indicating we just logged in)
-const oauthCode = getQueryParam('code');
+// Use oauthCode from global.js if available, otherwise compute it
+var oauthCode = (typeof window.oauthCode !== 'undefined') ? window.oauthCode : getQueryParam('code');
 
 if (oauthCode) {
   // We have an OAuth code, wait for the token exchange to complete

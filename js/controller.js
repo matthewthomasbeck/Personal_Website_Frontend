@@ -50,7 +50,7 @@ if (code) {
   });
 } else {
   // Not logged in, show login link
-  const cognitoDomain = 'https://us-east-136ZHoptrV.auth.us-east-2.amazoncognito.com'; // Replace with your domain
+  const cognitoDomain = 'https://us-east-136ZHoptrV.auth.us-east-1.amazoncognito.com'; // Replace with your domain
   const clientId = '56on52it70if6rlt3she14h062'; // Replace with your client ID
   const redirectUri = encodeURIComponent(window.location.origin + window.location.pathname);
   childDiv.innerHTML = `

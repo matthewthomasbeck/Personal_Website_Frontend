@@ -451,8 +451,8 @@ function isUserLoggedIn() {
 document.addEventListener("DOMContentLoaded", function() {
   const loginButton = document.getElementById('loginButton');
   if (loginButton) {
-    const cognitoDomain = 'https://us-east-2f7zpo0say.auth.us-east-2.amazoncognito.com'; // your domain
-    const clientId = '5tmo99341gnafobp9h5actl3g2'; // your client ID
+    const cognitoDomain = 'https://us-east-136zhoptrv.auth.us-east-1.amazoncognito.com'; // your domain
+    const clientId = '56on52it70if6rlt3she14h062'; // your client ID
     const redirectUri = encodeURIComponent(window.location.origin + window.location.pathname);
     loginButton.href = `${cognitoDomain}/login?client_id=${clientId}&response_type=code&scope=email+openid+profile&redirect_uri=${redirectUri}`;
   }

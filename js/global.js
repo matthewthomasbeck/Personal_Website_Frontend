@@ -397,3 +397,63 @@ sectionHeaderLinks.forEach(function(link) { // loop through each link
         }
     });
 });
+
+/************************************************************/
+/*************** SITE-WIDE AUTHENTICATION *******************/
+/************************************************************/
+
+/***** OAUTH CODE EXCHANGE AND TOKEN STORAGE *****/
+
+// Helper: Parse query string
+function getQueryParam(name) {
+  const url = new URL(window.location.href);
+  return url.searchParams.get(name);
+}
+
+const oauthCode = getQueryParam('code');
+const BACKEND_URL = 'https://api.matthewthomasbeck.com'; // backend URL for token exchange
+
+if (oauthCode) {
+  // Exchange code for tokens via backend
+  fetch(`${BACKEND_URL}/auth/token`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      code: oauthCode,
+      redirectUri: window.location.origin + window.location.pathname
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.access_token) {
+      // Store tokens in sessionStorage
+      window.sessionStorage.setItem('access_token', data.access_token);
+      window.sessionStorage.setItem('id_token', data.id_token);
+      window.sessionStorage.setItem('refresh_token', data.refresh_token);
+    }
+    // Remove code from URL
+    window.history.replaceState({}, document.title, window.location.pathname);
+    // Optionally, reload the page to trigger any page-specific logic
+    // location.reload();
+  });
+}
+
+/***** AUTHENTICATION HELPER *****/
+
+function isUserLoggedIn() {
+  return !!window.sessionStorage.getItem('id_token');
+}
+
+/************************************************************/
+/*************** DYNAMIC LOGIN LINK SETUP *******************/
+/************************************************************/
+
+document.addEventListener("DOMContentLoaded", function() {
+  const loginButton = document.getElementById('loginButton');
+  if (loginButton) {
+    const cognitoDomain = 'https://us-east-2f7zpo0say.auth.us-east-2.amazoncognito.com'; // your domain
+    const clientId = '5tmo99341gnafobp9h5actl3g2'; // your client ID
+    const redirectUri = encodeURIComponent(window.location.origin + window.location.pathname);
+    loginButton.href = `${cognitoDomain}/login?client_id=${clientId}&response_type=code&scope=email+openid+profile&redirect_uri=${redirectUri}`;
+  }
+});

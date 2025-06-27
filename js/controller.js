@@ -5,84 +5,46 @@ function getQueryParam(name) {
 }
 
 const childDiv = document.querySelector('.childDiv');
-const code = getQueryParam('code');
 
-// Set your backend URL here (e.g., ngrok HTTPS URL)
-const BACKEND_URL = 'https://api.matthewthomasbeck.com'; // <-- Replace with your ngrok URL
+// Only run group-based access logic if user is logged in
+const idToken = window.sessionStorage.getItem('id_token');
+if (idToken) {
+  // Decode the id_token to get user groups
+  const payload = JSON.parse(atob(idToken.split('.')[1]));
+  const groups = payload['cognito:groups'] || [];
 
-if (code) {
-  // Step 2: Exchange code for tokens via your backend
-  fetch(`${BACKEND_URL}/auth/token`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      code: code,
-      redirectUri: window.location.origin + window.location.pathname
-    })
-  })
-  .then(res => res.json())
-  .then(data => {
-    if (data.access_token) {
-      // Store tokens in sessionStorage
-      window.sessionStorage.setItem('access_token', data.access_token);
-      window.sessionStorage.setItem('id_token', data.id_token);
-      window.sessionStorage.setItem('refresh_token', data.refresh_token);
-
-      // Decode the id_token to get user groups
-      const idToken = data.id_token;
-      const payload = JSON.parse(atob(idToken.split('.')[1]));
-      const groups = payload['cognito:groups'] || [];
-
-      if (groups.includes('owner') || groups.includes('privileged')) {
-        // Show privileged UI
-        childDiv.innerHTML = `
-          <div class="statusBox success">
-            ✅ Access Granted – You are logged in!
-          </div>
-          <h1>Robot Controller 🤖</h1>
-          <div id="videoStreamPlaceholder">
-            <p>[ Video Stream Loading... or Robot is Off ]</p>
-          </div>
-          <p class="controllerInstructions">Use <strong>WASD</strong> or <strong>Arrow Keys</strong> to control the robot.</p>
-          <div id="status">Ready</div>
-        `;
-      } else {
-        // Show access denied for non-privileged users
-        childDiv.innerHTML = `
-          <div class="statusBox denied">
-            ❌ Access Denied – You are not in the 'owner' or 'privileged' group.
-          </div>
-          <h1>Access Denied</h1>
-          <p>Please contact the site administrator if you believe this is an error.</p>
-        `;
-      }
-
-      // Remove code from URL
-      window.history.replaceState({}, document.title, window.location.pathname);
-    } else {
-      childDiv.innerHTML = `
-        <div class="statusBox denied">
-          ❌ Access Denied – Login failed.
-        </div>
-        <h1>Access Denied</h1>
-        <p>${data.error?.error || 'Unknown error'}</p>
-      `;
-    }
-  });
+  if (groups.includes('owner') || groups.includes('privileged')) {
+    // Show privileged UI
+    childDiv.innerHTML = `
+      <div class="statusBox success">
+        ✅ Access Granted – You are logged in!
+      </div>
+      <h1>Robot Controller 🤖</h1>
+      <div id="videoStreamPlaceholder">
+        <p>[ Video Stream Loading... or Robot is Off ]</p>
+      </div>
+      <p class="controllerInstructions">Use <strong>WASD</strong> or <strong>Arrow Keys</strong> to control the robot.</p>
+      <div id="status">Ready</div>
+    `;
+  } else {
+    // Show access denied for non-privileged users
+    childDiv.innerHTML = `
+      <div class="statusBox denied">
+        ❌ Access Denied – You are not in the 'owner' or 'privileged' group.
+      </div>
+      <h1>Access Denied</h1>
+      <p>Please contact the site administrator if you believe this is an error.</p>
+    `;
+  }
 } else {
-  // Not logged in, show login link
-  const cognitoDomain = 'https://us-east-2f7zpo0say.auth.us-east-2.amazoncognito.com'; // Replace with your domain
-  const clientId = '5tmo99341gnafobp9h5actl3g2'; // Replace with your client ID
-  const redirectUri = encodeURIComponent(window.location.origin + window.location.pathname);
+  // Not logged in, show access denied
   childDiv.innerHTML = `
     <div class="statusBox denied">
       ❌ Access Denied – You are not logged in.
     </div>
     <h1>Access Denied</h1>
     <p>
-      <a href="${cognitoDomain}/login?client_id=${clientId}&response_type=code&scope=email+openid+profile&redirect_uri=${redirectUri}">
-        Click here to log in
-      </a>
+      <a href="#">Click here to log in</a>
     </p>
   `;
 }

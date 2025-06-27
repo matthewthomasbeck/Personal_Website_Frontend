@@ -5,18 +5,11 @@ require('dotenv').config();
 
 const app = express();
 
-// Allow CORS from your production domain and localhost for dev
-const allowedOrigins = [
-  'https://www.matthewthomasbeck.com',
-  'http://www.matthewthomasbeck.com',
-  'http://localhost:3000',
-  'http://localhost:5500'
-];
-app.use((req, res, next) => {
-  console.log('Origin:', req.headers.origin);
-  next();
-});
-app.use(cors());
+// CORS middleware FIRST
+app.use(cors({
+  origin: true, // Reflects the request's origin
+  credentials: true,
+}));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

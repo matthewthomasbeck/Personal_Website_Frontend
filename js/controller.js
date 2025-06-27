@@ -7,9 +7,12 @@ function getQueryParam(name) {
 const childDiv = document.querySelector('.childDiv');
 const code = getQueryParam('code');
 
+// Set your backend URL here (e.g., ngrok HTTPS URL)
+const BACKEND_URL = 'https://adab-18-188-23-76.ngrok-free.app'; // <-- Replace with your ngrok URL
+
 if (code) {
   // Step 2: Exchange code for tokens via your backend
-  fetch('http://18.188.23.76:3001/auth/token', {
+  fetch(`${BACKEND_URL}/auth/token`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -50,8 +53,8 @@ if (code) {
   });
 } else {
   // Not logged in, show login link
-  const cognitoDomain = 'https://us-east-136ZHoptrV.auth.us-east-1.amazoncognito.com'; // Replace with your domain
-  const clientId = '56on52it70if6rlt3she14h062'; // Replace with your client ID
+  const cognitoDomain = 'https://us-east-2f7zpo0say.auth.us-east-2.amazoncognito.com'; // Replace with your domain
+  const clientId = '5tmo99341gnafobp9h5actl3g2'; // Replace with your client ID
   const redirectUri = encodeURIComponent(window.location.origin + window.location.pathname);
   childDiv.innerHTML = `
     <div class="statusBox denied">

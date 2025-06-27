@@ -51,7 +51,7 @@ if (code) {
 } else {
   // Not logged in, show login link
   const cognitoDomain = 'https://us-east-2f7zpo0say.auth.us-east-2.amazoncognito.com'; // Replace with your domain
-  const clientId = '5tmo99341gnafobp9h5actl3g2'; // Replace with your client ID
+  const clientId = '74g6ttg50amd7uqcecbngv64mh'; // Replace with your client ID
   const redirectUri = encodeURIComponent(window.location.origin + window.location.pathname);
   childDiv.innerHTML = `
     <div class="statusBox denied">

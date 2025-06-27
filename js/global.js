@@ -430,28 +430,11 @@ if (oauthCode) {
       window.sessionStorage.setItem('access_token', data.access_token);
       window.sessionStorage.setItem('id_token', data.id_token);
       window.sessionStorage.setItem('refresh_token', data.refresh_token);
-      
-      // Dispatch custom event to notify other scripts that authentication is complete
-      window.dispatchEvent(new CustomEvent('authenticationComplete', {
-        detail: { success: true, userGroups: data.userGroups }
-      }));
-    } else {
-      // Dispatch event for failed authentication
-      window.dispatchEvent(new CustomEvent('authenticationComplete', {
-        detail: { success: false, error: data.error }
-      }));
     }
     // Remove code from URL
     window.history.replaceState({}, document.title, window.location.pathname);
-  })
-  .catch(error => {
-    console.error('Token exchange error:', error);
-    // Dispatch event for failed authentication
-    window.dispatchEvent(new CustomEvent('authenticationComplete', {
-      detail: { success: false, error: error.message }
-    }));
-    // Remove code from URL even on error
-    window.history.replaceState({}, document.title, window.location.pathname);
+    // Optionally, reload the page to trigger any page-specific logic
+    // location.reload();
   });
 }
 

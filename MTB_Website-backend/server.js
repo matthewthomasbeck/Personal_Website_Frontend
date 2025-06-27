@@ -11,6 +11,12 @@ app.use(cors({
   credentials: true,
 }));
 
+// Explicitly handle OPTIONS preflight requests for CORS
+app.options('/auth/token', cors({
+  origin: true,
+  credentials: true,
+}));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

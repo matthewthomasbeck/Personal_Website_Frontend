@@ -49,7 +49,9 @@ function runGroupAccessLogic() {
   }
 }
 
-// Always run on page load
-runGroupAccessLogic();
+// Run immediately if already logged in
+if (window.sessionStorage.getItem('id_token')) {
+  runGroupAccessLogic();
+}
 // Also run when tokens become available
 window.addEventListener('authTokensAvailable', runGroupAccessLogic);

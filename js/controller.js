@@ -112,43 +112,21 @@ function connectToRobot() {
 }
 
 function connectToSignalingServer() {
-  // Replace with your signaling server URL
-  const signalingServerUrl = 'wss://api.matthewthomasbeck.com/signaling';
+  // Connect to your signaling server using socket.io
+  const signalingServerUrl = 'https://api.matthewthomasbeck.com';
   
   try {
-    signalingSocket = new WebSocket(signalingServerUrl);
-    
-    signalingSocket.onopen = function() {
-      console.log('Connected to signaling server');
-      updateConnectionStatus('🟡 Connecting to robot...', 'pending');
-      
-      // Send authentication
-      const idToken = window.sessionStorage.getItem('id_token');
-      signalingSocket.send(JSON.stringify({
-        type: 'auth',
-        token: idToken
-      }));
-    };
-    
-    signalingSocket.onmessage = function(event) {
-      const message = JSON.parse(event.data);
-      handleSignalingMessage(message);
-    };
-    
-    signalingSocket.onclose = function() {
-      console.log('Disconnected from signaling server');
-      updateConnectionStatus('🔴 Disconnected', 'denied');
-      const connectButton = document.getElementById('connectButton');
-      if (connectButton) {
-        connectButton.textContent = 'Connect to Robot';
-        connectButton.disabled = false;
-      }
-    };
-    
-    signalingSocket.onerror = function(error) {
-      console.error('Signaling server error:', error);
-      updateConnectionStatus('🔴 Connection failed', 'denied');
-    };
+    // Load socket.io client if not already loaded
+    if (typeof io === 'undefined') {
+      const script = document.createElement('script');
+      script.src = 'https://cdn.socket.io/4.7.2/socket.io.min.js';
+      script.onload = () => {
+        initializeSocketConnection(signalingServerUrl);
+      };
+      document.head.appendChild(script);
+    } else {
+      initializeSocketConnection(signalingServerUrl);
+    }
     
   } catch (error) {
     console.error('Failed to connect to signaling server:', error);
@@ -156,24 +134,72 @@ function connectToSignalingServer() {
   }
 }
 
-function handleSignalingMessage(message) {
-  switch (message.type) {
-    case 'offer':
-      handleOffer(message.offer);
-      break;
-    case 'ice-candidate':
-      if (peerConnection && message.candidate) {
-        peerConnection.addIceCandidate(new RTCIceCandidate(message.candidate));
-      }
-      break;
-    case 'auth-success':
-      console.log('Authentication successful');
-      break;
-    case 'auth-failed':
-      console.error('Authentication failed');
-      updateConnectionStatus('🔴 Authentication failed', 'denied');
-      break;
-  }
+function initializeSocketConnection(url) {
+  signalingSocket = io(url, {
+    transports: ['websocket'],
+    upgrade: false
+  });
+  
+  signalingSocket.on('connect', function() {
+    console.log('Connected to signaling server');
+    updateConnectionStatus('🟡 Connecting to robot...', 'pending');
+    
+    // Send authentication
+    const idToken = window.sessionStorage.getItem('id_token');
+    signalingSocket.emit('auth', {
+      token: idToken
+    });
+  });
+  
+  signalingSocket.on('auth-success', function() {
+    console.log('Authentication successful');
+    updateConnectionStatus('🟡 Waiting for robot...', 'pending');
+  });
+  
+  signalingSocket.on('auth-failed', function(data) {
+    console.error('Authentication failed:', data.message);
+    updateConnectionStatus('🔴 Authentication failed', 'denied');
+    const connectButton = document.getElementById('connectButton');
+    if (connectButton) {
+      connectButton.textContent = 'Connect';
+      connectButton.disabled = false;
+    }
+  });
+  
+  signalingSocket.on('robot-available', function() {
+    console.log('Robot is available');
+    updateConnectionStatus('🟡 Robot available', 'pending');
+  });
+  
+  signalingSocket.on('robot-unavailable', function() {
+    console.log('Robot is unavailable');
+    updateConnectionStatus('🔴 Robot unavailable', 'denied');
+  });
+  
+  signalingSocket.on('offer', function(data) {
+    handleOffer(data.offer);
+  });
+  
+  signalingSocket.on('ice-candidate', function(data) {
+    if (peerConnection && data.candidate) {
+      peerConnection.addIceCandidate(new RTCIceCandidate(data.candidate));
+    }
+  });
+  
+  signalingSocket.on('error', function(data) {
+    console.error('Signaling error:', data.message);
+    updateConnectionStatus('🔴 Error: ' + data.message, 'denied');
+  });
+  
+  signalingSocket.on('disconnect', function() {
+    console.log('Disconnected from signaling server');
+    updateConnectionStatus('🔴 Disconnected', 'denied');
+    const connectButton = document.getElementById('connectButton');
+    if (connectButton) {
+      connectButton.textContent = 'Connect';
+      connectButton.disabled = false;
+    }
+  });
 }
 
 async function handleOffer(offer) {
@@ -183,10 +209,9 @@ async function handleOffer(offer) {
     await peerConnection.setLocalDescription(answer);
     
     if (signalingSocket) {
-      signalingSocket.send(JSON.stringify({
-        type: 'answer',
+      signalingSocket.emit('answer', {
         answer: answer
-      }));
+      });
     }
   } catch (error) {
     console.error('Error handling offer:', error);
@@ -195,7 +220,7 @@ async function handleOffer(offer) {
 
 function disconnectFromRobot() {
   if (signalingSocket) {
-    signalingSocket.close();
+    signalingSocket.disconnect();
     signalingSocket = null;
   }
   
@@ -213,7 +238,7 @@ function disconnectFromRobot() {
   
   const connectButton = document.getElementById('connectButton');
   if (connectButton) {
-    connectButton.textContent = 'Connect to Robot';
+    connectButton.textContent = 'Connect';
     connectButton.disabled = false;
   }
   
@@ -231,10 +256,9 @@ function updateConnectionStatus(message, type) {
 // Robot Control Functions
 function sendRobotCommand(command) {
   if (signalingSocket && robotConnected) {
-    signalingSocket.send(JSON.stringify({
-      type: 'robot-command',
+    signalingSocket.emit('robot-command', {
       command: command
-    }));
+    });
   }
 }
 

@@ -9,16 +9,7 @@ const childDiv = document.querySelector('.childDiv');
 function runGroupAccessLogic() {
   const idToken = window.sessionStorage.getItem('id_token');
   if (!idToken) {
-    // Not logged in, show access denied or login prompt
-    childDiv.innerHTML = `
-      <div class="statusBox denied">
-        ❌ Access Denied – You are not logged in.
-      </div>
-      <h1>Access Denied</h1>
-      <p>
-        <a href="#">Click here to log in</a>
-      </p>
-    `;
+    // Not logged in: leave the default HTML in place
     return;
   }
   // Decode JWT and check groups
@@ -38,7 +29,7 @@ function runGroupAccessLogic() {
       <div id="status">Ready</div>
     `;
   } else {
-    // Show access denied
+    // Show access denied for non-privileged users
     childDiv.innerHTML = `
       <div class="statusBox denied">
         ❌ Access Denied – You are not in the 'owner' or 'privileged' group.
@@ -49,9 +40,7 @@ function runGroupAccessLogic() {
   }
 }
 
-// Run immediately if already logged in
-if (window.sessionStorage.getItem('id_token')) {
-  runGroupAccessLogic();
-}
+// Always run on page load
+runGroupAccessLogic();
 // Also run when tokens become available
 window.addEventListener('authTokensAvailable', runGroupAccessLogic);

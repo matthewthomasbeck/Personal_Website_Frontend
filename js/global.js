@@ -430,6 +430,8 @@ if (oauthCode) {
       window.sessionStorage.setItem('access_token', data.access_token);
       window.sessionStorage.setItem('id_token', data.id_token);
       window.sessionStorage.setItem('refresh_token', data.refresh_token);
+      // Dispatch event to notify tokens are available
+      window.dispatchEvent(new Event('authTokensAvailable'));
     }
     // Remove code from URL
     window.history.replaceState({}, document.title, window.location.pathname);

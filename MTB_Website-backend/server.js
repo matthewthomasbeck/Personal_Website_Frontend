@@ -73,77 +73,66 @@ io.on('connection', (socket) => {
       socket.emit('auth-success');
       console.log('Client authenticated:', socket.id);
       
+      // Simulate robot availability after authentication
+      setTimeout(() => {
+        socket.emit('robot-available');
+      }, 1000);
+      
     } catch (error) {
       console.error('Authentication error:', error);
       socket.emit('auth-failed', { message: 'Authentication failed' });
     }
   });
   
-  // Handle WebRTC signaling
+  // Handle WebRTC signaling - for now, just acknowledge
   socket.on('offer', (data) => {
-    // Forward offer to robot
-    const robotSocket = getRobotSocket();
-    if (robotSocket) {
-      robotSocket.emit('offer', data);
-    } else {
-      socket.emit('error', { message: 'Robot not connected' });
-    }
+    console.log('Received offer from client');
+    
+    // For testing, we'll just acknowledge the offer
+    // In the real implementation, this would create a video stream
+    socket.emit('test-video-ready', { 
+      message: 'Test video stream ready',
+      timestamp: Date.now()
+    });
+    
+    // Simulate sending back an answer (simplified for testing)
+    setTimeout(() => {
+      socket.emit('answer', { 
+        answer: {
+          type: 'answer',
+          sdp: 'v=0\r\no=- 0 2 IN IP4 127.0.0.1\r\ns=-\r\nt=0 0\r\na=group:BUNDLE 0\r\na=msid-semantic: WMS\r\nm=video 9 UDP/TLS/RTP/SAVPF 96\r\nc=IN IP4 0.0.0.0\r\na=mid:0\r\na=sendonly\r\na=rtpmap:96 H264/90000\r\n'
+        }
+      });
+    }, 1000);
   });
   
   socket.on('answer', (data) => {
-    // Forward answer to robot
-    const robotSocket = getRobotSocket();
-    if (robotSocket) {
-      robotSocket.emit('answer', data);
-    }
+    console.log('Received answer from client');
   });
   
   socket.on('ice-candidate', (data) => {
-    // Forward ICE candidate to robot
-    const robotSocket = getRobotSocket();
-    if (robotSocket) {
-      robotSocket.emit('ice-candidate', data);
-    }
+    console.log('Received ICE candidate from client');
+    // Echo back for testing
+    socket.emit('ice-candidate', data);
   });
   
   // Handle robot commands
   socket.on('robot-command', (data) => {
-    const robotSocket = getRobotSocket();
-    if (robotSocket) {
-      robotSocket.emit('robot-command', data);
-      console.log('Robot command sent:', data.command);
-    } else {
-      socket.emit('error', { message: 'Robot not connected' });
-    }
-  });
-  
-  // Handle robot connections
-  socket.on('robot-connect', () => {
-    robotConnections.set(socket.id, socket);
-    console.log('Robot connected:', socket.id);
-    // Notify all clients that robot is available
-    io.emit('robot-available');
+    console.log('Robot command received:', data.command);
+    // In the future, this will forward to the actual robot
+    // For now, just log the command and acknowledge
+    socket.emit('command-ack', { 
+      command: data.command, 
+      status: 'received',
+      timestamp: Date.now()
+    });
   });
   
   socket.on('disconnect', () => {
     console.log('Client disconnected:', socket.id);
     connectedClients.delete(socket.id);
-    
-    // Check if this was a robot connection
-    if (robotConnections.has(socket.id)) {
-      robotConnections.delete(socket.id);
-      console.log('Robot disconnected:', socket.id);
-      // Notify all clients that robot is unavailable
-      io.emit('robot-unavailable');
-    }
   });
 });
-
-// Helper function to get robot socket
-function getRobotSocket() {
-  const robotIds = Array.from(robotConnections.keys());
-  return robotIds.length > 0 ? robotConnections.get(robotIds[0]) : null;
-}
 
 // Health check endpoint
 app.get('/health', (req, res) => {

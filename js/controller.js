@@ -168,7 +168,10 @@ function initializeSocketConnection(url) {
   
   signalingSocket.on('robot-available', function() {
     console.log('Robot is available');
-    updateConnectionStatus('🟡 Robot available', 'pending');
+    updateConnectionStatus('🟡 Robot available - starting video...', 'pending');
+    
+    // Create and send WebRTC offer
+    createAndSendOffer();
   });
   
   signalingSocket.on('robot-unavailable', function() {
@@ -176,14 +179,27 @@ function initializeSocketConnection(url) {
     updateConnectionStatus('🔴 Robot unavailable', 'denied');
   });
   
+  signalingSocket.on('test-video-ready', function(data) {
+    console.log('Test video ready:', data.message);
+    updateConnectionStatus('🟡 Test video ready', 'pending');
+  });
+  
   signalingSocket.on('offer', function(data) {
     handleOffer(data.offer);
+  });
+  
+  signalingSocket.on('answer', function(data) {
+    handleAnswer(data.answer);
   });
   
   signalingSocket.on('ice-candidate', function(data) {
     if (peerConnection && data.candidate) {
       peerConnection.addIceCandidate(new RTCIceCandidate(data.candidate));
     }
+  });
+  
+  signalingSocket.on('command-ack', function(data) {
+    console.log('Command acknowledged:', data);
   });
   
   signalingSocket.on('error', function(data) {
@@ -202,6 +218,30 @@ function initializeSocketConnection(url) {
   });
 }
 
+async function createAndSendOffer() {
+  try {
+    // Create a simple offer for testing
+    const offer = await peerConnection.createOffer({
+      offerToReceiveVideo: true,
+      offerToReceiveAudio: false
+    });
+    
+    await peerConnection.setLocalDescription(offer);
+    
+    if (signalingSocket) {
+      signalingSocket.emit('offer', {
+        offer: offer
+      });
+    }
+    
+    console.log('WebRTC offer sent');
+    
+  } catch (error) {
+    console.error('Error creating offer:', error);
+    updateConnectionStatus('🔴 Failed to create offer', 'denied');
+  }
+}
+
 async function handleOffer(offer) {
   try {
     await peerConnection.setRemoteDescription(new RTCSessionDescription(offer));
@@ -215,6 +255,15 @@ async function handleOffer(offer) {
     }
   } catch (error) {
     console.error('Error handling offer:', error);
+  }
+}
+
+async function handleAnswer(answer) {
+  try {
+    await peerConnection.setRemoteDescription(new RTCSessionDescription(answer));
+    console.log('WebRTC answer processed');
+  } catch (error) {
+    console.error('Error handling answer:', error);
   }
 }
 

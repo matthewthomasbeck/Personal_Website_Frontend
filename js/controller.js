@@ -17,30 +17,30 @@ function runGroupAccessLogic() {
   const groups = payload['cognito:groups'] || [];
   if (groups.includes('owner') || groups.includes('privileged')) {
     // Show video feed and controls
-    childDiv.innerHTML = `
+            childDiv.innerHTML = `
       <div id="videoContainer">
         <video id="robotVideo" autoplay playsinline muted>
           <p>Video stream loading...</p>
         </video>
         <div id="connectionStatus">🔴 Disconnected</div>
         <button id="connectButton" onclick="connectToRobot()">Connect</button>
-      </div>
-    `;
+          </div>
+        `;
     
     // Initialize WebRTC after DOM is ready
     setTimeout(() => {
       initializeWebRTC();
     }, 100);
-  } else {
+        } else {
     // Show access denied for non-privileged users
-    childDiv.innerHTML = `
-      <div class="statusBox denied">
-        ❌ Access Denied – You are not in the 'owner' or 'privileged' group.
-      </div>
-      <h1>Access Denied</h1>
-      <p>Please contact the site administrator if you believe this is an error.</p>
-    `;
-  }
+            childDiv.innerHTML = `
+          <div class="statusBox denied">
+            ❌ Access Denied – You are not in the 'owner' or 'privileged' group.
+          </div>
+          <h1>Access Denied</h1>
+          <p>Please contact the site administrator if you believe this is an error.</p>
+        `;
+        }
 }
 
 // Always run on page load

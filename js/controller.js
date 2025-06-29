@@ -17,30 +17,42 @@ function runGroupAccessLogic() {
   const groups = payload['cognito:groups'] || [];
   if (groups.includes('owner') || groups.includes('privileged')) {
     // Show video feed and controls
-            childDiv.innerHTML = `
+    childDiv.innerHTML = `
       <div id="videoContainer">
         <video id="robotVideo" autoplay playsinline muted>
           <p>Video stream loading...</p>
         </video>
         <div id="connectionStatus">🔴 Disconnected</div>
         <button id="connectButton" onclick="connectToRobot()">Connect</button>
-          </div>
-        `;
-    
-    // Initialize WebRTC after DOM is ready
+        <div id="status">Ready to connect</div>
+        <div class="controlInstructions">
+          <h3>Robot Controls</h3>
+          <ul>
+            <li><strong>W/↑</strong> - Move Forward</li>
+            <li><strong>S/↓</strong> - Move Backward</li>
+            <li><strong>A/←</strong> - Turn Left</li>
+            <li><strong>D/→</strong> - Turn Right</li>
+            <li><strong>Space</strong> - Neutral Position</li>
+            <li><strong>Q</strong> - Exit</li>
+          </ul>
+        </div>
+      </div>
+    `;
+
+    // Initialize video handling after DOM is ready
     setTimeout(() => {
-      initializeWebRTC();
+      initializeVideoHandling();
     }, 100);
-        } else {
+  } else {
     // Show access denied for non-privileged users
-            childDiv.innerHTML = `
-          <div class="statusBox denied">
-            ❌ Access Denied – You are not in the 'owner' or 'privileged' group.
-          </div>
-          <h1>Access Denied</h1>
-          <p>Please contact the site administrator if you believe this is an error.</p>
-        `;
-        }
+    childDiv.innerHTML = `
+      <div class="statusBox denied">
+        ❌ Access Denied – You are not in the 'owner' or 'privileged' group.
+      </div>
+      <h1>Access Denied</h1>
+      <p>Please contact the site administrator if you believe this is an error.</p>
+    `;
+  }
 }
 
 // Always run on page load
@@ -48,63 +60,36 @@ runGroupAccessLogic();
 // Also run when tokens become available
 window.addEventListener('authTokensAvailable', runGroupAccessLogic);
 
-// WebRTC and Robot Control Logic
-let peerConnection = null;
+// Video and Robot Control Logic
 let signalingSocket = null;
 let robotConnected = false;
+let videoCanvas = null;
+let videoContext = null;
 
-function initializeWebRTC() {
-  // STUN servers for NAT traversal
-  const configuration = {
-    iceServers: [
-      { urls: 'stun:stun.l.google.com:19302' },
-      { urls: 'stun:stun1.l.google.com:19302' }
-    ]
-  };
-  
-  peerConnection = new RTCPeerConnection(configuration);
-  
-  // Handle incoming video stream
-  peerConnection.ontrack = function(event) {
-    const video = document.getElementById('robotVideo');
-    if (video) {
-      video.srcObject = event.streams[0];
-      updateConnectionStatus('🟢 Connected', 'success');
-    }
-  };
-  
-  // Handle connection state changes
-  peerConnection.onconnectionstatechange = function() {
-    console.log('Connection state:', peerConnection.connectionState);
-    if (peerConnection.connectionState === 'connected') {
-      robotConnected = true;
-      updateConnectionStatus('🟢 Connected', 'success');
-    } else if (peerConnection.connectionState === 'disconnected') {
-      robotConnected = false;
-      updateConnectionStatus('🔴 Disconnected', 'denied');
-    }
-  };
-  
-  // Handle ICE candidates
-  peerConnection.onicecandidate = function(event) {
-    if (event.candidate && signalingSocket) {
-      signalingSocket.emit('ice-candidate', {
-        candidate: event.candidate
-      });
-    }
-  };
+function initializeVideoHandling() {
+  // Create canvas for video display
+  const video = document.getElementById('robotVideo');
+  if (video) {
+    videoCanvas = document.createElement('canvas');
+    videoCanvas.width = 640;
+    videoCanvas.height = 480;
+    videoContext = videoCanvas.getContext('2d');
+
+    // Replace video element with canvas
+    video.parentNode.replaceChild(videoCanvas, video);
+  }
 }
 
 function connectToRobot() {
   const connectButton = document.getElementById('connectButton');
   if (!connectButton) return;
-  
+
   if (robotConnected) {
     // Disconnect
     disconnectFromRobot();
     return;
   }
-  
+
   // Connect to signaling server
   connectToSignalingServer();
   connectButton.textContent = 'Connecting...';
@@ -114,7 +99,7 @@ function connectToRobot() {
 function connectToSignalingServer() {
   // Connect to your signaling server using socket.io
   const signalingServerUrl = 'https://api.matthewthomasbeck.com';
-  
+
   try {
     // Load socket.io client if not already loaded
     if (typeof io === 'undefined') {
@@ -127,7 +112,7 @@ function connectToSignalingServer() {
     } else {
       initializeSocketConnection(signalingServerUrl);
     }
-    
+
   } catch (error) {
     console.error('Failed to connect to signaling server:', error);
     updateConnectionStatus('🔴 Connection failed', 'denied');
@@ -139,23 +124,23 @@ function initializeSocketConnection(url) {
     transports: ['websocket'],
     upgrade: false
   });
-  
+
   signalingSocket.on('connect', function() {
     console.log('Connected to signaling server');
     updateConnectionStatus('🟡 Connecting to robot...', 'pending');
-    
+
     // Send authentication
     const idToken = window.sessionStorage.getItem('id_token');
     signalingSocket.emit('auth', {
       token: idToken
     });
   });
-  
+
   signalingSocket.on('auth-success', function() {
     console.log('Authentication successful');
     updateConnectionStatus('🟡 Waiting for robot...', 'pending');
   });
-  
+
   signalingSocket.on('auth-failed', function(data) {
     console.error('Authentication failed:', data.message);
     updateConnectionStatus('🔴 Authentication failed', 'denied');
@@ -165,50 +150,84 @@ function initializeSocketConnection(url) {
       connectButton.disabled = false;
     }
   });
-  
+
   signalingSocket.on('robot-available', function() {
     console.log('Robot is available');
     updateConnectionStatus('🟡 Robot available - starting video...', 'pending');
-    
-    // Create and send WebRTC offer
+    robotConnected = true;
+
+    // Create and send WebRTC offer to establish video connection
     createAndSendOffer();
   });
-  
+
   signalingSocket.on('robot-unavailable', function() {
     console.log('Robot is unavailable');
+    robotConnected = false;
     updateConnectionStatus('🔴 Robot unavailable', 'denied');
+    const connectButton = document.getElementById('connectButton');
+    if (connectButton) {
+      connectButton.textContent = 'Connect';
+      connectButton.disabled = false;
+    }
   });
-  
-  signalingSocket.on('test-video-ready', function(data) {
-    console.log('Test video ready:', data.message);
-    updateConnectionStatus('🟡 Test video ready', 'pending');
+
+  // Handle video frames from backend
+  signalingSocket.on('video-frame', function(data) {
+    if (videoContext && robotConnected && data.frame) {
+      try {
+        // Convert base64 frame to image and display on canvas
+        const img = new Image();
+        img.onload = function() {
+          try {
+            videoContext.drawImage(img, 0, 0, videoCanvas.width, videoCanvas.height);
+            updateStatus('Video streaming');
+          } catch (drawError) {
+            console.error('Error drawing image to canvas:', drawError);
+          }
+        };
+        img.onerror = function() {
+          console.error('Error loading video frame image');
+        };
+        img.src = 'data:image/jpeg;base64,' + data.frame;
+      } catch (error) {
+        console.error('Error displaying video frame:', error);
+      }
+    }
   });
-  
+
   signalingSocket.on('offer', function(data) {
     handleOffer(data.offer);
   });
-  
+
   signalingSocket.on('answer', function(data) {
     handleAnswer(data.answer);
   });
-  
+
   signalingSocket.on('ice-candidate', function(data) {
-    if (peerConnection && data.candidate) {
-      peerConnection.addIceCandidate(new RTCIceCandidate(data.candidate));
-    }
+    // Handle ICE candidates if needed for WebRTC
   });
-  
+
   signalingSocket.on('command-ack', function(data) {
     console.log('Command acknowledged:', data);
+    if (data.status === 'sent') {
+      updateStatus(`Command sent: ${data.command}`);
+    } else if (data.status === 'error') {
+      updateStatus(`Command error: ${data.error}`);
+    } else if (data.status === 'robot_disconnected') {
+      updateStatus('Robot disconnected');
+      robotConnected = false;
+      updateConnectionStatus('🔴 Robot disconnected', 'denied');
+    }
   });
-  
+
   signalingSocket.on('error', function(data) {
     console.error('Signaling error:', data.message);
     updateConnectionStatus('🔴 Error: ' + data.message, 'denied');
   });
-  
+
   signalingSocket.on('disconnect', function() {
     console.log('Disconnected from signaling server');
+    robotConnected = false;
     updateConnectionStatus('🔴 Disconnected', 'denied');
     const connectButton = document.getElementById('connectButton');
     if (connectButton) {
@@ -220,22 +239,19 @@ function initializeSocketConnection(url) {
 
 async function createAndSendOffer() {
   try {
-    // Create a simple offer for testing
-    const offer = await peerConnection.createOffer({
-      offerToReceiveVideo: true,
-      offerToReceiveAudio: false
-    });
-    
-    await peerConnection.setLocalDescription(offer);
-    
+    // Send a simple offer to establish video connection
     if (signalingSocket) {
       signalingSocket.emit('offer', {
-        offer: offer
+        offer: {
+          type: 'offer',
+          sdp: 'v=0\r\no=- 0 2 IN IP4 127.0.0.1\r\ns=-\r\nt=0 0\r\na=group:BUNDLE 0\r\na=msid-semantic: WMS\r\nm=video 9 UDP/TLS/RTP/SAVPF 96\r\nc=IN IP4 0.0.0.0\r\na=mid:0\r\na=recvonly\r\na=rtpmap:96 H264/90000\r\n'
+        }
       });
     }
-    
-    console.log('WebRTC offer sent');
-    
+
+    console.log('Video connection offer sent');
+    updateConnectionStatus('🟢 Connected - Video streaming', 'success');
+
   } catch (error) {
     console.error('Error creating offer:', error);
     updateConnectionStatus('🔴 Failed to create offer', 'denied');
@@ -244,15 +260,8 @@ async function createAndSendOffer() {
 
 async function handleOffer(offer) {
   try {
-    await peerConnection.setRemoteDescription(new RTCSessionDescription(offer));
-    const answer = await peerConnection.createAnswer();
-    await peerConnection.setLocalDescription(answer);
-    
-    if (signalingSocket) {
-      signalingSocket.emit('answer', {
-        answer: answer
-      });
-    }
+    // Handle incoming offer if needed
+    console.log('Offer received');
   } catch (error) {
     console.error('Error handling offer:', error);
   }
@@ -260,7 +269,6 @@ async function handleOffer(offer) {
 
 async function handleAnswer(answer) {
   try {
-    await peerConnection.setRemoteDescription(new RTCSessionDescription(answer));
     console.log('WebRTC answer processed');
   } catch (error) {
     console.error('Error handling answer:', error);
@@ -272,26 +280,22 @@ function disconnectFromRobot() {
     signalingSocket.disconnect();
     signalingSocket = null;
   }
-  
-  if (peerConnection) {
-    peerConnection.close();
-    peerConnection = null;
-  }
-  
+
   robotConnected = false;
-  
-  const video = document.getElementById('robotVideo');
-  if (video) {
-    video.srcObject = null;
+
+  // Clear video canvas
+  if (videoContext) {
+    videoContext.clearRect(0, 0, videoCanvas.width, videoCanvas.height);
   }
-  
+
   const connectButton = document.getElementById('connectButton');
   if (connectButton) {
     connectButton.textContent = 'Connect';
     connectButton.disabled = false;
   }
-  
+
   updateConnectionStatus('🔴 Disconnected', 'denied');
+  updateStatus('Disconnected from robot');
 }
 
 function updateConnectionStatus(message, type) {
@@ -314,31 +318,34 @@ function sendRobotCommand(command) {
 // Keyboard event listeners for robot control
 document.addEventListener('keydown', function(event) {
   if (!robotConnected) return;
-  
+
   let command = null;
-  
+
   switch(event.key.toLowerCase()) {
     case 'w':
     case 'arrowup':
-      command = 'forward';
+      command = 'w';
       break;
     case 's':
     case 'arrowdown':
-      command = 'backward';
+      command = 's';
       break;
     case 'a':
     case 'arrowleft':
-      command = 'left';
+      command = 'a';
       break;
     case 'd':
     case 'arrowright':
-      command = 'right';
+      command = 'd';
       break;
     case ' ':
-      command = 'stop';
+      command = 'n';
+      break;
+    case 'q':
+      command = 'q';
       break;
   }
-  
+
   if (command) {
     event.preventDefault();
     sendRobotCommand(command);
@@ -348,11 +355,11 @@ document.addEventListener('keydown', function(event) {
 
 document.addEventListener('keyup', function(event) {
   if (!robotConnected) return;
-  
+
   const key = event.key.toLowerCase();
   if (['w', 's', 'a', 'd', 'arrowup', 'arrowdown', 'arrowleft', 'arrowright'].includes(key)) {
-    sendRobotCommand('stop');
-    updateStatus('Stopped');
+    sendRobotCommand('n'); // Send neutral command when key is released
+    updateStatus('Neutral position');
   }
 });
 

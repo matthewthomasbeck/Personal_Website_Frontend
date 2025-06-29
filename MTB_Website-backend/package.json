@@ -16,9 +16,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.6.0",
     "express": "^5.1.0",
-    "socket.io": "^4.8.1",
-    "wrtc": "^0.4.7",
-    "canvas": "^2.11.2"
+    "socket.io": "^4.8.1"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"

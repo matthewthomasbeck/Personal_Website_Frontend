@@ -84,78 +84,128 @@
 
 /* Minimal Robot Controller Styles */
 #videoContainer {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #000;
 }
 
 #robotVideo {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  background: #000;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background: #000;
+}
+
+/* Canvas styling for video display */
+#videoContainer canvas {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border: 2px solid #333;
+    border-radius: 8px;
+    background: #000;
 }
 
 #connectionStatus {
-  position: absolute;
-  top: 80px;
-  right: 20px;
-  background: rgba(0, 0, 0, 0.7);
-  color: white;
-  padding: 8px 12px;
-  border-radius: 4px;
-  font-size: 14px;
-  z-index: 10;
+    position: absolute;
+    top: 80px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 10px 15px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: bold;
+    z-index: 10;
+    min-width: 150px;
+    text-align: center;
 }
 
 #connectButton {
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
-  background: #333;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 4px;
-  cursor: pointer;
-  z-index: 10;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background: #2ecc40;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    cursor: pointer;
+    z-index: 10;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
 }
 
 #connectButton:hover {
-  background: #555;
+    background: #27ae60;
 }
 
 #connectButton:disabled {
-  background: #666;
-  cursor: not-allowed;
+    background: #666;
+    cursor: not-allowed;
 }
 
 #status {
-  background: rgba(0, 0, 0, 0.05);
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  border-radius: 6px;
-  padding: 10px 15px;
-  margin: 15px 0;
-  font-family: 'Courier New', monospace;
-  font-weight: bold;
-  color: #333;
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    padding: 10px 15px;
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    font-size: 14px;
+    z-index: 10;
+    min-width: 200px;
+}
+
+/* Control instructions overlay */
+.controlInstructions {
+    position: absolute;
+    top: 80px;
+    left: 20px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 15px;
+    border-radius: 6px;
+    font-size: 12px;
+    z-index: 10;
+    max-width: 250px;
+}
+
+.controlInstructions h3 {
+    margin: 0 0 10px 0;
+    color: #2ecc40;
+}
+
+.controlInstructions ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.controlInstructions li {
+    margin: 5px 0;
 }
 
 /* Loading animation for video */
 #robotVideo:not([srcObject]) {
-  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-  background-size: 200% 100%;
-  animation: loading 1.5s infinite;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
 }
 
 @keyframes loading {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
 }

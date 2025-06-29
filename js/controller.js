@@ -71,8 +71,9 @@ function initializeVideoHandling() {
   const video = document.getElementById('robotVideo');
   if (video) {
     videoCanvas = document.createElement('canvas');
-    videoCanvas.width = 640;
-    videoCanvas.height = 480;
+    // Make canvas larger to better fit the screen
+    videoCanvas.width = 1280;  // Increased from 640
+    videoCanvas.height = 720;  // Increased from 480
     videoContext = videoCanvas.getContext('2d');
 
     // Replace video element with canvas

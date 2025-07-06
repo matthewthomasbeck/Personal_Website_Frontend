@@ -168,21 +168,17 @@ function initializeSocketConnection(url) {
   });
 
   signalingSocket.on('robot-available', function() {
-    console.log('Robot is available');
-
-    // If not connected, update the connect button so the user can connect
+    console.log('Robot is available (event handler)');
     if (!robotConnected) {
       updateConnectionStatus('🟡 Robot available - click Connect to control', 'pending');
       const connectButton = document.getElementById('connectButton');
       if (connectButton) {
         connectButton.textContent = 'Connect';
         connectButton.disabled = false;
+        console.log('Connect button enabled');
       }
-      // Do not auto-connect; user must click Connect
       return;
     }
-
-    // If already connected, show leave button
     const leaveButton = document.getElementById('leaveButton');
     if (leaveButton) {
       leaveButton.style.display = 'inline-block';
@@ -190,16 +186,16 @@ function initializeSocketConnection(url) {
   });
 
   signalingSocket.on('robot-unavailable', function() {
-    console.log('Robot is unavailable');
+    console.log('Robot is unavailable (event handler)');
     robotConnected = false;
     isActiveController = false;
     updateConnectionStatus('🔴 Robot unavailable', 'denied');
-    
     const connectButton = document.getElementById('connectButton');
     const leaveButton = document.getElementById('leaveButton');
     if (connectButton) {
       connectButton.textContent = 'Connect';
       connectButton.disabled = false;
+      console.log('Connect button enabled (unavailable)');
     }
     if (leaveButton) {
       leaveButton.style.display = 'none';

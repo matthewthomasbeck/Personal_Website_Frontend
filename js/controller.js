@@ -169,7 +169,7 @@ function initializeSocketConnection(url) {
 
   signalingSocket.on('robot-available', function() {
     console.log('Robot is available');
-    
+
     // If we're not already connected, automatically connect
     if (!robotConnected) {
       updateConnectionStatus('🟡 Robot available - starting video...', 'pending');
@@ -178,7 +178,7 @@ function initializeSocketConnection(url) {
 
       // Create and send WebRTC offer to establish video connection
       createAndSendOffer();
-      
+
       // Show leave button and update connect button
       const connectButton = document.getElementById('connectButton');
       const leaveButton = document.getElementById('leaveButton');

@@ -24,6 +24,7 @@ function runGroupAccessLogic() {
         </video>
         <div id="connectionStatus">🔴 Disconnected</div>
         <button id="connectButton" onclick="connectToRobot()">Connect</button>
+        <button id="leaveButton" onclick="leaveRobot()" style="display: none;">Leave Robot</button>
         <div id="status">Ready to connect</div>
         <div class="controlInstructions">
           <h3>Robot Controls</h3>
@@ -65,6 +66,7 @@ let signalingSocket = null;
 let robotConnected = false;
 let videoCanvas = null;
 let videoContext = null;
+let isActiveController = false;
 
 function initializeVideoHandling() {
   // Create canvas for video display
@@ -152,29 +154,64 @@ function initializeSocketConnection(url) {
     }
   });
 
+  // Handle robot-in-use message
+  signalingSocket.on('robot-in-use', function(data) {
+    console.log('Robot is currently in use:', data.message);
+    updateConnectionStatus('🔴 Robot is currently in use by another user', 'denied');
+    updateStatus('Waiting for robot to become available...');
+    
+    const connectButton = document.getElementById('connectButton');
+    if (connectButton) {
+      connectButton.textContent = 'Waiting...';
+      connectButton.disabled = true;
+    }
+  });
+
   signalingSocket.on('robot-available', function() {
     console.log('Robot is available');
-    updateConnectionStatus('🟡 Robot available - starting video...', 'pending');
-    robotConnected = true;
+    
+    // If we're not already connected, automatically connect
+    if (!robotConnected) {
+      updateConnectionStatus('🟡 Robot available - starting video...', 'pending');
+      robotConnected = true;
+      isActiveController = true;
 
-    // Create and send WebRTC offer to establish video connection
-    createAndSendOffer();
+      // Create and send WebRTC offer to establish video connection
+      createAndSendOffer();
+      
+      // Show leave button and update connect button
+      const connectButton = document.getElementById('connectButton');
+      const leaveButton = document.getElementById('leaveButton');
+      if (connectButton) {
+        connectButton.textContent = 'Disconnect';
+        connectButton.disabled = false;
+      }
+      if (leaveButton) {
+        leaveButton.style.display = 'inline-block';
+      }
+    }
   });
 
   signalingSocket.on('robot-unavailable', function() {
     console.log('Robot is unavailable');
     robotConnected = false;
+    isActiveController = false;
     updateConnectionStatus('🔴 Robot unavailable', 'denied');
+    
     const connectButton = document.getElementById('connectButton');
+    const leaveButton = document.getElementById('leaveButton');
     if (connectButton) {
       connectButton.textContent = 'Connect';
       connectButton.disabled = false;
+    }
+    if (leaveButton) {
+      leaveButton.style.display = 'none';
     }
   });
 
   // Handle video frames from backend
   signalingSocket.on('video-frame', function(data) {
-    if (videoContext && robotConnected && data.frame) {
+    if (videoContext && robotConnected && isActiveController && data.frame) {
       try {
         // Convert base64 frame to image and display on canvas
         const img = new Image();
@@ -214,9 +251,17 @@ function initializeSocketConnection(url) {
       updateStatus(`Command sent: ${data.command}`);
     } else if (data.status === 'error') {
       updateStatus(`Command error: ${data.error}`);
+    } else if (data.status === 'unauthorized') {
+      updateStatus(`Unauthorized: ${data.message}`);
+      // If we're not the active controller, update our state
+      if (!isActiveController) {
+        robotConnected = false;
+        updateConnectionStatus('🔴 Not the active controller', 'denied');
+      }
     } else if (data.status === 'robot_disconnected') {
       updateStatus('Robot disconnected');
       robotConnected = false;
+      isActiveController = false;
       updateConnectionStatus('🔴 Robot disconnected', 'denied');
     }
   });
@@ -229,11 +274,17 @@ function initializeSocketConnection(url) {
   signalingSocket.on('disconnect', function() {
     console.log('Disconnected from signaling server');
     robotConnected = false;
+    isActiveController = false;
     updateConnectionStatus('🔴 Disconnected', 'denied');
+    
     const connectButton = document.getElementById('connectButton');
+    const leaveButton = document.getElementById('leaveButton');
     if (connectButton) {
       connectButton.textContent = 'Connect';
       connectButton.disabled = false;
+    }
+    if (leaveButton) {
+      leaveButton.style.display = 'none';
     }
   });
 }
@@ -276,6 +327,13 @@ async function handleAnswer(answer) {
   }
 }
 
+function leaveRobot() {
+  if (signalingSocket && isActiveController) {
+    signalingSocket.emit('leave-robot');
+  }
+  disconnectFromRobot();
+}
+
 function disconnectFromRobot() {
   if (signalingSocket) {
     signalingSocket.disconnect();
@@ -283,6 +341,7 @@ function disconnectFromRobot() {
   }
 
   robotConnected = false;
+  isActiveController = false;
 
   // Clear video canvas
   if (videoContext) {
@@ -290,9 +349,13 @@ function disconnectFromRobot() {
   }
 
   const connectButton = document.getElementById('connectButton');
+  const leaveButton = document.getElementById('leaveButton');
   if (connectButton) {
     connectButton.textContent = 'Connect';
     connectButton.disabled = false;
+  }
+  if (leaveButton) {
+    leaveButton.style.display = 'none';
   }
 
   updateConnectionStatus('🔴 Disconnected', 'denied');
@@ -309,7 +372,7 @@ function updateConnectionStatus(message, type) {
 
 // Robot Control Functions
 function sendRobotCommand(command) {
-  if (signalingSocket && robotConnected) {
+  if (signalingSocket && robotConnected && isActiveController) {
     signalingSocket.emit('robot-command', {
       command: command
     });
@@ -318,7 +381,7 @@ function sendRobotCommand(command) {
 
 // Keyboard event listeners for robot control
 document.addEventListener('keydown', function(event) {
-  if (!robotConnected) return;
+  if (!robotConnected || !isActiveController) return;
 
   let command = null;
 
@@ -355,7 +418,7 @@ document.addEventListener('keydown', function(event) {
 });
 
 document.addEventListener('keyup', function(event) {
-  if (!robotConnected) return;
+  if (!robotConnected || !isActiveController) return;
 
   const key = event.key.toLowerCase();
   if (['w', 's', 'a', 'd', 'arrowup', 'arrowdown', 'arrowleft', 'arrowright'].includes(key)) {

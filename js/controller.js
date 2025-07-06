@@ -170,25 +170,22 @@ function initializeSocketConnection(url) {
   signalingSocket.on('robot-available', function() {
     console.log('Robot is available');
 
-    // If we're not already connected, automatically connect
+    // If not connected, update the connect button so the user can connect
     if (!robotConnected) {
-      updateConnectionStatus('🟡 Robot available - starting video...', 'pending');
-      robotConnected = true;
-      isActiveController = true;
-
-      // Create and send WebRTC offer to establish video connection
-      createAndSendOffer();
-
-      // Show leave button and update connect button
+      updateConnectionStatus('🟡 Robot available - click Connect to control', 'pending');
       const connectButton = document.getElementById('connectButton');
-      const leaveButton = document.getElementById('leaveButton');
       if (connectButton) {
-        connectButton.textContent = 'Disconnect';
+        connectButton.textContent = 'Connect';
         connectButton.disabled = false;
       }
-      if (leaveButton) {
-        leaveButton.style.display = 'inline-block';
-      }
+      // Do not auto-connect; user must click Connect
+      return;
+    }
+
+    // If already connected, show leave button
+    const leaveButton = document.getElementById('leaveButton');
+    if (leaveButton) {
+      leaveButton.style.display = 'inline-block';
     }
   });
 

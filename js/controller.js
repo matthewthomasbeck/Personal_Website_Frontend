@@ -152,30 +152,10 @@ function initializeSocketConnection(url) {
     }
   });
 
-  signalingSocket.on('robot-in-use', function(data) {
-    console.log('Robot is currently in use by another user');
-    robotConnected = false;
-    updateConnectionStatus('🔴 Robot is currently in use by another user', 'denied');
-    updateStatus('Please wait for the current user to finish controlling the robot');
-    
-    const connectButton = document.getElementById('connectButton');
-    if (connectButton) {
-      connectButton.textContent = 'Waiting...';
-      connectButton.disabled = true;
-    }
-  });
-
   signalingSocket.on('robot-available', function() {
     console.log('Robot is available');
     updateConnectionStatus('🟡 Robot available - starting video...', 'pending');
     robotConnected = true;
-
-    // Enable the connect button if it was disabled
-    const connectButton = document.getElementById('connectButton');
-    if (connectButton && connectButton.disabled) {
-      connectButton.textContent = 'Connect';
-      connectButton.disabled = false;
-    }
 
     // Create and send WebRTC offer to establish video connection
     createAndSendOffer();
@@ -238,10 +218,6 @@ function initializeSocketConnection(url) {
       updateStatus('Robot disconnected');
       robotConnected = false;
       updateConnectionStatus('🔴 Robot disconnected', 'denied');
-    } else if (data.status === 'not_authorized') {
-      updateStatus('You are not the active controller');
-      robotConnected = false;
-      updateConnectionStatus('🔴 Not authorized to control robot', 'denied');
     }
   });
 

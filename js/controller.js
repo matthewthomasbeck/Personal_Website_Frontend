@@ -209,41 +209,29 @@ function initializeSocketConnection(url) {
     }
   });
 
-  // --- Real-time video frame rendering logic ---
-  let latestFrameData = null;
-  let frameRendering = false;
-
+  // Handle video frames from backend
   signalingSocket.on('video-frame', function(data) {
-    // Always keep only the latest frame
-    latestFrameData = data.frame;
-    tryRenderFrame();
-  });
-
-  function tryRenderFrame() {
-    if (frameRendering || !latestFrameData) return;
-    frameRendering = true;
-
-    const img = new Image();
-    img.onload = function() {
+    if (videoContext && robotConnected && isActiveController && data.frame) {
       try {
-        videoContext.drawImage(img, 0, 0, videoCanvas.width, videoCanvas.height);
-        updateStatus('Video streaming');
-      } catch (drawError) {
-        console.error('Error drawing image to canvas:', drawError);
+        // Convert base64 frame to image and display on canvas
+        const img = new Image();
+        img.onload = function() {
+          try {
+            videoContext.drawImage(img, 0, 0, videoCanvas.width, videoCanvas.height);
+            updateStatus('Video streaming');
+          } catch (drawError) {
+            console.error('Error drawing image to canvas:', drawError);
+          }
+        };
+        img.onerror = function() {
+          console.error('Error loading video frame image');
+        };
+        img.src = 'data:image/jpeg;base64,' + data.frame;
+      } catch (error) {
+        console.error('Error displaying video frame:', error);
       }
-      frameRendering = false;
-      // If a newer frame arrived while we were rendering, render it now
-      if (latestFrameData) {
-        latestFrameData = null; // Clear after rendering
-        tryRenderFrame();
-      }
-    };
-    img.onerror = function() {
-      console.error('Error loading video frame image');
-      frameRendering = false;
-    };
-    img.src = 'data:image/jpeg;base64,' + latestFrameData;
-  }
+    }
+  });
 
   signalingSocket.on('offer', function(data) {
     handleOffer(data.offer);

@@ -9,10 +9,14 @@ const childDiv = document.querySelector('.childDiv');
 function runGroupAccessLogic() {
   const idToken = window.sessionStorage.getItem('id_token');
   if (!idToken) {
-    // Not logged in: show only the first red box, no extra messages
+    // Not logged in: show video container full screen, with overlayed message
     childDiv.innerHTML = `
-      <div class="statusBox denied">
-        ❌ Access Denied – You must be logged in.
+      <div id="videoContainer">
+        <div id="loginOverlay" style="position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; display: flex; align-items: center; justify-content: center; z-index: 10;">
+          <div class="statusBox denied" style="font-size: 1.2em;">
+            ❌ Access Denied – You must be logged in.
+          </div>
+        </div>
       </div>
     `;
     return;

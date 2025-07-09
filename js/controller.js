@@ -43,12 +43,12 @@ function runGroupAccessLogic() {
           <!-- Mobile 8-Button Controls -->
           <div id="mobileControls8">
             <div class="mobileControlsLeft">
-              <div class="controlRow">
+              <div class="controlRow controlRowUpDown">
                 <button class="controlBtn arrowBtn" id="lookUpBtn" data-command="arrowup">
                   <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-north.png" alt="Look Up">
                 </button>
               </div>
-              <div class="controlRow">
+              <div class="controlRow controlRowLRD">
                 <button class="controlBtn arrowBtn" id="lookLeftBtn" data-command="arrowleft">
                   <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-west.png" alt="Look Left">
                 </button>
@@ -61,12 +61,12 @@ function runGroupAccessLogic() {
               </div>
             </div>
             <div class="mobileControlsRight">
-              <div class="controlRow">
+              <div class="controlRow controlRowUpDown">
                 <button class="controlBtn wasdBtn" id="moveUpBtn" data-command="w">
                   <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-north.png" alt="Move Forward">
                 </button>
               </div>
-              <div class="controlRow">
+              <div class="controlRow controlRowLRD">
                 <button class="controlBtn wasdBtn" id="moveLeftBtn" data-command="a">
                   <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-west.png" alt="Move Left">
                 </button>

@@ -520,19 +520,32 @@
     align-items: flex-end;
     margin-right: 2vw;
   }
-  .mobileControlsLeft .controlRow, .mobileControlsRight .controlRow {
+  .controlRowUpDown {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 0;
+    width: 100%;
+    padding-bottom: 2px;
+  }
+  .controlRowLRD {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    gap: 0.5em;
+    width: 100%;
+    margin-top: 0;
     margin-bottom: 10px;
-    pointer-events: auto;
   }
-  .mobileControlsLeft .controlRow {
-    margin-bottom: 6px;
+  .mobileControlsLeft .controlRowUpDown,
+  .mobileControlsRight .controlRowUpDown {
+    margin-bottom: 0.2em;
+    margin-top: 0.5em;
   }
-  .mobileControlsRight .controlRow {
-    margin-bottom: 6px;
+  .mobileControlsLeft .controlRowLRD,
+  .mobileControlsRight .controlRowLRD {
+    margin-bottom: 1.2em;
   }
   .controlBtn {
     background: transparent !important;
@@ -613,6 +626,9 @@
   .mobileControlsLeft, .mobileControlsRight {
     width: 48vw;
   }
+  .controlRowLRD {
+    gap: 0.2em;
+  }
 }
 
 @media only screen and (max-width: 1024px) {
@@ -621,6 +637,18 @@
     backdrop-filter: none;
   }
   #navBar * {
+    opacity: 1 !important;
+  }
+  #navBarOptionsBox, #projectsBarOptionsBox {
+    background-color: rgba(52,58,64,0) !important;
+    box-shadow: none !important;
+  }
+  #navBarOptionsButton {
+    background-color: rgba(52,58,64,0) !important;
+    box-shadow: none !important;
+  }
+  #navBarOptionsButton .navBarOptionsLines {
+    background-color: white !important;
     opacity: 1 !important;
   }
 }

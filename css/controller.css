@@ -224,7 +224,7 @@
 
     /***** hide mobile controls on desktop *****/
 
-    #mobileControls {
+    #mobileControls, #mobileControlsLeft, #mobileControlsRight {
         display: none;
     }
 
@@ -245,76 +245,7 @@
         display: none;
     }
 
-    /***** mobile touch controls *****/
-
-    #mobileControls {
-        position: absolute;
-        bottom: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        z-index: 10;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 10px;
-    }
-
-    .controlRow {
-        display: flex;
-        gap: 15px;
-        align-items: center;
-    }
-
-    .controlBtn {
-        width: 60px;
-        height: 60px;
-        border: 2px solid rgba(255, 255, 255, 0.3);
-        border-radius: 50%;
-        background: rgba(0, 0, 0, 0.7);
-        color: white;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        user-select: none;
-        -webkit-user-select: none;
-        -webkit-touch-callout: none;
-    }
-
-    .controlBtn:hover {
-        background: rgba(46, 204, 64, 0.8);
-        border-color: #2ecc40;
-        transform: scale(1.1);
-    }
-
-    .controlBtn:active {
-        background: rgba(46, 204, 64, 1);
-        transform: scale(0.95);
-    }
-
-    .controlBtn img {
-        width: 30px;
-        height: 30px;
-        filter: brightness(0) invert(1);
-    }
-
-    .controlBtn span {
-        font-size: 12px;
-        font-weight: bold;
-        font-family: 'Courier New', monospace;
-    }
-
-    .exitBtn {
-        background: rgba(255, 65, 54, 0.7) !important;
-        border-color: #ff4136 !important;
-    }
-
-    .exitBtn:hover {
-        background: rgba(255, 65, 54, 0.9) !important;
-    }
-
-    /***** adjust video container for mobile *****/
+    /***** force horizontal orientation *****/
 
     #videoContainer {
         position: fixed;
@@ -334,6 +265,79 @@
         width: 100vw;
         height: 100vh;
         object-fit: cover;
+    }
+
+    /***** mobile touch controls - left side *****/
+
+    #mobileControlsLeft {
+        position: absolute;
+        bottom: 80px;
+        left: 20px;
+        z-index: 10;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    /***** mobile touch controls - right side *****/
+
+    #mobileControlsRight {
+        position: absolute;
+        bottom: 80px;
+        right: 20px;
+        z-index: 10;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .controlRow {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+    }
+
+    .controlBtn {
+        width: 50px;
+        height: 50px;
+        border: none;
+        background: transparent;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        user-select: none;
+        -webkit-user-select: none;
+        -webkit-touch-callout: none;
+        padding: 0;
+    }
+
+    .controlBtn:hover {
+        transform: scale(1.1);
+    }
+
+    .controlBtn:active {
+        transform: scale(0.95);
+    }
+
+    .controlBtn img {
+        width: 40px;
+        height: 40px;
+        filter: brightness(0) invert(1);
+        opacity: 0.8;
+        transition: opacity 0.2s ease;
+    }
+
+    .controlBtn:hover img {
+        opacity: 1;
+    }
+
+    .controlBtn:active img {
+        opacity: 0.6;
     }
 
     /***** adjust status elements for mobile *****/
@@ -360,6 +364,14 @@
         padding: 8px 12px;
         min-width: 150px;
     }
+
+    /***** make nav bar translucent for mobile *****/
+
+    #navBar {
+        background-color: rgba(52, 58, 64, 0.8);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+    }
 }
 
 /********** SMALL DEVICES **********/
@@ -372,76 +384,7 @@
         display: none;
     }
 
-    /***** mobile touch controls for smartphone *****/
-
-    #mobileControls {
-        position: absolute;
-        bottom: 15px;
-        left: 50%;
-        transform: translateX(-50%);
-        z-index: 10;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 8px;
-    }
-
-    .controlRow {
-        display: flex;
-        gap: 12px;
-        align-items: center;
-    }
-
-    .controlBtn {
-        width: 50px;
-        height: 50px;
-        border: 2px solid rgba(255, 255, 255, 0.3);
-        border-radius: 50%;
-        background: rgba(0, 0, 0, 0.7);
-        color: white;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        user-select: none;
-        -webkit-user-select: none;
-        -webkit-touch-callout: none;
-    }
-
-    .controlBtn:hover {
-        background: rgba(46, 204, 64, 0.8);
-        border-color: #2ecc40;
-        transform: scale(1.1);
-    }
-
-    .controlBtn:active {
-        background: rgba(46, 204, 64, 1);
-        transform: scale(0.95);
-    }
-
-    .controlBtn img {
-        width: 25px;
-        height: 25px;
-        filter: brightness(0) invert(1);
-    }
-
-    .controlBtn span {
-        font-size: 10px;
-        font-weight: bold;
-        font-family: 'Courier New', monospace;
-    }
-
-    .exitBtn {
-        background: rgba(255, 65, 54, 0.7) !important;
-        border-color: #ff4136 !important;
-    }
-
-    .exitBtn:hover {
-        background: rgba(255, 65, 54, 0.9) !important;
-    }
-
-    /***** adjust video container for smartphone *****/
+    /***** force horizontal orientation *****/
 
     #videoContainer {
         position: fixed;
@@ -461,6 +404,79 @@
         width: 100vw;
         height: 100vh;
         object-fit: cover;
+    }
+
+    /***** mobile touch controls - left side *****/
+
+    #mobileControlsLeft {
+        position: absolute;
+        bottom: 70px;
+        left: 15px;
+        z-index: 10;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+    }
+
+    /***** mobile touch controls - right side *****/
+
+    #mobileControlsRight {
+        position: absolute;
+        bottom: 70px;
+        right: 15px;
+        z-index: 10;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .controlRow {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+    }
+
+    .controlBtn {
+        width: 45px;
+        height: 45px;
+        border: none;
+        background: transparent;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        user-select: none;
+        -webkit-user-select: none;
+        -webkit-touch-callout: none;
+        padding: 0;
+    }
+
+    .controlBtn:hover {
+        transform: scale(1.1);
+    }
+
+    .controlBtn:active {
+        transform: scale(0.95);
+    }
+
+    .controlBtn img {
+        width: 35px;
+        height: 35px;
+        filter: brightness(0) invert(1);
+        opacity: 0.8;
+        transition: opacity 0.2s ease;
+    }
+
+    .controlBtn:hover img {
+        opacity: 1;
+    }
+
+    .controlBtn:active img {
+        opacity: 0.6;
     }
 
     /***** adjust status elements for smartphone *****/
@@ -486,5 +502,13 @@
         font-size: 11px;
         padding: 6px 10px;
         min-width: 120px;
+    }
+
+    /***** make nav bar translucent for mobile *****/
+
+    #navBar {
+        background-color: rgba(52, 58, 64, 0.8);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
     }
 }

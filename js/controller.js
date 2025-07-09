@@ -31,8 +31,30 @@ function runGroupAccessLogic() {
           <button id="leaveButton" onclick="leaveRobot()" style="display: none;">Leave Robot</button>
           <div id="status">Ready to connect</div>
           
-          <!-- Mobile Touch Controls -->
-          <div id="mobileControls">
+          <!-- Mobile Touch Controls - Left Side (Arrow Keys) -->
+          <div id="mobileControlsLeft">
+            <div class="controlRow">
+              <button class="controlBtn" id="lookUpBtn" onmousedown="sendRobotCommand('arrowup')" onmouseup="sendRobotCommand('n')" ontouchstart="sendRobotCommand('arrowup')" ontouchend="sendRobotCommand('n')">
+                <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-north.png" alt="Look Up">
+              </button>
+            </div>
+            <div class="controlRow">
+              <button class="controlBtn" id="rotateLeftBtn" onmousedown="sendRobotCommand('arrowleft')" onmouseup="sendRobotCommand('n')" ontouchstart="sendRobotCommand('arrowleft')" ontouchend="sendRobotCommand('n')">
+                <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-west.png" alt="Rotate Left">
+              </button>
+              <button class="controlBtn" id="rotateRightBtn" onmousedown="sendRobotCommand('arrowright')" onmouseup="sendRobotCommand('n')" ontouchstart="sendRobotCommand('arrowright')" ontouchend="sendRobotCommand('n')">
+                <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-east.png" alt="Rotate Right">
+              </button>
+            </div>
+            <div class="controlRow">
+              <button class="controlBtn" id="lookDownBtn" onmousedown="sendRobotCommand('arrowdown')" onmouseup="sendRobotCommand('n')" ontouchstart="sendRobotCommand('arrowdown')" ontouchend="sendRobotCommand('n')">
+                <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-south.png" alt="Look Down">
+              </button>
+            </div>
+          </div>
+
+          <!-- Mobile Touch Controls - Right Side (WASD) -->
+          <div id="mobileControlsRight">
             <div class="controlRow">
               <button class="controlBtn" id="forwardBtn" onmousedown="sendRobotCommand('w')" onmouseup="sendRobotCommand('n')" ontouchstart="sendRobotCommand('w')" ontouchend="sendRobotCommand('n')">
                 <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-north.png" alt="Forward">
@@ -42,9 +64,6 @@ function runGroupAccessLogic() {
               <button class="controlBtn" id="leftBtn" onmousedown="sendRobotCommand('a')" onmouseup="sendRobotCommand('n')" ontouchstart="sendRobotCommand('a')" ontouchend="sendRobotCommand('n')">
                 <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-west.png" alt="Left">
               </button>
-              <button class="controlBtn" id="neutralBtn" onclick="sendRobotCommand('n')">
-                <span>STOP</span>
-              </button>
               <button class="controlBtn" id="rightBtn" onmousedown="sendRobotCommand('d')" onmouseup="sendRobotCommand('n')" ontouchstart="sendRobotCommand('d')" ontouchend="sendRobotCommand('n')">
                 <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-east.png" alt="Right">
               </button>
@@ -52,11 +71,6 @@ function runGroupAccessLogic() {
             <div class="controlRow">
               <button class="controlBtn" id="backwardBtn" onmousedown="sendRobotCommand('s')" onmouseup="sendRobotCommand('n')" ontouchstart="sendRobotCommand('s')" ontouchend="sendRobotCommand('n')">
                 <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-south.png" alt="Backward">
-              </button>
-            </div>
-            <div class="controlRow">
-              <button class="controlBtn exitBtn" id="exitBtn" onclick="sendRobotCommand('q')">
-                <span>EXIT</span>
               </button>
             </div>
           </div>

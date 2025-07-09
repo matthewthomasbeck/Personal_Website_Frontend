@@ -596,12 +596,12 @@
     align-items: flex-end;
     margin-right: 0;
   }
+  /* Transparent navBarOptions and projectsBarOptions, but not their children */
   .navBarOptions, .projectsBarOptions {
-    background-color: rgba(52,58,64,0.7) !important;
-    box-shadow: none !important;
+    opacity: 0 !important;
+    background: transparent !important;
   }
-  .navBarOptions *,
-  .projectsBarOptions * {
+  .navBarOptions > *, .projectsBarOptions > * {
     opacity: 1 !important;
   }
   /* Landscape overlay */

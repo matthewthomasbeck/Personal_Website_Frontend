@@ -138,28 +138,28 @@ function runGroupAccessLogic() {
       }, 300);
     } else {
       // Desktop version with keyboard controls
-      childDiv.innerHTML = `
-        <div id="videoContainer">
-          <video id="robotVideo" autoplay playsinline muted>
-            <p>Video stream loading...</p>
-          </video>
-          <div id="connectionStatus">🔴 Disconnected</div>
-          <button id="connectButton" onclick="connectToRobot()">Connect</button>
-          <button id="leaveButton" onclick="leaveRobot()" style="display: none;">Leave Robot</button>
-          <div id="status">Ready to connect</div>
-          <div class="controlInstructions">
-            <h3>Robot Controls</h3>
-            <ul>
-              <li><strong>W/↑</strong> - Move Forward</li>
-              <li><strong>S/↓</strong> - Move Backward</li>
-              <li><strong>A/←</strong> - Turn Left</li>
-              <li><strong>D/→</strong> - Turn Right</li>
-              <li><strong>Space</strong> - Neutral Position</li>
-              <li><strong>Q</strong> - Exit</li>
-            </ul>
-          </div>
+    childDiv.innerHTML = `
+      <div id="videoContainer">
+        <video id="robotVideo" autoplay playsinline muted>
+          <p>Video stream loading...</p>
+        </video>
+        <div id="connectionStatus">🔴 Disconnected</div>
+        <button id="connectButton" onclick="connectToRobot()">Connect</button>
+        <button id="leaveButton" onclick="leaveRobot()" style="display: none;">Leave Robot</button>
+        <div id="status">Ready to connect</div>
+        <div class="controlInstructions">
+          <h3>Robot Controls</h3>
+          <ul>
+            <li><strong>W/↑</strong> - Move Forward</li>
+            <li><strong>S/↓</strong> - Move Backward</li>
+            <li><strong>A/←</strong> - Turn Left</li>
+            <li><strong>D/→</strong> - Turn Right</li>
+            <li><strong>Space</strong> - Neutral Position</li>
+            <li><strong>Q</strong> - Exit</li>
+          </ul>
         </div>
-      `;
+      </div>
+    `;
     }
 
     // Initialize video handling after DOM is ready

@@ -16,29 +16,77 @@ function runGroupAccessLogic() {
   const payload = JSON.parse(atob(idToken.split('.')[1]));
   const groups = payload['cognito:groups'] || [];
   if (groups.includes('owner') || groups.includes('privileged')) {
-    // Show video feed and controls
-    childDiv.innerHTML = `
-      <div id="videoContainer">
-        <video id="robotVideo" autoplay playsinline muted>
-          <p>Video stream loading...</p>
-        </video>
-        <div id="connectionStatus">🔴 Disconnected</div>
-        <button id="connectButton" onclick="connectToRobot()">Connect</button>
-        <button id="leaveButton" onclick="leaveRobot()" style="display: none;">Leave Robot</button>
-        <div id="status">Ready to connect</div>
-        <div class="controlInstructions">
-          <h3>Robot Controls</h3>
-          <ul>
-            <li><strong>W/↑</strong> - Move Forward</li>
-            <li><strong>S/↓</strong> - Move Backward</li>
-            <li><strong>A/←</strong> - Turn Left</li>
-            <li><strong>D/→</strong> - Turn Right</li>
-            <li><strong>Space</strong> - Neutral Position</li>
-            <li><strong>Q</strong> - Exit</li>
-          </ul>
+    // Check if device is mobile
+    const isMobile = window.innerWidth <= 1024;
+    
+    if (isMobile) {
+      // Mobile version with touch controls
+      childDiv.innerHTML = `
+        <div id="videoContainer">
+          <video id="robotVideo" autoplay playsinline muted>
+            <p>Video stream loading...</p>
+          </video>
+          <div id="connectionStatus">🔴 Disconnected</div>
+          <button id="connectButton" onclick="connectToRobot()">Connect</button>
+          <button id="leaveButton" onclick="leaveRobot()" style="display: none;">Leave Robot</button>
+          <div id="status">Ready to connect</div>
+          
+          <!-- Mobile Touch Controls -->
+          <div id="mobileControls">
+            <div class="controlRow">
+              <button class="controlBtn" id="forwardBtn" onmousedown="sendRobotCommand('w')" onmouseup="sendRobotCommand('n')" ontouchstart="sendRobotCommand('w')" ontouchend="sendRobotCommand('n')">
+                <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-north.png" alt="Forward">
+              </button>
+            </div>
+            <div class="controlRow">
+              <button class="controlBtn" id="leftBtn" onmousedown="sendRobotCommand('a')" onmouseup="sendRobotCommand('n')" ontouchstart="sendRobotCommand('a')" ontouchend="sendRobotCommand('n')">
+                <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-west.png" alt="Left">
+              </button>
+              <button class="controlBtn" id="neutralBtn" onclick="sendRobotCommand('n')">
+                <span>STOP</span>
+              </button>
+              <button class="controlBtn" id="rightBtn" onmousedown="sendRobotCommand('d')" onmouseup="sendRobotCommand('n')" ontouchstart="sendRobotCommand('d')" ontouchend="sendRobotCommand('n')">
+                <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-east.png" alt="Right">
+              </button>
+            </div>
+            <div class="controlRow">
+              <button class="controlBtn" id="backwardBtn" onmousedown="sendRobotCommand('s')" onmouseup="sendRobotCommand('n')" ontouchstart="sendRobotCommand('s')" ontouchend="sendRobotCommand('n')">
+                <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-south.png" alt="Backward">
+              </button>
+            </div>
+            <div class="controlRow">
+              <button class="controlBtn exitBtn" id="exitBtn" onclick="sendRobotCommand('q')">
+                <span>EXIT</span>
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
-    `;
+      `;
+    } else {
+      // Desktop version with keyboard controls
+      childDiv.innerHTML = `
+        <div id="videoContainer">
+          <video id="robotVideo" autoplay playsinline muted>
+            <p>Video stream loading...</p>
+          </video>
+          <div id="connectionStatus">🔴 Disconnected</div>
+          <button id="connectButton" onclick="connectToRobot()">Connect</button>
+          <button id="leaveButton" onclick="leaveRobot()" style="display: none;">Leave Robot</button>
+          <div id="status">Ready to connect</div>
+          <div class="controlInstructions">
+            <h3>Robot Controls</h3>
+            <ul>
+              <li><strong>W/↑</strong> - Move Forward</li>
+              <li><strong>S/↓</strong> - Move Backward</li>
+              <li><strong>A/←</strong> - Turn Left</li>
+              <li><strong>D/→</strong> - Turn Right</li>
+              <li><strong>Space</strong> - Neutral Position</li>
+              <li><strong>Q</strong> - Exit</li>
+            </ul>
+          </div>
+        </div>
+      `;
+    }
 
     // Initialize video handling after DOM is ready
     setTimeout(() => {
@@ -433,3 +481,19 @@ function updateStatus(message) {
     statusElement.textContent = message;
   }
 }
+
+// Handle window resize and orientation changes
+window.addEventListener('resize', function() {
+  // Re-run the group access logic to update the interface for new screen size
+  setTimeout(() => {
+    runGroupAccessLogic();
+  }, 100);
+});
+
+// Handle orientation change specifically
+window.addEventListener('orientationchange', function() {
+  // Wait for orientation change to complete, then update
+  setTimeout(() => {
+    runGroupAccessLogic();
+  }, 500);
+});

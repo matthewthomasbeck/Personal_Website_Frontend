@@ -9,7 +9,12 @@ const childDiv = document.querySelector('.childDiv');
 function runGroupAccessLogic() {
   const idToken = window.sessionStorage.getItem('id_token');
   if (!idToken) {
-    // Not logged in: leave the default HTML in place
+    // Not logged in: show only the first red box, no extra messages
+    childDiv.innerHTML = `
+      <div class="statusBox denied">
+        ❌ Access Denied – You must be logged in.
+      </div>
+    `;
     return;
   }
   // Decode JWT and check groups
@@ -20,9 +25,14 @@ function runGroupAccessLogic() {
     const isMobile = window.innerWidth <= 1024;
     
     if (isMobile) {
-      // Mobile version with touch controls
+      // Mobile version with 8 arrow controls and landscape enforcement
       childDiv.innerHTML = `
         <div id="videoContainer">
+          <div id="landscapeOverlay" style="display:none;">
+            <div class="landscapeMessage">
+              <span>Please rotate your phone horizontally to control the robot.</span>
+            </div>
+          </div>
           <video id="robotVideo" autoplay playsinline muted>
             <p>Video stream loading...</p>
           </video>
@@ -30,52 +40,63 @@ function runGroupAccessLogic() {
           <button id="connectButton" onclick="connectToRobot()">Connect</button>
           <button id="leaveButton" onclick="leaveRobot()" style="display: none;">Leave Robot</button>
           <div id="status">Ready to connect</div>
-          
-          <!-- Mobile Touch Controls - Left Side (Arrow Keys) -->
-          <div id="mobileControlsLeft">
-            <div class="controlRow">
-              <button class="controlBtn" id="lookUpBtn" onmousedown="sendRobotCommand('arrowup')" onmouseup="sendRobotCommand('n')" ontouchstart="sendRobotCommand('arrowup')" ontouchend="sendRobotCommand('n')">
-                <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-north.png" alt="Look Up">
-              </button>
+          <!-- Mobile 8-Button Controls -->
+          <div id="mobileControls8">
+            <div class="mobileControlsLeft">
+              <div class="controlRow">
+                <button class="controlBtn arrowBtn" id="lookUpBtn" onmousedown="sendRobotCommand('arrowup')" onmouseup="sendRobotCommand('n')" ontouchstart="sendRobotCommand('arrowup')" ontouchend="sendRobotCommand('n')">
+                  <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-north.png" alt="Look Up">
+                </button>
+              </div>
+              <div class="controlRow">
+                <button class="controlBtn arrowBtn" id="lookLeftBtn" onmousedown="sendRobotCommand('arrowleft')" onmouseup="sendRobotCommand('n')" ontouchstart="sendRobotCommand('arrowleft')" ontouchend="sendRobotCommand('n')">
+                  <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-west.png" alt="Look Left">
+                </button>
+                <button class="controlBtn arrowBtn" id="lookDownBtn" onmousedown="sendRobotCommand('arrowdown')" onmouseup="sendRobotCommand('n')" ontouchstart="sendRobotCommand('arrowdown')" ontouchend="sendRobotCommand('n')">
+                  <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-south.png" alt="Look Down">
+                </button>
+                <button class="controlBtn arrowBtn" id="lookRightBtn" onmousedown="sendRobotCommand('arrowright')" onmouseup="sendRobotCommand('n')" ontouchstart="sendRobotCommand('arrowright')" ontouchend="sendRobotCommand('n')">
+                  <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-east.png" alt="Look Right">
+                </button>
+              </div>
             </div>
-            <div class="controlRow">
-              <button class="controlBtn" id="rotateLeftBtn" onmousedown="sendRobotCommand('arrowleft')" onmouseup="sendRobotCommand('n')" ontouchstart="sendRobotCommand('arrowleft')" ontouchend="sendRobotCommand('n')">
-                <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-west.png" alt="Rotate Left">
-              </button>
-              <button class="controlBtn" id="rotateRightBtn" onmousedown="sendRobotCommand('arrowright')" onmouseup="sendRobotCommand('n')" ontouchstart="sendRobotCommand('arrowright')" ontouchend="sendRobotCommand('n')">
-                <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-east.png" alt="Rotate Right">
-              </button>
-            </div>
-            <div class="controlRow">
-              <button class="controlBtn" id="lookDownBtn" onmousedown="sendRobotCommand('arrowdown')" onmouseup="sendRobotCommand('n')" ontouchstart="sendRobotCommand('arrowdown')" ontouchend="sendRobotCommand('n')">
-                <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-south.png" alt="Look Down">
-              </button>
-            </div>
-          </div>
-
-          <!-- Mobile Touch Controls - Right Side (WASD) -->
-          <div id="mobileControlsRight">
-            <div class="controlRow">
-              <button class="controlBtn" id="forwardBtn" onmousedown="sendRobotCommand('w')" onmouseup="sendRobotCommand('n')" ontouchstart="sendRobotCommand('w')" ontouchend="sendRobotCommand('n')">
-                <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-north.png" alt="Forward">
-              </button>
-            </div>
-            <div class="controlRow">
-              <button class="controlBtn" id="leftBtn" onmousedown="sendRobotCommand('a')" onmouseup="sendRobotCommand('n')" ontouchstart="sendRobotCommand('a')" ontouchend="sendRobotCommand('n')">
-                <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-west.png" alt="Left">
-              </button>
-              <button class="controlBtn" id="rightBtn" onmousedown="sendRobotCommand('d')" onmouseup="sendRobotCommand('n')" ontouchstart="sendRobotCommand('d')" ontouchend="sendRobotCommand('n')">
-                <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-east.png" alt="Right">
-              </button>
-            </div>
-            <div class="controlRow">
-              <button class="controlBtn" id="backwardBtn" onmousedown="sendRobotCommand('s')" onmouseup="sendRobotCommand('n')" ontouchstart="sendRobotCommand('s')" ontouchend="sendRobotCommand('n')">
-                <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-south.png" alt="Backward">
-              </button>
+            <div class="mobileControlsRight">
+              <div class="controlRow">
+                <button class="controlBtn wasdBtn" id="moveUpBtn" onmousedown="sendRobotCommand('w')" onmouseup="sendRobotCommand('n')" ontouchstart="sendRobotCommand('w')" ontouchend="sendRobotCommand('n')">
+                  <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-north.png" alt="Move Forward">
+                </button>
+              </div>
+              <div class="controlRow">
+                <button class="controlBtn wasdBtn" id="moveLeftBtn" onmousedown="sendRobotCommand('a')" onmouseup="sendRobotCommand('n')" ontouchstart="sendRobotCommand('a')" ontouchend="sendRobotCommand('n')">
+                  <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-west.png" alt="Move Left">
+                </button>
+                <button class="controlBtn wasdBtn" id="moveDownBtn" onmousedown="sendRobotCommand('s')" onmouseup="sendRobotCommand('n')" ontouchstart="sendRobotCommand('s')" ontouchend="sendRobotCommand('n')">
+                  <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-south.png" alt="Move Backward">
+                </button>
+                <button class="controlBtn wasdBtn" id="moveRightBtn" onmousedown="sendRobotCommand('d')" onmouseup="sendRobotCommand('n')" ontouchstart="sendRobotCommand('d')" ontouchend="sendRobotCommand('n')">
+                  <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-east.png" alt="Move Right">
+                </button>
+              </div>
             </div>
           </div>
         </div>
       `;
+      // Landscape enforcement logic
+      setTimeout(() => {
+        function checkOrientation() {
+          const overlay = document.getElementById('landscapeOverlay');
+          if (window.innerWidth < window.innerHeight) {
+            overlay.style.display = 'flex';
+            if (document.getElementById('mobileControls8')) document.getElementById('mobileControls8').style.display = 'none';
+          } else {
+            overlay.style.display = 'none';
+            if (document.getElementById('mobileControls8')) document.getElementById('mobileControls8').style.display = 'flex';
+          }
+        }
+        window.addEventListener('resize', checkOrientation);
+        window.addEventListener('orientationchange', checkOrientation);
+        checkOrientation();
+      }, 200);
     } else {
       // Desktop version with keyboard controls
       childDiv.innerHTML = `
@@ -112,8 +133,6 @@ function runGroupAccessLogic() {
       <div class="statusBox denied">
         ❌ Access Denied – You are not in the 'owner' or 'privileged' group.
       </div>
-      <h1>Access Denied</h1>
-      <p>Please contact the site administrator if you believe this is an error.</p>
     `;
   }
 }

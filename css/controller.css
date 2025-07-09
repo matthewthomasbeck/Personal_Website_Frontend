@@ -617,7 +617,10 @@
 
 @media only screen and (max-width: 1024px) {
   #navBar {
-    background-color: rgba(52,58,64,0.7) !important;
-    backdrop-filter: blur(4px);
+    background-color: rgba(52,58,64,0) !important;
+    backdrop-filter: none;
+  }
+  #navBar * {
+    opacity: 1 !important;
   }
 }

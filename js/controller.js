@@ -44,36 +44,36 @@ function runGroupAccessLogic() {
           <div id="mobileControls8">
             <div class="mobileControlsLeft">
               <div class="controlRow">
-                <button class="controlBtn arrowBtn" id="lookUpBtn" onmousedown="sendRobotCommand('arrowup')" onmouseup="sendRobotCommand('n')" ontouchstart="sendRobotCommand('arrowup')" ontouchend="sendRobotCommand('n')">
+                <button class="controlBtn arrowBtn" id="lookUpBtn" data-command="arrowup">
                   <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-north.png" alt="Look Up">
                 </button>
               </div>
               <div class="controlRow">
-                <button class="controlBtn arrowBtn" id="lookLeftBtn" onmousedown="sendRobotCommand('arrowleft')" onmouseup="sendRobotCommand('n')" ontouchstart="sendRobotCommand('arrowleft')" ontouchend="sendRobotCommand('n')">
+                <button class="controlBtn arrowBtn" id="lookLeftBtn" data-command="arrowleft">
                   <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-west.png" alt="Look Left">
                 </button>
-                <button class="controlBtn arrowBtn" id="lookDownBtn" onmousedown="sendRobotCommand('arrowdown')" onmouseup="sendRobotCommand('n')" ontouchstart="sendRobotCommand('arrowdown')" ontouchend="sendRobotCommand('n')">
+                <button class="controlBtn arrowBtn" id="lookDownBtn" data-command="arrowdown">
                   <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-south.png" alt="Look Down">
                 </button>
-                <button class="controlBtn arrowBtn" id="lookRightBtn" onmousedown="sendRobotCommand('arrowright')" onmouseup="sendRobotCommand('n')" ontouchstart="sendRobotCommand('arrowright')" ontouchend="sendRobotCommand('n')">
+                <button class="controlBtn arrowBtn" id="lookRightBtn" data-command="arrowright">
                   <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-east.png" alt="Look Right">
                 </button>
               </div>
             </div>
             <div class="mobileControlsRight">
               <div class="controlRow">
-                <button class="controlBtn wasdBtn" id="moveUpBtn" onmousedown="sendRobotCommand('w')" onmouseup="sendRobotCommand('n')" ontouchstart="sendRobotCommand('w')" ontouchend="sendRobotCommand('n')">
+                <button class="controlBtn wasdBtn" id="moveUpBtn" data-command="w">
                   <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-north.png" alt="Move Forward">
                 </button>
               </div>
               <div class="controlRow">
-                <button class="controlBtn wasdBtn" id="moveLeftBtn" onmousedown="sendRobotCommand('a')" onmouseup="sendRobotCommand('n')" ontouchstart="sendRobotCommand('a')" ontouchend="sendRobotCommand('n')">
+                <button class="controlBtn wasdBtn" id="moveLeftBtn" data-command="a">
                   <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-west.png" alt="Move Left">
                 </button>
-                <button class="controlBtn wasdBtn" id="moveDownBtn" onmousedown="sendRobotCommand('s')" onmouseup="sendRobotCommand('n')" ontouchstart="sendRobotCommand('s')" ontouchend="sendRobotCommand('n')">
+                <button class="controlBtn wasdBtn" id="moveDownBtn" data-command="s">
                   <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-south.png" alt="Move Backward">
                 </button>
-                <button class="controlBtn wasdBtn" id="moveRightBtn" onmousedown="sendRobotCommand('d')" onmouseup="sendRobotCommand('n')" ontouchstart="sendRobotCommand('d')" ontouchend="sendRobotCommand('n')">
+                <button class="controlBtn wasdBtn" id="moveRightBtn" data-command="d">
                   <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-east.png" alt="Move Right">
                 </button>
               </div>
@@ -97,6 +97,45 @@ function runGroupAccessLogic() {
         window.addEventListener('orientationchange', checkOrientation);
         checkOrientation();
       }, 200);
+      // Hold-to-repeat logic for mobile controls
+      setTimeout(() => {
+        const btns = document.querySelectorAll('#mobileControls8 .controlBtn');
+        btns.forEach(btn => {
+          let interval = null;
+          let isTouch = false;
+          const command = btn.getAttribute('data-command');
+          const send = () => sendRobotCommand(command);
+          // Mouse events
+          btn.addEventListener('mousedown', e => {
+            if (interval) clearInterval(interval);
+            send();
+            interval = setInterval(send, 100);
+          });
+          btn.addEventListener('mouseup', e => {
+            if (interval) clearInterval(interval);
+            sendRobotCommand('n');
+          });
+          btn.addEventListener('mouseleave', e => {
+            if (interval) clearInterval(interval);
+            sendRobotCommand('n');
+          });
+          // Touch events
+          btn.addEventListener('touchstart', e => {
+            isTouch = true;
+            if (interval) clearInterval(interval);
+            send();
+            interval = setInterval(send, 100);
+          });
+          btn.addEventListener('touchend', e => {
+            if (interval) clearInterval(interval);
+            sendRobotCommand('n');
+          });
+          btn.addEventListener('touchcancel', e => {
+            if (interval) clearInterval(interval);
+            sendRobotCommand('n');
+          });
+        });
+      }, 300);
     } else {
       // Desktop version with keyboard controls
       childDiv.innerHTML = `

@@ -580,17 +580,29 @@
   /* Position left controls above status, right controls above connect */
   .mobileControlsLeft {
     position: absolute;
-    left: 0;
+    left: 20px;
     bottom: 80px;
     width: 40vw;
     z-index: 12;
+    align-items: flex-start;
+    margin-left: 0;
   }
   .mobileControlsRight {
     position: absolute;
-    right: 0;
+    right: 20px;
     bottom: 80px;
     width: 40vw;
     z-index: 12;
+    align-items: flex-end;
+    margin-right: 0;
+  }
+  .navBarOptions, .projectsBarOptions {
+    background-color: rgba(52,58,64,0.7) !important;
+    box-shadow: none !important;
+  }
+  .navBarOptions *,
+  .projectsBarOptions * {
+    opacity: 1 !important;
   }
   /* Landscape overlay */
   #landscapeOverlay {

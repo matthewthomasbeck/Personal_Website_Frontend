@@ -191,7 +191,15 @@ const programmerTypingObserver = new IntersectionObserver(entries => {
 
                     setTimeout(function(skill) { // add animations to each skill with delay
 
-                        skill.classList.add('fadeIn'); // add animations to skill
+                        // Only add fadeIn if the skill hasn't been ripple-animated yet
+                        if (!skill.classList.contains('ripple-complete')) {
+                            skill.classList.add('fadeIn'); // add animations to skill
+                        } else {
+                            // If skill has been ripple-animated, ensure it stays visible and remove any fadeIn
+                            skill.classList.remove('fadeIn');
+                            skill.style.opacity = '1';
+                            skill.style.transform = 'none';
+                        }
 
                     }, i * TIME_INTERVAL, skills[i]); // add delay to each p tag
                 }
@@ -258,9 +266,17 @@ const programmerTypingObserver = new IntersectionObserver(entries => {
                 // loop through all experiences to apply fade in update
                 for (let i = 0; i < experiences.length; i++) {
 
-                    setTimeout(function(skill) { // add animations to each experience with delay
+                    setTimeout(function(experience) { // add animations to each experience with delay
 
-                        skill.classList.add('fadeIn'); // add animations to experience
+                        // Only add fadeIn if the experience hasn't been ripple-animated yet
+                        if (!experience.classList.contains('ripple-complete')) {
+                            experience.classList.add('fadeIn'); // add animations to experience
+                        } else {
+                            // If experience has been ripple-animated, ensure it stays visible and remove any fadeIn
+                            experience.classList.remove('fadeIn');
+                            experience.style.opacity = '1';
+                            experience.style.transform = 'none';
+                        }
 
                     }, i * TIME_INTERVAL, experiences[i]); // add delay to each p tag
                 }
@@ -347,7 +363,15 @@ const programmerTypingObserver = new IntersectionObserver(entries => {
 
                     setTimeout(function(contact) { // add animations to each contact with a delay
 
-                        contact.classList.add('fadeIn', 'popUp'); // add animations to contact
+                        // Only add fadeIn if the contact hasn't been pop-animated yet
+                        if (!contact.classList.contains('pop-complete')) {
+                            contact.classList.add('fadeIn', 'popUp'); // add animations to contact
+                        } else {
+                            // If contact has been pop-animated, ensure it stays visible and remove any fadeIn
+                            contact.classList.remove('fadeIn');
+                            contact.style.opacity = '1';
+                            contact.style.transform = 'none';
+                        }
 
                     }, i * TIME_INTERVAL, contacts[i]); // add delay to each contact
 
@@ -996,3 +1020,200 @@ videosWheel.addEventListener('scroll', function() { // when scroll takes place i
 
     videosInfoBody.style.textAlign = 'left'; // set text alignment to left
 });
+
+/********** SKILLS CASCADE EFFECT **********/
+
+/***** set variables *****/
+
+const skillBars = document.querySelectorAll('.skills'); // get all skill bars
+const experienceBars = document.querySelectorAll('.experiences'); // get all experience bars
+
+/***** get current portrait color *****/
+
+function getCurrentPortraitColor() {
+    const slides = document.querySelectorAll('.slide');
+    for (let i = 0; i < slides.length; i++) {
+        if (slides[i].style.display === 'block') {
+            // Return the corresponding pastel color based on slide index
+            switch(i) {
+                case 0: return 'var(--pastel-1)';
+                case 1: return 'var(--pastel-2)';
+                case 2: return 'var(--pastel-3)';
+                case 3: return 'var(--pastel-4)';
+                default: return 'var(--pastel-1)';
+            }
+        }
+    }
+    return 'var(--pastel-1)'; // fallback
+}
+
+/***** update cascade color dynamically *****/
+
+function updateCascadeColor() {
+    const currentColor = getCurrentPortraitColor();
+    document.documentElement.style.setProperty('--cascade-color', currentColor);
+}
+
+/***** add click event listeners to skill bars *****/
+
+skillBars.forEach((skillBar, index) => {
+    skillBar.addEventListener('click', function(event) {
+        updateCascadeColor(); // Update color before animation
+        createRipple(event, skillBar);
+        triggerSkillCascade(index, skillBars);
+    });
+});
+
+/***** add click event listeners to experience bars *****/
+
+experienceBars.forEach((experienceBar, index) => {
+    experienceBar.addEventListener('click', function(event) {
+        updateCascadeColor(); // Update color before animation
+        createRipple(event, experienceBar);
+        triggerSkillCascade(index, experienceBars);
+    });
+});
+
+/***** add click event listeners to contact bars *****/
+
+const contactBars = document.querySelectorAll('.contacts'); // get all contact bars
+
+contactBars.forEach((contactBar) => {
+    contactBar.addEventListener('click', function(event) {
+        event.preventDefault(); // Prevent immediate redirect
+        
+        updateCascadeColor(); // Update color before animation
+        createRipple(event, contactBar);
+        triggerContactPop(contactBar);
+    });
+});
+
+/***** contact pop effect function *****/
+
+function triggerContactPop(contactBar) {
+    const contactIcon = contactBar.querySelector('.contactsIcon');
+    const contactBody = contactBar.querySelector('.contactsBody');
+    
+    // Temporarily remove pop-complete class to allow re-animation
+    contactBar.classList.remove('pop-complete');
+    
+    // Add animation classes
+    contactBar.classList.add('pop-animating');
+    if (contactIcon) contactIcon.classList.add('pop-animating');
+    if (contactBody) contactBody.classList.add('pop-animating');
+    
+    // Remove animation classes after animation completes and redirect
+    setTimeout(() => {
+        contactBar.classList.remove('pop-animating');
+        contactBar.classList.add('pop-complete');
+        if (contactIcon) contactIcon.classList.remove('pop-animating');
+        if (contactBody) contactBody.classList.remove('pop-animating');
+        
+        // Now redirect to the link
+        const href = contactBar.getAttribute('href');
+        if (href) {
+            window.location.href = href;
+        }
+    }, 1200); // match animation duration
+}
+
+/***** create ripple effect *****/
+
+function createRipple(event, element) {
+    const ripple = document.createElement('span');
+    const rect = element.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height);
+    const x = event.clientX - rect.left - size / 2;
+    const y = event.clientY - rect.top - size / 2;
+    
+    ripple.style.width = ripple.style.height = size + 'px';
+    ripple.style.left = x + 'px';
+    ripple.style.top = y + 'px';
+    ripple.classList.add('ripple');
+    
+    element.appendChild(ripple);
+    
+    // Remove ripple element after animation
+    setTimeout(() => {
+        ripple.remove();
+    }, 600);
+}
+
+/***** cascade effect function *****/
+
+function triggerSkillCascade(startIndex, elements) {
+    const rippleDelay = 150; // delay between each element animation in milliseconds
+    const totalElements = elements.length;
+    
+    // Calculate the maximum distance from the clicked element
+    const maxDistance = Math.max(startIndex, totalElements - 1 - startIndex);
+    
+    // Animate elements in both directions from the clicked element
+    for (let distance = 0; distance <= maxDistance; distance++) {
+        const delay = distance * rippleDelay;
+        
+        // Animate element below the clicked one
+        const belowIndex = startIndex + distance;
+        if (belowIndex < totalElements) {
+            setTimeout(() => {
+                animateElement(belowIndex, elements);
+            }, delay);
+        }
+        
+        // Animate element above the clicked one (but not the same element)
+        const aboveIndex = startIndex - distance;
+        if (aboveIndex >= 0 && distance > 0) {
+            setTimeout(() => {
+                animateElement(aboveIndex, elements);
+            }, delay);
+        }
+    }
+}
+
+/***** animate individual element *****/
+
+function animateElement(index, elements) {
+    const element = elements[index];
+    const elementIcon = element.querySelector('.skillsIcon, .experiencesIcon');
+    const elementBody = element.querySelector('.skillsBody, .experiencesBody');
+
+    // Determine parent div for color animation
+    let parentDiv = null;
+    if (element.classList.contains('skills')) {
+        parentDiv = document.getElementById('mySkills');
+    } else if (element.classList.contains('experiences')) {
+        parentDiv = document.getElementById('myExperiences');
+    }
+
+    // Temporarily remove ripple-complete class to allow re-animation
+    element.classList.remove('ripple-complete');
+
+    // Add animation classes
+    element.classList.add('cascade-animating');
+    if (elementIcon) elementIcon.classList.add('cascade-animating');
+    if (elementBody) elementBody.classList.add('cascade-animating');
+
+    // Animate parent background color if this is the first element in the cascade
+    if (parentDiv && (index === 0 || index === elements.length - 1 || elements.length === 1)) {
+        animateParentDivColor(parentDiv);
+    }
+
+    // Remove animation classes after animation completes and keep visible
+    setTimeout(() => {
+        element.classList.remove('cascade-animating');
+        element.classList.add('ripple-complete');
+        if (elementIcon) elementIcon.classList.remove('cascade-animating');
+        if (elementBody) elementBody.classList.remove('cascade-animating');
+    }, 1200); // match animation duration (50% slower)
+}
+
+/***** animate parent div color *****/
+function animateParentDivColor(parentDiv) {
+    const original = getComputedStyle(parentDiv).backgroundColor;
+    const temp = getCurrentPortraitColor();
+    parentDiv.style.transition = 'background-color 0.6s cubic-bezier(.4,0,.2,1)';
+    parentDiv.style.backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--cascade-color') || temp;
+    setTimeout(() => {
+        parentDiv.style.backgroundColor = original;
+    }, 900); // fade back after most of the cascade
+}

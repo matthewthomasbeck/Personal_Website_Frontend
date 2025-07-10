@@ -199,6 +199,70 @@
 
 /********** SKILLS **********/
 
+/***** cascade animation keyframes *****/
+
+@keyframes skillRipple {
+    0% {
+        transform: scale(1);
+        background-color: var(--secondary);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.04);
+        background-color: var(--cascade-color, var(--pastel-1));
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        background-color: var(--secondary);
+        opacity: 1;
+    }
+}
+
+@keyframes skillIconRipple {
+    0% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.075) rotate(4deg);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+    }
+}
+
+@keyframes skillTextRipple {
+    0% {
+        transform: translateX(0);
+        color: white;
+        opacity: 1;
+    }
+    50% {
+        transform: translateX(4px);
+        color: var(--cascade-color, var(--pastel-1));
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(0);
+        color: white;
+        opacity: 1;
+    }
+}
+
+@keyframes clickRipple {
+    0% {
+        transform: scale(0);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
 .skills {
 
     background-color: var(--secondary);
@@ -209,6 +273,46 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    cursor: pointer;
+    transition: transform var(--timeInterval) ease-out, box-shadow var(--timeInterval) ease-out;
+    position: relative;
+    overflow: hidden;
+    border-radius: 4px;
+}
+
+.skills:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.skills:active {
+    transform: scale(0.98);
+}
+
+.skills.cascade-animating {
+    animation: skillRipple 1.2s ease-out forwards;
+    opacity: 1 !important;
+}
+
+.skills.ripple-complete {
+    opacity: 1 !important;
+    animation: none !important;
+    transform: none !important;
+}
+
+.skills.ripple-complete.fadeIn {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+}
+
+.skills .ripple {
+    position: absolute;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.3);
+    transform: scale(0);
+    animation: clickRipple 0.6s linear;
+    pointer-events: none;
 }
 
 .skillsIcon {
@@ -219,6 +323,11 @@
     margin-left: 7px;
     margin-right: 0;
     height: 80%;
+    transition: transform var(--timeInterval) ease-out;
+}
+
+.skillsIcon.cascade-animating {
+    animation: skillIconRipple 1.2s ease-out forwards;
 }
 
 .skillsBody {
@@ -226,6 +335,11 @@
     color: white;
     width: 70%;
     margin: auto;
+    transition: transform var(--timeInterval) ease-out;
+}
+
+.skillsBody.cascade-animating {
+    animation: skillTextRipple 1.2s ease-out forwards;
 }
 
 #skillSetHeaderBox {
@@ -446,6 +560,46 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    cursor: pointer;
+    transition: transform var(--timeInterval) ease-out, box-shadow var(--timeInterval) ease-out;
+    position: relative;
+    overflow: hidden;
+    border-radius: 4px;
+}
+
+.experiences:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.experiences:active {
+    transform: scale(0.98);
+}
+
+.experiences.cascade-animating {
+    animation: skillRipple 1.2s ease-out forwards;
+    opacity: 1 !important;
+}
+
+.experiences.ripple-complete {
+    opacity: 1 !important;
+    animation: none !important;
+    transform: none !important;
+}
+
+.experiences.ripple-complete.fadeIn {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+}
+
+.experiences .ripple {
+    position: absolute;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.3);
+    transform: scale(0);
+    animation: clickRipple 0.6s linear;
+    pointer-events: none;
 }
 
 .experiencesIcon {
@@ -456,6 +610,11 @@
     margin-left: 7px;
     margin-right: 0;
     height: 80%;
+    transition: transform var(--timeInterval) ease-out;
+}
+
+.experiencesIcon.cascade-animating {
+    animation: skillIconRipple 1.2s ease-out forwards;
 }
 
 .experiencesBody {
@@ -463,6 +622,11 @@
     color: white;
     width: 70%;
     margin: auto;
+    transition: transform var(--timeInterval) ease-out;
+}
+
+.experiencesBody.cascade-animating {
+    animation: skillTextRipple 1.2s ease-out forwards;
 }
 
 #experiencesHeaderBox {
@@ -661,6 +825,46 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    cursor: pointer;
+    transition: transform var(--timeInterval) ease-out, box-shadow var(--timeInterval) ease-out;
+    position: relative;
+    overflow: hidden;
+    border-radius: 4px;
+}
+
+.contacts:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.contacts:active {
+    transform: scale(0.98);
+}
+
+.contacts.pop-animating {
+    animation: contactPop 1.2s ease-out forwards;
+    opacity: 1 !important;
+}
+
+.contacts.pop-complete {
+    opacity: 1 !important;
+    animation: none !important;
+    transform: none !important;
+}
+
+.contacts.pop-complete.fadeIn {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+}
+
+.contacts .ripple {
+    position: absolute;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.3);
+    transform: scale(0);
+    animation: clickRipple 0.6s linear;
+    pointer-events: none;
 }
 
 .contactsIcon {
@@ -671,6 +875,11 @@
     margin-left: 13px;
     margin-right: 0;
     height: 80%;
+    transition: transform var(--timeInterval) ease-out;
+}
+
+.contactsIcon.pop-animating {
+    animation: contactIconPop 1.2s ease-out forwards;
 }
 
 .contactsBody {
@@ -679,6 +888,11 @@
     text-align: center;
     width: 70%;
     margin: auto;
+    transition: transform var(--timeInterval) ease-out;
+}
+
+.contactsBody.pop-animating {
+    animation: contactTextPop 1.2s ease-out forwards;
 }
 
 #contactMeHeaderBox {
@@ -686,8 +900,56 @@
     text-align: center;
 }
 
+@keyframes contactPop {
+    0% {
+        transform: scale(1);
+        background-color: var(--secondary);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.04);
+        background-color: var(--cascade-color, var(--pastel-1));
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        background-color: var(--secondary);
+        opacity: 1;
+    }
+}
 
+@keyframes contactIconPop {
+    0% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.075) rotate(4deg);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+    }
+}
 
+@keyframes contactTextPop {
+    0% {
+        transform: translateX(0);
+        color: white;
+        opacity: 1;
+    }
+    50% {
+        transform: translateX(4px);
+        color: var(--cascade-color, var(--pastel-1));
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(0);
+        color: white;
+        opacity: 1;
+    }
+}
 
 
 /*********************************************/

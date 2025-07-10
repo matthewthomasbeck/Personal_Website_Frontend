@@ -1140,18 +1140,19 @@ function createRipple(event, element) {
 }
 
 /***** cascade effect function *****/
-
 function triggerSkillCascade(startIndex, elements) {
     const rippleDelay = 150; // delay between each element animation in milliseconds
     const totalElements = elements.length;
-    
+    const parentDiv = elements[0].classList.contains('skills') ? document.getElementById('mySkills') :
+                      elements[0].classList.contains('experiences') ? document.getElementById('myExperiences') : null;
+
     // Calculate the maximum distance from the clicked element
     const maxDistance = Math.max(startIndex, totalElements - 1 - startIndex);
-    
+
     // Animate elements in both directions from the clicked element
     for (let distance = 0; distance <= maxDistance; distance++) {
         const delay = distance * rippleDelay;
-        
+
         // Animate element below the clicked one
         const belowIndex = startIndex + distance;
         if (belowIndex < totalElements) {
@@ -1159,7 +1160,7 @@ function triggerSkillCascade(startIndex, elements) {
                 animateElement(belowIndex, elements);
             }, delay);
         }
-        
+
         // Animate element above the clicked one (but not the same element)
         const aboveIndex = startIndex - distance;
         if (aboveIndex >= 0 && distance > 0) {
@@ -1167,6 +1168,14 @@ function triggerSkillCascade(startIndex, elements) {
                 animateElement(aboveIndex, elements);
             }, delay);
         }
+    }
+
+    // Parent div color: one interval after the last element starts animating
+    if (parentDiv) {
+        const parentDelay = (maxDistance + 1) * rippleDelay;
+        setTimeout(() => {
+            animateParentDivColor(parentDiv, true, rippleDelay);
+        }, parentDelay);
     }
 }
 
@@ -1177,14 +1186,6 @@ function animateElement(index, elements) {
     const elementIcon = element.querySelector('.skillsIcon, .experiencesIcon');
     const elementBody = element.querySelector('.skillsBody, .experiencesBody');
 
-    // Determine parent div for color animation
-    let parentDiv = null;
-    if (element.classList.contains('skills')) {
-        parentDiv = document.getElementById('mySkills');
-    } else if (element.classList.contains('experiences')) {
-        parentDiv = document.getElementById('myExperiences');
-    }
-
     // Temporarily remove ripple-complete class to allow re-animation
     element.classList.remove('ripple-complete');
 
@@ -1192,11 +1193,6 @@ function animateElement(index, elements) {
     element.classList.add('cascade-animating');
     if (elementIcon) elementIcon.classList.add('cascade-animating');
     if (elementBody) elementBody.classList.add('cascade-animating');
-
-    // Animate parent background color if this is the first element in the cascade
-    if (parentDiv && (index === 0 || index === elements.length - 1 || elements.length === 1)) {
-        animateParentDivColor(parentDiv);
-    }
 
     // Remove animation classes after animation completes and keep visible
     setTimeout(() => {
@@ -1207,13 +1203,50 @@ function animateElement(index, elements) {
     }, 1200); // match animation duration (50% slower)
 }
 
-/***** animate parent div color *****/
-function animateParentDivColor(parentDiv) {
-    const original = getComputedStyle(parentDiv).backgroundColor;
-    const temp = getCurrentPortraitColor();
+/***** animate parent div color and then nav bar/options bar *****/
+function animateParentDivColor(parentDiv, animateNavBar = false, rippleDelay = 150) {
     parentDiv.style.transition = 'background-color 0.6s cubic-bezier(.4,0,.2,1)';
-    parentDiv.style.backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--cascade-color') || temp;
+    parentDiv.style.backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--cascade-color') || 'var(--pastel-1)';
     setTimeout(() => {
-        parentDiv.style.backgroundColor = original;
-    }, 900); // fade back after most of the cascade
+        parentDiv.style.backgroundColor = 'var(--secondary)';
+        setTimeout(() => {
+            parentDiv.style.transition = '';
+            parentDiv.style.backgroundColor = '';
+        }, 700);
+    }, 900);
+    // Nav bar/options bar: one interval after parent div
+    if (animateNavBar) {
+        setTimeout(() => {
+            animateNavAndOptionsBarColor();
+        }, rippleDelay);
+    }
+}
+
+/***** animate nav bar and options bar color (backgrounds only) *****/
+function animateNavAndOptionsBarColor() {
+    const navBar = document.getElementById('navBar');
+    const navBarOptionsBox = document.getElementById('navBarOptionsBox');
+    const navBarOptionsButton = document.getElementById('navBarOptionsButton');
+    const navBarOptions = document.querySelectorAll('.navBarOptions');
+    const cascadeColor = getComputedStyle(document.documentElement).getPropertyValue('--cascade-color') || 'var(--pastel-1)';
+    const secondaryColor = 'var(--secondary)';
+
+    // Only backgrounds/containers, not text or icons, and NOT the projects bar
+    [navBar, navBarOptionsBox, navBarOptionsButton, ...navBarOptions].forEach(bar => {
+        if (bar) {
+            bar.style.transition = 'background-color 0.6s cubic-bezier(.4,0,.2,1)';
+            bar.style.backgroundColor = cascadeColor;
+        }
+    });
+    setTimeout(() => {
+        [navBar, navBarOptionsBox, navBarOptionsButton, ...navBarOptions].forEach(bar => {
+            if (bar) {
+                bar.style.backgroundColor = secondaryColor;
+                setTimeout(() => {
+                    bar.style.transition = '';
+                    bar.style.backgroundColor = '';
+                }, 700);
+            }
+        });
+    }, 900);
 }

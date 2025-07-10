@@ -237,17 +237,14 @@
 @keyframes skillTextRipple {
     0% {
         transform: translateX(0);
-        color: white;
         opacity: 1;
     }
     50% {
         transform: translateX(4px);
-        color: var(--cascade-color, var(--pastel-1));
         opacity: 1;
     }
     100% {
         transform: translateX(0);
-        color: white;
         opacity: 1;
     }
 }
@@ -936,19 +933,20 @@
 @keyframes contactTextPop {
     0% {
         transform: translateX(0);
-        color: white;
         opacity: 1;
     }
     50% {
         transform: translateX(4px);
-        color: var(--cascade-color, var(--pastel-1));
         opacity: 1;
     }
     100% {
         transform: translateX(0);
-        color: white;
         opacity: 1;
     }
+}
+
+.skillsBody, .experiencesBody {
+    color: white !important;
 }
 
 

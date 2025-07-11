@@ -82,7 +82,7 @@
     border-radius: 8px;
 }
 
-/* Minimal Robot Controller Styles */
+/* Video container for mouse control */
 #videoContainer {
     position: fixed;
     top: 0;
@@ -95,6 +95,11 @@
     justify-content: center;
     background: #000;
     overflow: hidden;
+    cursor: crosshair; /* Default cursor for mouse control */
+}
+
+#videoContainer.mouse-control {
+    cursor: none; /* Hide cursor when in mouse control mode */
 }
 
 #robotVideo {
@@ -120,7 +125,7 @@
 
 #connectionStatus {
     position: absolute;
-    top: 80px;
+    top: 60px;
     right: 20px;
     background: rgba(0, 0, 0, 0.8);
     color: white;
@@ -135,7 +140,7 @@
 
 #connectButton {
     position: absolute;
-    bottom: 20px;
+    top: 20px;
     right: 20px;
     background: #2ecc40;
     color: white;
@@ -154,6 +159,31 @@
 }
 
 #connectButton:disabled {
+    background: #666;
+    cursor: not-allowed;
+}
+
+#controlModeToggle {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: #3498db;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    cursor: pointer;
+    z-index: 10;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+#controlModeToggle:hover {
+    background: #2980b9;
+}
+
+#controlModeToggle:disabled {
     background: #666;
     cursor: not-allowed;
 }
@@ -339,7 +369,7 @@
     /***** adjust status elements for mobile *****/
 
     #connectionStatus {
-        top: 20px;
+        top: 60px;
         right: 20px;
         font-size: 12px;
         padding: 8px 12px;
@@ -347,8 +377,15 @@
     }
 
     #connectButton {
-        bottom: 20px;
+        top: 20px;
         right: 20px;
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+
+    #controlModeToggle {
+        top: 20px;
+        left: 20px;
         padding: 10px 20px;
         font-size: 14px;
     }
@@ -359,6 +396,18 @@
         font-size: 12px;
         padding: 8px 12px;
         min-width: 150px;
+    }
+
+    /* Mobile Action Buttons for tablet */
+    #mobileActionButtons {
+        bottom: 20px;
+        gap: 15px;
+    }
+
+    .actionBtn {
+        width: 50px;
+        height: 50px;
+        font-size: 11px;
     }
 }
 
@@ -466,7 +515,7 @@
     /***** adjust status elements for smartphone *****/
 
     #connectionStatus {
-        top: 15px;
+        top: 50px;
         right: 15px;
         font-size: 11px;
         padding: 6px 10px;
@@ -474,8 +523,15 @@
     }
 
     #connectButton {
-        bottom: 15px;
+        top: 15px;
         right: 15px;
+        padding: 8px 16px;
+        font-size: 12px;
+    }
+
+    #controlModeToggle {
+        top: 15px;
+        left: 15px;
         padding: 8px 16px;
         font-size: 12px;
     }
@@ -486,6 +542,18 @@
         font-size: 11px;
         padding: 6px 10px;
         min-width: 120px;
+    }
+
+    /* Mobile Action Buttons for smartphone */
+    #mobileActionButtons {
+        bottom: 15px;
+        gap: 12px;
+    }
+
+    .actionBtn {
+        width: 45px;
+        height: 45px;
+        font-size: 10px;
     }
 }
 
@@ -581,7 +649,7 @@
   .mobileControlsLeft {
     position: absolute;
     left: 20px;
-    bottom: 80px;
+    bottom: 120px;
     width: 40vw;
     z-index: 12;
     align-items: flex-start;
@@ -590,7 +658,7 @@
   .mobileControlsRight {
     position: absolute;
     right: 20px;
-    bottom: 80px;
+    bottom: 120px;
     width: 40vw;
     z-index: 12;
     align-items: flex-end;
@@ -663,4 +731,46 @@
     background-color: white !important;
     opacity: 1 !important;
   }
+}
+
+/* Mobile Action Buttons */
+#mobileActionButtons {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 20px;
+    z-index: 10;
+}
+
+.actionBtn {
+    width: 60px;
+    height: 60px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.9);
+    color: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.actionBtn:hover {
+    background: rgba(255, 255, 255, 1);
+    border-color: #2ecc40;
+    transform: scale(1.1);
+}
+
+.actionBtn:active {
+    background: rgba(46, 204, 64, 0.8);
+    color: white;
+    transform: scale(0.95);
 }

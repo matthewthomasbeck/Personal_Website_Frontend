@@ -40,10 +40,10 @@ function runGroupAccessLogic() {
           <video id="robotVideo" autoplay playsinline muted>
             <p>Video stream loading...</p>
           </video>
-          <div id="connectionStatus">🔴 Disconnected</div>
           <button id="connectButton" onclick="connectToRobot()">Connect</button>
+          <div id="connectionStatus">🔴 Disconnected</div>
           <button id="leaveButton" onclick="leaveRobot()" style="display: none;">Leave Robot</button>
-          <div id="status">Ready to connect</div>
+          <button id="controlModeToggle" onclick="toggleControlMode()">Switch to Keyboard</button>
           <!-- Mobile 8-Button Controls -->
           <div id="mobileControls8">
             <div class="mobileControlsLeft">
@@ -83,6 +83,11 @@ function runGroupAccessLogic() {
               </div>
             </div>
           </div>
+          <!-- Mobile Action Buttons -->
+          <div id="mobileActionButtons">
+            <button class="actionBtn" id="actionBtn" onclick="sendRobotCommand('action')">Action</button>
+            <button class="actionBtn" id="jumpBtn" onclick="sendRobotCommand('jump')">Jump</button>
+          </div>
         </div>
       `;
       // Landscape enforcement logic
@@ -92,9 +97,11 @@ function runGroupAccessLogic() {
           if (window.innerWidth < window.innerHeight) {
             overlay.style.display = 'flex';
             if (document.getElementById('mobileControls8')) document.getElementById('mobileControls8').style.display = 'none';
+            if (document.getElementById('mobileActionButtons')) document.getElementById('mobileActionButtons').style.display = 'none';
           } else {
             overlay.style.display = 'none';
             if (document.getElementById('mobileControls8')) document.getElementById('mobileControls8').style.display = 'flex';
+            if (document.getElementById('mobileActionButtons')) document.getElementById('mobileActionButtons').style.display = 'flex';
           }
         }
         window.addEventListener('resize', checkOrientation);
@@ -147,10 +154,10 @@ function runGroupAccessLogic() {
         <video id="robotVideo" autoplay playsinline muted>
           <p>Video stream loading...</p>
         </video>
-        <div id="connectionStatus">🔴 Disconnected</div>
         <button id="connectButton" onclick="connectToRobot()">Connect</button>
+        <div id="connectionStatus">🔴 Disconnected</div>
         <button id="leaveButton" onclick="leaveRobot()" style="display: none;">Leave Robot</button>
-        <div id="status">Ready to connect</div>
+        <button id="controlModeToggle" onclick="toggleControlMode()">Switch to Mobile</button>
         <div class="controlInstructions">
           <h3>Robot Controls</h3>
           <ul>
@@ -158,8 +165,9 @@ function runGroupAccessLogic() {
             <li><strong>S/↓</strong> - Move Backward</li>
             <li><strong>A/←</strong> - Turn Left</li>
             <li><strong>D/→</strong> - Turn Right</li>
-            <li><strong>Space</strong> - Neutral Position</li>
-            <li><strong>Q</strong> - Exit</li>
+            <li><strong>Mouse</strong> - Look Around</li>
+            <li><strong>Space</strong> - Jump</li>
+            <li><strong>Left Click</strong> - Action</li>
           </ul>
         </div>
       </div>
@@ -191,6 +199,10 @@ let robotConnected = false;
 let videoCanvas = null;
 let videoContext = null;
 let isActiveController = false;
+let isMouseControlEnabled = false;
+let lastMouseX = 0;
+let lastMouseY = 0;
+let mouseSensitivity = 0.5;
 
 function initializeVideoHandling() {
   // Create canvas for video display
@@ -204,6 +216,38 @@ function initializeVideoHandling() {
 
     // Replace video element with canvas
     video.parentNode.replaceChild(videoCanvas, video);
+  }
+  
+  // Add click handler to video container for mouse control
+  const videoContainer = document.getElementById('videoContainer');
+  if (videoContainer) {
+    videoContainer.addEventListener('click', function() {
+      const isMobile = window.innerWidth <= 1024;
+      if (!isMobile && robotConnected && isActiveController) {
+        enableMouseControl();
+      }
+    });
+  }
+}
+
+function toggleControlMode() {
+  const isMobile = window.innerWidth <= 1024;
+  const toggleButton = document.getElementById('controlModeToggle');
+  
+  if (isMobile) {
+    // Switch to keyboard mode on mobile
+    if (toggleButton) {
+      toggleButton.textContent = 'Switch to Mobile';
+    }
+    // For mobile, we'll simulate keyboard mode by enabling mouse control
+    enableMouseControl();
+  } else {
+    // Switch to mobile mode on desktop
+    if (toggleButton) {
+      toggleButton.textContent = 'Switch to Keyboard';
+    }
+    // For desktop, we'll disable mouse control to simulate mobile mode
+    disableMouseControl();
   }
 }
 
@@ -342,7 +386,6 @@ function initializeSocketConnection(url) {
         img.onload = function() {
           try {
             videoContext.drawImage(img, 0, 0, videoCanvas.width, videoCanvas.height);
-            updateStatus('Video streaming');
           } catch (drawError) {
             console.error('Error drawing image to canvas:', drawError);
           }
@@ -372,18 +415,18 @@ function initializeSocketConnection(url) {
   signalingSocket.on('command-ack', function(data) {
     console.log('Command acknowledged:', data);
     if (data.status === 'sent') {
-      updateStatus(`Command sent: ${data.command}`);
+      console.log(`Command sent: ${data.command}`);
     } else if (data.status === 'error') {
-      updateStatus(`Command error: ${data.error}`);
+      console.error(`Command error: ${data.error}`);
     } else if (data.status === 'unauthorized') {
-      updateStatus(`Unauthorized: ${data.message}`);
+      console.error(`Unauthorized: ${data.message}`);
       // If we're not the active controller, update our state
       if (!isActiveController) {
         robotConnected = false;
         updateConnectionStatus('🔴 Not the active controller', 'denied');
       }
     } else if (data.status === 'robot_disconnected') {
-      updateStatus('Robot disconnected');
+      console.log('Robot disconnected');
       robotConnected = false;
       isActiveController = false;
       updateConnectionStatus('🔴 Robot disconnected', 'denied');
@@ -483,7 +526,7 @@ function disconnectFromRobot() {
   }
 
   updateConnectionStatus('🔴 Disconnected', 'denied');
-  updateStatus('Disconnected from robot');
+  console.log('Disconnected from robot');
 }
 
 function updateConnectionStatus(message, type) {
@@ -500,6 +543,61 @@ function sendRobotCommand(command) {
     signalingSocket.emit('robot-command', {
       command: command
     });
+  }
+}
+
+// Mouse tracking for rotation (Minecraft-style)
+function enableMouseControl() {
+  const isMobile = window.innerWidth <= 1024;
+  if (isMobile) return; // Only enable on desktop
+  
+  isMouseControlEnabled = true;
+  const videoContainer = document.getElementById('videoContainer');
+  if (videoContainer) {
+    videoContainer.classList.add('mouse-control');
+  }
+  
+  // Request pointer lock for mouse control
+  if (videoContainer && document.pointerLockElement !== videoContainer) {
+    videoContainer.requestPointerLock();
+  }
+}
+
+function disableMouseControl() {
+  isMouseControlEnabled = false;
+  const videoContainer = document.getElementById('videoContainer');
+  if (videoContainer) {
+    videoContainer.classList.remove('mouse-control');
+  }
+  
+  // Exit pointer lock
+  if (document.pointerLockElement) {
+    document.exitPointerLock();
+  }
+}
+
+// Mouse movement handler for rotation
+function handleMouseMove(event) {
+  if (!isMouseControlEnabled || !robotConnected || !isActiveController) return;
+  
+  const movementX = event.movementX || 0;
+  const movementY = event.movementY || 0;
+  
+  // Send rotation commands based on mouse movement
+  if (Math.abs(movementX) > 2) {
+    if (movementX > 0) {
+      sendRobotCommand('arrowright');
+    } else {
+      sendRobotCommand('arrowleft');
+    }
+  }
+  
+  if (Math.abs(movementY) > 2) {
+    if (movementY > 0) {
+      sendRobotCommand('arrowdown');
+    } else {
+      sendRobotCommand('arrowup');
+    }
   }
 }
 
@@ -527,17 +625,13 @@ document.addEventListener('keydown', function(event) {
       command = 'd';
       break;
     case ' ':
-      command = 'n';
-      break;
-    case 'q':
-      command = 'q';
+      command = 'jump';
       break;
   }
 
   if (command) {
     event.preventDefault();
     sendRobotCommand(command);
-    updateStatus(`Command: ${command}`);
   }
 });
 
@@ -547,16 +641,33 @@ document.addEventListener('keyup', function(event) {
   const key = event.key.toLowerCase();
   if (['w', 's', 'a', 'd', 'arrowup', 'arrowdown', 'arrowleft', 'arrowright'].includes(key)) {
     sendRobotCommand('n'); // Send neutral command when key is released
-    updateStatus('Neutral position');
   }
 });
 
-function updateStatus(message) {
-  const statusElement = document.getElementById('status');
-  if (statusElement) {
-    statusElement.textContent = message;
+// Mouse click handler for action
+document.addEventListener('click', function(event) {
+  if (!robotConnected || !isActiveController) return;
+  
+  // Only trigger action on left click and if we're in mouse control mode
+  if (event.button === 0 && isMouseControlEnabled) {
+    sendRobotCommand('action');
   }
-}
+});
+
+// Pointer lock event handlers
+document.addEventListener('pointerlockchange', function() {
+  const videoContainer = document.getElementById('videoContainer');
+  if (document.pointerLockElement === videoContainer) {
+    // Pointer locked - enable mouse control
+    enableMouseControl();
+  } else {
+    // Pointer unlocked - disable mouse control
+    disableMouseControl();
+  }
+});
+
+// Add mouse movement listener
+document.addEventListener('mousemove', handleMouseMove);
 
 // Handle window resize and orientation changes
 window.addEventListener('resize', function() {

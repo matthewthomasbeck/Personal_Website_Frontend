@@ -43,7 +43,7 @@ function runGroupAccessLogic() {
           <button id="connectButton" onclick="connectToRobot()">Connect</button>
           <button id="leaveButton" onclick="leaveRobot()" style="display: none;">Leave Robot</button>
           <!-- Mobile 8-Button Controls -->
-          <div id="mobileControls8">
+          <div id="mobileControls10">
             <div class="mobileControlsLeft">
               <div class="controlRow controlRowUpDown">
                 <button class="controlBtn arrowBtn" id="lookUpBtn" data-command="arrowup">
@@ -62,7 +62,7 @@ function runGroupAccessLogic() {
                 </button>
               </div>
               <div class="controlRow">
-                <div class="actionBtnRect" id="actionBtn" data-command="click"></div>
+                <button class="controlBtn" id="actionBtn" data-command="click"></button>
               </div>
             </div>
             <div class="mobileControlsRight">
@@ -83,7 +83,7 @@ function runGroupAccessLogic() {
                 </button>
               </div>
               <div class="controlRow">
-                <div class="jumpBtnRect" id="jumpBtn" data-command=" "></div>
+                <button class="controlBtn" id="jumpBtn" data-command=" "></button>
               </div>
             </div>
           </div>
@@ -95,10 +95,10 @@ function runGroupAccessLogic() {
           const overlay = document.getElementById('landscapeOverlay');
           if (window.innerWidth < window.innerHeight) {
             overlay.style.display = 'flex';
-            if (document.getElementById('mobileControls8')) document.getElementById('mobileControls8').style.display = 'none';
+            if (document.getElementById('mobileControls10')) document.getElementById('mobileControls10').style.display = 'none';
           } else {
             overlay.style.display = 'none';
-            if (document.getElementById('mobileControls8')) document.getElementById('mobileControls8').style.display = 'flex';
+            if (document.getElementById('mobileControls10')) document.getElementById('mobileControls10').style.display = 'flex';
           }
         }
         window.addEventListener('resize', checkOrientation);
@@ -107,7 +107,7 @@ function runGroupAccessLogic() {
       }, 200);
       // Hold-to-repeat logic for mobile controls
       setTimeout(() => {
-        const btns = document.querySelectorAll('#mobileControls8 .controlBtn');
+        const btns = document.querySelectorAll('#mobileControls10 .controlBtn');
         btns.forEach(btn => {
           let interval = null;
           let isTouch = false;
@@ -176,16 +176,16 @@ function runGroupAccessLogic() {
           <div class="controlInstructions standardFont">
             <h3>Robot Controls</h3>
             <ul>
-              <li><strong>W</strong>   Move Forward</li>
-              <li><strong>S</strong>   Move Backward</li>
-              <li><strong>A</strong>   Turn Left</li>
-              <li><strong>D</strong>   Turn Right</li>
-              <li><strong>↑</strong>   Look Up</li>
-              <li><strong>↓</strong>   Look Down</li>
-              <li><strong>←</strong>   Rotate Left</li>
-              <li><strong>→</strong>   Rotate Right</li>
-              <li><strong>Space</strong>   Jump</li>
-              <li><strong>Click</strong>   Action</li>
+              <li><strong>W</strong> Move Forward</li>
+              <li><strong>S</strong> Move Backward</li>
+              <li><strong>A</strong> Turn Left</li>
+              <li><strong>D</strong> Turn Right</li>
+              <li><strong>↑</strong> Look Up</li>
+              <li><strong>↓</strong> Look Down</li>
+              <li><strong>←</strong> Rotate Left</li>
+              <li><strong>→</strong> Rotate Right</li>
+              <li><strong>Space</strong> Jump</li>
+              <li><strong>Click</strong> Action</li>
             </ul>
           </div>
         </div>

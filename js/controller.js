@@ -62,9 +62,7 @@ function runGroupAccessLogic() {
                 </button>
               </div>
               <div class="controlRow">
-                <button class="controlBtn" id="actionBtn" data-command="click">
-                  <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-south.png" alt="Action">
-                </button>
+                <button class="controlBtn" id="actionBtn" data-command="click"></button>
               </div>
             </div>
             <div class="mobileControlsRight">
@@ -85,8 +83,7 @@ function runGroupAccessLogic() {
                 </button>
               </div>
               <div class="controlRow">
-                <button class="controlBtn" id="jumpBtn" data-command=" ">
-                </button>
+                <button class="controlBtn" id="jumpBtn" data-command=" "></button>
               </div>
             </div>
           </div>

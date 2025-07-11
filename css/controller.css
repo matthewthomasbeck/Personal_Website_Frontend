@@ -274,13 +274,13 @@
     }
 
     .controlBtn:hover {
-        background: rgba(46, 204, 64, 0.8);
-        border-color: #2ecc40;
+        background: #ffffff;
+        border-color: #ffffff;
         transform: scale(1.1);
     }
 
     .controlBtn:active {
-        background: rgba(46, 204, 64, 1);
+        background: #ffffff;
         transform: scale(0.95);
     }
 
@@ -417,7 +417,7 @@
     }
     
     .controlBtn:active img, .controlBtn:focus img {
-        filter: brightness(0.7) invert(1) drop-shadow(0 0 8px #2ecc40);
+        filter: brightness(0.7) invert(1) drop-shadow(0 0 8px #ffffff);
     }
     
     /* Hide any text in buttons */
@@ -523,13 +523,13 @@
     }
 
     .controlBtn:hover {
-        background: rgba(46, 204, 64, 0.8);
-        border-color: #2ecc40;
+        background: #ffffff;
+        border-color: #ffffff;
         transform: scale(1.1);
     }
 
     .controlBtn:active {
-        background: rgba(46, 204, 64, 1);
+        background: #ffffff;
         transform: scale(0.95);
     }
 
@@ -657,7 +657,7 @@
     user-select: none;
   }
   .controlBtn:active img, .controlBtn:focus img {
-    filter: brightness(0.7) invert(1) drop-shadow(0 0 8px #2ecc40);
+    filter: brightness(0.7) invert(1) drop-shadow(0 0 8px #ffffff);
   }
   /* Hide any text in buttons */
   .controlBtn span { display: none; }
@@ -726,7 +726,7 @@
     width: 60px;
     height: 36px;
     background: #fff;
-    border: 2px solid #2ecc40;
+    border: 2px solid #ffffff;
     border-radius: 6px;
     display: flex;
     align-items: center;
@@ -738,15 +738,15 @@
     pointer-events: auto;
   }
   .actionBtnRect:hover, .jumpBtnRect:hover {
-    background: #2ecc40;
+    background: #ffffff;
     color: #fff;
-    border-color: #27ae60;
+    border-color: #ffffff;
     transform: scale(1.05);
   }
   .actionBtnRect:active, .jumpBtnRect:active {
-    background: #27ae60;
+    background: #ffffff;
     color: #fff;
-    border-color: #229954;
+    border-color: #ffffff;
     transform: scale(0.95);
   }
 }
@@ -778,22 +778,25 @@
 }
 
 #actionBtn, #jumpBtn {
-  background: #fff;
-  border: 2px solid #2ecc40;
-  border-radius: 6px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  transition: background-color 0.3s, border-color 0.3s, transform 0.2s;
+    background: #fff;
+    border: 2px solid #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    transition: background-color 0.3s, border-color 0.3s, transform 0.2s;
+    width: 192px;
+    height: 40px;
+    margin-top: 8px;
 }
 #actionBtn:hover, #jumpBtn:hover {
-  background: #2ecc40;
+  background: #ffffff;
   color: #fff;
-  border-color: #27ae60;
+  border-color: #ffffff;
   transform: scale(1.05);
 }
 #actionBtn:active, #jumpBtn:active {
-  background: #27ae60;
+  background: #ffffff;
   color: #fff;
-  border-color: #229954;
+  border-color: #ffffff;
   transform: scale(0.95);
 }
 

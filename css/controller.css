@@ -82,7 +82,7 @@
     border-radius: 8px;
 }
 
-/* Video container for mouse control */
+/* Minimal Robot Controller Styles */
 #videoContainer {
     position: fixed;
     top: 0;
@@ -95,11 +95,6 @@
     justify-content: center;
     background: #000;
     overflow: hidden;
-    cursor: crosshair; /* Default cursor for mouse control */
-}
-
-#videoContainer.mouse-control {
-    cursor: none; /* Hide cursor when in mouse control mode */
 }
 
 #robotVideo {
@@ -123,9 +118,24 @@
     z-index: 1;
 }
 
+#connectionStatus {
+    position: absolute;
+    top: calc(var(--navBarHeight) + 65px);
+    right: 20px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 10px 15px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: bold;
+    z-index: 10;
+    min-width: 150px;
+    text-align: center;
+}
+
 #connectButton {
     position: absolute;
-    top: calc(var(--navBarHeight) + 5px);
+    top: calc(var(--navBarHeight) + 15px);
     right: 20px;
     background: #2ecc40;
     color: white;
@@ -148,9 +158,9 @@
     cursor: not-allowed;
 }
 
-#controlModeToggle {
+#controlToggleButton {
     position: absolute;
-    top: calc(var(--navBarHeight) + 5px);
+    top: calc(var(--navBarHeight) + 15px);
     left: 20px;
     background: #3498db;
     color: white;
@@ -164,34 +174,30 @@
     transition: background-color 0.3s ease;
 }
 
-#controlModeToggle:hover {
+#controlToggleButton:hover {
     background: #2980b9;
 }
 
-#controlModeToggle:disabled {
-    background: #666;
-    cursor: not-allowed;
-}
-
-#connectionStatus {
+#status {
     position: absolute;
-    top: calc(var(--navBarHeight) + 45px);
-    right: 20px;
+    bottom: 20px;
+    left: 20px;
     background: rgba(0, 0, 0, 0.8);
     color: white;
-    padding: 10px 15px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 6px;
-    font-size: 14px;
+    padding: 10px 15px;
+    font-family: 'Courier New', monospace;
     font-weight: bold;
+    font-size: 14px;
     z-index: 10;
-    min-width: 150px;
-    text-align: center;
+    min-width: 200px;
 }
 
 /* Control instructions overlay */
 .controlInstructions {
     position: absolute;
-    top: calc(var(--navBarHeight) + 45px);
+    top: calc(var(--navBarHeight) + 65px);
     left: 20px;
     background: rgba(0, 0, 0, 0.8);
     color: white;
@@ -256,6 +262,12 @@
     /***** hide desktop controls on tablet *****/
 
     .controlInstructions {
+        display: none !important;
+    }
+
+    /***** hide mobile action buttons by default *****/
+
+    #mobileActionButtons {
         display: none;
     }
 
@@ -296,6 +308,17 @@
         -webkit-touch-callout: none;
     }
 
+    .controlBtn:hover {
+        background: rgba(46, 204, 64, 0.8);
+        border-color: #2ecc40;
+        transform: scale(1.1);
+    }
+
+    .controlBtn:active {
+        background: rgba(46, 204, 64, 1);
+        transform: scale(0.95);
+    }
+
     .controlBtn img {
         width: 30px;
         height: 30px;
@@ -311,6 +334,10 @@
     .exitBtn {
         background: rgba(255, 65, 54, 0.7) !important;
         border-color: #ff4136 !important;
+    }
+
+    .exitBtn:hover {
+        background: rgba(255, 65, 54, 0.9) !important;
     }
 
     /***** adjust video container for mobile *****/
@@ -338,7 +365,7 @@
     /***** adjust status elements for mobile *****/
 
     #connectionStatus {
-        top: calc(var(--navBarHeight) + 45px);
+        top: 20px;
         right: 20px;
         font-size: 12px;
         padding: 8px 12px;
@@ -346,22 +373,10 @@
     }
 
     #connectButton {
-        top: calc(var(--navBarHeight) + 5px);
+        bottom: 20px;
         right: 20px;
         padding: 10px 20px;
         font-size: 14px;
-    }
-
-    #controlModeToggle {
-        top: calc(var(--navBarHeight) + 5px);
-        left: 20px;
-        padding: 10px 20px;
-        font-size: 14px;
-    }
-
-    .controlInstructions {
-        top: calc(var(--navBarHeight) + 45px);
-        left: 20px;
     }
 
     #status {
@@ -370,18 +385,6 @@
         font-size: 12px;
         padding: 8px 12px;
         min-width: 150px;
-    }
-
-    /* Mobile Action Buttons for tablet */
-    #mobileActionButtons {
-        bottom: 20px;
-        gap: 15px;
-    }
-
-    .actionBtn {
-        width: 50px;
-        height: 50px;
-        font-size: 11px;
     }
 }
 
@@ -392,6 +395,12 @@
     /***** hide desktop controls on smartphone *****/
 
     .controlInstructions {
+        display: none !important;
+    }
+
+    /***** hide mobile action buttons by default *****/
+
+    #mobileActionButtons {
         display: none;
     }
 
@@ -432,6 +441,17 @@
         -webkit-touch-callout: none;
     }
 
+    .controlBtn:hover {
+        background: rgba(46, 204, 64, 0.8);
+        border-color: #2ecc40;
+        transform: scale(1.1);
+    }
+
+    .controlBtn:active {
+        background: rgba(46, 204, 64, 1);
+        transform: scale(0.95);
+    }
+
     .controlBtn img {
         width: 25px;
         height: 25px;
@@ -447,6 +467,10 @@
     .exitBtn {
         background: rgba(255, 65, 54, 0.7) !important;
         border-color: #ff4136 !important;
+    }
+
+    .exitBtn:hover {
+        background: rgba(255, 65, 54, 0.9) !important;
     }
 
     /***** adjust video container for smartphone *****/
@@ -474,7 +498,7 @@
     /***** adjust status elements for smartphone *****/
 
     #connectionStatus {
-        top: calc(var(--navBarHeight) + 35px);
+        top: 15px;
         right: 15px;
         font-size: 11px;
         padding: 6px 10px;
@@ -482,22 +506,10 @@
     }
 
     #connectButton {
-        top: calc(var(--navBarHeight) + 5px);
+        bottom: 15px;
         right: 15px;
         padding: 8px 16px;
         font-size: 12px;
-    }
-
-    #controlModeToggle {
-        top: calc(var(--navBarHeight) + 5px);
-        left: 15px;
-        padding: 8px 16px;
-        font-size: 12px;
-    }
-
-    .controlInstructions {
-        top: calc(var(--navBarHeight) + 35px);
-        left: 15px;
     }
 
     #status {
@@ -506,18 +518,6 @@
         font-size: 11px;
         padding: 6px 10px;
         min-width: 120px;
-    }
-
-    /* Mobile Action Buttons for smartphone */
-    #mobileActionButtons {
-        bottom: 15px;
-        gap: 12px;
-    }
-
-    .actionBtn {
-        width: 45px;
-        height: 45px;
-        font-size: 10px;
     }
 }
 
@@ -529,7 +529,7 @@
     height: 100vh;
     top: 0;
     left: 0;
-    display: flex;
+    display: none;
     flex-direction: row;
     justify-content: space-between;
     pointer-events: none;
@@ -601,6 +601,9 @@
     pointer-events: none;
     user-select: none;
   }
+  .controlBtn:active img, .controlBtn:focus img {
+    filter: brightness(0.7) invert(1) drop-shadow(0 0 8px #2ecc40);
+  }
   /* Hide any text in buttons */
   .controlBtn span { display: none; }
   /* Make sure controls are above video/status */
@@ -610,7 +613,7 @@
   .mobileControlsLeft {
     position: absolute;
     left: 20px;
-    bottom: 120px;
+    bottom: 80px;
     width: 40vw;
     z-index: 12;
     align-items: flex-start;
@@ -619,11 +622,51 @@
   .mobileControlsRight {
     position: absolute;
     right: 20px;
-    bottom: 120px;
+    bottom: 80px;
     width: 40vw;
     z-index: 12;
     align-items: flex-end;
     margin-right: 0;
+  }
+  /* Mobile Action Buttons */
+  #mobileActionButtons {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    display: none;
+    flex-direction: row;
+    gap: 20px;
+    align-items: center;
+  }
+  .mobileActionBtn {
+    width: 80px;
+    height: 80px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    font-size: 14px;
+    font-weight: bold;
+    font-family: 'Courier New', monospace;
+  }
+  .mobileActionBtn:hover {
+    background: rgba(46, 204, 64, 0.8);
+    border-color: #2ecc40;
+    transform: scale(1.1);
+  }
+  .mobileActionBtn:active {
+    background: rgba(46, 204, 64, 1);
+    transform: scale(0.95);
   }
   /* Transparent navBarOptions and projectsBarOptions, but not their children */
   .navBarOptions, .projectsBarOptions {
@@ -670,6 +713,11 @@
   .controlRowLRD {
     gap: 0.2em;
   }
+  .mobileActionBtn {
+    width: 60px;
+    height: 60px;
+    font-size: 12px;
+  }
 }
 
 @media only screen and (max-width: 1024px) {
@@ -700,18 +748,19 @@
     bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
+    z-index: 10;
     display: flex;
     gap: 20px;
-    z-index: 10;
+    align-items: center;
 }
 
-.actionBtn {
-    width: 60px;
-    height: 60px;
+.mobileActionBtn {
+    width: 80px;
+    height: 80px;
     border: 2px solid rgba(255, 255, 255, 0.3);
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.9);
-    color: #333;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -720,6 +769,18 @@
     user-select: none;
     -webkit-user-select: none;
     -webkit-touch-callout: none;
+    font-size: 14px;
     font-weight: bold;
-    font-size: 12px;
+    font-family: 'Courier New', monospace;
+}
+
+.mobileActionBtn:hover {
+    background: rgba(46, 204, 64, 0.8);
+    border-color: #2ecc40;
+    transform: scale(1.1);
+}
+
+.mobileActionBtn:active {
+    background: rgba(46, 204, 64, 1);
+    transform: scale(0.95);
 }

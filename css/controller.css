@@ -463,49 +463,6 @@
         margin-right: 0;
     }
     
-    /* Mobile Action and Jump Buttons */
-    .mobileActionButtons {
-        position: absolute;
-        bottom: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        display: flex;
-        gap: 20px;
-        z-index: 12;
-        pointer-events: auto;
-    }
-    
-    .actionBtn, .jumpBtn {
-        width: 80px;
-        height: 50px;
-        border: 2px solid rgba(255, 255, 255, 0.3);
-        border-radius: 25px;
-        background: rgba(0, 0, 0, 0.7);
-        color: white;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        user-select: none;
-        -webkit-user-select: none;
-        -webkit-touch-callout: none;
-        font-size: 14px;
-        font-weight: bold;
-        font-family: 'Courier New', monospace;
-    }
-    
-    .actionBtn:hover, .jumpBtn:hover {
-        background: rgba(46, 204, 64, 0.8);
-        border-color: #2ecc40;
-        transform: scale(1.05);
-    }
-    
-    .actionBtn:active, .jumpBtn:active {
-        background: rgba(46, 204, 64, 1);
-        transform: scale(0.95);
-    }
-    
     /* Transparent navBarOptions and projectsBarOptions, but not their children */
     .navBarOptions, .projectsBarOptions {
         opacity: 0 !important;
@@ -763,49 +720,6 @@
     margin-right: 0;
   }
   
-  /* Mobile Action and Jump Buttons */
-  .mobileActionButtons {
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 20px;
-    z-index: 12;
-    pointer-events: auto;
-  }
-  
-  .actionBtn, .jumpBtn {
-    width: 80px;
-    height: 50px;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    border-radius: 25px;
-    background: rgba(0, 0, 0, 0.7);
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    user-select: none;
-    -webkit-user-select: none;
-    -webkit-touch-callout: none;
-    font-size: 14px;
-    font-weight: bold;
-    font-family: 'Courier New', monospace;
-  }
-  
-  .actionBtn:hover, .jumpBtn:hover {
-    background: rgba(46, 204, 64, 0.8);
-    border-color: #2ecc40;
-    transform: scale(1.05);
-  }
-  
-  .actionBtn:active, .jumpBtn:active {
-    background: rgba(46, 204, 64, 1);
-    transform: scale(0.95);
-  }
-  
   /* Transparent navBarOptions and projectsBarOptions, but not their children */
   .navBarOptions, .projectsBarOptions {
     opacity: 0 !important;
@@ -853,14 +767,32 @@
   }
   
   /* Smaller action and jump buttons for smartphones */
-  .actionBtn, .jumpBtn {
-    width: 70px;
-    height: 45px;
-    font-size: 12px;
+  .actionBtnRect, .jumpBtnRect {
+    width: 60px;
+    height: 36px;
+    background: #fff;
+    border: 2px solid #2ecc40;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s, transform 0.2s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    margin: 12px 0 0 0;
+    pointer-events: auto;
   }
-  
-  .mobileActionButtons {
-    gap: 15px;
+  .actionBtnRect:hover, .jumpBtnRect:hover {
+    background: #2ecc40;
+    color: #fff;
+    border-color: #27ae60;
+    transform: scale(1.05);
+  }
+  .actionBtnRect:active, .jumpBtnRect:active {
+    background: #27ae60;
+    color: #fff;
+    border-color: #229954;
+    transform: scale(0.95);
   }
 }
 

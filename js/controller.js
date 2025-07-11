@@ -61,6 +61,7 @@ function runGroupAccessLogic() {
                   <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-east.png" alt="Look Right">
                 </button>
               </div>
+              <div class="actionBtnRect" id="actionBtn" data-command="click"></div>
             </div>
             <div class="mobileControlsRight">
               <div class="controlRow controlRowUpDown">
@@ -79,15 +80,7 @@ function runGroupAccessLogic() {
                   <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-east.png" alt="Move Right">
                 </button>
               </div>
-            </div>
-            <!-- Mobile Action and Jump Buttons -->
-            <div class="mobileActionButtons">
-              <button class="actionBtn" id="actionBtn" data-command="click">
-                <span>Action</span>
-              </button>
-              <button class="jumpBtn" id="jumpBtn" data-command=" ">
-                <span>Jump</span>
-              </button>
+              <div class="jumpBtnRect" id="jumpBtn" data-command=" "></div>
             </div>
           </div>
         </div>
@@ -176,13 +169,13 @@ function runGroupAccessLogic() {
           </video>
           <button id="connectButton" onclick="connectToRobot()">Connect</button>
           <button id="leaveButton" onclick="leaveRobot()" style="display: none;">Leave Robot</button>
-          <div class="controlInstructions">
+          <div class="controlInstructions standardFont">
             <h3>Robot Controls</h3>
             <ul>
-              <li><strong>W/↑</strong> - Move Forward</li>
-              <li><strong>S/↓</strong> - Move Backward</li>
-              <li><strong>A/←</strong> - Turn Left</li>
-              <li><strong>D/→</strong> - Turn Right</li>
+              <li><strong>W</strong> - Move Forward</li>
+              <li><strong>S</strong> - Move Backward</li>
+              <li><strong>A</strong> - Turn Left</li>
+              <li><strong>D</strong> - Turn Right</li>
               <li><strong>↑</strong> - Look Up</li>
               <li><strong>↓</strong> - Look Down</li>
               <li><strong>←</strong> - Rotate Left</li>
@@ -239,6 +232,8 @@ function initializeVideoHandling() {
 function connectToRobot() {
   const connectButton = document.getElementById('connectButton');
   if (!connectButton) return;
+
+  connectButton.classList.add('standardFont');
 
   // Connect to signaling server
   connectToSignalingServer();

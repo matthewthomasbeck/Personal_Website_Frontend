@@ -253,6 +253,7 @@
         gap: 15px;
         align-items: center;
         justify-content: center;
+        height: fit-content;
     }
 
     .controlBtn {
@@ -381,9 +382,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        margin-bottom: 0;
         width: 100%;
-        padding-bottom: 2px;
     }
     
     .controlRowLRD {
@@ -394,18 +393,6 @@
         gap: 0.5em;
         width: 100%;
         margin-top: 0;
-        margin-bottom: 10px;
-    }
-    
-    .mobileControlsLeft .controlRowUpDown,
-    .mobileControlsRight .controlRowUpDown {
-        margin-bottom: 0.2em;
-        margin-top: 0.5em;
-    }
-    
-    .mobileControlsLeft .controlRowLRD,
-    .mobileControlsRight .controlRowLRD {
-        margin-bottom: 1.2em;
     }
     
     .controlBtn {
@@ -521,9 +508,10 @@
 
     .controlRow {
         display: flex;
-        gap: 12px;
+        gap: 15px;
         align-items: center;
         justify-content: center;
+        height: fit-content;
     }
 
     .controlBtn {
@@ -649,28 +637,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 0;
     width: 100%;
-    padding-bottom: 2px;
   }
   .controlRowLRD {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    gap: 0.5em;
     width: 100%;
-    margin-top: 0;
-    margin-bottom: 10px;
-  }
-  .mobileControlsLeft .controlRowUpDown,
-  .mobileControlsRight .controlRowUpDown {
-    margin-bottom: 0.2em;
-    margin-top: 0.5em;
-  }
-  .mobileControlsLeft .controlRowLRD,
-  .mobileControlsRight .controlRowLRD {
-    margin-bottom: 1.2em;
   }
   .controlBtn {
     background: transparent !important;
@@ -764,9 +738,6 @@
   .mobileControlsLeft, .mobileControlsRight {
     width: 48vw;
   }
-  .controlRowLRD {
-    gap: 0.2em;
-  }
   
   /* Smaller action and jump buttons for smartphones */
   .actionBtnRect, .jumpBtnRect {
@@ -853,7 +824,6 @@
     z-index: 12;
     align-items: flex-start;
     margin-left: 0;
-    justify-content: center;
 }
 .mobileControlsRight {
     position: absolute;
@@ -863,5 +833,4 @@
     z-index: 12;
     align-items: flex-end;
     margin-right: 0;
-    justify-content: center;
 }

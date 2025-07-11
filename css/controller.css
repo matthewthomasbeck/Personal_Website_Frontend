@@ -118,24 +118,9 @@
     z-index: 1;
 }
 
-#connectionStatus {
-    position: absolute;
-    top: calc(var(--navBarHeight) + 15px);
-    right: 20px;
-    background: rgba(0, 0, 0, 0.8);
-    color: white;
-    padding: 10px 15px;
-    border-radius: 6px;
-    font-size: 14px;
-    font-weight: bold;
-    z-index: 10;
-    min-width: 150px;
-    text-align: center;
-}
-
 #connectButton {
     position: absolute;
-    top: calc(var(--navBarHeight) + 55px);
+    top: calc(var(--navBarHeight) + 15px);
     right: 20px;
     background: #2ecc40;
     color: white;
@@ -342,26 +327,213 @@
 
     /***** adjust status elements for mobile *****/
 
-    #connectionStatus {
-        top: calc(var(--navBarHeight) + 15px);
-        right: 20px;
-        font-size: 12px;
-        padding: 8px 12px;
-        min-width: 120px;
-    }
-
     #connectButton {
-        top: calc(var(--navBarHeight) + 55px);
+        top: calc(var(--navBarHeight) + 15px);
         right: 20px;
         padding: 10px 20px;
         font-size: 14px;
     }
     
     #leaveButton {
-        top: calc(var(--navBarHeight) + 55px);
+        top: calc(var(--navBarHeight) + 15px);
         right: 20px;
         padding: 10px 20px;
         font-size: 14px;
+    }
+    
+    /***** force mobile 8-button controls on tablet *****/
+    
+    #mobileControls8 {
+        position: absolute;
+        width: 100vw;
+        height: 100vh;
+        top: 0;
+        left: 0;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        pointer-events: none;
+        z-index: 10;
+    }
+    
+    .mobileControlsLeft, .mobileControlsRight {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: center;
+        height: 100%;
+        width: 40vw;
+        pointer-events: none;
+    }
+    
+    .mobileControlsLeft {
+        align-items: flex-start;
+        margin-left: 2vw;
+    }
+    
+    .mobileControlsRight {
+        align-items: flex-end;
+        margin-right: 2vw;
+    }
+    
+    .controlRowUpDown {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 0;
+        width: 100%;
+        padding-bottom: 2px;
+    }
+    
+    .controlRowLRD {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 0.5em;
+        width: 100%;
+        margin-top: 0;
+        margin-bottom: 10px;
+    }
+    
+    .mobileControlsLeft .controlRowUpDown,
+    .mobileControlsRight .controlRowUpDown {
+        margin-bottom: 0.2em;
+        margin-top: 0.5em;
+    }
+    
+    .mobileControlsLeft .controlRowLRD,
+    .mobileControlsRight .controlRowLRD {
+        margin-bottom: 1.2em;
+    }
+    
+    .controlBtn {
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        outline: none !important;
+        padding: 0;
+        margin: 0 6px;
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        pointer-events: auto;
+        touch-action: manipulation;
+    }
+    
+    .controlBtn img {
+        width: 40px;
+        height: 40px;
+        filter: brightness(0) invert(1);
+        pointer-events: none;
+        user-select: none;
+    }
+    
+    .controlBtn:active img, .controlBtn:focus img {
+        filter: brightness(0.7) invert(1) drop-shadow(0 0 8px #2ecc40);
+    }
+    
+    /* Hide any text in buttons */
+    .controlBtn span { display: none; }
+    
+    /* Make sure controls are above video/status */
+    #mobileControls8 { pointer-events: none; }
+    .controlBtn { pointer-events: auto; }
+    
+    /* Position left controls above status, right controls above connect */
+    .mobileControlsLeft {
+        position: absolute;
+        left: 20px;
+        bottom: 80px;
+        width: 40vw;
+        z-index: 12;
+        align-items: flex-start;
+        margin-left: 0;
+    }
+    
+    .mobileControlsRight {
+        position: absolute;
+        right: 20px;
+        bottom: 80px;
+        width: 40vw;
+        z-index: 12;
+        align-items: flex-end;
+        margin-right: 0;
+    }
+    
+    /* Mobile Action and Jump Buttons */
+    .mobileActionButtons {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 20px;
+        z-index: 12;
+        pointer-events: auto;
+    }
+    
+    .actionBtn, .jumpBtn {
+        width: 80px;
+        height: 50px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-radius: 25px;
+        background: rgba(0, 0, 0, 0.7);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        user-select: none;
+        -webkit-user-select: none;
+        -webkit-touch-callout: none;
+        font-size: 14px;
+        font-weight: bold;
+        font-family: 'Courier New', monospace;
+    }
+    
+    .actionBtn:hover, .jumpBtn:hover {
+        background: rgba(46, 204, 64, 0.8);
+        border-color: #2ecc40;
+        transform: scale(1.05);
+    }
+    
+    .actionBtn:active, .jumpBtn:active {
+        background: rgba(46, 204, 64, 1);
+        transform: scale(0.95);
+    }
+    
+    /* Transparent navBarOptions and projectsBarOptions, but not their children */
+    .navBarOptions, .projectsBarOptions {
+        opacity: 0 !important;
+        background: transparent !important;
+    }
+    .navBarOptions > *, .projectsBarOptions > * {
+        opacity: 1 !important;
+    }
+    
+    /* Landscape overlay */
+    #landscapeOverlay {
+        position: fixed;
+        top: 0; left: 0; width: 100vw; height: 100vh;
+        background: rgba(0,0,0,0.7);
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .landscapeMessage {
+        color: #fff;
+        font-size: 1.5em;
+        background: rgba(0,0,0,0.5);
+        border-radius: 16px;
+        padding: 32px 24px;
+        text-align: center;
+        max-width: 80vw;
+        box-shadow: 0 2px 16px #0008;
     }
 }
 
@@ -468,23 +640,15 @@
 
     /***** adjust status elements for smartphone *****/
 
-    #connectionStatus {
-        top: calc(var(--navBarHeight) + 15px);
-        right: 15px;
-        font-size: 11px;
-        padding: 6px 10px;
-        min-width: 100px;
-    }
-
     #connectButton {
-        top: calc(var(--navBarHeight) + 55px);
+        top: calc(var(--navBarHeight) + 15px);
         right: 15px;
         padding: 8px 16px;
         font-size: 12px;
     }
     
     #leaveButton {
-        top: calc(var(--navBarHeight) + 55px);
+        top: calc(var(--navBarHeight) + 15px);
         right: 15px;
         padding: 8px 16px;
         font-size: 12px;

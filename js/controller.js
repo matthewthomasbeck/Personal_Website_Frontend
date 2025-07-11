@@ -25,8 +25,8 @@ function runGroupAccessLogic() {
   const payload = JSON.parse(atob(idToken.split('.')[1]));
   const groups = payload['cognito:groups'] || [];
   if (groups.includes('owner') || groups.includes('privileged')) {
-    // Check if device is mobile
-    const isMobile = window.innerWidth <= 1024;
+    // Check if device is mobile or tablet (force mobile controls on tablets)
+    const isMobile = window.innerWidth <= 1025;
     
     if (isMobile) {
       // Mobile version with 8 arrow controls and landscape enforcement
@@ -40,7 +40,6 @@ function runGroupAccessLogic() {
           <video id="robotVideo" autoplay playsinline muted>
             <p>Video stream loading...</p>
           </video>
-          <div id="connectionStatus">🔴 Disconnected</div>
           <button id="connectButton" onclick="connectToRobot()">Connect</button>
           <button id="leaveButton" onclick="leaveRobot()" style="display: none;">Leave Robot</button>
           <!-- Mobile 8-Button Controls -->
@@ -175,7 +174,6 @@ function runGroupAccessLogic() {
           <video id="robotVideo" autoplay playsinline muted>
             <p>Video stream loading...</p>
           </video>
-          <div id="connectionStatus">🔴 Disconnected</div>
           <button id="connectButton" onclick="connectToRobot()">Connect</button>
           <button id="leaveButton" onclick="leaveRobot()" style="display: none;">Leave Robot</button>
           <div class="controlInstructions">
@@ -273,7 +271,7 @@ function connectToSignalingServer() {
 
   } catch (error) {
     console.error('Failed to connect to signaling server:', error);
-    updateConnectionStatus('🔴 Connection failed', 'denied');
+    console.log('🔴 Connection failed');
   }
 }
 
@@ -285,7 +283,7 @@ function initializeSocketConnection(url) {
 
   signalingSocket.on('connect', function() {
     console.log('Connected to signaling server');
-    updateConnectionStatus('🟡 Connecting to robot...', 'pending');
+    console.log('🟡 Connecting to robot...');
 
     // Send authentication
     const idToken = window.sessionStorage.getItem('id_token');
@@ -296,12 +294,12 @@ function initializeSocketConnection(url) {
 
   signalingSocket.on('auth-success', function() {
     console.log('Authentication successful');
-    updateConnectionStatus('🟡 Waiting for robot...', 'pending');
+    console.log('🟡 Waiting for robot...');
   });
 
   signalingSocket.on('auth-failed', function(data) {
     console.error('Authentication failed:', data.message);
-    updateConnectionStatus('🔴 Authentication failed', 'denied');
+    console.log('🔴 Authentication failed');
     const connectButton = document.getElementById('connectButton');
     if (connectButton) {
       connectButton.textContent = 'Connect';
@@ -312,7 +310,7 @@ function initializeSocketConnection(url) {
   // Handle robot-in-use message
   signalingSocket.on('robot-in-use', function(data) {
     console.log('Robot is currently in use:', data.message);
-    updateConnectionStatus('🔴 Robot is currently in use by another user', 'denied');
+    console.log('🔴 Robot is currently in use by another user');
     console.log('Waiting for robot to become available...');
 
     const connectButton = document.getElementById('connectButton');
@@ -327,7 +325,7 @@ function initializeSocketConnection(url) {
 
     // If we're not already connected, automatically connect
     if (!robotConnected) {
-      updateConnectionStatus('🟡 Robot available - starting video...', 'pending');
+      console.log('🟡 Robot available - starting video...');
       robotConnected = true;
       isActiveController = true;
 
@@ -351,7 +349,7 @@ function initializeSocketConnection(url) {
     console.log('Robot is unavailable');
     robotConnected = false;
     isActiveController = false;
-    updateConnectionStatus('🔴 Robot unavailable', 'denied');
+    console.log('🔴 Robot unavailable');
 
     const connectButton = document.getElementById('connectButton');
     const leaveButton = document.getElementById('leaveButton');
@@ -411,26 +409,26 @@ function initializeSocketConnection(url) {
       // If we're not the active controller, update our state
       if (!isActiveController) {
         robotConnected = false;
-        updateConnectionStatus('🔴 Not the active controller', 'denied');
+        console.log('🔴 Not the active controller');
       }
     } else if (data.status === 'robot_disconnected') {
       console.log('Robot disconnected');
       robotConnected = false;
       isActiveController = false;
-      updateConnectionStatus('🔴 Robot disconnected', 'denied');
+      console.log('🔴 Robot disconnected');
     }
   });
 
   signalingSocket.on('error', function(data) {
     console.error('Signaling error:', data.message);
-    updateConnectionStatus('🔴 Error: ' + data.message, 'denied');
+    console.log('🔴 Error: ' + data.message);
   });
 
   signalingSocket.on('disconnect', function() {
     console.log('Disconnected from signaling server');
     robotConnected = false;
     isActiveController = false;
-    updateConnectionStatus('🔴 Disconnected', 'denied');
+    console.log('🔴 Disconnected');
 
     const connectButton = document.getElementById('connectButton');
     const leaveButton = document.getElementById('leaveButton');
@@ -457,11 +455,11 @@ async function createAndSendOffer() {
     }
 
     console.log('Video connection offer sent');
-    updateConnectionStatus('🟢 Connected - Video streaming', 'success');
+    console.log('🟢 Connected - Video streaming');
 
   } catch (error) {
     console.error('Error creating offer:', error);
-    updateConnectionStatus('🔴 Failed to create offer', 'denied');
+    console.log('🔴 Failed to create offer');
   }
 }
 
@@ -513,16 +511,8 @@ function disconnectFromRobot() {
     leaveButton.style.display = 'none';
   }
 
-  updateConnectionStatus('🔴 Disconnected', 'denied');
+  console.log('🔴 Disconnected');
   console.log('Disconnected from robot');
-}
-
-function updateConnectionStatus(message, type) {
-  const statusElement = document.getElementById('connectionStatus');
-  if (statusElement) {
-    statusElement.textContent = message;
-    statusElement.className = `statusBox ${type}`;
-  }
 }
 
 // Robot Control Functions

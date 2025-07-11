@@ -116,6 +116,11 @@ function runGroupAccessLogic() {
           let isTouch = false;
           const command = btn.getAttribute('data-command');
           const send = () => sendRobotCommand(command);
+          
+          // Add popDown functionality
+          btn.addEventListener('mouseover', () => popUp(btn));
+          btn.addEventListener('mouseout', () => popDown(btn));
+          
           // Mouse events
           btn.addEventListener('mousedown', e => {
             if (interval) clearInterval(interval);
@@ -145,6 +150,13 @@ function runGroupAccessLogic() {
             if (interval) clearInterval(interval);
             sendRobotCommand('n');
           });
+        });
+        
+        // Add popDown functionality to action buttons
+        const actionBtns = document.querySelectorAll('#mobileActionButtons .actionBtn');
+        actionBtns.forEach(btn => {
+          btn.addEventListener('mouseover', () => popUp(btn));
+          btn.addEventListener('mouseout', () => popDown(btn));
         });
       }, 300);
     } else {
@@ -177,6 +189,20 @@ function runGroupAccessLogic() {
     // Initialize video handling after DOM is ready
     setTimeout(() => {
       initializeVideoHandling();
+      
+      // Add popDown functionality to control mode toggle
+      const controlModeToggle = document.getElementById('controlModeToggle');
+      if (controlModeToggle) {
+        controlModeToggle.addEventListener('mouseover', () => popUp(controlModeToggle));
+        controlModeToggle.addEventListener('mouseout', () => popDown(controlModeToggle));
+      }
+      
+      // Add popDown functionality to connect button
+      const connectButton = document.getElementById('connectButton');
+      if (connectButton) {
+        connectButton.addEventListener('mouseover', () => popUp(connectButton));
+        connectButton.addEventListener('mouseout', () => popDown(connectButton));
+      }
     }, 100);
   } else {
     // Show access denied for non-privileged users
@@ -249,6 +275,11 @@ function toggleControlMode() {
     // For desktop, we'll disable mouse control to simulate mobile mode
     disableMouseControl();
   }
+  
+  // Re-run the group access logic to update the interface
+  setTimeout(() => {
+    runGroupAccessLogic();
+  }, 100);
 }
 
 function connectToRobot() {
@@ -353,9 +384,15 @@ function initializeSocketConnection(url) {
       if (connectButton) {
         connectButton.textContent = 'Disconnect';
         connectButton.disabled = false;
+        // Re-add popDown functionality
+        connectButton.addEventListener('mouseover', () => popUp(connectButton));
+        connectButton.addEventListener('mouseout', () => popDown(connectButton));
       }
       if (leaveButton) {
         leaveButton.style.display = 'inline-block';
+        // Add popDown functionality to leave button
+        leaveButton.addEventListener('mouseover', () => popUp(leaveButton));
+        leaveButton.addEventListener('mouseout', () => popDown(leaveButton));
       }
     }
   });
@@ -371,6 +408,9 @@ function initializeSocketConnection(url) {
     if (connectButton) {
       connectButton.textContent = 'Connect';
       connectButton.disabled = false;
+      // Re-add popDown functionality
+      connectButton.addEventListener('mouseover', () => popUp(connectButton));
+      connectButton.addEventListener('mouseout', () => popDown(connectButton));
     }
     if (leaveButton) {
       leaveButton.style.display = 'none';
@@ -449,6 +489,9 @@ function initializeSocketConnection(url) {
     if (connectButton) {
       connectButton.textContent = 'Connect';
       connectButton.disabled = false;
+      // Re-add popDown functionality
+      connectButton.addEventListener('mouseover', () => popUp(connectButton));
+      connectButton.addEventListener('mouseout', () => popDown(connectButton));
     }
     if (leaveButton) {
       leaveButton.style.display = 'none';
@@ -520,6 +563,9 @@ function disconnectFromRobot() {
   if (connectButton) {
     connectButton.textContent = 'Connect';
     connectButton.disabled = false;
+    // Re-add popDown functionality
+    connectButton.addEventListener('mouseover', () => popUp(connectButton));
+    connectButton.addEventListener('mouseout', () => popDown(connectButton));
   }
   if (leaveButton) {
     leaveButton.style.display = 'none';

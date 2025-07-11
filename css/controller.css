@@ -123,24 +123,9 @@
     z-index: 1;
 }
 
-#connectionStatus {
-    position: absolute;
-    top: 60px;
-    right: 20px;
-    background: rgba(0, 0, 0, 0.8);
-    color: white;
-    padding: 10px 15px;
-    border-radius: 6px;
-    font-size: 14px;
-    font-weight: bold;
-    z-index: 10;
-    min-width: 150px;
-    text-align: center;
-}
-
 #connectButton {
     position: absolute;
-    top: 20px;
+    top: calc(var(--navBarHeight) + 5px);
     right: 20px;
     background: #2ecc40;
     color: white;
@@ -165,7 +150,7 @@
 
 #controlModeToggle {
     position: absolute;
-    top: 20px;
+    top: calc(var(--navBarHeight) + 5px);
     left: 20px;
     background: #3498db;
     color: white;
@@ -188,26 +173,25 @@
     cursor: not-allowed;
 }
 
-#status {
+#connectionStatus {
     position: absolute;
-    bottom: 20px;
-    left: 20px;
+    top: calc(var(--navBarHeight) + 45px);
+    right: 20px;
     background: rgba(0, 0, 0, 0.8);
     color: white;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 6px;
     padding: 10px 15px;
-    font-family: 'Courier New', monospace;
-    font-weight: bold;
+    border-radius: 6px;
     font-size: 14px;
+    font-weight: bold;
     z-index: 10;
-    min-width: 200px;
+    min-width: 150px;
+    text-align: center;
 }
 
 /* Control instructions overlay */
 .controlInstructions {
     position: absolute;
-    top: 80px;
+    top: calc(var(--navBarHeight) + 45px);
     left: 20px;
     background: rgba(0, 0, 0, 0.8);
     color: white;
@@ -312,17 +296,6 @@
         -webkit-touch-callout: none;
     }
 
-    .controlBtn:hover {
-        background: rgba(46, 204, 64, 0.8);
-        border-color: #2ecc40;
-        transform: scale(1.1);
-    }
-
-    .controlBtn:active {
-        background: rgba(46, 204, 64, 1);
-        transform: scale(0.95);
-    }
-
     .controlBtn img {
         width: 30px;
         height: 30px;
@@ -338,10 +311,6 @@
     .exitBtn {
         background: rgba(255, 65, 54, 0.7) !important;
         border-color: #ff4136 !important;
-    }
-
-    .exitBtn:hover {
-        background: rgba(255, 65, 54, 0.9) !important;
     }
 
     /***** adjust video container for mobile *****/
@@ -369,7 +338,7 @@
     /***** adjust status elements for mobile *****/
 
     #connectionStatus {
-        top: 60px;
+        top: calc(var(--navBarHeight) + 45px);
         right: 20px;
         font-size: 12px;
         padding: 8px 12px;
@@ -377,17 +346,22 @@
     }
 
     #connectButton {
-        top: 20px;
+        top: calc(var(--navBarHeight) + 5px);
         right: 20px;
         padding: 10px 20px;
         font-size: 14px;
     }
 
     #controlModeToggle {
-        top: 20px;
+        top: calc(var(--navBarHeight) + 5px);
         left: 20px;
         padding: 10px 20px;
         font-size: 14px;
+    }
+
+    .controlInstructions {
+        top: calc(var(--navBarHeight) + 45px);
+        left: 20px;
     }
 
     #status {
@@ -458,17 +432,6 @@
         -webkit-touch-callout: none;
     }
 
-    .controlBtn:hover {
-        background: rgba(46, 204, 64, 0.8);
-        border-color: #2ecc40;
-        transform: scale(1.1);
-    }
-
-    .controlBtn:active {
-        background: rgba(46, 204, 64, 1);
-        transform: scale(0.95);
-    }
-
     .controlBtn img {
         width: 25px;
         height: 25px;
@@ -484,10 +447,6 @@
     .exitBtn {
         background: rgba(255, 65, 54, 0.7) !important;
         border-color: #ff4136 !important;
-    }
-
-    .exitBtn:hover {
-        background: rgba(255, 65, 54, 0.9) !important;
     }
 
     /***** adjust video container for smartphone *****/
@@ -515,7 +474,7 @@
     /***** adjust status elements for smartphone *****/
 
     #connectionStatus {
-        top: 50px;
+        top: calc(var(--navBarHeight) + 35px);
         right: 15px;
         font-size: 11px;
         padding: 6px 10px;
@@ -523,17 +482,22 @@
     }
 
     #connectButton {
-        top: 15px;
+        top: calc(var(--navBarHeight) + 5px);
         right: 15px;
         padding: 8px 16px;
         font-size: 12px;
     }
 
     #controlModeToggle {
-        top: 15px;
+        top: calc(var(--navBarHeight) + 5px);
         left: 15px;
         padding: 8px 16px;
         font-size: 12px;
+    }
+
+    .controlInstructions {
+        top: calc(var(--navBarHeight) + 35px);
+        left: 15px;
     }
 
     #status {
@@ -636,9 +600,6 @@
     filter: brightness(0) invert(1);
     pointer-events: none;
     user-select: none;
-  }
-  .controlBtn:active img, .controlBtn:focus img {
-    filter: brightness(0.7) invert(1) drop-shadow(0 0 8px #2ecc40);
   }
   /* Hide any text in buttons */
   .controlBtn span { display: none; }
@@ -761,16 +722,4 @@
     -webkit-touch-callout: none;
     font-weight: bold;
     font-size: 12px;
-}
-
-.actionBtn:hover {
-    background: rgba(255, 255, 255, 1);
-    border-color: #2ecc40;
-    transform: scale(1.1);
-}
-
-.actionBtn:active {
-    background: rgba(46, 204, 64, 0.8);
-    color: white;
-    transform: scale(0.95);
 }

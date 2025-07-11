@@ -63,7 +63,7 @@ function runGroupAccessLogic() {
               </div>
               <div class="controlRow">
                 <button class="controlBtn" id="actionBtn" data-command="click">
-                  <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-east.png" alt="Action">
+                  <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-south.png" alt="Action">
                 </button>
               </div>
             </div>
@@ -86,7 +86,7 @@ function runGroupAccessLogic() {
               </div>
               <div class="controlRow">
                 <button class="controlBtn" id="jumpBtn" data-command=" ">
-                  <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-north.png" alt="Jump">
+                  <div style="height: auto; width: fit-content; color: white; border-radius: 3px"></div>
                 </button>
               </div>
             </div>

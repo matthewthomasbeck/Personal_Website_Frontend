@@ -370,12 +370,10 @@
     
     .mobileControlsLeft {
         align-items: flex-start;
-        margin-left: 15px;
     }
     
     .mobileControlsRight {
         align-items: flex-end;
-        margin-right: 15px;
     }
     
     .controlRowUpDown {
@@ -436,7 +434,6 @@
         width: fit-content;
         z-index: 12;
         align-items: flex-start;
-        margin-left: 15px;
     }
 
     .mobileControlsRight {
@@ -444,7 +441,6 @@
         width: fit-content;
         z-index: 12;
         align-items: flex-end;
-        margin-right: 15px;
     }
     
     /* Transparent navBarOptions and projectsBarOptions, but not their children */
@@ -623,11 +619,9 @@
   }
   .mobileControlsLeft {
     align-items: flex-start;
-    margin-left: 15px;
   }
   .mobileControlsRight {
     align-items: flex-end;
-    margin-right: 15px;
   }
   .controlRowUpDown {
     display: flex;
@@ -678,14 +672,12 @@
     width: fit-content;
     z-index: 12;
     align-items: flex-start;
-    margin-left: 15px;
   }
   .mobileControlsRight {
     position: absolute;
     width: fit-content;
     z-index: 12;
     align-items: flex-end;
-    margin-right: 15px;
   }
   
   /* Transparent navBarOptions and projectsBarOptions, but not their children */
@@ -815,7 +807,6 @@
     width: fit-content;
     z-index: 12;
     align-items: flex-start;
-    margin-left: 15px;
 }
 .mobileControlsRight {
     position: absolute;
@@ -824,5 +815,4 @@
     width: fit-content;
     z-index: 12;
     align-items: flex-end;
-    margin-right: 15px;
 }

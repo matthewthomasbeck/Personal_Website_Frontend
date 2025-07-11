@@ -363,19 +363,19 @@
         flex-direction: column;
         justify-content: flex-end;
         align-items: center;
-        height: 100%;
-        width: 40vw;
+        height: fit-content;
+        width: fit-content;
         pointer-events: none;
     }
     
     .mobileControlsLeft {
         align-items: flex-start;
-        margin-left: 2vw;
+        margin-left: 15px;
     }
     
     .mobileControlsRight {
         align-items: flex-end;
-        margin-right: 2vw;
+        margin-right: 15px;
     }
     
     .controlRowUpDown {
@@ -429,26 +429,22 @@
     /* Make sure controls are above video/status */
     #mobileControls8 { pointer-events: none; }
     .controlBtn { pointer-events: auto; }
-    
+
     /* Position left controls above status, right controls above connect */
     .mobileControlsLeft {
         position: absolute;
-        left: 20px;
-        bottom: 80px;
-        width: 40vw;
+        width: fit-content;
         z-index: 12;
         align-items: flex-start;
-        margin-left: 0;
+        margin-left: 15px;
     }
-    
+
     .mobileControlsRight {
         position: absolute;
-        right: 20px;
-        bottom: 80px;
-        width: 40vw;
+        width: fit-content;
         z-index: 12;
         align-items: flex-end;
-        margin-right: 0;
+        margin-right: 15px;
     }
     
     /* Transparent navBarOptions and projectsBarOptions, but not their children */
@@ -622,16 +618,16 @@
     justify-content: flex-end;
     align-items: center;
     height: 100%;
-    width: 40vw;
+    width: fit-content;
     pointer-events: none;
   }
   .mobileControlsLeft {
     align-items: flex-start;
-    margin-left: 2vw;
+    margin-left: 15px;
   }
   .mobileControlsRight {
     align-items: flex-end;
-    margin-right: 2vw;
+    margin-right: 15px;
   }
   .controlRowUpDown {
     display: flex;
@@ -679,21 +675,17 @@
   /* Position left controls above status, right controls above connect */
   .mobileControlsLeft {
     position: absolute;
-    left: 20px;
-    bottom: 80px;
-    width: 40vw;
+    width: fit-content;
     z-index: 12;
     align-items: flex-start;
-    margin-left: 0;
+    margin-left: 15px;
   }
   .mobileControlsRight {
     position: absolute;
-    right: 20px;
-    bottom: 80px;
-    width: 40vw;
+    width: fit-content;
     z-index: 12;
     align-items: flex-end;
-    margin-right: 0;
+    margin-right: 15px;
   }
   
   /* Transparent navBarOptions and projectsBarOptions, but not their children */
@@ -736,7 +728,7 @@
     height: 30px;
   }
   .mobileControlsLeft, .mobileControlsRight {
-    width: 48vw;
+    width: fit-content;
   }
   
   /* Smaller action and jump buttons for smartphones */
@@ -819,18 +811,18 @@
 .mobileControlsLeft {
     position: absolute;
     left: 15px;
-    bottom: 0;
+    bottom: 15px;
     width: fit-content;
     z-index: 12;
     align-items: flex-start;
-    margin-left: 0;
+    margin-left: 15px;
 }
 .mobileControlsRight {
     position: absolute;
     right: 15px;
-    bottom: 0;
+    bottom: 15px;
     width: fit-content;
     z-index: 12;
     align-items: flex-end;
-    margin-right: 0;
+    margin-right: 15px;
 }

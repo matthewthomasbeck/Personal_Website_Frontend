@@ -86,7 +86,6 @@ function runGroupAccessLogic() {
               </div>
               <div class="controlRow">
                 <button class="controlBtn" id="jumpBtn" data-command=" ">
-                  <div style="height: auto; width: fit-content; color: white; border-radius: 3px"></div>
                 </button>
               </div>
             </div>

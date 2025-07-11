@@ -394,7 +394,6 @@
     }
     
     .controlBtn {
-        background: transparent !important;
         border: none !important;
         box-shadow: none !important;
         outline: none !important;
@@ -637,7 +636,6 @@
     width: 100%;
   }
   .controlBtn {
-    background: transparent !important;
     border: none !important;
     box-shadow: none !important;
     outline: none !important;

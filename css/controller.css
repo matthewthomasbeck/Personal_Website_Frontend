@@ -817,3 +817,7 @@
     opacity: 1 !important;
   }
 }
+
+.mobileControlsLeft .actionBtnRect, .mobileControlsRight .jumpBtnRect {
+  pointer-events: auto !important;
+}

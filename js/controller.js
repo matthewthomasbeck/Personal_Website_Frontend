@@ -176,16 +176,16 @@ function runGroupAccessLogic() {
           <div class="controlInstructions standardFont">
             <h3>Robot Controls</h3>
             <ul>
-              <li><strong>W</strong> - Move Forward</li>
-              <li><strong>S</strong> - Move Backward</li>
-              <li><strong>A</strong> - Turn Left</li>
-              <li><strong>D</strong> - Turn Right</li>
-              <li><strong>↑</strong> - Look Up</li>
-              <li><strong>↓</strong> - Look Down</li>
-              <li><strong>←</strong> - Rotate Left</li>
-              <li><strong>→</strong> - Rotate Right</li>
-              <li><strong>Space</strong> - Jump</li>
-              <li><strong>Click</strong> - Action</li>
+              <li><strong>W</strong>   Move Forward</li>
+              <li><strong>S</strong>   Move Backward</li>
+              <li><strong>A</strong>   Turn Left</li>
+              <li><strong>D</strong>   Turn Right</li>
+              <li><strong>↑</strong>   Look Up</li>
+              <li><strong>↓</strong>   Look Down</li>
+              <li><strong>←</strong>   Rotate Left</li>
+              <li><strong>→</strong>   Rotate Right</li>
+              <li><strong>Space</strong>   Jump</li>
+              <li><strong>Click</strong>   Action</li>
             </ul>
           </div>
         </div>

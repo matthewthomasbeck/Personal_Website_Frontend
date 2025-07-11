@@ -43,22 +43,6 @@ function runGroupAccessLogic() {
           <div id="connectionStatus">🔴 Disconnected</div>
           <button id="connectButton" onclick="connectToRobot()">Connect</button>
           <button id="leaveButton" onclick="leaveRobot()" style="display: none;">Leave Robot</button>
-          <button id="controlToggleButton" onclick="toggleControls()">Switch to Mobile</button>
-          <div class="controlInstructions">
-            <h3>Robot Controls</h3>
-            <ul>
-              <li><strong>W/↑</strong> - Move Forward</li>
-              <li><strong>S/↓</strong> - Move Backward</li>
-              <li><strong>A/←</strong> - Turn Left</li>
-              <li><strong>D/→</strong> - Turn Right</li>
-              <li><strong>↑</strong> - Look Up</li>
-              <li><strong>↓</strong> - Look Down</li>
-              <li><strong>←</strong> - Rotate Left</li>
-              <li><strong>→</strong> - Rotate Right</li>
-              <li><strong>Space</strong> - Jump</li>
-              <li><strong>Click</strong> - Action</li>
-            </ul>
-          </div>
           <!-- Mobile 8-Button Controls -->
           <div id="mobileControls8">
             <div class="mobileControlsLeft">
@@ -68,14 +52,14 @@ function runGroupAccessLogic() {
                 </button>
               </div>
               <div class="controlRow controlRowLRD">
-                <button class="controlBtn arrowBtn" id="rotateLeftBtn" data-command="arrowleft">
-                  <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-west.png" alt="Rotate Left">
+                <button class="controlBtn arrowBtn" id="lookLeftBtn" data-command="arrowleft">
+                  <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-west.png" alt="Look Left">
                 </button>
                 <button class="controlBtn arrowBtn" id="lookDownBtn" data-command="arrowdown">
                   <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-south.png" alt="Look Down">
                 </button>
-                <button class="controlBtn arrowBtn" id="rotateRightBtn" data-command="arrowright">
-                  <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-east.png" alt="Rotate Right">
+                <button class="controlBtn arrowBtn" id="lookRightBtn" data-command="arrowright">
+                  <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-east.png" alt="Look Right">
                 </button>
               </div>
             </div>
@@ -97,11 +81,15 @@ function runGroupAccessLogic() {
                 </button>
               </div>
             </div>
-          </div>
-          <!-- Mobile Action Buttons -->
-          <div id="mobileActionButtons">
-            <button id="actionButton" class="mobileActionBtn" onclick="sendRobotCommand('click')">Action</button>
-            <button id="jumpButton" class="mobileActionBtn" onclick="sendRobotCommand(' ')">Jump</button>
+            <!-- Mobile Action and Jump Buttons -->
+            <div class="mobileActionButtons">
+              <button class="actionBtn" id="actionBtn" data-command="click">
+                <span>Action</span>
+              </button>
+              <button class="jumpBtn" id="jumpBtn" data-command=" ">
+                <span>Jump</span>
+              </button>
+            </div>
           </div>
         </div>
       `;
@@ -137,9 +125,11 @@ function runGroupAccessLogic() {
           });
           btn.addEventListener('mouseup', e => {
             if (interval) clearInterval(interval);
+            sendRobotCommand('n');
           });
           btn.addEventListener('mouseleave', e => {
             if (interval) clearInterval(interval);
+            sendRobotCommand('n');
           });
           // Touch events
           btn.addEventListener('touchstart', e => {
@@ -150,40 +140,61 @@ function runGroupAccessLogic() {
           });
           btn.addEventListener('touchend', e => {
             if (interval) clearInterval(interval);
+            sendRobotCommand('n');
           });
           btn.addEventListener('touchcancel', e => {
             if (interval) clearInterval(interval);
+            sendRobotCommand('n');
           });
         });
+
+        // Action and Jump button event listeners
+        const actionBtn = document.getElementById('actionBtn');
+        const jumpBtn = document.getElementById('jumpBtn');
+        
+        if (actionBtn) {
+          actionBtn.addEventListener('click', () => sendRobotCommand('click'));
+          actionBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            sendRobotCommand('click');
+          });
+        }
+        
+        if (jumpBtn) {
+          jumpBtn.addEventListener('click', () => sendRobotCommand(' '));
+          jumpBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            sendRobotCommand(' ');
+          });
+        }
       }, 300);
     } else {
       // Desktop version with keyboard controls
-    childDiv.innerHTML = `
-      <div id="videoContainer">
-        <video id="robotVideo" autoplay playsinline muted>
-          <p>Video stream loading...</p>
-        </video>
-        <div id="connectionStatus">🔴 Disconnected</div>
-        <button id="connectButton" onclick="connectToRobot()">Connect</button>
-        <button id="leaveButton" onclick="leaveRobot()" style="display: none;">Leave Robot</button>
-        <button id="controlToggleButton" onclick="toggleControls()">Switch to Mobile</button>
-        <div class="controlInstructions">
-          <h3>Robot Controls</h3>
-          <ul>
-            <li><strong>W/↑</strong> - Move Forward</li>
-            <li><strong>S/↓</strong> - Move Backward</li>
-            <li><strong>A/←</strong> - Turn Left</li>
-            <li><strong>D/→</strong> - Turn Right</li>
-            <li><strong>↑</strong> - Look Up</li>
-            <li><strong>↓</strong> - Look Down</li>
-            <li><strong>←</strong> - Rotate Left</li>
-            <li><strong>→</strong> - Rotate Right</li>
-            <li><strong>Space</strong> - Jump</li>
-            <li><strong>Click</strong> - Action</li>
-          </ul>
+      childDiv.innerHTML = `
+        <div id="videoContainer">
+          <video id="robotVideo" autoplay playsinline muted>
+            <p>Video stream loading...</p>
+          </video>
+          <div id="connectionStatus">🔴 Disconnected</div>
+          <button id="connectButton" onclick="connectToRobot()">Connect</button>
+          <button id="leaveButton" onclick="leaveRobot()" style="display: none;">Leave Robot</button>
+          <div class="controlInstructions">
+            <h3>Robot Controls</h3>
+            <ul>
+              <li><strong>W/↑</strong> - Move Forward</li>
+              <li><strong>S/↓</strong> - Move Backward</li>
+              <li><strong>A/←</strong> - Turn Left</li>
+              <li><strong>D/→</strong> - Turn Right</li>
+              <li><strong>↑</strong> - Look Up</li>
+              <li><strong>↓</strong> - Look Down</li>
+              <li><strong>←</strong> - Rotate Left</li>
+              <li><strong>→</strong> - Rotate Right</li>
+              <li><strong>Space</strong> - Jump</li>
+              <li><strong>Click</strong> - Action</li>
+            </ul>
+          </div>
         </div>
-      </div>
-    `;
+      `;
     }
 
     // Initialize video handling after DOM is ready
@@ -302,7 +313,7 @@ function initializeSocketConnection(url) {
   signalingSocket.on('robot-in-use', function(data) {
     console.log('Robot is currently in use:', data.message);
     updateConnectionStatus('🔴 Robot is currently in use by another user', 'denied');
-    updateStatus('Waiting for robot to become available...');
+    console.log('Waiting for robot to become available...');
 
     const connectButton = document.getElementById('connectButton');
     if (connectButton) {
@@ -362,7 +373,7 @@ function initializeSocketConnection(url) {
         img.onload = function() {
           try {
             videoContext.drawImage(img, 0, 0, videoCanvas.width, videoCanvas.height);
-            updateStatus('Video streaming');
+            console.log('Video streaming');
           } catch (drawError) {
             console.error('Error drawing image to canvas:', drawError);
           }
@@ -392,18 +403,18 @@ function initializeSocketConnection(url) {
   signalingSocket.on('command-ack', function(data) {
     console.log('Command acknowledged:', data);
     if (data.status === 'sent') {
-      updateStatus(`Command sent: ${data.command}`);
+      console.log(`Command sent: ${data.command}`);
     } else if (data.status === 'error') {
-      updateStatus(`Command error: ${data.error}`);
+      console.log(`Command error: ${data.error}`);
     } else if (data.status === 'unauthorized') {
-      updateStatus(`Unauthorized: ${data.message}`);
+      console.log(`Unauthorized: ${data.message}`);
       // If we're not the active controller, update our state
       if (!isActiveController) {
         robotConnected = false;
         updateConnectionStatus('🔴 Not the active controller', 'denied');
       }
     } else if (data.status === 'robot_disconnected') {
-      updateStatus('Robot disconnected');
+      console.log('Robot disconnected');
       robotConnected = false;
       isActiveController = false;
       updateConnectionStatus('🔴 Robot disconnected', 'denied');
@@ -487,13 +498,6 @@ function disconnectFromRobot() {
   robotConnected = false;
   isActiveController = false;
 
-  // Reset control toggle state
-  isMobileControls = false;
-  const toggleButton = document.getElementById('controlToggleButton');
-  if (toggleButton) {
-    toggleButton.textContent = 'Switch to Mobile';
-  }
-
   // Clear video canvas
   if (videoContext) {
     videoContext.clearRect(0, 0, videoCanvas.width, videoCanvas.height);
@@ -510,7 +514,7 @@ function disconnectFromRobot() {
   }
 
   updateConnectionStatus('🔴 Disconnected', 'denied');
-  updateStatus('Disconnected from robot');
+  console.log('Disconnected from robot');
 }
 
 function updateConnectionStatus(message, type) {
@@ -556,15 +560,11 @@ document.addEventListener('keydown', function(event) {
     case ' ':
       command = ' ';
       break;
-    case 'q':
-      command = 'q';
-      break;
   }
 
   if (command) {
     event.preventDefault();
     sendRobotCommand(command);
-    updateStatus(`Command: ${command}`);
   }
 });
 
@@ -573,47 +573,9 @@ document.addEventListener('keyup', function(event) {
 
   const key = event.key.toLowerCase();
   if (['w', 's', 'a', 'd', 'arrowup', 'arrowdown', 'arrowleft', 'arrowright'].includes(key)) {
-    // No longer sending neutral command on key release
-    updateStatus('Key released');
+    sendRobotCommand('n'); // Send neutral command when key is released
   }
 });
-
-function updateStatus(message) {
-  const statusElement = document.getElementById('status');
-  if (statusElement) {
-    statusElement.textContent = message;
-  }
-}
-
-// Control toggle functionality
-let isMobileControls = false;
-
-function toggleControls() {
-  isMobileControls = !isMobileControls;
-  const toggleButton = document.getElementById('controlToggleButton');
-  const mobileControls = document.getElementById('mobileControls8');
-  const mobileActionButtons = document.getElementById('mobileActionButtons');
-  const controlInstructions = document.querySelector('.controlInstructions');
-  
-  if (toggleButton) {
-    toggleButton.textContent = isMobileControls ? 'Switch to Keyboard' : 'Switch to Mobile';
-  }
-  
-  if (mobileControls) {
-    mobileControls.style.display = isMobileControls ? 'flex' : 'none';
-  }
-  
-  if (mobileActionButtons) {
-    mobileActionButtons.style.display = isMobileControls ? 'flex' : 'none';
-  }
-  
-  if (controlInstructions) {
-    controlInstructions.style.display = isMobileControls ? 'none' : 'block';
-  }
-  
-  // Update status to show current control mode
-  updateStatus(isMobileControls ? 'Mobile controls active' : 'Keyboard controls active');
-}
 
 // Handle window resize and orientation changes
 window.addEventListener('resize', function() {

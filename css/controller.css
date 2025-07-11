@@ -120,7 +120,7 @@
 
 #connectionStatus {
     position: absolute;
-    top: calc(var(--navBarHeight) + 65px);
+    top: calc(var(--navBarHeight) + 15px);
     right: 20px;
     background: rgba(0, 0, 0, 0.8);
     color: white;
@@ -135,7 +135,7 @@
 
 #connectButton {
     position: absolute;
-    top: calc(var(--navBarHeight) + 15px);
+    top: calc(var(--navBarHeight) + 55px);
     right: 20px;
     background: #2ecc40;
     color: white;
@@ -158,11 +158,11 @@
     cursor: not-allowed;
 }
 
-#controlToggleButton {
+#leaveButton {
     position: absolute;
-    top: calc(var(--navBarHeight) + 15px);
-    left: 20px;
-    background: #3498db;
+    top: calc(var(--navBarHeight) + 55px);
+    right: 20px;
+    background: #ff4136;
     color: white;
     border: none;
     padding: 12px 24px;
@@ -174,30 +174,14 @@
     transition: background-color 0.3s ease;
 }
 
-#controlToggleButton:hover {
-    background: #2980b9;
-}
-
-#status {
-    position: absolute;
-    bottom: 20px;
-    left: 20px;
-    background: rgba(0, 0, 0, 0.8);
-    color: white;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 6px;
-    padding: 10px 15px;
-    font-family: 'Courier New', monospace;
-    font-weight: bold;
-    font-size: 14px;
-    z-index: 10;
-    min-width: 200px;
+#leaveButton:hover {
+    background: #c0392b;
 }
 
 /* Control instructions overlay */
 .controlInstructions {
     position: absolute;
-    top: calc(var(--navBarHeight) + 65px);
+    top: calc(var(--navBarHeight) + 15px);
     left: 20px;
     background: rgba(0, 0, 0, 0.8);
     color: white;
@@ -259,15 +243,9 @@
 
 @media only screen and (min-width: 501px) and (max-width: 1024px) { /* detect if screen is tablet */
 
-    /***** hide desktop controls on tablet *****/
+    /***** force phone controls on tablet *****/
 
     .controlInstructions {
-        display: none !important;
-    }
-
-    /***** hide mobile action buttons by default *****/
-
-    #mobileActionButtons {
         display: none;
     }
 
@@ -365,7 +343,7 @@
     /***** adjust status elements for mobile *****/
 
     #connectionStatus {
-        top: 20px;
+        top: calc(var(--navBarHeight) + 15px);
         right: 20px;
         font-size: 12px;
         padding: 8px 12px;
@@ -373,18 +351,17 @@
     }
 
     #connectButton {
-        bottom: 20px;
+        top: calc(var(--navBarHeight) + 55px);
         right: 20px;
         padding: 10px 20px;
         font-size: 14px;
     }
-
-    #status {
-        bottom: 20px;
-        left: 20px;
-        font-size: 12px;
-        padding: 8px 12px;
-        min-width: 150px;
+    
+    #leaveButton {
+        top: calc(var(--navBarHeight) + 55px);
+        right: 20px;
+        padding: 10px 20px;
+        font-size: 14px;
     }
 }
 
@@ -395,12 +372,6 @@
     /***** hide desktop controls on smartphone *****/
 
     .controlInstructions {
-        display: none !important;
-    }
-
-    /***** hide mobile action buttons by default *****/
-
-    #mobileActionButtons {
         display: none;
     }
 
@@ -498,7 +469,7 @@
     /***** adjust status elements for smartphone *****/
 
     #connectionStatus {
-        top: 15px;
+        top: calc(var(--navBarHeight) + 15px);
         right: 15px;
         font-size: 11px;
         padding: 6px 10px;
@@ -506,18 +477,17 @@
     }
 
     #connectButton {
-        bottom: 15px;
+        top: calc(var(--navBarHeight) + 55px);
         right: 15px;
         padding: 8px 16px;
         font-size: 12px;
     }
-
-    #status {
-        bottom: 15px;
-        left: 15px;
-        font-size: 11px;
-        padding: 6px 10px;
-        min-width: 120px;
+    
+    #leaveButton {
+        top: calc(var(--navBarHeight) + 55px);
+        right: 15px;
+        padding: 8px 16px;
+        font-size: 12px;
     }
 }
 
@@ -529,7 +499,7 @@
     height: 100vh;
     top: 0;
     left: 0;
-    display: none;
+    display: flex;
     flex-direction: row;
     justify-content: space-between;
     pointer-events: none;
@@ -628,23 +598,24 @@
     align-items: flex-end;
     margin-right: 0;
   }
-  /* Mobile Action Buttons */
-  #mobileActionButtons {
+  
+  /* Mobile Action and Jump Buttons */
+  .mobileActionButtons {
     position: absolute;
     bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
-    z-index: 10;
-    display: none;
-    flex-direction: row;
+    display: flex;
     gap: 20px;
-    align-items: center;
+    z-index: 12;
+    pointer-events: auto;
   }
-  .mobileActionBtn {
+  
+  .actionBtn, .jumpBtn {
     width: 80px;
-    height: 80px;
+    height: 50px;
     border: 2px solid rgba(255, 255, 255, 0.3);
-    border-radius: 50%;
+    border-radius: 25px;
     background: rgba(0, 0, 0, 0.7);
     color: white;
     display: flex;
@@ -659,15 +630,18 @@
     font-weight: bold;
     font-family: 'Courier New', monospace;
   }
-  .mobileActionBtn:hover {
+  
+  .actionBtn:hover, .jumpBtn:hover {
     background: rgba(46, 204, 64, 0.8);
     border-color: #2ecc40;
-    transform: scale(1.1);
+    transform: scale(1.05);
   }
-  .mobileActionBtn:active {
+  
+  .actionBtn:active, .jumpBtn:active {
     background: rgba(46, 204, 64, 1);
     transform: scale(0.95);
   }
+  
   /* Transparent navBarOptions and projectsBarOptions, but not their children */
   .navBarOptions, .projectsBarOptions {
     opacity: 0 !important;
@@ -713,10 +687,16 @@
   .controlRowLRD {
     gap: 0.2em;
   }
-  .mobileActionBtn {
-    width: 60px;
-    height: 60px;
+  
+  /* Smaller action and jump buttons for smartphones */
+  .actionBtn, .jumpBtn {
+    width: 70px;
+    height: 45px;
     font-size: 12px;
+  }
+  
+  .mobileActionButtons {
+    gap: 15px;
   }
 }
 
@@ -740,47 +720,4 @@
     background-color: white !important;
     opacity: 1 !important;
   }
-}
-
-/* Mobile Action Buttons */
-#mobileActionButtons {
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 10;
-    display: flex;
-    gap: 20px;
-    align-items: center;
-}
-
-.mobileActionBtn {
-    width: 80px;
-    height: 80px;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    border-radius: 50%;
-    background: rgba(0, 0, 0, 0.7);
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    user-select: none;
-    -webkit-user-select: none;
-    -webkit-touch-callout: none;
-    font-size: 14px;
-    font-weight: bold;
-    font-family: 'Courier New', monospace;
-}
-
-.mobileActionBtn:hover {
-    background: rgba(46, 204, 64, 0.8);
-    border-color: #2ecc40;
-    transform: scale(1.1);
-}
-
-.mobileActionBtn:active {
-    background: rgba(46, 204, 64, 1);
-    transform: scale(0.95);
 }

@@ -240,12 +240,6 @@ function connectToRobot() {
   const connectButton = document.getElementById('connectButton');
   if (!connectButton) return;
 
-  if (robotConnected) {
-    // Disconnect
-    disconnectFromRobot();
-    return;
-  }
-
   // Connect to signaling server
   connectToSignalingServer();
   connectButton.textContent = 'Connecting...';
@@ -332,12 +326,11 @@ function initializeSocketConnection(url) {
       // Create and send WebRTC offer to establish video connection
       createAndSendOffer();
 
-      // Show leave button and update connect button
+      // Hide connect button and show leave button
       const connectButton = document.getElementById('connectButton');
       const leaveButton = document.getElementById('leaveButton');
       if (connectButton) {
-        connectButton.textContent = 'Disconnect';
-        connectButton.disabled = false;
+        connectButton.style.display = 'none';
       }
       if (leaveButton) {
         leaveButton.style.display = 'inline-block';
@@ -354,7 +347,7 @@ function initializeSocketConnection(url) {
     const connectButton = document.getElementById('connectButton');
     const leaveButton = document.getElementById('leaveButton');
     if (connectButton) {
-      connectButton.textContent = 'Connect';
+      connectButton.style.display = 'inline-block';
       connectButton.disabled = false;
     }
     if (leaveButton) {
@@ -433,7 +426,7 @@ function initializeSocketConnection(url) {
     const connectButton = document.getElementById('connectButton');
     const leaveButton = document.getElementById('leaveButton');
     if (connectButton) {
-      connectButton.textContent = 'Connect';
+      connectButton.style.display = 'inline-block';
       connectButton.disabled = false;
     }
     if (leaveButton) {
@@ -504,7 +497,7 @@ function disconnectFromRobot() {
   const connectButton = document.getElementById('connectButton');
   const leaveButton = document.getElementById('leaveButton');
   if (connectButton) {
-    connectButton.textContent = 'Connect';
+    connectButton.style.display = 'inline-block';
     connectButton.disabled = false;
   }
   if (leaveButton) {

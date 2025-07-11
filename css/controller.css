@@ -821,3 +821,23 @@
 .mobileControlsLeft .actionBtnRect, .mobileControlsRight .jumpBtnRect {
   pointer-events: auto !important;
 }
+
+#actionBtn, #jumpBtn {
+  background: #fff;
+  border: 2px solid #2ecc40;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: background-color 0.3s, border-color 0.3s, transform 0.2s;
+}
+#actionBtn:hover, #jumpBtn:hover {
+  background: #2ecc40;
+  color: #fff;
+  border-color: #27ae60;
+  transform: scale(1.05);
+}
+#actionBtn:active, #jumpBtn:active {
+  background: #27ae60;
+  color: #fff;
+  border-color: #229954;
+  transform: scale(0.95);
+}

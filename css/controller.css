@@ -252,6 +252,7 @@
         display: flex;
         gap: 15px;
         align-items: center;
+        justify-content: center;
     }
 
     .controlBtn {
@@ -522,6 +523,7 @@
         display: flex;
         gap: 12px;
         align-items: center;
+        justify-content: center;
     }
 
     .controlBtn {
@@ -842,27 +844,24 @@
   transform: scale(0.95);
 }
 
-/* Center single-button control rows */
-.controlRow {
-  justify-content: center;
-}
-
 /* Move mobileControlsLeft and mobileControlsRight to the bottom corners */
 .mobileControlsLeft {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 40vw;
-  z-index: 12;
-  align-items: flex-start;
-  margin-left: 0;
+    position: absolute;
+    left: 15px;
+    bottom: 0;
+    width: fit-content;
+    z-index: 12;
+    align-items: flex-start;
+    margin-left: 0;
+    justify-content: center;
 }
 .mobileControlsRight {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  width: 40vw;
-  z-index: 12;
-  align-items: flex-end;
-  margin-right: 0;
+    position: absolute;
+    right: 15px;
+    bottom: 0;
+    width: fit-content;
+    z-index: 12;
+    align-items: flex-end;
+    margin-right: 0;
+    justify-content: center;
 }

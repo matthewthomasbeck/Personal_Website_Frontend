@@ -1228,18 +1228,21 @@ function animateNavAndOptionsBarColor() {
     const navBarOptionsBox = document.getElementById('navBarOptionsBox');
     const navBarOptionsButton = document.getElementById('navBarOptionsButton');
     const navBarOptions = document.querySelectorAll('.navBarOptions');
+    const aboutMeBox = document.getElementById('aboutMeBox');
+    const projectsInfoBox = document.getElementById('projectsInfoBox');
+    const videosInfoBox = document.getElementById('videosInfoBox');
     const cascadeColor = getComputedStyle(document.documentElement).getPropertyValue('--cascade-color') || 'var(--pastel-1)';
     const secondaryColor = 'var(--secondary)';
 
     // Only backgrounds/containers, not text or icons, and NOT the projects bar
-    [navBar, navBarOptionsBox, navBarOptionsButton, ...navBarOptions].forEach(bar => {
+    [navBar, navBarOptionsBox, navBarOptionsButton, ...navBarOptions, aboutMeBox, projectsInfoBox, videosInfoBox].forEach(bar => {
         if (bar) {
             bar.style.transition = 'background-color 0.6s cubic-bezier(.4,0,.2,1)';
             bar.style.backgroundColor = cascadeColor;
         }
     });
     setTimeout(() => {
-        [navBar, navBarOptionsBox, navBarOptionsButton, ...navBarOptions].forEach(bar => {
+        [navBar, navBarOptionsBox, navBarOptionsButton, ...navBarOptions, aboutMeBox, projectsInfoBox, videosInfoBox].forEach(bar => {
             if (bar) {
                 bar.style.backgroundColor = secondaryColor;
                 setTimeout(() => {

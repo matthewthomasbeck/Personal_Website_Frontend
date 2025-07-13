@@ -516,46 +516,35 @@ function sendRobotCommand(command) {
   }
 }
 
-// Keyboard event listeners for robot control
+// --- KEYBOARD CONTROL: Track all pressed keys and send as a set ---
+
+let pressedKeys = new Set();
+
 document.addEventListener('keydown', function(event) {
   if (!robotConnected || !isActiveController) return;
-
-  let command = null;
-
-  switch(event.key.toLowerCase()) {
-    case 'w':
-    case 'arrowup':
-      command = 'w';
-      break;
-    case 's':
-    case 'arrowdown':
-      command = 's';
-      break;
-    case 'a':
-    case 'arrowleft':
-      command = 'a';
-      break;
-    case 'd':
-    case 'arrowright':
-      command = 'd';
-      break;
-    case ' ':
-      command = ' ';
-      break;
-  }
-
-  if (command) {
+  const key = event.key.toLowerCase();
+  // Only track relevant keys
+  if (['w', 'a', 's', 'd', 'arrowup', 'arrowdown', 'arrowleft', 'arrowright', ' '].includes(key)) {
+    const beforeSize = pressedKeys.size;
+    pressedKeys.add(key);
+    // Only send if the set changed (prevents spamming on key repeat)
+    if (pressedKeys.size !== beforeSize) {
+      sendRobotCommand(Array.from(pressedKeys).join('+'));
+    }
     event.preventDefault();
-    sendRobotCommand(command);
   }
 });
 
 document.addEventListener('keyup', function(event) {
   if (!robotConnected || !isActiveController) return;
-
   const key = event.key.toLowerCase();
-  if (['w', 's', 'a', 'd', 'arrowup', 'arrowdown', 'arrowleft', 'arrowright'].includes(key)) {
-    sendRobotCommand('n'); // Send neutral command when key is released
+  if (pressedKeys.has(key)) {
+    pressedKeys.delete(key);
+    if (pressedKeys.size === 0) {
+      sendRobotCommand('n');
+    } else {
+      sendRobotCommand(Array.from(pressedKeys).join('+'));
+    }
   }
 });
 

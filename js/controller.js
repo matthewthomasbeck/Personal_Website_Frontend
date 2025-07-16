@@ -334,6 +334,7 @@ function initializeSocketConnection(url) {
       if (leaveButton) {
         leaveButton.style.display = 'inline-block';
       }
+      startVideoTimeoutWatchdog();
     }
   });
 
@@ -356,6 +357,7 @@ function initializeSocketConnection(url) {
 
   // Handle video frames from backend
   signalingSocket.on('video-frame', function(data) {
+    lastVideoFrameTime = Date.now();
     if (videoContext && robotConnected && isActiveController && data.frame) {
       try {
         // Convert base64 frame to image and display on canvas
@@ -431,6 +433,7 @@ function initializeSocketConnection(url) {
     if (leaveButton) {
       leaveButton.style.display = 'none';
     }
+    hideVideoError();
   });
 }
 
@@ -502,7 +505,7 @@ function disconnectFromRobot() {
   if (leaveButton) {
     leaveButton.style.display = 'none';
   }
-
+  hideVideoError();
   console.log('🔴 Disconnected');
   console.log('Disconnected from robot');
 }
@@ -554,6 +557,53 @@ document.addEventListener('keyup', function(event) {
     }
   }
 });
+
+// --- Video Timeout/Error Overlay Logic ---
+let lastVideoFrameTime = null;
+let videoTimeoutInterval = null;
+const VIDEO_TIMEOUT_MS = 5000; // 5 seconds
+
+function showVideoError(message) {
+  let errorDiv = document.getElementById('videoErrorOverlay');
+  if (!errorDiv) {
+    errorDiv = document.createElement('div');
+    errorDiv.id = 'videoErrorOverlay';
+    errorDiv.style.position = 'fixed';
+    errorDiv.style.top = 'calc(var(--navBarTop, 0px) + 15px)';
+    errorDiv.style.left = '50%';
+    errorDiv.style.transform = 'translateX(-50%)';
+    errorDiv.style.background = 'rgba(255,0,0,0.85)';
+    errorDiv.style.color = '#fff';
+    errorDiv.style.padding = '12px 32px';
+    errorDiv.style.borderRadius = '8px';
+    errorDiv.style.zIndex = '10000';
+    errorDiv.style.fontSize = '1.2em';
+    errorDiv.style.textAlign = 'center';
+    document.body.appendChild(errorDiv);
+  }
+  errorDiv.textContent = message;
+  errorDiv.style.display = 'block';
+}
+function hideVideoError() {
+  const errorDiv = document.getElementById('videoErrorOverlay');
+  if (errorDiv) errorDiv.style.display = 'none';
+}
+
+// Start the video timeout watchdog after socket connection is established
+function startVideoTimeoutWatchdog() {
+  if (videoTimeoutInterval) clearInterval(videoTimeoutInterval);
+  videoTimeoutInterval = setInterval(() => {
+    if (robotConnected && isActiveController) {
+      if (!lastVideoFrameTime || Date.now() - lastVideoFrameTime > VIDEO_TIMEOUT_MS) {
+        showVideoError('No video received from robot. Please check connection.');
+      } else {
+        hideVideoError();
+      }
+    } else {
+      hideVideoError();
+    }
+  }, 1000);
+}
 
 // Handle window resize and orientation changes
 window.addEventListener('resize', function() {

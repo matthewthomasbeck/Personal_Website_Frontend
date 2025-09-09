@@ -6,204 +6,45 @@ function getQueryParam(name) {
 
 const childDiv = document.querySelector('.childDiv');
 
-function runGroupAccessLogic() {
+async function validateUserAccess() {
   const idToken = window.sessionStorage.getItem('id_token');
+  
   if (!idToken) {
-    // Not logged in: show video container full screen, with overlayed message
-    childDiv.innerHTML = `
-      <div id="videoContainer">
-        <div id="loginOverlay" style="position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; display: flex; align-items: center; justify-content: center; z-index: 10;">
-          <div class="statusBox denied" style="font-size: 1.2em;">
-            ❌ Access Denied – You must be logged in.
-          </div>
-        </div>
-      </div>
-    `;
-    return;
+    showAccessDenied('You must be logged in.');
+    return false;
   }
-  // Decode JWT and check groups
-  const payload = JSON.parse(atob(idToken.split('.')[1]));
-  const groups = payload['cognito:groups'] || [];
-  if (groups.includes('owner') || groups.includes('privileged')) {
-    // Check if device is mobile or tablet (force mobile controls on tablets)
-    const isMobile = window.innerWidth <= 1025;
-
-    if (isMobile) {
-      // Mobile version with 8 arrow controls and landscape enforcement
-      childDiv.innerHTML = `
-        <div id="videoContainer">
-          <div id="landscapeOverlay" style="display:none;">
-            <div class="landscapeMessage">
-              <span>Please rotate your phone horizontally to control the robot.</span>
-            </div>
-          </div>
-          <video id="robotVideo" autoplay playsinline muted>
-            <p>Video stream loading...</p>
-          </video>
-          <button id="connectButton" onclick="connectToRobot()">Connect</button>
-          <button id="leaveButton" onclick="leaveRobot()" style="display: none;">Leave Robot</button>
-          <!-- Mobile 8-Button Controls -->
-          <div id="mobileControls10">
-            <div class="mobileControlsLeft">
-              <div class="controlRow controlRowUpDown">
-                <button class="controlBtn arrowBtn" id="lookUpBtn" data-command="arrowup">
-                  <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-north.png" alt="Look Up">
-                </button>
-              </div>
-              <div class="controlRow controlRowLRD">
-                <button class="controlBtn arrowBtn" id="lookLeftBtn" data-command="arrowleft">
-                  <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-west.png" alt="Look Left">
-                </button>
-                <button class="controlBtn arrowBtn" id="lookDownBtn" data-command="arrowdown">
-                  <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-south.png" alt="Look Down">
-                </button>
-                <button class="controlBtn arrowBtn" id="lookRightBtn" data-command="arrowright">
-                  <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-east.png" alt="Look Right">
-                </button>
-              </div>
-              <div class="controlRow">
-                <button class="controlBtn" id="actionBtn" data-command="click"></button>
-              </div>
-            </div>
-            <div class="mobileControlsRight">
-              <div class="controlRow controlRowUpDown">
-                <button class="controlBtn wasdBtn" id="moveUpBtn" data-command="w">
-                  <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-north.png" alt="Move Forward">
-                </button>
-              </div>
-              <div class="controlRow controlRowLRD">
-                <button class="controlBtn wasdBtn" id="moveLeftBtn" data-command="a">
-                  <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-west.png" alt="Move Left">
-                </button>
-                <button class="controlBtn wasdBtn" id="moveDownBtn" data-command="s">
-                  <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-south.png" alt="Move Backward">
-                </button>
-                <button class="controlBtn wasdBtn" id="moveRightBtn" data-command="d">
-                  <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-east.png" alt="Move Right">
-                </button>
-              </div>
-              <div class="controlRow">
-                <button class="controlBtn" id="jumpBtn" data-command=" "></button>
-              </div>
-            </div>
-          </div>
-        </div>
-      `;
-      // Landscape enforcement logic
-      setTimeout(() => {
-        function checkOrientation() {
-          const overlay = document.getElementById('landscapeOverlay');
-          if (window.innerWidth < window.innerHeight) {
-            overlay.style.display = 'flex';
-            if (document.getElementById('mobileControls10')) document.getElementById('mobileControls10').style.display = 'none';
-          } else {
-            overlay.style.display = 'none';
-            if (document.getElementById('mobileControls10')) document.getElementById('mobileControls10').style.display = 'flex';
-          }
-        }
-        window.addEventListener('resize', checkOrientation);
-        window.addEventListener('orientationchange', checkOrientation);
-        checkOrientation();
-      }, 200);
-      // Hold-to-repeat logic for mobile controls
-      setTimeout(() => {
-        const btns = document.querySelectorAll('#mobileControls10 .controlBtn');
-        btns.forEach(btn => {
-          let interval = null;
-          let isTouch = false;
-          const command = btn.getAttribute('data-command');
-          const send = () => sendRobotCommand(command);
-          // Mouse events
-          btn.addEventListener('mousedown', e => {
-            if (interval) clearInterval(interval);
-            send();
-            interval = setInterval(send, 100);
-          });
-          btn.addEventListener('mouseup', e => {
-            if (interval) clearInterval(interval);
-            sendRobotCommand('n');
-          });
-          btn.addEventListener('mouseleave', e => {
-            if (interval) clearInterval(interval);
-            sendRobotCommand('n');
-          });
-          // Touch events
-          btn.addEventListener('touchstart', e => {
-            isTouch = true;
-            if (interval) clearInterval(interval);
-            send();
-            interval = setInterval(send, 100);
-          });
-          btn.addEventListener('touchend', e => {
-            if (interval) clearInterval(interval);
-            sendRobotCommand('n');
-          });
-          btn.addEventListener('touchcancel', e => {
-            if (interval) clearInterval(interval);
-            sendRobotCommand('n');
-          });
-        });
-
-        // Action and Jump button event listeners
-        const actionBtn = document.getElementById('actionBtn');
-        const jumpBtn = document.getElementById('jumpBtn');
-
-        if (actionBtn) {
-          actionBtn.addEventListener('click', () => sendRobotCommand('click'));
-          actionBtn.addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            sendRobotCommand('click');
-          });
-        }
-
-        if (jumpBtn) {
-          jumpBtn.addEventListener('click', () => sendRobotCommand(' '));
-          jumpBtn.addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            sendRobotCommand(' ');
-          });
-        }
-      }, 300);
-    } else {
-      // Desktop version with keyboard controls
-      childDiv.innerHTML = `
-        <div id="videoContainer">
-          <video id="robotVideo" autoplay playsinline muted>
-            <p>Video stream loading...</p>
-          </video>
-          <button id="connectButton" onclick="connectToRobot()">Connect</button>
-          <button id="leaveButton" onclick="leaveRobot()" style="display: none;">Leave Robot</button>
-          <div class="controlInstructions standardFont">
-            <h3>Robot Controls</h3>
-            <ul>
-              <li><strong>W</strong> Move Forward</li>
-              <li><strong>S</strong> Move Backward</li>
-              <li><strong>A</strong> Turn Left</li>
-              <li><strong>D</strong> Turn Right</li>
-              <li><strong>↑</strong> Look Up</li>
-              <li><strong>↓</strong> Look Down</li>
-              <li><strong>←</strong> Rotate Left</li>
-              <li><strong>→</strong> Rotate Right</li>
-              <li><strong>Space</strong> Jump</li>
-              <li><strong>Click</strong> Action</li>
-            </ul>
-          </div>
-        </div>
-      `;
+  
+  try {
+    // Send token to backend for validation
+    const response = await fetch('https://api.matthewthomasbeck.com/api/validate-token', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token: idToken })
+    });
+    
+    if (!response.ok) {
+      throw new Error('Token validation failed');
     }
-
-    // Initialize video handling after DOM is ready
-    setTimeout(() => {
-      initializeVideoHandling();
-    }, 100);
-  } else {
-    // Show access denied for non-privileged users
-    childDiv.innerHTML = `
-      <div class="statusBox denied">
-        ❌ Access Denied – You are not in the 'owner' or 'privileged' group.
-      </div>
-    `;
+    
+    const userData = await response.json();
+    return userData.valid && (userData.user.groups.includes('owner') || userData.user.groups.includes('privileged'));
+    
+  } catch (error) {
+    console.error('Authentication failed:', error);
+    showAccessDenied('Invalid or expired token. Please log in again.');
+    return false;
   }
+}
+
+async function runGroupAccessLogic() {
+  const hasAccess = await validateUserAccess();
+  
+  if (!hasAccess) {
+    return; // Access denied message already shown
+  }
+  
+  // User is validated - show robot controls
+  showRobotControls();
 }
 
 // Always run on page load

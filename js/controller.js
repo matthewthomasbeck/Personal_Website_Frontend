@@ -10,9 +10,12 @@ async function validateUserAccess() {
   const idToken = window.sessionStorage.getItem('id_token');
   
   if (!idToken) {
+    console.log('No token found in sessionStorage');
     showAccessDenied('You must be logged in.');
     return false;
   }
+  
+  console.log('Token found, validating with backend...');
   
   try {
     // Send token to backend for validation
@@ -22,12 +25,21 @@ async function validateUserAccess() {
       body: JSON.stringify({ token: idToken })
     });
     
+    console.log('Backend response status:', response.status);
+    
     if (!response.ok) {
-      throw new Error('Token validation failed');
+      const errorData = await response.json();
+      console.error('Backend validation failed:', errorData);
+      throw new Error(`Token validation failed: ${errorData.error}`);
     }
     
     const userData = await response.json();
-    return userData.valid && (userData.user.groups.includes('owner') || userData.user.groups.includes('privileged'));
+    console.log('Backend validation successful:', userData);
+    
+    const hasAccess = userData.valid && (userData.user.groups.includes('owner') || userData.user.groups.includes('privileged'));
+    console.log('User has access:', hasAccess);
+    
+    return hasAccess;
     
   } catch (error) {
     console.error('Authentication failed:', error);
@@ -461,3 +473,117 @@ window.addEventListener('orientationchange', function() {
     runGroupAccessLogic();
   }, 500);
 });
+
+// Add these helper functions after the validateUserAccess function
+function showAccessDenied(message) {
+  childDiv.innerHTML = `
+    <div id="videoContainer">
+      <div id="loginOverlay" style="position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; display: flex; align-items: center; justify-content: center; z-index: 10;">
+        <div class="statusBox denied" style="font-size: 1.2em;">
+          ❌ ${message}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function showRobotControls() {
+  // Check if device is mobile or tablet (force mobile controls on tablets)
+  const isMobile = window.innerWidth <= 1025;
+
+  if (isMobile) {
+    // Mobile version with 8 arrow controls and landscape enforcement
+    childDiv.innerHTML = `
+      <div id="videoContainer">
+        <div id="landscapeOverlay" style="display:none;">
+          <div class="landscapeMessage">
+            <span>Please rotate your phone horizontally to control the robot.</span>
+          </div>
+        </div>
+        <video id="robotVideo" autoplay playsinline muted>
+          <p>Video stream loading...</p>
+        </video>
+        <button id="connectButton" onclick="connectToRobot()">Connect</button>
+        <button id="leaveButton" onclick="leaveRobot()" style="display: none;">Leave Robot</button>
+        <!-- Mobile 8-Button Controls -->
+        <div id="mobileControls10">
+          <div class="mobileControlsLeft">
+            <div class="controlRow controlRowUpDown">
+              <button class="controlBtn arrowBtn" id="lookUpBtn" data-command="arrowup">
+                <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-north.png" alt="Look Up">
+              </button>
+            </div>
+            <div class="controlRow controlRowLRD">
+              <button class="controlBtn arrowBtn" id="lookLeftBtn" data-command="arrowleft">
+                <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-west.png" alt="Look Left">
+              </button>
+              <button class="controlBtn arrowBtn" id="lookDownBtn" data-command="arrowdown">
+                <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-south.png" alt="Look Down">
+              </button>
+              <button class="controlBtn arrowBtn" id="lookRightBtn" data-command="arrowright">
+                <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-east.png" alt="Look Right">
+              </button>
+            </div>
+            <div class="controlRow">
+              <button class="controlBtn" id="actionBtn" data-command="click"></button>
+            </div>
+          </div>
+          <div class="mobileControlsRight">
+            <div class="controlRow controlRowUpDown">
+              <button class="controlBtn wasdBtn" id="moveUpBtn" data-command="w">
+                <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-north.png" alt="Move Forward">
+              </button>
+            </div>
+            <div class="controlRow controlRowLRD">
+              <button class="controlBtn wasdBtn" id="moveLeftBtn" data-command="a">
+                <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-west.png" alt="Move Left">
+              </button>
+              <button class="controlBtn wasdBtn" id="moveDownBtn" data-command="s">
+                <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-south.png" alt="Move Backward">
+              </button>
+              <button class="controlBtn wasdBtn" id="moveRightBtn" data-command="d">
+                <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-east.png" alt="Move Right">
+              </button>
+            </div>
+            <div class="controlRow">
+              <button class="controlBtn" id="jumpBtn" data-command=" "></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+    // Add all the mobile control logic here (landscape enforcement, touch events, etc.)
+    // ... (copy the rest of the mobile logic from your original code)
+  } else {
+    // Desktop version with keyboard controls
+    childDiv.innerHTML = `
+      <div id="videoContainer">
+        <video id="robotVideo" autoplay playsinline muted>
+          <p>Video stream loading...</p>
+        </video>
+        <button id="connectButton" onclick="connectToRobot()">Connect</button>
+        <button id="leaveButton" onclick="leaveRobot()" style="display: none;">Leave Robot</button>
+        <div class="controlInstructions standardFont">
+          <h3>Robot Controls</h3>
+          <ul>
+            <li><strong>W</strong> Move Forward</li>
+            <li><strong>S</strong> Move Backward</li>
+            <li><strong>A</strong> Turn Left</li>
+            <li><strong>D</strong> Turn Right</li>
+            <li><strong>↑</strong> Look Up</li>
+            <li><strong>↓</strong> Look Down</li>
+            <li><strong>←</strong> Rotate Left</li>
+            <li><strong>→</strong> Rotate Right</li>
+            <li><strong>Space</strong> Jump</li>
+            <li><strong>Click</strong> Action</li>
+          </ul>
+        </div>
+      </div>
+    `;
+  }
+
+  // Initialize video handling after DOM is ready
+  setTimeout(() => {
+    initializeVideoHandling();
+  }, 100);
+}

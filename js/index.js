@@ -32,14 +32,14 @@ const downloadResumeText = document.getElementById('downloadResumeText'); // fin
 
 downloadResumeBox.addEventListener('click', function() {
     
-    // First, trigger the download
+    // Create a temporary anchor element to trigger download
     const link = document.createElement('a');
     link.href = 'https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/resumes/resume_1.2-sin_info.pdf';
-    link.download = 'Matthew_Thomas_Beck_Resume.pdf';
-    link.click();
-    
-    // Then, open the PDF in a new tab (this is what you currently have)
-    window.open('https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/resumes/resume_1.2-sin_info.pdf', '_blank');
+    link.download = 'Matthew_Thomas_Beck_Resume.pdf'; // Set the filename for download
+    link.target = '_blank'; // Open in new tab as fallback
+    document.body.appendChild(link); // Add to DOM temporarily
+    link.click(); // Trigger the download
+    document.body.removeChild(link); // Clean up
 });
 
 

@@ -305,12 +305,25 @@ function popUp(element) { // used to inflate the project content
         if (elementImage.id === 'jumpUpArrow') { // if element is jumpUpBox...
 
             elementImage.style.opacity = '1'; // set opacity to 1
+
+        } else if (elementImage.id === 'downloadResumeIcon') { // if element is downloadResumeBox...
+
+            elementImage.style.opacity = '1'; // set opacity to 1
         }
     }
 
     if (elementAnchor) { // if there exists an element list item...
 
         elementAnchor.style.fontSize = '105%'; // inflate the element anchor
+    }
+
+    if (elementText) { // if there exists an element text...
+
+        if (elementText.id == 'downloadResumeText') { // if element is not downloadResumeText...
+
+            elementText.style.opacity = '1'; // set opacity to 1
+            elementAnchor.style.fontSize = '105%'; // inflate the element anchor
+        }
     }
 }
 
@@ -352,12 +365,25 @@ function popDown(element) { // used to deflate the project content
         if (elementImage.id === 'jumpUpArrow') { // if element is jumpUpBox...
 
             elementImage.style.opacity = '0.25'; // set opacity to 0.25
+
+        } else if (elementImage.id === 'downloadResumeIcon') { // if element is downloadResumeBox...
+
+            elementImage.style.opacity = '0.25'; // set opacity to 0.25
         }
     }
 
     if (elementAnchor) { // if there exists an element list item...
 
         elementAnchor.style.fontSize = '100%'; // deflate the element anchor
+    }
+
+    if (elementText) { // if there exists an element text...
+
+        if (elementText.id == 'downloadResumeText') { // if element is not downloadResumeText...
+
+            elementText.style.opacity = '0.25'; // set opacity to 0.25
+            elementAnchor.style.fontSize = '100%'; // deflate the element anchor
+        }
     }
 }
 

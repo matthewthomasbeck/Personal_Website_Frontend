@@ -24,6 +24,26 @@
 /***************************************************/
 
 
+/********** DOWNLOAD RESUMÉ **********/
+
+const downloadResumeBox = document.getElementById('downloadResumeBox'); // find download resume box
+const downloadResumeIcon = document.getElementById('downloadResumeIcon'); // find download resume icon
+const downloadResumeText = document.getElementById('downloadResumeText'); // find download resume text
+
+downloadResumeBox.addEventListener('click', function() {
+    
+    // First, trigger the download
+    const link = document.createElement('a');
+    link.href = 'https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/resumes/resume_1.2-sin_info.pdf';
+    link.download = 'Matthew_Thomas_Beck_Resume.pdf';
+    link.click();
+    
+    // Then, open the PDF in a new tab (this is what you currently have)
+    window.open('https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/resumes/resume_1.2-sin_info.pdf', '_blank');
+});
+
+
+
 /********** PORTRAIT SLIDESHOW **********/
 
 /***** set variables *****/

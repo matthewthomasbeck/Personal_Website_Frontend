@@ -110,6 +110,40 @@
 }
 
 
+/********** DOWNLOAD RESUMÉ **********/
+
+#downloadResumeBox {
+
+    aspect-ratio: 1/1;
+    height: 50px;
+    position: fixed;
+    bottom: calc(2.5% + 20px);
+    right: calc(2.5% + 20px);
+    background-color: transparent;
+    z-index: 998;
+    display: column;
+    text-align: center;
+}
+
+#downloadResumeIcon {
+
+    opacity: 0.25;
+    transition: transform var(--timeInterval) ease-out;
+    height: 70%;
+}
+
+#downloadResumeText {
+
+    margin: 0;
+    opacity: 0.25;
+    transition: transform var(--timeInterval) ease-out;
+    height: 30%;
+    font-size: 30%;
+    color: white;
+}
+
+
+
 /********** INTRODUCTION **********/
 
 #myIntroduction {

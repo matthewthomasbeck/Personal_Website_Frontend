@@ -747,7 +747,21 @@ projectsWheel.addEventListener('scroll', function() { // when scroll takes place
 
     /***** replace project info *****/
 
-    if (currentItem === 0) { // if current item machine learning portfolio...
+    if (currentItem === 0) { // if current item athena...
+
+        projectsArrowBoxLeft.style.opacity = '1'; // show the left arrow
+        projectsArrowBoxRight.style.opacity = '1'; // show the right arrow
+        projectsInfoName.textContent = "Project Athena"; // set title
+
+        // set content from .txt
+        projectsInfoBody.innerHTML = "Athena is an upcoming robotic dog project in which I will create a 'brain' " +
+            "using a Raspberry Pi 4B and an Intel Movidius Neural Compute Stick 2 running OpenVino that will allow a " +
+            "robotic dog to somewhat think for itself using the ARES platform by the talented:";
+
+        aaedName.textContent = "Aaed Musa!"; // set Aaed's name
+        aaedNameLarge.textContent = "Aaed Musa!"; // set Aaed's name large
+
+    } else if (currentItem === 1) { // if current item machine learning portfolio...
 
         projectsArrowLeft.classList.remove('showArrow'); // remove show class from left arrow
         projectsArrowBoxLeft.style.opacity = '0'; // hide the left arrow
@@ -762,7 +776,7 @@ projectsWheel.addEventListener('scroll', function() { // when scroll takes place
         aaedName.textContent = ""; // unset Aaed's name
         aaedNameLarge.textContent = ""; // unset Aaed's name large
 
-    } else if (currentItem === 1) { // if current item edge a.i. module...
+    } else if (currentItem === 2) { // if current item edge a.i. module...
 
         projectsArrowLeft.classList.add('showArrow'); // add show class to left arrow
         projectsArrowBoxLeft.style.opacity = '1'; // show the left arrow
@@ -793,20 +807,6 @@ projectsWheel.addEventListener('scroll', function() { // when scroll takes place
 
         aaedName.textContent = ""; // unset Aaed's name
         aaedNameLarge.textContent = ""; // unset Aaed's name large
-
-    } else if (currentItem === 2) { // if current item athena...
-
-        projectsArrowBoxLeft.style.opacity = '1'; // show the left arrow
-        projectsArrowBoxRight.style.opacity = '1'; // show the right arrow
-        projectsInfoName.textContent = "Project Athena"; // set title
-
-        // set content from .txt
-        projectsInfoBody.innerHTML = "Athena is an upcoming robotic dog project in which I will create a 'brain' " +
-            "using a Raspberry Pi 4B and an Intel Movidius Neural Compute Stick 2 running OpenVino that will allow a " +
-            "robotic dog to somewhat think for itself using the ARES platform by the talented:";
-
-        aaedName.textContent = "Aaed Musa!"; // set Aaed's name
-        aaedNameLarge.textContent = "Aaed Musa!"; // set Aaed's name large
 
     } else if (currentItem === 3) { // if current item receipt analyzer...
 
@@ -1007,7 +1007,47 @@ videosWheel.addEventListener('scroll', function() { // when scroll takes place i
             "could use to edit my videos automatically (at the time of writing), I created a script that primarily" +
             "uses PyAutoGUI to control my screen and edit videos for me";
 
-    } else if (currentItem === 2) { // if current item last video...
+    } else if (currentItem === 2) { // if current item latest video...
+
+        videosArrowLeft.classList.remove('showArrow'); // remove show class from left arrow
+        videosArrowBoxLeft.style.opacity = '0'; // hide the left arrow
+        videosArrowBoxRight.style.opacity = '1'; // show the right arrow
+        videosInfoName.textContent = "Receipt Analyzer"; // set title
+
+        // set content from .txt
+        videosInfoBody.textContent = "I built a Python app that uses Custom TKinter, Matplotlib, Psycopg2, and a " +
+            "host of other technologies including its own SQL database in order to better track my spending during " +
+            "the early days of university";
+
+    } else if (currentItem === 3) { // if current item video editor...
+
+        videosArrowLeft.classList.add('showArrow'); // add show class to left arrow
+        videosArrowBoxLeft.style.opacity = '1'; // show the left arrow
+        videosArrowBoxRight.style.opacity = '1'; // show the right arrow
+        videosInfoName.textContent = "Video Editor"; // set title
+
+        if (videosArrowLeft.classList.contains('postFadeIn')) { // if fadeIn animation has ended...
+
+            if (videosArrowRight.classList.contains('postFadeIn')) { // if right arrow has already completely loaded...
+
+                console.log("Full opacity...");
+
+                videosArrowLeft.style.opacity = '1'; // show left arrow immediately
+
+            } else { // if right arrow has not completely loaded...
+
+                console.log("Adding fadeIn...");
+
+                videosArrowLeft.classList.add('fadeIn'); // add animations to arrow
+            }
+        }
+
+        // set content from .txt
+        videosInfoBody.innerHTML = videosInfoBody.innerHTML = "As Adobe Premiere Pro did not have any kind of API I +" +
+            "could use to edit my videos automatically (at the time of writing), I created a script that primarily" +
+            "uses PyAutoGUI to control my screen and edit videos for me";
+
+    } else if (currentItem === 4) { // if current item last video...
 
         videosArrowRight.classList.remove('showArrow'); // remove show class from right arrow
         videosArrowBoxLeft.style.opacity = '1'; // show the left arrow

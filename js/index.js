@@ -751,7 +751,7 @@ projectsWheel.addEventListener('scroll', function() { // when scroll takes place
 
         projectsArrowBoxLeft.style.opacity = '1'; // show the left arrow
         projectsArrowBoxRight.style.opacity = '1'; // show the right arrow
-        projectsInfoName.textContent = "Project Athena"; // set title
+        projectsInfoName.textContent = "Athena"; // set title
 
         // set content from .txt
         projectsInfoBody.innerHTML = "Athena is an upcoming robotic dog project in which I will create a 'brain' " +

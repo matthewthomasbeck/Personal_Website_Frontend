@@ -972,19 +972,18 @@ videosWheel.addEventListener('scroll', function() { // when scroll takes place i
         videosArrowLeft.classList.remove('showArrow'); // remove show class from left arrow
         videosArrowBoxLeft.style.opacity = '0'; // hide the left arrow
         videosArrowBoxRight.style.opacity = '1'; // show the right arrow
-        videosInfoName.textContent = "Receipt Analyzer"; // set title
+        videosInfoName.textContent = "Training Athena"; // set title
 
         // set content from .txt
-        videosInfoBody.textContent = "I built a Python app that uses Custom TKinter, Matplotlib, Psycopg2, and a " +
-            "host of other technologies including its own SQL database in order to better track my spending during " +
-            "the early days of university";
+        videosInfoBody.textContent = "I used the foundations I built in the 'Building Athena' video to " +
+            "start training Athena to walk";
 
-    } else if (currentItem === 1) { // if current item video editor...
+    } else if (currentItem === 1) { // if current item building athena...
 
         videosArrowLeft.classList.add('showArrow'); // add show class to left arrow
         videosArrowBoxLeft.style.opacity = '1'; // show the left arrow
         videosArrowBoxRight.style.opacity = '1'; // show the right arrow
-        videosInfoName.textContent = "Video Editor"; // set title
+        videosInfoName.textContent = "Building Athena"; // set title
 
         if (videosArrowLeft.classList.contains('postFadeIn')) { // if fadeIn animation has ended...
 
@@ -1003,23 +1002,49 @@ videosWheel.addEventListener('scroll', function() { // when scroll takes place i
         }
 
         // set content from .txt
-        videosInfoBody.innerHTML = videosInfoBody.innerHTML = "As Adobe Premiere Pro did not have any kind of API I +" +
-            "could use to edit my videos automatically (at the time of writing), I created a script that primarily" +
-            "uses PyAutoGUI to control my screen and edit videos for me";
+        videosInfoBody.innerHTML = videosInfoBody.innerHTML = "I built a robot dog so I could put my programming " +
+            "flexibility to the test";
 
-    } else if (currentItem === 2) { // if current item latest video...
+    } else if (currentItem === 2) { // if current item building athena...
 
         videosArrowLeft.classList.remove('showArrow'); // remove show class from left arrow
         videosArrowBoxLeft.style.opacity = '0'; // hide the left arrow
         videosArrowBoxRight.style.opacity = '1'; // show the right arrow
+        videosInfoName.textContent = "Building Athena"; // set title
+
+        // set content from .txt
+        videosInfoBody.innerHTML = videosInfoBody.innerHTML = "I built a robot dog so I could put my programming " +
+            "flexibility to the test";
+
+    } else if (currentItem === 3) { // if current item receipt analyzer...
+
+        videosArrowLeft.classList.add('showArrow'); // add show class to left arrow
+        videosArrowBoxLeft.style.opacity = '1'; // show the left arrow
+        videosArrowBoxRight.style.opacity = '1'; // show the right arrow
         videosInfoName.textContent = "Receipt Analyzer"; // set title
+
+        if (videosArrowLeft.classList.contains('postFadeIn')) { // if fadeIn animation has ended...
+
+            if (videosArrowRight.classList.contains('postFadeIn')) { // if right arrow has already completely loaded...
+
+                console.log("Full opacity...");
+
+                videosArrowLeft.style.opacity = '1'; // show left arrow immediately
+
+            } else { // if right arrow has not completely loaded...
+
+                console.log("Adding fadeIn...");
+
+                videosArrowLeft.classList.add('fadeIn'); // add animations to arrow
+            }
+        }
 
         // set content from .txt
         videosInfoBody.textContent = "I built a Python app that uses Custom TKinter, Matplotlib, Psycopg2, and a " +
             "host of other technologies including its own SQL database in order to better track my spending during " +
             "the early days of university";
 
-    } else if (currentItem === 3) { // if current item video editor...
+    } else if (currentItem === 4) { // if current item video editor...
 
         videosArrowLeft.classList.add('showArrow'); // add show class to left arrow
         videosArrowBoxLeft.style.opacity = '1'; // show the left arrow

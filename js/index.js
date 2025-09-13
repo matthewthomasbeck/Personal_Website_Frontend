@@ -815,8 +815,8 @@ projectsWheel.addEventListener('scroll', function() { // when scroll takes place
         projectsInfoName.textContent = "Receipt Analyzer"; // set title
 
         // set content from .txt
-        projectsInfoBody.textContent = "I built a Python app that uses Custom TKinter, Matplotlib, Psycopg2, and a " +
-            "host of other technologies including its own SQL database in order to better track my spending during " +
+        projectsInfoBody.textContent = "I built a Python app before LLM's that uses TKinter, Matplotlib, Psycopg2, " +
+            "and a host of other technologies including its own database in order to better track my spending during " +
             "the early days of university";
 
         aaedName.textContent = ""; // unset Aaed's name
@@ -830,8 +830,8 @@ projectsWheel.addEventListener('scroll', function() { // when scroll takes place
         projectsInfoName.textContent = "Personal Website"; // set title
 
         // set content from .txt
-        projectsInfoBody.textContent = "This very page you're looking at! Fun fact, I made this website in less than " +
-            "a month as a full-time student and with limited experience in HTML, CSS, or JavaScript; what really " +
+        projectsInfoBody.textContent = "This very page you're looking at! Fun fact, I made this in less than a month " +
+            "before LLM's as a full-time student and with limited experience in HTML, CSS, or JavaScript; what really " +
             "helped me move forward quickly was forcefully blocking all distractions, prior knowledge in Java, and " +
             "black coffee";
 

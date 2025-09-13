@@ -754,9 +754,9 @@ projectsWheel.addEventListener('scroll', function() { // when scroll takes place
         projectsInfoName.textContent = "Athena"; // set title
 
         // set content from .txt
-        projectsInfoBody.innerHTML = "Athena is an upcoming robotic dog project in which I will create a 'brain' " +
-            "using a Raspberry Pi 4B and an Intel Movidius Neural Compute Stick 2 running OpenVino that will allow a " +
-            "robotic dog to somewhat think for itself using the ARES platform by the talented:";
+        projectsInfoBody.innerHTML = "Athena is a gait-adjusting, ai-powered robot dog that was trained in Isaac Sim" +
+            "and is powered with a Raspberry Pi 4 and an Intel Movidius NCS2; The physical parts were from the" +
+            "open-source ARES platform, designed by the talented:";
 
         aaedName.textContent = "Aaed Musa!"; // set Aaed's name
         aaedNameLarge.textContent = "Aaed Musa!"; // set Aaed's name large
@@ -1005,18 +1005,7 @@ videosWheel.addEventListener('scroll', function() { // when scroll takes place i
         videosInfoBody.innerHTML = videosInfoBody.innerHTML = "I built a robot dog so I could put my programming " +
             "flexibility to the test";
 
-    } else if (currentItem === 2) { // if current item building athena...
-
-        videosArrowLeft.classList.remove('showArrow'); // remove show class from left arrow
-        videosArrowBoxLeft.style.opacity = '0'; // hide the left arrow
-        videosArrowBoxRight.style.opacity = '1'; // show the right arrow
-        videosInfoName.textContent = "Building Athena"; // set title
-
-        // set content from .txt
-        videosInfoBody.innerHTML = videosInfoBody.innerHTML = "I built a robot dog so I could put my programming " +
-            "flexibility to the test";
-
-    } else if (currentItem === 3) { // if current item receipt analyzer...
+    } else if (currentItem === 2) { // if current item receipt analyzer...
 
         videosArrowLeft.classList.add('showArrow'); // add show class to left arrow
         videosArrowBoxLeft.style.opacity = '1'; // show the left arrow
@@ -1044,7 +1033,7 @@ videosWheel.addEventListener('scroll', function() { // when scroll takes place i
             "host of other technologies including its own SQL database in order to better track my spending during " +
             "the early days of university";
 
-    } else if (currentItem === 4) { // if current item video editor...
+    } else if (currentItem === 3) { // if current item video editor...
 
         videosArrowLeft.classList.add('showArrow'); // add show class to left arrow
         videosArrowBoxLeft.style.opacity = '1'; // show the left arrow
@@ -1068,7 +1057,7 @@ videosWheel.addEventListener('scroll', function() { // when scroll takes place i
         }
 
         // set content from .txt
-        videosInfoBody.innerHTML = videosInfoBody.innerHTML = "As Adobe Premiere Pro did not have any kind of API I +" +
+        videosInfoBody.innerHTML = videosInfoBody.innerHTML = "As Adobe Premiere Pro did not have any kind of API I " +
             "could use to edit my videos automatically (at the time of writing), I created a script that primarily" +
             "uses PyAutoGUI to control my screen and edit videos for me";
 

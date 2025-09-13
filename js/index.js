@@ -749,13 +749,13 @@ projectsWheel.addEventListener('scroll', function() { // when scroll takes place
 
     if (currentItem === 0) { // if current item athena...
 
-        projectsArrowBoxLeft.style.opacity = '1'; // show the left arrow
+        projectsArrowBoxLeft.style.opacity = '0'; // show the left arrow
         projectsArrowBoxRight.style.opacity = '1'; // show the right arrow
         projectsInfoName.textContent = "Athena"; // set title
 
         // set content from .txt
-        projectsInfoBody.innerHTML = "Athena is a gait-adjusting, ai-powered robot dog that was trained in Isaac Sim" +
-            "and is powered with a Raspberry Pi 4 and an Intel Movidius NCS2; The physical parts were from the" +
+        projectsInfoBody.innerHTML = "Athena is a gait-adjusting, ai-powered robot dog that was trained in Isaac Sim " +
+            "and is powered with a Raspberry Pi 4 and an Intel Movidius NCS2; The physical parts were from the " +
             "open-source ARES platform, designed by the talented:";
 
         aaedName.textContent = "Aaed Musa!"; // set Aaed's name
@@ -764,7 +764,7 @@ projectsWheel.addEventListener('scroll', function() { // when scroll takes place
     } else if (currentItem === 1) { // if current item machine learning portfolio...
 
         projectsArrowLeft.classList.remove('showArrow'); // remove show class from left arrow
-        projectsArrowBoxLeft.style.opacity = '0'; // hide the left arrow
+        projectsArrowBoxLeft.style.opacity = '1'; // hide the left arrow
         projectsArrowBoxRight.style.opacity = '1'; // show the right arrow
         projectsInfoName.textContent = "Machine Learning Portfolio"; // set title
 
@@ -802,7 +802,7 @@ projectsWheel.addEventListener('scroll', function() { // when scroll takes place
         // set content from .txt
         projectsInfoBody.innerHTML = projectsInfoBody.innerHTML = "The Edge AI Module is a device I created while " +
             "working on project Athena, in which I wanted a flexible device that allowed for adjustable voltage to " +
-            " work with any power source, 12 channels of control, a remote control module, a camera, a fan for " +
+            "work with any power source, 12 channels of control, a remote control module, a camera, a fan for " +
             "cooling, neat wiring, and an NCS2 to use edge AI";
 
         aaedName.textContent = ""; // unset Aaed's name

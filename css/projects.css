@@ -69,7 +69,7 @@
     height: 50px;
     display: none;
     position: fixed;
-    top: 80px;
+    top: calc(var(--navBarHeight) + 20px);
     right: calc(2.5% + 20px);
     background-color: transparent;
     z-index: 998;

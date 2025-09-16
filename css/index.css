@@ -115,19 +115,19 @@
 #downloadResumeBox {
 
     aspect-ratio: 1/1;
-    height: 50px;
+    height: 75px;
     position: fixed;
     bottom: calc(2.5% + 20px);
     right: calc(2.5% + 20px);
     background-color: transparent;
     z-index: 998;
-    display: column;
+    flex-direction: column;
     text-align: center;
 }
 
 #downloadResumeIcon {
 
-    opacity: 0.25;
+    opacity: 0.375;
     transition: transform var(--timeInterval) ease-out;
     height: 70%;
 }
@@ -135,10 +135,10 @@
 #downloadResumeText {
 
     margin: 0;
-    opacity: 0.25;
+    opacity: 0.375;
     transition: transform var(--timeInterval) ease-out;
     height: 30%;
-    font-size: 30%;
+    font-size: 100%;
     color: white;
 }
 

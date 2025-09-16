@@ -9,14 +9,15 @@
 
 
 
-/*****************************************************/
-/*************** DYNAMIC GRID LAYOUT *****************/
-/*****************************************************/
 
-/**
- * Dynamically sets grid template rows for category content boxes
- * based on the number of metric boxes they contain
- */
+
+/*****************************************************************/
+/*************** bounded_rationality.js JAVASCRIPT ***************/
+/*****************************************************************/
+
+
+/********** SET DYNAMIC GRID LAYOUTS **********/
+
 function setDynamicGridLayout() {
     
     // Get all category content boxes
@@ -37,17 +38,36 @@ function setDynamicGridLayout() {
     });
 }
 
-/**
- * Initialize the dynamic grid layout when the page loads
- */
+
+/********** TOGGLE MAP BUTTON **********/
+
+const mapToggleButton = document.getElementById('mapToggleButton'); // find map toggle button
+const mapToggleArrow = document.getElementById('mapToggleArrow'); // find map toggle arrow
+const mapBox = document.getElementById('mapBox'); // find map box
+
+mapToggleButton.addEventListener('click', function() {
+
+    /***** make map right 0→-65vw *****/
+
+    if (mapBox.style.right === '0vw' || mapBox.style.right === '') { // make right attribute of mapBox -65vw to hide it
+        mapToggleArrow.style.transform = 'rotate(0deg)'; // point arrow left
+        mapToggleButton.style.right = '0vw'; // move button to right edge of screen
+        mapBox.style.right = '-65vw'; // hide map
+
+    } else {
+        mapToggleArrow.style.transform = 'rotate(180deg)'; // point arrow right
+        mapToggleButton.style.right = '65vw'; // move button to right edge of map
+        mapBox.style.right = '0vw'; // show map
+    }
+});
+
+
+/********** EVENT LISTENERS **********/
+
 document.addEventListener('DOMContentLoaded', function() {
     setDynamicGridLayout();
 });
 
-/**
- * Recalculate grid layout if content changes dynamically
- * Call this function whenever you add/remove metric boxes
- */
 function recalculateGridLayout() {
     setDynamicGridLayout();
 }

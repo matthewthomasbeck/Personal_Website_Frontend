@@ -53,6 +53,24 @@
 
 /********** MAP **********/
 
+/***** map toggle button *****/
+
+#mapToggleButton {
+
+    aspect-ratio: 1/1;
+    height: 50px;
+    position: absolute;
+    right: 65vw;
+    bottom: calc(65vh - 50px);
+}
+
+#mapToggleArrow {
+
+    aspect-ratio: 1/1;
+    height: 80%;
+    margin: 10%;
+}
+
 /***** map box *****/
 
 #mapBox {

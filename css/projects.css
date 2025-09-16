@@ -72,7 +72,7 @@
     top: calc(var(--navBarHeight) + 20px);
     right: calc(2.5% + 20px);
     background-color: transparent;
-    z-index: 998;
+    z-index: 997;
 }
 
 #jumpUpArrow {

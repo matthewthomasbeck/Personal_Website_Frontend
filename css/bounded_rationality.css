@@ -1,0 +1,153 @@
+/**********************************************************************************/
+/* Copyright (c) 2025 Matthew Thomas Beck                                         */
+/*                                                                                */
+/* All rights reserved. This code and its associated files may not be reproduced, */
+/* modified, distributed, or otherwise used, in part or in whole, by any person   */
+/* or entity without the express written permission of the copyright holder,      */
+/* Matthew Thomas Beck.                                                           */
+/**********************************************************************************/
+
+
+
+
+
+/******************************************************/
+/*************** MODIFY GLOBAL ELEMENTS ***************/
+/******************************************************/
+
+
+/********** DIVS **********/
+
+/***** parent div *****/
+
+.parentDiv { /* this is done to get rid of that weird space at the bottom of the page */
+
+    height: 100vh;
+}
+
+/***** child div *****/
+
+.childDiv { /* this is done so I can divide the child div into 4 components */
+
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: row;
+}
+
+
+
+
+
+/******************************************************************/
+/*************** under_construction.html ANIMATIONS ***************/
+/******************************************************************/
+
+
+
+
+
+/***************************************************************************/
+/*************** career_capital_monitor.html CUSTOM ELEMENTS ***************/
+/***************************************************************************/
+
+/********** MAP **********/
+
+/***** map box *****/
+
+#mapBox {
+
+    height: 65vh;
+    width: 65vw;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+}
+
+/***** map title *****/
+
+#mapTitleBox {
+
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    justify-content: center;
+    margin-top: 2.5vh;
+}
+
+
+/********** CATEGORIES **********/
+
+/***** category boxes *****/
+
+.categoryBoxes {
+
+    height: 100vh;
+    width: 25vw;
+    display: grid;
+    grid-template-rows: auto 1fr;
+}
+
+/***** category title boxes *****/
+
+.categoryTitleBoxes {
+
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    justify-content: center;
+    margin-top: calc(var(--navBarHeight) + 2.5vh);
+}
+
+/***** category headers *****/
+
+.categoryHeaders {
+
+    color: white;
+    margin: 0;
+    align-content: center;
+}
+
+/***** category content boxes *****/
+
+.categoryContentBoxes { /* stores all of the metric boxes */
+
+    display: grid;
+    grid-template-rows: auto 1fr;
+}
+
+
+/********** METRIC BOXES **********/
+
+/***** category metric boxes *****/
+
+.categoryMetricBoxes {
+
+    width: 100%;
+}
+
+/***** category metric title boxes *****/
+
+.categoryMetricTitleBoxes {
+
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    justify-content: center;
+}
+
+/***** category metric headers *****/
+
+.categoryMetricHeaders {
+
+    color: white;
+    margin: 0;
+    align-content: center;
+}
+
+/***** category metric content boxes *****/
+
+.categoryMetricContentBoxes {
+
+    width: 25%;
+}

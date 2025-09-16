@@ -42,7 +42,8 @@ function setDynamicGridLayout() {
 /********** TOGGLE MAP BUTTON **********/
 
 const mapToggleButton = document.getElementById('mapToggleButton'); // find map toggle button
-const mapToggleArrow = document.getElementById('mapToggleArrow'); // find map toggle arrow
+const mapToggleArrowRight = document.getElementById('mapToggleArrowRight'); // find map toggle arrow
+const mapToggleArrowLeft = document.getElementById('mapToggleArrowLeft'); // find map toggle arrow
 const mapBox = document.getElementById('mapBox'); // find map box
 
 mapToggleButton.addEventListener('click', function() {
@@ -50,13 +51,15 @@ mapToggleButton.addEventListener('click', function() {
     /***** make map right 0→-65vw *****/
 
     if (mapBox.style.right === '0vw' || mapBox.style.right === '') { // make right attribute of mapBox -65vw to hide it
-        mapToggleArrow.style.transform = 'rotate(0deg)'; // point arrow left
+        mapToggleArrowRight.style.display = 'none';
+        mapToggleArrowLeft.style.display = 'block';
         mapToggleButton.style.right = '0vw'; // move button to right edge of screen
-        mapBox.style.right = '-65vw'; // hide map
+        mapBox.style.right = 'calc(-65vw - 3px)'; // hide map
 
     } else {
-        mapToggleArrow.style.transform = 'rotate(180deg)'; // point arrow right
-        mapToggleButton.style.right = '65vw'; // move button to right edge of map
+        mapToggleArrowRight.style.display = 'block';
+        mapToggleArrowLeft.style.display = 'none';
+        mapToggleButton.style.right = 'calc(65vw + 3px)'; // move button to right edge of map
         mapBox.style.right = '0vw'; // show map
     }
 });

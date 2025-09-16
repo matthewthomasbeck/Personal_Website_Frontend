@@ -61,22 +61,36 @@
     height: 50px;
     position: absolute;
     right: 65vw;
-    bottom: calc(65vh - 50px);
+    bottom: calc(65vh - 50px + 3px);
+    background-color: var(--secondary);
 }
 
-#mapToggleArrow {
+#mapToggleArrowRight {
 
     aspect-ratio: 1/1;
     height: 80%;
     margin: 10%;
+    display: block;
+}
+
+#mapToggleArrowLeft {
+
+    aspect-ratio: 1/1;
+    height: 80%;
+    margin: 10%;
+    display: none;
 }
 
 /***** map box *****/
 
 #mapBox {
 
-    height: 65vh;
-    width: 65vw;
+    border: 3px;
+    border-style: solid;
+    border-color: var(--secondary);
+    background-color: var(--primary);
+    height: calc(65vh - 3px);
+    width: calc(65vw - 3px);
     right: 0;
     bottom: 0;
     position: absolute;
@@ -90,7 +104,7 @@
     flex-direction: row;
     text-align: center;
     justify-content: center;
-    margin-top: 2.5vh;
+    margin: 6px;
 }
 
 
@@ -114,7 +128,8 @@
     flex-direction: row;
     text-align: center;
     justify-content: center;
-    margin-top: calc(var(--navBarHeight) + 2.5vh);
+    margin-top: calc(var(--navBarHeight) + 6px);
+    margin-bottom: 3px;
 }
 
 /***** category headers *****/
@@ -141,13 +156,18 @@
 
 .categoryMetricBoxes {
 
-    width: 100%;
+    margin: 3px;
+    border: 3px;
+    border-style: solid;
+    border-color: var(--secondary);
+    width: calc(100% - 12px);
 }
 
 /***** category metric title boxes *****/
 
 .categoryMetricTitleBoxes {
 
+    margin: 3px;
     display: flex;
     flex-direction: row;
     text-align: center;

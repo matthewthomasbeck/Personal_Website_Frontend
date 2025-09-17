@@ -64,6 +64,7 @@ mapToggleButton.addEventListener('click', function() {
     }
 });
 
+
 /********** HOVER INFO **********/
 
 // Create hover info div
@@ -166,6 +167,90 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+
+/********** EXIT CATEGORY **********/
+
+// Function to resize remaining categories after one is closed
+function resizeRemainingCategories() {
+    const visibleCategories = document.querySelectorAll('.categoryBoxes:not([style*="display: none"])');
+    const visibleCount = visibleCategories.length;
+    
+    if (visibleCount > 0) {
+        const newWidth = `${100 / visibleCount}vw`;
+        
+        visibleCategories.forEach(category => {
+            category.style.width = newWidth;
+        });
+        
+        console.log(`Resized ${visibleCount} categories to ${newWidth} each`);
+    }
+}
+
+// Function to handle category exit
+function handleCategoryExit(event) {
+    event.preventDefault();
+    
+    // Get the exit button that was clicked
+    const exitButton = event.currentTarget;
+    const exitButtonId = exitButton.id;
+    
+    // Map exit button IDs to their corresponding category box elements
+    const categoryMappings = {
+        'personalFinanceExit': () => {
+            const personalFinanceCategory = document.querySelector('.categoryBoxes').nextElementSibling;
+            return personalFinanceCategory.previousElementSibling; // Personal Finance category
+        },
+        'careerSecurityExit': () => {
+            const categories = document.querySelectorAll('.categoryBoxes');
+            return categories[1]; // Career Security category
+        },
+        'macroeconomicHealthExit': () => {
+            const categories = document.querySelectorAll('.categoryBoxes');
+            return categories[2]; // Macroeconomic Health category
+        },
+        'growthOpportunityExit': () => {
+            const categories = document.querySelectorAll('.categoryBoxes');
+            return categories[3]; // Growth Opportunity category
+        }
+    };
+    
+    // Find the category box to hide
+    const getCategoryFunction = categoryMappings[exitButtonId];
+    if (getCategoryFunction) {
+        const categoryBox = getCategoryFunction();
+        
+        if (categoryBox) {
+            // Hide the category with display: none
+            categoryBox.style.display = 'none';
+            
+            // Resize the remaining visible categories
+            resizeRemainingCategories();
+            
+            console.log(`Closed category: ${exitButtonId}`);
+        } else {
+            console.error(`Could not find category box for: ${exitButtonId}`);
+        }
+    } else {
+        console.error(`Unknown exit button ID: ${exitButtonId}`);
+    }
+}
+
+// Add event listeners to category exit buttons
+document.addEventListener('DOMContentLoaded', function() {
+    const categoryExitButtons = document.querySelectorAll('a.categoryExitBoxes[id$="Exit"]');
+    
+    categoryExitButtons.forEach(button => {
+        button.addEventListener('click', handleCategoryExit);
+    });
+    
+    console.log(`Added exit listeners to ${categoryExitButtons.length} category exit buttons`);
+});
+
+
+/********** EXIT CATEGORY METRIC **********/
+
+// TODO later
 
 
 /********** EVENT LISTENERS **********/

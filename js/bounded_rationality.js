@@ -250,7 +250,56 @@ document.addEventListener('DOMContentLoaded', function() {
 
 /********** EXIT CATEGORY METRIC **********/
 
-// TODO later
+// Function to resize remaining metrics within a category after one is closed
+function resizeRemainingMetrics(categoryContentBox) {
+    const visibleMetrics = categoryContentBox.querySelectorAll('.categoryMetricBoxes:not([style*="display: none"])');
+    const visibleCount = visibleMetrics.length;
+    
+    if (visibleCount > 0) {
+        const gridTemplate = `repeat(${visibleCount}, 1fr)`;
+        categoryContentBox.style.gridTemplateRows = gridTemplate;
+        
+        console.log(`Resized ${visibleCount} metrics in category to ${gridTemplate}`);
+    }
+}
+
+// Function to handle metric exit
+function handleMetricExit(event) {
+    event.preventDefault();
+    
+    // Get the exit button that was clicked
+    const exitButton = event.currentTarget;
+    const exitButtonId = exitButton.id;
+    
+    // Find the metric box to hide (it's the parent of the parent of the exit button)
+    const metricBox = exitButton.closest('.categoryMetricBoxes');
+    
+    if (metricBox) {
+        // Hide the metric box with display: none
+        metricBox.style.display = 'none';
+        
+        // Find the category content box (parent of the metric box)
+        const categoryContentBox = metricBox.parentElement;
+        
+        // Resize the remaining visible metrics in this category
+        resizeRemainingMetrics(categoryContentBox);
+        
+        console.log(`Closed metric: ${exitButtonId}`);
+    } else {
+        console.error(`Could not find metric box for: ${exitButtonId}`);
+    }
+}
+
+// Add event listeners to metric exit buttons
+document.addEventListener('DOMContentLoaded', function() {
+    const metricExitButtons = document.querySelectorAll('a.categoryMetricExitBoxes[id$="Exit"]');
+    
+    metricExitButtons.forEach(button => {
+        button.addEventListener('click', handleMetricExit);
+    });
+    
+    console.log(`Added exit listeners to ${metricExitButtons.length} metric exit buttons`);
+});
 
 
 /********** EVENT LISTENERS **********/

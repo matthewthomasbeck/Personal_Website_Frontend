@@ -104,7 +104,14 @@
     flex-direction: row;
     text-align: center;
     justify-content: center;
-    margin: 6px;
+    margin-top: 6px;
+}
+
+#worldEconomicMapHeader {
+
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0;
 }
 
 
@@ -118,6 +125,23 @@
     width: 25vw;
     display: grid;
     grid-template-rows: auto 1fr;
+}
+
+/***** category exit boxes *****/
+
+.categoryExitBoxes {
+
+    margin-right: auto;
+    margin-left: 6px;
+}
+
+/***** category exits *****/
+
+.categoryExits {
+
+    color: white;
+    height: 30px;
+    margin: 0;
 }
 
 /***** category title boxes *****/
@@ -138,6 +162,8 @@
 
     color: white;
     margin: 0;
+    margin-right: auto;
+    padding-right: 9px;
     align-content: center;
 }
 
@@ -151,6 +177,23 @@
 
 
 /********** METRIC BOXES **********/
+
+/***** category metric exit boxes *****/
+
+.categoryMetricExitBoxes {
+
+    margin-right: auto;
+    margin-left: 3px;
+}
+
+/***** category metric exits *****/
+
+.categoryMetricExits {
+
+    color: white;
+    height: 20px;
+    margin: 0;
+}
 
 /***** category metric boxes *****/
 
@@ -178,8 +221,11 @@
 
 .categoryMetricHeaders {
 
+    margin-right: auto;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-right: 6px;
     color: white;
-    margin: 0;
     align-content: center;
 }
 

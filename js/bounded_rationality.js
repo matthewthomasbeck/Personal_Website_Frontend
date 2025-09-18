@@ -84,6 +84,9 @@ function setDynamicGridLayout() {
     
     // Calculate content box heights after grid layout is set
     calculateContentBoxHeights();
+    
+    // Create charts after all heights are calculated
+    createAllCharts();
 }
 
 
@@ -138,6 +141,156 @@ function calculateContentBoxHeights() {
             }
         }
     });
+}
+
+/********** CREATE CHARTS **********/
+
+// Mapping of metric IDs to their data files
+const metricDataMapping = {
+    'salariesHeader': 'salaries',
+    'taxesHeader': 'taxes',
+    'rentHeader': 'rent',
+    'costOfLivingHeader': 'costOfLiving',
+    'jobDemandHeader': 'jobDemand',
+    'layoffsHeader': 'layoffs',
+    'underemploymentHeader': 'underemployment',
+    'timeUnemployedHeader': 'timeUnemployed',
+    'realGDPGrowthHeader': 'realGDPGrowth',
+    'realGDPPerCapitaHeader': 'realGDPPerCapita',
+    'housingStartsHeader': 'housingStarts',
+    'consumerPriceIndexHeader': 'consumerPriceIndex',
+    'techJobDensityHeader': 'techJobDensity',
+    'salaryGrowthRateHeader': 'salaryGrowthRate',
+    'SWEAdjacentGrowthHeader': 'SWEAdjacentGrowth',
+    'allFieldsGrowthHeader': 'allFieldsGrowth'
+};
+
+async function createAllCharts() {
+    console.log('Creating charts for all metrics...');
+    
+    // Get all metric content boxes
+    const metricContentBoxes = document.querySelectorAll('.categoryMetricContentBoxes');
+    
+    for (const contentBox of metricContentBoxes) {
+        // Find the corresponding metric header to get the metric ID
+        const metricBox = contentBox.closest('.categoryMetricBoxes');
+        const header = metricBox.querySelector('.categoryMetricHeaders');
+        
+        if (header && header.id) {
+            const metricId = header.id;
+            const dataFileName = metricDataMapping[metricId];
+            
+            if (dataFileName) {
+                await createChartForMetric(contentBox, dataFileName, metricId);
+            } else {
+                console.warn(`No data mapping found for metric: ${metricId}`);
+            }
+        }
+    }
+}
+
+async function createChartForMetric(contentBox, dataFileName, metricId) {
+    try {
+        // Fetch the data
+        const data = await fetchEconomicData(dataFileName);
+        
+        if (!data) {
+            console.error(`Failed to fetch data for ${dataFileName}`);
+            return;
+        }
+        
+        // Create canvas element
+        const canvas = document.createElement('canvas');
+        canvas.id = `chart-${metricId}`;
+        canvas.style.width = '100%';
+        canvas.style.height = '100%';
+        
+        // Clear any existing content and add canvas
+        contentBox.innerHTML = '';
+        contentBox.appendChild(canvas);
+        
+        // Get the computed dimensions of the content box
+        const contentBoxStyle = window.getComputedStyle(contentBox);
+        const width = contentBox.offsetWidth;
+        const height = contentBox.offsetHeight;
+        
+        console.log(`Creating chart for ${metricId}: ${width}x${height}px`);
+        
+        // Prepare Chart.js data
+        const chartData = prepareChartData(data);
+        
+        // Create the chart
+        const chart = new Chart(canvas, {
+            type: 'line',
+            data: chartData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: data.title,
+                        font: {
+                            size: 14
+                        }
+                    },
+                    legend: {
+                        display: true,
+                        position: 'bottom'
+                    }
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: data.xAxis.label
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: data.yAxis.label
+                        },
+                        ticks: {
+                            callback: function(value) {
+                                if (data.yAxis.format === 'currency') {
+                                    return new Intl.NumberFormat('en-US', {
+                                        style: 'currency',
+                                        currency: 'USD',
+                                        minimumFractionDigits: 0
+                                    }).format(value);
+                                }
+                                return value;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        
+        console.log(`Chart created successfully for ${metricId}`);
+        
+    } catch (error) {
+        console.error(`Error creating chart for ${metricId}:`, error);
+    }
+}
+
+function prepareChartData(data) {
+    const datasets = data.timeSeries.map(series => ({
+        label: series.name,
+        data: series.data.map(point => ({
+            x: point.x,
+            y: point.y
+        })),
+        borderColor: series.color,
+        backgroundColor: series.color + '20', // Add transparency
+        tension: 0.1,
+        fill: false
+    }));
+    
+    return {
+        datasets: datasets
+    };
 }
 
 

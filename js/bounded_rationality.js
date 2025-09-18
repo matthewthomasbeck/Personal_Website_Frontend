@@ -10,6 +10,7 @@
 
 
 
+
 /************************************************************/
 /*************** IMPORT / CREATE DEPENDENCIES ***************/
 /************************************************************/
@@ -52,346 +53,6 @@ async function fetchEconomicData(metricName) { // function to fetch economic dat
 }
 
 
-/********** CHART.JS IMPLEMENTATION **********/
-
-// Function to create a Chart.js chart
-function createChart(container, data) {
-    // Create a wrapper div for better control
-    const chartWrapper = document.createElement('div');
-    chartWrapper.style.cssText = `
-        width: 100%;
-        height: 250px;
-        position: relative;
-        background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
-        border-radius: 8px;
-        padding: 10px;
-        box-sizing: border-box;
-    `;
-    
-    // Create canvas element with proper sizing
-    const canvas = document.createElement('canvas');
-    canvas.style.cssText = `
-        width: 100% !important;
-        height: 100% !important;
-        max-width: 100%;
-        max-height: 100%;
-    `;
-    
-    chartWrapper.appendChild(canvas);
-    container.appendChild(chartWrapper);
-
-    // Prepare data for Chart.js
-    const datasets = data.timeSeries.map((series, index) => ({
-        label: series.name,
-        data: series.data.map(point => ({
-            x: point.x,
-            y: point.y
-        })),
-        borderColor: series.color || `hsl(${index * 60}, 70%, 50%)`,
-        backgroundColor: series.color ? series.color + '20' : `hsla(${index * 60}, 70%, 50%, 0.1)`,
-        borderWidth: 2,
-        fill: false,
-        tension: 0.4,
-        pointRadius: 3,
-        pointHoverRadius: 6,
-        pointBackgroundColor: series.color || `hsl(${index * 60}, 70%, 50%)`,
-        pointBorderColor: '#fff',
-        pointBorderWidth: 1,
-        pointHoverBackgroundColor: series.color || `hsl(${index * 60}, 70%, 50%)`,
-        pointHoverBorderColor: '#fff',
-        pointHoverBorderWidth: 2
-    }));
-
-    // Chart configuration
-    const config = {
-        type: 'line',
-        data: {
-            datasets: datasets
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            interaction: {
-                intersect: false,
-                mode: 'index'
-            },
-            plugins: {
-                title: {
-                    display: true,
-                    text: data.title || 'Economic Data',
-                    color: '#ffffff',
-                    font: {
-                        size: 14,
-                        weight: 'bold'
-                    },
-                    padding: {
-                        bottom: 10
-                    }
-                },
-                legend: {
-                    display: true,
-                    position: 'top',
-                    labels: {
-                        color: '#ffffff',
-                        usePointStyle: true,
-                        pointStyle: 'circle',
-                        padding: 15,
-                        font: {
-                            size: 10
-                        }
-                    }
-                },
-                tooltip: {
-                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                    titleColor: '#ffffff',
-                    bodyColor: '#ffffff',
-                    borderColor: 'rgba(255, 255, 255, 0.2)',
-                    borderWidth: 1,
-                    cornerRadius: 6,
-                    displayColors: true,
-                    callbacks: {
-                        title: function(context) {
-                            return context[0].label;
-                        },
-                        label: function(context) {
-                            const value = context.parsed.y;
-                            let formattedValue = value;
-                            
-                            // Format based on data type
-                            if (data.yAxis?.format === 'currency') {
-                                formattedValue = `$${value.toLocaleString()}`;
-                            } else if (data.yAxis?.format === 'percentage') {
-                                formattedValue = `${(value * 100).toFixed(1)}%`;
-                            } else {
-                                formattedValue = value.toLocaleString();
-                            }
-                            
-                            return `${context.dataset.label}: ${formattedValue}`;
-                        }
-                    }
-                }
-            },
-            scales: {
-                x: {
-                    type: 'category',
-                    title: {
-                        display: true,
-                        text: data.xAxis?.label || 'Time',
-                        color: '#ffffff',
-                        font: {
-                            size: 10,
-                            weight: 'bold'
-                        }
-                    },
-                    ticks: {
-                        color: '#cccccc',
-                        font: {
-                            size: 9
-                        },
-                        maxTicksLimit: 6
-                    },
-                    grid: {
-                        color: 'rgba(255, 255, 255, 0.1)',
-                        drawBorder: false
-                    }
-                },
-                y: {
-                    title: {
-                        display: true,
-                        text: data.yAxis?.label || 'Value',
-                        color: '#ffffff',
-                        font: {
-                            size: 10,
-                            weight: 'bold'
-                        }
-                    },
-                    ticks: {
-                        color: '#cccccc',
-                        font: {
-                            size: 9
-                        },
-                        callback: function(value) {
-                            if (data.yAxis?.format === 'currency') {
-                                return `$${value.toLocaleString()}`;
-                            } else if (data.yAxis?.format === 'percentage') {
-                                return `${(value * 100).toFixed(1)}%`;
-                            } else {
-                                return value.toLocaleString();
-                            }
-                        }
-                    },
-                    grid: {
-                        color: 'rgba(255, 255, 255, 0.1)',
-                        drawBorder: false
-                    }
-                }
-            },
-            elements: {
-                line: {
-                    borderJoinStyle: 'round',
-                    borderCapStyle: 'round'
-                }
-            },
-            animation: {
-                duration: 800,
-                easing: 'easeInOutQuart'
-            }
-        }
-    };
-
-    // Create the chart
-    const chart = new Chart(canvas, config);
-    return chart;
-}
-
-// Function to display data in a metric content box
-function displayMetricData(metricName, data) {
-    const contentBox = document.querySelector(`#${metricName}Header`).closest('.categoryMetricBoxes').querySelector('.categoryMetricContentBoxes');
-    
-    if (!contentBox || !data) {
-        console.error(`Could not find content box for ${metricName} or no data provided`);
-        return;
-    }
-
-    // Clear existing content
-    contentBox.innerHTML = '';
-
-    // Check if data has the new structured format
-    if (data.timeSeries && Array.isArray(data.timeSeries)) {
-        // Create Chart.js visualization
-        createChart(contentBox, data);
-        
-        // Add description if available
-        if (data.description) {
-            const descDiv = document.createElement('div');
-            descDiv.style.cssText = `
-                padding: 10px;
-                margin: 10px 0;
-                background-color: rgba(255, 255, 255, 0.05);
-                border-radius: 4px;
-                font-size: 12px;
-                color: #ccc;
-                font-style: italic;
-            `;
-            descDiv.textContent = data.description;
-            contentBox.appendChild(descDiv);
-        }
-        
-        // Add last updated info
-        if (data.lastUpdated) {
-            const updateDiv = document.createElement('div');
-            updateDiv.style.cssText = `
-                padding: 5px;
-                margin: 5px 0;
-                font-size: 10px;
-                color: #888;
-                text-align: right;
-            `;
-            updateDiv.textContent = `Last updated: ${data.lastUpdated}`;
-            contentBox.appendChild(updateDiv);
-        }
-        
-    } else if (Array.isArray(data)) {
-        // Handle array data (legacy format)
-        data.forEach((item, index) => {
-            const itemDiv = document.createElement('div');
-            itemDiv.className = 'metricDataItem';
-            itemDiv.style.cssText = `
-                padding: 8px;
-                margin: 4px 0;
-                background-color: rgba(255, 255, 255, 0.1);
-                border-radius: 4px;
-                font-size: 14px;
-            `;
-            
-            if (typeof item === 'object') {
-                // Handle object data
-                const keys = Object.keys(item);
-                keys.forEach(key => {
-                    const span = document.createElement('span');
-                    span.innerHTML = `<strong>${key}:</strong> ${item[key]} `;
-                    itemDiv.appendChild(span);
-                });
-            } else {
-                // Handle simple values
-                itemDiv.textContent = item;
-            }
-            
-            contentBox.appendChild(itemDiv);
-        });
-    } else if (typeof data === 'object') {
-        // Handle object data (legacy format)
-        const keys = Object.keys(data);
-        keys.forEach(key => {
-            const itemDiv = document.createElement('div');
-            itemDiv.className = 'metricDataItem';
-            itemDiv.style.cssText = `
-                padding: 8px;
-                margin: 4px 0;
-                background-color: rgba(255, 255, 255, 0.1);
-                border-radius: 4px;
-                font-size: 14px;
-            `;
-            itemDiv.innerHTML = `<strong>${key}:</strong> ${data[key]}`;
-            contentBox.appendChild(itemDiv);
-        });
-    } else {
-        // Handle simple values
-        const itemDiv = document.createElement('div');
-        itemDiv.className = 'metricDataItem';
-        itemDiv.style.cssText = `
-            padding: 8px;
-            margin: 4px 0;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
-            font-size: 14px;
-        `;
-        itemDiv.textContent = data;
-        contentBox.appendChild(itemDiv);
-    }
-}
-
-// Function to load and display data for all metrics
-async function loadAllEconomicData() {
-    // Check if Chart.js is loaded
-    if (typeof Chart === 'undefined') {
-        console.error('Chart.js is not loaded!');
-        return;
-    }
-    
-    console.log('Chart.js is loaded:', Chart);
-    
-    // Only try the metrics you actually have JSON files for
-    const metrics = [
-        'salaries',
-        'consumerPriceIndex', 
-        'realGDPGrowth',
-        'jobDemand',
-        'housingStarts',
-        'rent'
-    ];
-
-    for (const metric of metrics) {
-        try {
-            const data = await fetchEconomicData(metric);
-            if (data) {
-                displayMetricData(metric, data);
-                console.log(`Loaded data for ${metric}`);
-            } else {
-                console.warn(`No data available for ${metric}`);
-                // Display placeholder message
-                const contentBox = document.querySelector(`#${metric}Header`).closest('.categoryMetricBoxes').querySelector('.categoryMetricContentBoxes');
-                if (contentBox) {
-                    contentBox.innerHTML = '<div style="padding: 20px; text-align: center; color: #888;">Data coming soon...</div>';
-                }
-            }
-        } catch (error) {
-            console.error(`Error loading data for ${metric}:`, error);
-        }
-    }
-}
-
-
 
 
 
@@ -418,6 +79,63 @@ function setDynamicGridLayout() {
             contentBox.style.gridTemplateRows = gridTemplate;
             
             console.log(`Set grid layout for category: ${metricBoxes.length} equal rows`);
+        }
+    });
+    
+    // Calculate content box heights after grid layout is set
+    calculateContentBoxHeights();
+}
+
+
+/********** CALCULATE CONTENT BOX HEIGHTS **********/
+
+function calculateContentBoxHeights() {
+    
+    // Get all metric boxes
+    const metricBoxes = document.querySelectorAll('.categoryMetricBoxes');
+    
+    metricBoxes.forEach(metricBox => {
+        
+        // Get the title box and content box within this metric box
+        const titleBox = metricBox.querySelector('.categoryMetricTitleBoxes');
+        const contentBox = metricBox.querySelector('.categoryMetricContentBoxes');
+        
+        if (titleBox && contentBox) {
+            
+            // Get the computed styles to account for margins and padding
+            const metricBoxStyle = window.getComputedStyle(metricBox);
+            const titleBoxStyle = window.getComputedStyle(titleBox);
+            
+            // Calculate the raw height of the metric box (excluding margin/padding)
+            const metricBoxHeight = metricBox.offsetHeight;
+            const metricBoxPaddingTop = parseFloat(metricBoxStyle.paddingTop) || 0;
+            const metricBoxPaddingBottom = parseFloat(metricBoxStyle.paddingBottom) || 0;
+            const metricBoxBorderTop = parseFloat(metricBoxStyle.borderTopWidth) || 0;
+            const metricBoxBorderBottom = parseFloat(metricBoxStyle.borderBottomWidth) || 0;
+            
+            const metricBoxInnerHeight = metricBoxHeight - metricBoxPaddingTop - metricBoxPaddingBottom - metricBoxBorderTop - metricBoxBorderBottom;
+            
+            // Calculate the full height of the title box (including margin/padding)
+            const titleBoxHeight = titleBox.offsetHeight;
+            const titleBoxMarginTop = parseFloat(titleBoxStyle.marginTop) || 0;
+            const titleBoxMarginBottom = parseFloat(titleBoxStyle.marginBottom) || 0;
+            const titleBoxPaddingTop = parseFloat(titleBoxStyle.paddingTop) || 0;
+            const titleBoxPaddingBottom = parseFloat(titleBoxStyle.paddingBottom) || 0;
+            const titleBoxBorderTop = parseFloat(titleBoxStyle.borderTopWidth) || 0;
+            const titleBoxBorderBottom = parseFloat(titleBoxStyle.borderBottomWidth) || 0;
+            
+            const titleBoxFullHeight = titleBoxHeight + titleBoxMarginTop + titleBoxMarginBottom + titleBoxPaddingTop + titleBoxPaddingBottom + titleBoxBorderTop + titleBoxBorderBottom;
+            
+            // Calculate the content box height
+            const contentBoxHeight = metricBoxInnerHeight - titleBoxFullHeight;
+            
+            // Set the content box height
+            if (contentBoxHeight > 0) {
+                contentBox.style.height = `${contentBoxHeight}px`;
+                console.log(`Set content box height: ${contentBoxHeight}px (metric: ${metricBoxInnerHeight}px - title: ${titleBoxFullHeight}px)`);
+            } else {
+                console.warn(`Content box height would be negative or zero: ${contentBoxHeight}px`);
+            }
         }
     });
 }
@@ -644,6 +362,9 @@ function resizeRemainingMetrics(categoryContentBox) {
         categoryContentBox.style.gridTemplateRows = gridTemplate;
         
         console.log(`Resized ${visibleCount} metrics in category to ${gridTemplate}`);
+        
+        // Recalculate content box heights after resizing
+        calculateContentBoxHeights();
     }
 }
 
@@ -690,7 +411,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 document.addEventListener('DOMContentLoaded', function() {
     setDynamicGridLayout();
-    loadAllEconomicData(); // Load economic data when page loads
 });
 
 function recalculateGridLayout() {

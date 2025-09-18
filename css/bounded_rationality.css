@@ -178,6 +178,17 @@
 
 /********** METRIC BOXES **********/
 
+/***** category metric boxes *****/
+
+.categoryMetricBoxes {
+
+    margin: 3px;
+    border: 3px;
+    border-style: solid;
+    border-color: var(--secondary);
+    width: calc(100% - 12px);
+}
+
 /***** category metric exit boxes *****/
 
 .categoryMetricExitBoxes {
@@ -193,17 +204,6 @@
     color: white;
     height: 20px;
     margin: 0;
-}
-
-/***** category metric boxes *****/
-
-.categoryMetricBoxes {
-
-    margin: 3px;
-    border: 3px;
-    border-style: solid;
-    border-color: var(--secondary);
-    width: calc(100% - 12px);
 }
 
 /***** category metric title boxes *****/
@@ -231,7 +231,4 @@
 
 /***** category metric content boxes *****/
 
-.categoryMetricContentBoxes {
-
-    width: 25%;
-}
+.categoryMetricContentBoxes {}

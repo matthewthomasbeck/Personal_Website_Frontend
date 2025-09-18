@@ -231,27 +231,40 @@ async function createChartForMetric(contentBox, dataFileName, metricId) {
                         display: true,
                         text: data.title,
                         font: {
-                            size: 14
+                            size: 14,
+                            color: 'white'
                         }
                     },
                     legend: {
                         display: true,
-                        position: 'bottom'
+                        position: 'bottom',
+                        labels: {
+                            color: 'white'
+                        }
                     }
                 },
                 scales: {
                     x: {
                         title: {
                             display: true,
-                            text: data.xAxis.label
+                            text: data.xAxis.label,
+                            color: 'white'
+                        },
+                        ticks: {
+                            color: 'white'
+                        },
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
                         }
                     },
                     y: {
                         title: {
                             display: true,
-                            text: data.yAxis.label
+                            text: data.yAxis.label,
+                            color: 'white'
                         },
                         ticks: {
+                            color: 'white',
                             callback: function(value) {
                                 if (data.yAxis.format === 'currency') {
                                     return new Intl.NumberFormat('en-US', {
@@ -262,6 +275,9 @@ async function createChartForMetric(contentBox, dataFileName, metricId) {
                                 }
                                 return value;
                             }
+                        },
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
                         }
                     }
                 }
@@ -303,19 +319,19 @@ const mapBox = document.getElementById('mapBox'); // find map box
 
 mapToggleButton.addEventListener('click', function() {
 
-    /***** make map right 0→-65vw *****/
+    /***** make map slide in/out using margin-right like navbar *****/
 
-    if (mapBox.style.right === '0vw' || mapBox.style.right === '') { // make right attribute of mapBox -65vw to hide it
+    if (mapBox.style.marginRight === '0px' || mapBox.style.marginRight === '') { // hide map
         mapToggleArrowRight.style.display = 'none';
         mapToggleArrowLeft.style.display = 'block';
         mapToggleButton.style.right = '0vw'; // move button to right edge of screen
-        mapBox.style.right = 'calc(-65vw - 3px)'; // hide map
+        mapBox.style.marginRight = '-65%'; // slide map off screen to the right
 
-    } else {
+    } else { // show map
         mapToggleArrowRight.style.display = 'block';
         mapToggleArrowLeft.style.display = 'none';
-        mapToggleButton.style.right = 'calc(65vw + 3px)'; // move button to right edge of map
-        mapBox.style.right = '0vw'; // show map
+        mapToggleButton.style.right = 'calc(65% + 3px)'; // move button to right edge of map
+        mapBox.style.marginRight = '0px'; // slide map back into view
     }
 });
 

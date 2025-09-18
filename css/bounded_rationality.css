@@ -89,11 +89,11 @@
     border-style: solid;
     border-color: var(--secondary);
     background-color: var(--primary);
-    height: calc(65vh - 3px);
-    width: calc(65vw - 3px);
+    height: calc(65% - 3px);
+    width: calc(65% - 3px);
     right: 0;
     bottom: 0;
-    position: absolute;
+    position: fixed;
 }
 
 /***** map title *****/

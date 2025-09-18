@@ -60,8 +60,8 @@
     aspect-ratio: 1/1;
     height: 50px;
     position: absolute;
-    right: 65vw;
-    bottom: calc(65vh - 50px + 3px);
+    right: 65%;
+    bottom: calc(65% - 50px + 3px);
     background-color: var(--secondary);
 }
 
@@ -107,11 +107,16 @@
     margin-top: 6px;
 }
 
-#worldEconomicMapHeader {
+#mapTitleHeader {
 
     margin-left: auto;
     margin-right: auto;
     padding: 0;
+}
+
+#mapContentBox {
+
+    
 }
 
 

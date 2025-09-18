@@ -85,8 +85,14 @@ function setDynamicGridLayout() {
     // Calculate content box heights after grid layout is set
     calculateContentBoxHeights();
     
+    // Calculate map content box height
+    calculateMapContentBoxHeight();
+    
     // Create charts after all heights are calculated
     createAllCharts();
+    
+    // Create world map after map content box height is calculated
+    createWorldMap();
 }
 
 
@@ -141,6 +147,77 @@ function calculateContentBoxHeights() {
             }
         }
     });
+}
+
+/********** CALCULATE MAP CONTENT BOX HEIGHT **********/
+
+function calculateMapContentBoxHeight() {
+    
+    // Get the map box, title box, and content box
+    const mapBox = document.getElementById('mapBox');
+    const mapTitleBox = document.getElementById('mapTitleBox');
+    const mapContentBox = document.getElementById('mapContentBox');
+    
+    console.log('Map elements found:', {
+        mapBox: !!mapBox,
+        mapTitleBox: !!mapTitleBox,
+        mapContentBox: !!mapContentBox
+    });
+    
+    if (mapBox && mapTitleBox && mapContentBox) {
+        
+        // Get the computed styles to account for margins and padding
+        const mapBoxStyle = window.getComputedStyle(mapBox);
+        const mapTitleBoxStyle = window.getComputedStyle(mapTitleBox);
+        
+        // Calculate the raw height of the map box (excluding margin/padding)
+        const mapBoxHeight = mapBox.offsetHeight;
+        const mapBoxPaddingTop = parseFloat(mapBoxStyle.paddingTop) || 0;
+        const mapBoxPaddingBottom = parseFloat(mapBoxStyle.paddingBottom) || 0;
+        const mapBoxBorderTop = parseFloat(mapBoxStyle.borderTopWidth) || 0;
+        const mapBoxBorderBottom = parseFloat(mapBoxStyle.borderBottomWidth) || 0;
+        
+        const mapBoxInnerHeight = mapBoxHeight - mapBoxPaddingTop - mapBoxPaddingBottom - mapBoxBorderTop - mapBoxBorderBottom;
+        
+        // Calculate the full height of the title box (including margin/padding)
+        const mapTitleBoxHeight = mapTitleBox.offsetHeight;
+        const mapTitleBoxMarginTop = parseFloat(mapTitleBoxStyle.marginTop) || 0;
+        const mapTitleBoxMarginBottom = parseFloat(mapTitleBoxStyle.marginBottom) || 0;
+        const mapTitleBoxPaddingTop = parseFloat(mapTitleBoxStyle.paddingTop) || 0;
+        const mapTitleBoxPaddingBottom = parseFloat(mapTitleBoxStyle.paddingBottom) || 0;
+        const mapTitleBoxBorderTop = parseFloat(mapTitleBoxStyle.borderTopWidth) || 0;
+        const mapTitleBoxBorderBottom = parseFloat(mapTitleBoxStyle.borderBottomWidth) || 0;
+        
+        const mapTitleBoxFullHeight = mapTitleBoxHeight + mapTitleBoxMarginTop + mapTitleBoxMarginBottom + mapTitleBoxPaddingTop + mapTitleBoxPaddingBottom + mapTitleBoxBorderTop + mapTitleBoxBorderBottom;
+        
+        // Calculate the content box height
+        const mapContentBoxHeight = mapBoxInnerHeight - mapTitleBoxFullHeight;
+        
+        console.log('Map height calculations:', {
+            mapBoxHeight,
+            mapBoxInnerHeight,
+            mapTitleBoxHeight,
+            mapTitleBoxFullHeight,
+            calculatedContentBoxHeight: mapContentBoxHeight
+        });
+        
+        // Set the content box height
+        if (mapContentBoxHeight > 0) {
+            mapContentBox.style.height = `${mapContentBoxHeight}px`;
+            mapContentBox.style.position = 'relative'; // Ensure proper positioning
+            mapContentBox.style.overflow = 'hidden'; // Prevent scrollbars
+            console.log(`Set map content box height: ${mapContentBoxHeight}px (map: ${mapBoxInnerHeight}px - title: ${mapTitleBoxFullHeight}px)`);
+        } else {
+            console.warn(`Map content box height would be negative or zero: ${mapContentBoxHeight}px`);
+            // Set a fallback height
+            mapContentBox.style.height = '300px';
+            mapContentBox.style.position = 'relative';
+            mapContentBox.style.overflow = 'hidden';
+            console.log('Set fallback height of 300px');
+        }
+    } else {
+        console.error('Could not find map elements for height calculation');
+    }
 }
 
 /********** CREATE CHARTS **********/
@@ -310,6 +387,135 @@ function prepareChartData(data) {
 }
 
 
+/********** CREATE WORLD MAP **********/
+
+let worldMap = null; // Global variable to store the map instance
+
+function createWorldMap() {
+    
+    // Get the map content box
+    const mapContentBox = document.getElementById('mapContentBox');
+    
+    if (!mapContentBox) {
+        console.error('Map content box not found');
+        return;
+    }
+    
+    // Debug: Check the dimensions
+    console.log('Map content box dimensions:', {
+        offsetHeight: mapContentBox.offsetHeight,
+        clientHeight: mapContentBox.clientHeight,
+        scrollHeight: mapContentBox.scrollHeight,
+        computedHeight: window.getComputedStyle(mapContentBox).height
+    });
+    
+    // Clear any existing content
+    mapContentBox.innerHTML = '';
+    
+    // Create a div for the map
+    const mapDiv = document.createElement('div');
+    mapDiv.id = 'worldMap';
+    mapDiv.style.width = '100%';
+    mapDiv.style.height = '100%';
+    mapDiv.style.minHeight = '300px'; // Add a minimum height as fallback
+    mapDiv.style.position = 'relative'; // Ensure proper positioning
+    mapDiv.style.overflow = 'hidden'; // Prevent scrollbars
+    
+    mapContentBox.appendChild(mapDiv);
+    
+    // Debug: Check the map div dimensions
+    setTimeout(() => {
+        const mapDivElement = document.getElementById('worldMap');
+        console.log('Map div dimensions:', {
+            offsetHeight: mapDivElement.offsetHeight,
+            clientHeight: mapDivElement.clientHeight,
+            parentHeight: mapContentBox.offsetHeight
+        });
+        
+        // If the map div still has no height, force it to use the parent's height
+        if (mapDivElement.offsetHeight === 0 && mapContentBox.offsetHeight > 0) {
+            mapDivElement.style.height = mapContentBox.offsetHeight + 'px';
+            console.log('Forced map div height to:', mapContentBox.offsetHeight + 'px');
+        }
+        
+        // Initialize the map with a more focused view (Americas + Europe)
+        worldMap = L.map('worldMap', {
+            center: [40, -40], // Center on Atlantic Ocean
+            zoom: 3, // More zoomed in
+            zoomControl: false, // Remove zoom controls for faster loading
+            scrollWheelZoom: false, // Disable scroll zoom
+            doubleClickZoom: false, // Disable double-click zoom
+            dragging: false, // Disable dragging
+            touchZoom: false, // Disable touch zoom
+            boxZoom: false, // Disable box zoom
+            keyboard: false, // Disable keyboard navigation
+            attributionControl: false // Remove attribution for cleaner look
+        });
+        
+        // Add a simple, fast-loading tile layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 4, // Limit zoom levels for faster loading
+            minZoom: 2
+        }).addTo(worldMap);
+        
+        // Add fewer, more focused cities (Americas + Europe)
+        const majorCities = [
+            { name: 'New York', lat: 40.7128, lng: -74.0060, salary: '$150,000' },
+            { name: 'San Francisco', lat: 37.7749, lng: -122.4194, salary: '$160,000' },
+            { name: 'London', lat: 51.5074, lng: -0.1278, salary: '$80,000' },
+            { name: 'Berlin', lat: 52.5200, lng: 13.4050, salary: '$70,000' },
+            { name: 'Toronto', lat: 43.6532, lng: -79.3832, salary: '$90,000' },
+            { name: 'Paris', lat: 48.8566, lng: 2.3522, salary: '$75,000' }
+        ];
+        
+        // Add markers for each city
+        majorCities.forEach(city => {
+            const marker = L.marker([city.lat, city.lng]).addTo(worldMap);
+            marker.bindPopup(`
+                <div style="text-align: center;">
+                    <h3 style="margin: 0; color: #333;">${city.name}</h3>
+                    <p style="margin: 5px 0; color: #666;">Avg SWE Salary: ${city.salary}</p>
+                </div>
+            `);
+        });
+        
+        // Set a fixed view that focuses on Americas + Europe
+        worldMap.setView([40, -40], 3);
+        
+        // Force the map to fill the container
+        setTimeout(() => {
+            if (worldMap) {
+                worldMap.invalidateSize();
+                // Ensure it takes full height
+                const mapContainer = worldMap.getContainer();
+                mapContainer.style.height = '100%';
+                
+                // Also force the map div to take full height
+                const mapDivElement = document.getElementById('worldMap');
+                if (mapDivElement) {
+                    mapDivElement.style.height = mapContentBox.offsetHeight + 'px';
+                    console.log('Forced map div height to:', mapContentBox.offsetHeight + 'px');
+                }
+                
+                // Force the map to resize to the new dimensions
+                worldMap.invalidateSize();
+            }
+        }, 50);
+        
+        console.log('World map created successfully');
+    }, 100);
+}
+
+// Function to recreate the map (useful for resizing)
+function recreateWorldMap() {
+    if (worldMap) {
+        worldMap.remove(); // Remove the existing map
+        worldMap = null;
+    }
+    createWorldMap();
+}
+
+
 /********** TOGGLE MAP BUTTON **********/
 
 const mapToggleButton = document.getElementById('mapToggleButton'); // find map toggle button
@@ -332,6 +538,11 @@ mapToggleButton.addEventListener('click', function() {
         mapToggleArrowLeft.style.display = 'none';
         mapToggleButton.style.right = 'calc(65% + 3px)'; // move button to right edge of map
         mapBox.style.marginRight = '0px'; // slide map back into view
+        
+        // Recreate the map when showing it to ensure proper sizing
+        setTimeout(() => {
+            recreateWorldMap();
+        }, 300); // Wait for the slide animation to complete
     }
 });
 
@@ -389,7 +600,7 @@ const metricInfo = {
     'allFieldsGrowthHeader': 'Overall job market growth across all industries and sectors',
     
     // Map
-    'worldEconomicMapHeader': 'Interactive world map showing economic data by country and region'
+    'matpTitleHeader': 'Interactive world map showing economic data by country and region'
 };
 
 // Function to show hover info
@@ -584,4 +795,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function recalculateGridLayout() {
     setDynamicGridLayout();
+}
+
+// Function to recalculate just the map content box height
+function recalculateMapContentBoxHeight() {
+    calculateMapContentBoxHeight();
 }

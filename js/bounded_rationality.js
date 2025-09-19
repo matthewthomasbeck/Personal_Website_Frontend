@@ -531,7 +531,7 @@ mapToggleButton.addEventListener('click', function() {
         mapToggleArrowRight.style.display = 'none';
         mapToggleArrowLeft.style.display = 'block';
         mapToggleButton.style.right = '0vw'; // move button to right edge of screen
-        mapBox.style.marginRight = '-65%'; // slide map off screen to the right
+        mapBox.style.marginRight = 'calc(-65% - 3px)'; // slide map off screen to the right
 
     } else { // show map
         mapToggleArrowRight.style.display = 'block';

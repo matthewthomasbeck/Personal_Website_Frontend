@@ -304,12 +304,11 @@ function popUp(element) { // used to inflate the project content
 
         elementImage.style.transform = 'scale(1.05)'; // inflate the element image
 
-        if (elementImage.id === 'jumpUpArrow') { // if element is jumpUpBox...
-
-            elementImage.style.opacity = '1'; // set opacity to 1
-
-        } else if (elementImage.id === 'downloadResumeIcon') { // if element is downloadResumeBox...
-
+        if (
+            elementImage.id === 'jumpUpArrow' ||
+            elementImage.id === 'downloadResumeIcon' ||
+            elementImage.id === 'githubIcon'
+        ) {
             elementImage.style.opacity = '1'; // set opacity to 1
         }
     }
@@ -321,7 +320,10 @@ function popUp(element) { // used to inflate the project content
 
     if (elementText) { // if there exists an element text...
 
-        if (elementText.id == 'downloadResumeText') { // if element is not downloadResumeText...
+        if (
+            elementText.id === 'downloadResumeText' ||
+            elementText.id === 'githubText'
+        ) {
 
             elementText.style.opacity = '1'; // set opacity to 1
             elementAnchor.style.fontSize = '105%'; // inflate the element anchor
@@ -364,12 +366,11 @@ function popDown(element) { // used to deflate the project content
 
         elementImage.style.transform = 'scale(1)'; // deflate the element image
 
-        if (elementImage.id === 'jumpUpArrow') { // if element is jumpUpBox...
-
-            elementImage.style.opacity = '0.25'; // set opacity to 0.25
-
-        } else if (elementImage.id === 'downloadResumeIcon') { // if element is downloadResumeBox...
-
+        if (
+            elementImage.id === 'jumpUpArrow' ||
+            elementImage.id === 'downloadResumeIcon' ||
+            elementImage.id === 'githubIcon'
+        ) {
             elementImage.style.opacity = '0.25'; // set opacity to 0.25
         }
     }
@@ -381,8 +382,10 @@ function popDown(element) { // used to deflate the project content
 
     if (elementText) { // if there exists an element text...
 
-        if (elementText.id == 'downloadResumeText') { // if element is not downloadResumeText...
-
+        if (
+            elementText.id === 'downloadResumeText' ||
+            elementText.id === 'githubText'
+        ) {
             elementText.style.opacity = '0.25'; // set opacity to 0.25
             elementAnchor.style.fontSize = '100%'; // deflate the element anchor
         }

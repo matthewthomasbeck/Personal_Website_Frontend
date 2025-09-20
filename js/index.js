@@ -43,7 +43,6 @@ downloadResumeBox.addEventListener('click', function() {
 });
 
 
-
 /********** PORTRAIT SLIDESHOW **********/
 
 /***** set variables *****/

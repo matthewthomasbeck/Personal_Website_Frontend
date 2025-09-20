@@ -42,20 +42,17 @@ const conclusionHeaderObserver = new IntersectionObserver(entries => {
 
             /***** set variables *****/
 
-                // get content text
+            // get content text
             const conclusionTags = document.getElementById('projectConclusionBox').getElementsByTagName('p');
 
             /***** animate conclusion content *****/
 
             for (let i = 0; i < (conclusionTags.length - 1); i++) { // animate content text
-
                 setTimeout(function(pTag) { // set timeout for cascading effect
-
                     pTag.classList.add('fadeIn'); // add fade in effect
 
                 }, i * TIME_INTERVAL, conclusionTags[i]); // set timeout for cascading effect
             }
-
             conclusionHeaderObserver.unobserve(entry.target); // remove observer once completed
         }
     });
@@ -64,7 +61,6 @@ const conclusionHeaderObserver = new IntersectionObserver(entries => {
 /***** create conclusion header observer *****/
 
 if (conclusionHeader) { // if conclusion header exists...
-
     conclusionHeaderObserver.observe(conclusionHeader); // observe conclusion header
 }
 
@@ -109,19 +105,12 @@ conclusionSignatureBox.addEventListener('animationend', function(event) {
     /***** replace signature content *****/
 
     replacementText.textContent = "- Matthew Thomas Beck"; // set replacement span content
-
     replacementText.style.margin = '0px'; // adjust margin
-
     replacementText.style.textAlign = 'center'; // adjust text align
-
     replacementText.style.fontSize = '130%'; // adjust font size for proper scaling
-
     replacementText.classList.add('fancyFont'); // apply fancy font to span content
-
     event.target.textContent = ""; // replace old span with replacement span
-
     event.target.style.borderRightWidth = '0px'; // remove old right border
-
     event.target.appendChild(replacementText); // commit changes to header
 });
 
@@ -141,12 +130,56 @@ function scrollFunction() { // function used to jump up to the top
     /***** jump up to the top *****/
 
     if (window.pageYOffset > jumpBackTrigger) { // if user has scrolled past trigger point...
-
         jumpUpBox.style.display = "block"; // show the jump back div
-    }
 
-    else { // if user has not scrolled past trigger point...
-
+    } else { // if user has not scrolled past trigger point...
         jumpUpBox.style.display = "none"; // hide the jump back div
     }
 }
+
+
+/********** GITHUB BUTTON **********/
+
+const githubBox = document.getElementById('githubBox'); // find download resume box
+
+githubBox.addEventListener('click', function() {
+
+    /***** set variables *****/
+
+    const link = document.createElement('a');
+
+    /***** get correct URL based off of page title *****/
+
+    switch (true) {
+
+        case document.title.includes('Athena'):
+            link.href = 'https://github.com/matthewthomasbeck/Robot_Dog_Athena';
+            break;
+
+        case document.title.includes('Bounded Rationality'):
+            link.href = 'https://www.github.com/matthewthomasbeck/Bounded_Rationality';
+            break;
+
+        case document.title.includes('Edge AI Module'):
+            link.href = 'https://www.github.com/matthewthomasbeck/Edge_AI_Module';
+            break;
+
+        case document.title.includes('Machine Learning Portfolio'):
+            link.href = 'https://www.github.com/matthewthomasbeck/Machine_Learning_Portfolio';
+            break;
+
+        case document.title.includes('Receipt Analyzer'):
+            link.href = 'https://www.github.com/matthewthomasbeck/Budgeting_Software';
+            break;
+
+        default:
+            link.href = 'https://www.github.com/matthewthomasbeck/';
+    }
+
+    /***** send user to correct github repo *****/
+
+    link.target = '_blank'; // Open in new tab as fallback
+    document.body.appendChild(link); // Add to DOM temporarily
+    link.click(); // Trigger the download
+    document.body.removeChild(link); // Clean up
+});

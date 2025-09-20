@@ -1,10 +1,9 @@
 /**********************************************************************************/
 /* Copyright (c) 2025 Matthew Thomas Beck                                         */
 /*                                                                                */
-/* All rights reserved. This code and its associated files may not be reproduced, */
-/* modified, distributed, or otherwise used, in part or in whole, by any person   */
-/* or entity without the express written permission of the copyright holder,      */
-/* Matthew Thomas Beck.                                                           */
+/* Licensed under the Creative Commons Attribution-NonCommercial 4.0              */
+/* International (CC BY-NC 4.0). Personal and educational use is permitted.       */
+/* Commercial use by companies or for-profit entities is prohibited.              */
 /**********************************************************************************/
 
 

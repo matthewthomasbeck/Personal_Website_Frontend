@@ -68,50 +68,57 @@ if (conclusionHeader) { // if conclusion header exists...
 
 /***** set variables *****/
 
-// find final tag
-const finalTag = document.getElementById('projectConclusionBox').getElementsByTagName('p')[4];
+try { // attempt to do the conclusion programmer typing
 
-// get content signature box text
-const conclusionSignatureBox = document.getElementById('projectConclusionSignature')
+    // find final tag
+    const finalTag = document.getElementById('projectConclusionBox').getElementsByTagName('p')[4];
 
-/***** observe last fade in *****/
+    // get content signature box text
+    const conclusionSignatureBox = document.getElementById('projectConclusionSignature')
 
-// add event listener for fade in
-finalTag.addEventListener('animationend', function(event) {
+    /***** observe last fade in *****/
 
-    setTimeout(function(signatureBox) { // set timeout for programmer typing effect
+    // add event listener for fade in
+    finalTag.addEventListener('animationend', function(event) {
 
-        signatureBox.style.color = 'white'; // make signature box visible
+        setTimeout(function(signatureBox) { // set timeout for programmer typing effect
 
-        signatureBox.classList.add('programmerTyping'); // add programmer typing animation to signature box
+            signatureBox.style.color = 'white'; // make signature box visible
 
-        signatureBox.classList.add('animateProgrammerTyping'); // add programmer typing animation to signature box
+            signatureBox.classList.add('programmerTyping'); // add programmer typing animation to signature box
 
-        signatureBox.style.fontSize = '100%'; // adjust font size
+            signatureBox.classList.add('animateProgrammerTyping'); // add programmer typing animation to signature box
 
-    }, TIME_INTERVAL, conclusionSignatureBox); // set timeout for programmer typing effect
-});
+            signatureBox.style.fontSize = '100%'; // adjust font size
 
-/***** observe programmer typing end *****/
+        }, TIME_INTERVAL, conclusionSignatureBox); // set timeout for programmer typing effect
+    });
 
-// add event listener for programmer typing
-conclusionSignatureBox.addEventListener('animationend', function(event) {
+    /***** observe programmer typing end *****/
 
-    /***** set variables *****/
+    // add event listener for programmer typing
+    conclusionSignatureBox.addEventListener('animationend', function(event) {
 
-    let replacementText = document.createElement('p'); // create replacement element
+        /***** set variables *****/
 
-    /***** replace signature content *****/
+        let replacementText = document.createElement('p'); // create replacement element
 
-    replacementText.textContent = "- Matthew Thomas Beck"; // set replacement span content
-    replacementText.style.margin = '0px'; // adjust margin
-    replacementText.style.textAlign = 'center'; // adjust text align
-    replacementText.style.fontSize = '130%'; // adjust font size for proper scaling
-    replacementText.classList.add('fancyFont'); // apply fancy font to span content
-    event.target.textContent = ""; // replace old span with replacement span
-    event.target.style.borderRightWidth = '0px'; // remove old right border
-    event.target.appendChild(replacementText); // commit changes to header
-});
+        /***** replace signature content *****/
+
+        replacementText.textContent = "- Matthew Thomas Beck"; // set replacement span content
+        replacementText.style.margin = '0px'; // adjust margin
+        replacementText.style.textAlign = 'center'; // adjust text align
+        replacementText.style.fontSize = '130%'; // adjust font size for proper scaling
+        replacementText.classList.add('fancyFont'); // apply fancy font to span content
+        event.target.textContent = ""; // replace old span with replacement span
+        event.target.style.borderRightWidth = '0px'; // remove old right border
+        event.target.appendChild(replacementText); // commit changes to header
+    });
+
+} catch { // if there is no conclusion programmer typing...
+
+    console.log("No conclusion present, skipping programmer typing...");
+}
 
 
 /********** JUMP UP FUNCTION **********/
@@ -152,26 +159,32 @@ githubBox.addEventListener('click', function() {
     switch (true) {
 
         case document.title.includes('Athena'):
+            console.log("Athena github redirect...");
             link.href = 'https://github.com/matthewthomasbeck/Robot_Dog_Athena';
             break;
 
         case document.title.includes('Bounded Rationality'):
+            console.log("Bounded Rationality github redirect...");
             link.href = 'https://www.github.com/matthewthomasbeck/Bounded_Rationality';
             break;
 
         case document.title.includes('Edge AI Module'):
+            console.log("Edge AI Module github redirect...");
             link.href = 'https://www.github.com/matthewthomasbeck/Edge_AI_Module';
             break;
 
         case document.title.includes('Machine Learning Portfolio'):
+            console.log("Machine Learning Portfolio github redirect...");
             link.href = 'https://www.github.com/matthewthomasbeck/Machine_Learning_Portfolio';
             break;
 
         case document.title.includes('Receipt Analyzer'):
+            console.log("Receipt Analyzer github redirect...");
             link.href = 'https://www.github.com/matthewthomasbeck/Budgeting_Software';
             break;
 
         default:
+            console.log("Default github redirect...");
             link.href = 'https://www.github.com/matthewthomasbeck/';
     }
 

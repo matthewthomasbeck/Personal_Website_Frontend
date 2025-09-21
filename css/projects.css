@@ -155,13 +155,6 @@
         width: 130px;
     }
 
-    /***** adjust custom image sizes *****/
-
-    #jumpUpBox {
-
-        height: 40px;
-    }
-
     /***** signature *****/
 
     #projectConclusionSignatureBox {
@@ -182,13 +175,6 @@
     #index li {
 
         width: 120px;
-    }
-
-    /***** adjust custom image sizes *****/
-
-    #jumpUpBox {
-
-        height: 30px;
     }
 
     /***** signature *****/

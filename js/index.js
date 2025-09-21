@@ -34,7 +34,7 @@ downloadResumeBox.addEventListener('click', function() {
     // Create a temporary anchor element to trigger download
     const link = document.createElement('a');
     link.href = 'https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/resumes/resume.pdf';
-    link.download = 'Matthew_Thomas_Beck_Resume.pdf'; // Set the filename for download
+    link.download = 'Matthew Beck - Machine Learning Engineer 2025 resume.pdf'; // Set the filename for download
     link.target = '_blank'; // Open in new tab as fallback
     document.body.appendChild(link); // Add to DOM temporarily
     link.click(); // Trigger the download

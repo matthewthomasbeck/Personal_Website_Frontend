@@ -1,5 +1,17 @@
-# Personal_Website
+![Athena Walking](images/personal_website.jpg)
 
-This is my personal website that I use to display all of my hard work, but I may have it do more in the future.
+# Personal Website
+### By [Matthew Thomas Beck](https://www.linkedin.com/in/matthewthomasbeck/)
 
-Note: I do not own any of the data provided by the API's I use, and I do not make any money with this code, the copyrights are mainly there to make sure people don't steal my hours and hours of hard work, as I unfortunately know a few people who would absolutely try to do so. If you have any concerns, please contact me on my LinkedIn at https://www.linkedin.com/in/matthewthomasbeck/ and I will be happy to help.
+Click [here](https://www.matthewthomasbeck.com) to check it out
+
+**Please consider:** if you like it, **star it!**
+
+## Tech Stack
+- **Language:** *Vanilla HTML/CSS/JS*
+- **Libraries:** *Node.js, Chart.js, Leaflet.js*
+- **Hosting:** *AWS Amplify, AWS EC2, AWS Cognito, AWS S3, AWS Route 53*
+
+## Basic Information
+
+My personal website! Used to display all of my work over the years

@@ -362,7 +362,7 @@
                 <p class="contentText">
                     I spent about a week trying to get it to walk via hand-tuning, a futile effort that led to very poor
                     results, bar Athena's first steps; I quickly gave up on this endeavor, reluctantly ordered the parts
-                    needed to build a PC good enough to run Isaac Lab, and pivoted to another part of the project I knew
+                    needed to build a PC good enough to run Isaac Sim, and pivoted to another part of the project I knew
                     I needed to do
                 </p>
             </div>
@@ -427,25 +427,21 @@
 
         <!-- RL MODEL -->
         <div class="contentBoxes">
-            <img class="contentImg" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/images/athena/athena-placeholder.gif" alt="">
+            <img class="contentImg" src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/images/athena/reinforcement_learning.gif" alt="">
             <div class="standardFont contentTextBox">
                 <p class="contentText">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                    cillum dolore eu fugiat nulla pariatur.
+                    In order to (properly) train the robot to walk, I of course started work in Isaac Sim; I arrived at
+                    a system that trains a quadruped locomotion policy using PPO with an actor-critic neural network
                 </p>
                 <p class="contentText">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                    cillum dolore eu fugiat nulla pariatur.
+                    A shared two-layer backbone (400–300 neurons) feeds into actor and critic heads, where the actor
+                    outputs 12-D joint angle targets and the critic estimates state values; Input states are 97-D
+                    vectors combining history, IMU data, commands, and normalization
                 </p>
                 <p class="contentText">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                    cillum dolore eu fugiat nulla pariatur.
+                    Training uses GAE (γ=0.99, λ=0.95), PPO clipping (0.2), and gradient clipping (0.5) for stability;
+                    parallel efficiency is achieved by running 50 robots in Isaac Sim, collecting 25,600 experiences per
+                    batch for vectorized PyTorch updates, enabling fast, statistically robust on-policy learning
                 </p>
             </div>
         </div>

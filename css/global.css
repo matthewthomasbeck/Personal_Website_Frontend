@@ -49,7 +49,7 @@
     font-family: 'Mission Script';
     font-style: normal;
     font-weight: normal;
-    src: local('Mission Script'), local('OpenSans-Regular'), url('https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/fonts/Mission_Script.woff') format('woff');
+    src: local('Mission Script'), url('https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/fonts/Mission_Script.woff') format('woff');
     font-display: swap;
 }
 

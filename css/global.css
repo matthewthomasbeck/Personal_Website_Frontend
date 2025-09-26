@@ -49,7 +49,7 @@
     font-family: 'Mission Script';
     font-style: normal;
     font-weight: normal;
-    src: local('Mission Script'), url('../assets/fonts/Mission_Script.woff') format('woff');
+    src: local('Mission Script'), url('../assets/fonts/Mission_Script.otf') format('opentype');
     font-display: swap;
 }
 

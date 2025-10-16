@@ -237,7 +237,7 @@ const metricDataMapping = {
     'consumerPriceIndexHeader': 'consumerPriceIndex',
     'techJobDensityHeader': 'techJobDensity',
     'salaryGrowthRateHeader': 'salaryGrowthRate',
-    'SWEAdjacentGrowthHeader': 'SWEAdjacentGrowth',
+    'sweAdjacentGrowthHeader': 'sweAdjacentGrowth',
     'allFieldsGrowthHeader': 'allFieldsGrowth'
 };
 
@@ -595,7 +595,7 @@ const metricInfo = {
     'growthOpportunityHeader': 'Growth Opportunity metrics identify potential for career advancement',
     'techJobDensityHeader': 'Concentration of technology jobs in specific geographic areas',
     'salaryGrowthRateHeader': 'Historical and projected salary growth rates in tech',
-    'SWEAdjacentGrowthHeader': 'Growth in software engineering adjacent fields and roles',
+    'sweAdjacentGrowthHeader': 'Growth in software engineering adjacent fields and roles',
     'allFieldsGrowthHeader': 'Overall job market growth across all industries and sectors',
     
     // Map

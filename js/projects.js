@@ -165,7 +165,7 @@ githubBox.addEventListener('click', function() {
 
         case document.title.includes('Bounded Rationality'):
             console.log("Bounded Rationality github redirect...");
-            link.href = 'https://www.github.com/matthewthomasbeck/Bounded_Rationality';
+            link.href = 'https://www.github.com/matthewthomasbeck/Databases_Group_3';
             break;
 
         case document.title.includes('Edge AI Module'):

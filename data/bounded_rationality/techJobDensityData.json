@@ -1,0 +1,59 @@
+{
+  "description": "Concentration of technology jobs in specific geographic areas",
+  "xAxis": {
+    "label": "City",
+    "type": "category"
+  },
+  "yAxis": {
+    "label": "Total Tech Jobs",
+    "type": "number",
+    "format": "currency"
+  },
+  "timeSeries": [
+    {
+      "name": "San Francisco",
+      "color": "#FF6B6B",
+      "data": [
+        {"x": "2023-Q1", "y": 160000},
+        {"x": "2023-Q2", "y": 162000},
+        {"x": "2023-Q3", "y": 164000},
+        {"x": "2023-Q4", "y": 165000},
+        {"x": "2024-Q1", "y": 167000}
+      ]
+    },
+    {
+      "name": "New York",
+      "color": "#4ECDC4",
+      "data": [
+        {"x": "2023-Q1", "y": 145000},
+        {"x": "2023-Q2", "y": 147000},
+        {"x": "2023-Q3", "y": 149000},
+        {"x": "2023-Q4", "y": 150000},
+        {"x": "2024-Q1", "y": 152000}
+      ]
+    },
+    {
+      "name": "Seattle",
+      "color": "#45B7D1",
+      "data": [
+        {"x": "2023-Q1", "y": 135000},
+        {"x": "2023-Q2", "y": 137000},
+        {"x": "2023-Q3", "y": 139000},
+        {"x": "2023-Q4", "y": 140000},
+        {"x": "2024-Q1", "y": 142000}
+      ]
+    },
+    {
+      "name": "Austin",
+      "color": "#96CEB4",
+      "data": [
+        {"x": "2023-Q1", "y": 120000},
+        {"x": "2023-Q2", "y": 122000},
+        {"x": "2023-Q3", "y": 124000},
+        {"x": "2023-Q4", "y": 125000},
+        {"x": "2024-Q1", "y": 127000}
+      ]
+    }
+  ],
+  "lastUpdated": "2024-01-15"
+}

@@ -1,0 +1,57 @@
+{
+  "description": "Current demand for software engineering positions and job postings",
+  "xAxis": {
+    "label": "Date",
+    "type": "date",
+    "format": "YYYY-MM"
+  },
+  "yAxis": {
+    "label": "Value",
+    "type": "number"
+  },
+  "timeSeries": [
+    {
+      "name": "Job Postings (thousands)",
+      "color": "#FF6B6B",
+      "yAxis": "left",
+      "data": [
+        {"x": "2023-07", "y": 95},
+        {"x": "2023-08", "y": 98},
+        {"x": "2023-09", "y": 102},
+        {"x": "2023-10", "y": 108},
+        {"x": "2023-11", "y": 115},
+        {"x": "2023-12", "y": 120},
+        {"x": "2024-01", "y": 125}
+      ]
+    },
+    {
+      "name": "Remote Job %",
+      "color": "#4ECDC4",
+      "yAxis": "right",
+      "data": [
+        {"x": "2023-07", "y": 35},
+        {"x": "2023-08", "y": 36},
+        {"x": "2023-09", "y": 38},
+        {"x": "2023-10", "y": 40},
+        {"x": "2023-11", "y": 42},
+        {"x": "2023-12", "y": 44},
+        {"x": "2024-01", "y": 45}
+      ]
+    },
+    {
+      "name": "Average Time to Fill (days)",
+      "color": "#45B7D1",
+      "yAxis": "right",
+      "data": [
+        {"x": "2023-07", "y": 35},
+        {"x": "2023-08", "y": 33},
+        {"x": "2023-09", "y": 31},
+        {"x": "2023-10", "y": 29},
+        {"x": "2023-11", "y": 28},
+        {"x": "2023-12", "y": 27},
+        {"x": "2024-01", "y": 28}
+      ]
+    }
+  ],
+  "lastUpdated": "2024-01-15"
+}

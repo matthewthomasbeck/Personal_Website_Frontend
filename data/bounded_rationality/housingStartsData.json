@@ -1,7 +1,7 @@
 {
+  "hasPredictions": "False",
   "description": "New housing construction starts as an economic indicator",
   "xAxis": {
-    "label": "Date",
     "type": "date",
     "format": "YYYY-MM"
   },
@@ -12,7 +12,6 @@
   "timeSeries": [
     {
       "name": "East Coast",
-      "color": "#FF6B6B",
       "data": [
         {"x": "2023-07", "y": 850},
         {"x": "2023-08", "y": 875},
@@ -25,7 +24,6 @@
     },
     {
       "name": "West Coast",
-      "color": "#4ECDC4",
       "data": [
         {"x": "2023-07", "y": 450},
         {"x": "2023-08", "y": 460},
@@ -38,7 +36,6 @@
     },
     {
       "name": "Gulf Coast",
-      "color": "#45B7D1",
       "data": [
         {"x": "2023-07", "y": 1300},
         {"x": "2023-08", "y": 1335},

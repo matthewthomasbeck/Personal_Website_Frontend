@@ -1,7 +1,7 @@
 {
+  "hasPredictions": "False",
   "description": "Overall job market growth across all industries and sectors",
   "xAxis": {
-    "label": "Date",
     "type": "date",
     "format": "YYYY-Q"
   },
@@ -13,7 +13,6 @@
   "timeSeries": [
     {
       "name": "Technology",
-      "color": "#FF6B6B",
       "data": [
         {"x": "2022-Q1", "y": 0.014},
         {"x": "2022-Q2", "y": -0.006},
@@ -27,7 +26,6 @@
     },
     {
       "name": "Construction",
-      "color": "#FF6B6B",
       "data": [
         {"x": "2022-Q1", "y": 0.014},
         {"x": "2022-Q2", "y": -0.006},
@@ -41,7 +39,6 @@
     },
     {
       "name": "Banking",
-      "color": "#FF6B6B",
       "data": [
         {"x": "2022-Q1", "y": 0.014},
         {"x": "2022-Q2", "y": -0.006},
@@ -55,7 +52,6 @@
     },
     {
       "name": "Healthcare",
-      "color": "#FF6B6B",
       "data": [
         {"x": "2022-Q1", "y": 0.014},
         {"x": "2022-Q2", "y": -0.006},

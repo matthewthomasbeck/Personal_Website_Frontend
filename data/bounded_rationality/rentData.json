@@ -1,7 +1,7 @@
 {
+  "hasPredictions": "False",
   "description": "Housing costs including rent prices and affordability metrics",
   "xAxis": {
-    "label": "Date",
     "type": "date",
     "format": "YYYY-MM"
   },
@@ -13,7 +13,6 @@
   "timeSeries": [
     {
       "name": "San Francisco",
-      "color": "#FF6B6B",
       "data": [
         {"x": "2023-07", "y": 4200},
         {"x": "2023-08", "y": 4250},
@@ -26,7 +25,6 @@
     },
     {
       "name": "New York",
-      "color": "#4ECDC4",
       "data": [
         {"x": "2023-07", "y": 3800},
         {"x": "2023-08", "y": 3850},
@@ -39,7 +37,6 @@
     },
     {
       "name": "Seattle",
-      "color": "#45B7D1",
       "data": [
         {"x": "2023-07", "y": 2700},
         {"x": "2023-08", "y": 2750},
@@ -52,7 +49,6 @@
     },
     {
       "name": "Austin",
-      "color": "#96CEB4",
       "data": [
         {"x": "2023-07", "y": 2100},
         {"x": "2023-08", "y": 2150},

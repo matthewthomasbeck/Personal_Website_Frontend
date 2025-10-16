@@ -1,7 +1,7 @@
 {
+  "hasPredictions": "False",
   "description": "Inflation rate measured by consumer price index changes",
   "xAxis": {
-    "label": "Date",
     "type": "date",
     "format": "YYYY-MM"
   },
@@ -13,7 +13,6 @@
   "timeSeries": [
     {
       "name": "USA Nominal",
-      "color": "#FF6B6B",
       "data": [
         {"x": "2023-01", "y": 0.064},
         {"x": "2023-02", "y": 0.060},
@@ -32,7 +31,6 @@
     },
     {
       "name": "USA Core",
-      "color": "#4ECDC4",
       "data": [
         {"x": "2023-01", "y": 0.055},
         {"x": "2023-02", "y": 0.052},
@@ -51,7 +49,6 @@
     },
     {
       "name": "India Nominal",
-      "color": "#FF6B6B",
       "data": [
         {"x": "2023-01", "y": 0.064},
         {"x": "2023-02", "y": 0.060},
@@ -70,7 +67,6 @@
     },
     {
       "name": "India Core",
-      "color": "#4ECDC4",
       "data": [
         {"x": "2023-01", "y": 0.055},
         {"x": "2023-02", "y": 0.052},
@@ -89,7 +85,6 @@
     },
     {
       "name": "China Nominal",
-      "color": "#FF6B6B",
       "data": [
         {"x": "2023-01", "y": 0.064},
         {"x": "2023-02", "y": 0.060},
@@ -108,7 +103,6 @@
     },
     {
       "name": "China Core",
-      "color": "#4ECDC4",
       "data": [
         {"x": "2023-01", "y": 0.055},
         {"x": "2023-02", "y": 0.052},
@@ -127,7 +121,6 @@
     },
     {
       "name": "Germany Nominal",
-      "color": "#FF6B6B",
       "data": [
         {"x": "2023-01", "y": 0.064},
         {"x": "2023-02", "y": 0.060},
@@ -146,7 +139,6 @@
     },
     {
       "name": "Germany Core",
-      "color": "#4ECDC4",
       "data": [
         {"x": "2023-01", "y": 0.055},
         {"x": "2023-02", "y": 0.052},

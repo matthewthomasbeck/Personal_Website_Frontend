@@ -1,7 +1,7 @@
 {
+  "hasPredictions": "False",
   "description": "Concentration of technology jobs in specific geographic areas",
   "xAxis": {
-    "label": "City",
     "type": "category"
   },
   "yAxis": {
@@ -12,7 +12,6 @@
   "timeSeries": [
     {
       "name": "San Francisco",
-      "color": "#FF6B6B",
       "data": [
         {"x": "2023-Q1", "y": 160000},
         {"x": "2023-Q2", "y": 162000},
@@ -23,7 +22,6 @@
     },
     {
       "name": "New York",
-      "color": "#4ECDC4",
       "data": [
         {"x": "2023-Q1", "y": 145000},
         {"x": "2023-Q2", "y": 147000},
@@ -34,7 +32,6 @@
     },
     {
       "name": "Seattle",
-      "color": "#45B7D1",
       "data": [
         {"x": "2023-Q1", "y": 135000},
         {"x": "2023-Q2", "y": 137000},
@@ -45,7 +42,6 @@
     },
     {
       "name": "Austin",
-      "color": "#96CEB4",
       "data": [
         {"x": "2023-Q1", "y": 120000},
         {"x": "2023-Q2", "y": 122000},

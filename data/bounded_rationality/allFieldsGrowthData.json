@@ -1,5 +1,5 @@
 {
-  "hasPredictions": "True",
+  "hasPredictions": "False",
   "description": "Overall job market growth across all industries and sectors",
   "xAxis": {
     "type": "date",

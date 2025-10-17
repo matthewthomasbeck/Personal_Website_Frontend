@@ -1,5 +1,5 @@
 {
-  "hasPredictions": "True",
+  "hasPredictions": "False",
   "description": "New housing construction starts as an economic indicator",
   "xAxis": {
     "type": "date",

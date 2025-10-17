@@ -1,5 +1,5 @@
 {
-  "hasPredictions": "True",
+  "hasPredictions": "False",
   "description": "Overall cost of living index comparing different cities and regions",
   "xAxis": {
     "type": "category"

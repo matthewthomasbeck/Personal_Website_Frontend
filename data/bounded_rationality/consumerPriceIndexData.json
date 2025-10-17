@@ -1,5 +1,5 @@
 {
-  "hasPredictions": "True",
+  "hasPredictions": "False",
   "description": "Inflation rate measured by consumer price index changes",
   "xAxis": {
     "type": "date",

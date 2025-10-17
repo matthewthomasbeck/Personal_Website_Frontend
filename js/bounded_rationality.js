@@ -275,114 +275,407 @@ async function createChartForMetric(contentBox, dataFileName, metricId) {
             return;
         }
         
-        // Create canvas element
-        const canvas = document.createElement('canvas');
-        canvas.id = `chart-${metricId}`;
-        canvas.style.width = '100%';
-        canvas.style.height = '100%';
+        // Create div element for Plotly
+        const plotDiv = document.createElement('div');
+        plotDiv.id = `plot-${metricId}`;
+        plotDiv.style.width = '100%';
+        plotDiv.style.height = '100%';
         
-        // Clear any existing content and add canvas
+        // Clear any existing content and add plot div
         contentBox.innerHTML = '';
-        contentBox.appendChild(canvas);
+        contentBox.appendChild(plotDiv);
         
         // Get the computed dimensions of the content box
         const contentBoxStyle = window.getComputedStyle(contentBox);
         const width = contentBox.offsetWidth;
         const height = contentBox.offsetHeight;
         
-        console.log(`Creating chart for ${metricId}: ${width}x${height}px`);
+        console.log(`Creating Plotly chart for ${metricId}: ${width}x${height}px`);
         
-        // Prepare Chart.js data
-        const chartData = prepareChartData(data);
+        // Prepare Plotly data
+        const plotData = preparePlotlyData(data);
         
-        // Create the chart
-        const chart = new Chart(canvas, {
-            type: 'line',
-            data: chartData,
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    title: {
-                        display: true,
-                        text: data.title,
-                        font: {
-                            size: 14,
-                            color: 'white'
-                        }
-                    },
-                    legend: {
-                        display: true,
-                        position: 'bottom',
-                        labels: {
-                            color: 'white'
-                        }
-                    }
-                },
-                scales: {
-                    x: {
-                        title: {
-                            display: true,
-                            text: data.xAxis.label,
-                            color: 'white'
-                        },
-                        ticks: {
-                            color: 'white'
-                        },
-                        grid: {
-                            color: 'rgba(255, 255, 255, 0.1)'
-                        }
-                    },
-                    y: {
-                        title: {
-                            display: true,
-                            text: data.yAxis.label,
-                            color: 'white'
-                        },
-                        ticks: {
-                            color: 'white',
-                            callback: function(value) {
-                                if (data.yAxis.format === 'currency') {
-                                    return new Intl.NumberFormat('en-US', {
-                                        style: 'currency',
-                                        currency: 'USD',
-                                        minimumFractionDigits: 0
-                                    }).format(value);
-                                }
-                                return value;
-                            }
-                        },
-                        grid: {
-                            color: 'rgba(255, 255, 255, 0.1)'
-                        }
-                    }
+        // Create the Plotly chart
+        Plotly.newPlot(plotDiv, plotData.traces, plotData.layout, {
+            responsive: true,
+            displayModeBar: false
+        });
+        
+        // Store the current visibility state
+        let currentVisibility = new Array(plotData.traces.length).fill(true);
+        
+        // Add click functionality to toggle traces
+        plotDiv.on('plotly_click', function(data) {
+            const clickedTraceIndex = data.points[0].curveNumber;
+            const clickedTrace = plotData.traces[clickedTraceIndex];
+            
+            if (clickedTrace) {
+                // Determine if this is a timeSeries or prediction trace
+                const isPrediction = clickedTrace.name.includes('(Prediction)');
+                const baseName = isPrediction ? clickedTrace.name.replace(' (Prediction)', '') : clickedTrace.name;
+                
+                // Check if we're currently showing only this trace and its counterpart
+                const visibleTraces = plotData.traces.filter((trace, index) => currentVisibility[index]);
+                const isCurrentlyFocused = visibleTraces.length <= 2 && 
+                    visibleTraces.every(trace => 
+                        trace === clickedTrace || 
+                        (isPrediction && trace.name === baseName) ||
+                        (!isPrediction && trace.name === baseName + ' (Prediction)')
+                    );
+                
+                if (isCurrentlyFocused) {
+                    // If currently focused, show all traces
+                    currentVisibility = new Array(plotData.traces.length).fill(true);
+                } else {
+                    // If not focused, show only the clicked trace and its counterpart
+                    currentVisibility = plotData.traces.map(trace => {
+                        if (trace === clickedTrace) return true;
+                        if (isPrediction && trace.name === baseName) return true;
+                        if (!isPrediction && trace.name === baseName + ' (Prediction)') return true;
+                        return false;
+                    });
                 }
+                
+                // Always keep the vertical line visible (it should be the last trace)
+                if (currentVisibility.length > 0) {
+                    currentVisibility[currentVisibility.length - 1] = true;
+                }
+                
+                // Update the plot
+                Plotly.restyle(plotDiv, {visible: currentVisibility});
+                
+                // Update annotations based on visibility
+                updateAnnotations(plotDiv, plotData, currentVisibility);
             }
         });
         
-        console.log(`Chart created successfully for ${metricId}`);
+        console.log(`Plotly chart created successfully for ${metricId}`);
         
     } catch (error) {
-        console.error(`Error creating chart for ${metricId}:`, error);
+        console.error(`Error creating Plotly chart for ${metricId}:`, error);
     }
 }
 
-function prepareChartData(data) {
-    const datasets = data.timeSeries.map(series => ({
-        label: series.name,
-        data: series.data.map(point => ({
-            x: point.x,
-            y: point.y
-        })),
-        borderColor: series.color,
-        backgroundColor: series.color + '20', // Add transparency
-        tension: 0.1,
-        fill: false
-    }));
+function preparePlotlyData(data) {
+    // Generate colors dynamically based on number of time series
+    const generateColors = (numColors) => {
+        const startColor = '#fcf6bd';
+        const endColor = '#dec0f1';
+        
+        // Parse hex colors to RGB integers
+        const startR = parseInt(startColor.slice(1, 3), 16);
+        const startG = parseInt(startColor.slice(3, 5), 16);
+        const startB = parseInt(startColor.slice(5, 7), 16);
+        
+        const endR = parseInt(endColor.slice(1, 3), 16);
+        const endG = parseInt(endColor.slice(3, 5), 16);
+        const endB = parseInt(endColor.slice(5, 7), 16);
+        
+        const colors = [];
+        
+        for (let i = 0; i < numColors; i++) {
+            const ratio = numColors === 1 ? 0 : i / (numColors - 1);
+            
+            // Calculate interpolated RGB values
+            const r = Math.round(startR + (endR - startR) * ratio);
+            const g = Math.round(startG + (endG - startG) * ratio);
+            const b = Math.round(startB + (endB - startB) * ratio);
+            
+            // Convert back to hex strings
+            const rHex = r.toString(16).padStart(2, '0');
+            const gHex = g.toString(16).padStart(2, '0');
+            const bHex = b.toString(16).padStart(2, '0');
+            
+            colors.push(`#${rHex}${gHex}${bHex}`);
+        }
+        
+        return colors;
+    };
+    
+    const colors = generateColors(data.timeSeries.length);
+    const traces = [];
+    const annotations = [];
+    
+    // Find the latest date in timeSeries
+    let latestDate = null;
+    data.timeSeries.forEach(series => {
+        series.data.forEach(point => {
+            if (!latestDate || point.x > latestDate) {
+                latestDate = point.x;
+            }
+        });
+    });
+    
+    // Create traces for timeSeries data
+    data.timeSeries.forEach((series, index) => {
+        const xValues = series.data.map(point => point.x);
+        const yValues = series.data.map(point => point.y);
+        
+        // Find the index of the latest date for this series
+        const latestIndex = series.data.findIndex(point => point.x === latestDate);
+        
+        // Create marker arrays - no markers except for the final datapoint
+        const markerSizes = new Array(series.data.length).fill(0);
+        const markerColors = new Array(series.data.length).fill(colors[index]);
+        
+        if (latestIndex !== -1) {
+            markerSizes[latestIndex] = 8; // Filled marker for final datapoint
+        }
+        
+        // Add timeSeries trace
+        traces.push({
+            x: xValues,
+            y: yValues,
+            mode: 'lines+markers',
+            name: series.name,
+            line: {
+                color: colors[index],
+                width: 2,
+                opacity: 1
+            },
+            marker: {
+                size: markerSizes,
+                color: markerColors,
+                opacity: 1,
+                line: {
+                    width: 0
+                }
+            },
+            showlegend: false,
+            hovertemplate: `<b>%{fullData.name}</b><br>%{y}<extra></extra>`
+        });
+        
+        // Add annotation for final datapoint if hasPredictions is False
+        if (data.hasPredictions === "False" && latestIndex !== -1) {
+            annotations.push({
+                x: xValues[latestIndex],
+                y: yValues[latestIndex],
+                text: series.name,
+                showarrow: false,
+                xshift: 20,
+                font: {
+                    color: colors[index],
+                    size: 9
+                }
+            });
+        }
+    });
+    
+    // Add predictions traces if hasPredictions is True
+    if (data.hasPredictions === "True" && data.predictions) {
+        data.predictions.forEach((prediction, index) => {
+            const xValues = prediction.data.map(point => point.x);
+            const yValues = prediction.data.map(point => point.y);
+            
+            // Only last 3 prediction points have filled markers
+            const markerSizes = new Array(prediction.data.length).fill(0);
+            const markerColors = new Array(prediction.data.length).fill(colors[index]);
+            
+            // Set markers for last 3 points
+            const lastThreeStart = Math.max(0, prediction.data.length - 3);
+            for (let i = lastThreeStart; i < prediction.data.length; i++) {
+                markerSizes[i] = 8;
+            }
+            
+            // Add prediction trace
+            traces.push({
+                x: xValues,
+                y: yValues,
+                mode: 'lines+markers',
+                name: prediction.name + ' (Prediction)',
+                line: {
+                    color: colors[index],
+                    width: 2,
+                    dash: 'dot',
+                    opacity: 1
+                },
+                marker: {
+                    size: markerSizes,
+                    color: markerColors,
+                    opacity: 1,
+                    line: {
+                        width: 0
+                    }
+                },
+                showlegend: false,
+                hovertemplate: `<b>%{fullData.name}</b><br>%{y}<extra></extra>`
+            });
+            
+            // Add annotation for final prediction datapoint
+            if (prediction.data.length > 0) {
+                const lastIndex = prediction.data.length - 1;
+                annotations.push({
+                    x: xValues[lastIndex],
+                    y: yValues[lastIndex],
+                    text: prediction.name,
+                    showarrow: false,
+                    xshift: 20,
+                    font: {
+                        color: colors[index],
+                        size: 9
+                    }
+                });
+            }
+        });
+    }
+    
+    // Find the min and max y values across all data to set vertical line range
+    let minY = Infinity;
+    let maxY = -Infinity;
+    
+    data.timeSeries.forEach(series => {
+        series.data.forEach(point => {
+            if (point.y < minY) minY = point.y;
+            if (point.y > maxY) maxY = point.y;
+        });
+    });
+    
+    if (data.hasPredictions === "True" && data.predictions) {
+        data.predictions.forEach(prediction => {
+            prediction.data.forEach(point => {
+                if (point.y < minY) minY = point.y;
+                if (point.y > maxY) maxY = point.y;
+            });
+        });
+    }
+    
+    // Add some padding to the vertical line range
+    const yRange = maxY - minY;
+    const padding = yRange * 0.1;
+    const lineMinY = minY - padding;
+    const lineMaxY = maxY + padding;
+    
+    // Add vertical line at latest date
+    traces.push({
+        x: [latestDate, latestDate],
+        y: [lineMinY, lineMaxY],
+        mode: 'lines',
+        line: {
+            color: 'white',
+            width: 2,
+            dash: 'dash'
+        },
+        showlegend: false,
+        hoverinfo: 'skip'
+    });
+    
+    // Add "Latest Date" annotation above the vertical line
+    annotations.push({
+        x: latestDate,
+        y: 1,
+        text: 'Latest Date',
+        showarrow: false,
+        yshift: 20,
+        font: {
+            color: 'white',
+            size: 9
+        },
+        yref: 'paper' // Position relative to plot area
+    });
+    
+    // Create layout
+    const layout = {
+        // No title
+        xaxis: {
+            title: {
+                text: data.xAxis.label,
+                font: {
+                    color: 'white',
+                    size: 9
+                }
+            },
+            tickfont: {
+                color: 'white',
+                size: 7
+            },
+            gridcolor: 'rgba(255, 255, 255, 0.1)',
+            zerolinecolor: 'rgba(255, 255, 255, 0.1)'
+        },
+        yaxis: {
+            title: {
+                text: data.yAxis.label,
+                font: {
+                    color: 'white',
+                    size: 9
+                }
+            },
+            tickfont: {
+                color: 'white',
+                size: 7
+            },
+            gridcolor: 'rgba(255, 255, 255, 0.1)',
+            zerolinecolor: 'rgba(255, 255, 255, 0.1)',
+            tickformat: data.yAxis.format === 'currency' ? '$,.0f' : undefined
+        },
+        plot_bgcolor: 'transparent',
+        paper_bgcolor: 'transparent',
+        font: {
+            color: 'white'
+        },
+        annotations: annotations,
+        showlegend: false, // Remove legend entirely
+        hovermode: 'closest', // Only show hover for the closest point
+        hoverlabel: {
+            bordercolor: 'transparent',
+            font: {
+                color: '#212529',
+                size: 9
+            }
+        },
+        margin: {
+            t: 20,
+            b: 40,
+            l: 60,
+            r: 60
+        }
+    };
     
     return {
-        datasets: datasets
+        traces: traces,
+        layout: layout,
+        originalAnnotations: annotations // Store original annotations for reference
     };
+}
+
+
+function updateAnnotations(plotDiv, plotData, visibility) {
+    // Create new annotations array based on visibility
+    const newAnnotations = [];
+    
+    // Add "Latest Date" annotation (always visible)
+    const latestDateAnnotation = plotData.originalAnnotations.find(ann => ann.text === 'Latest Date');
+    if (latestDateAnnotation) {
+        newAnnotations.push(latestDateAnnotation);
+    }
+    
+    // Add trace labels only for visible traces
+    plotData.traces.forEach((trace, index) => {
+        if (visibility[index] && !trace.name.includes('(Prediction)') && trace.name !== 'Latest Date') {
+            // Find the corresponding annotation in the original data
+            const originalAnnotation = plotData.originalAnnotations.find(ann => 
+                ann.text === trace.name && ann.showarrow === false
+            );
+            
+            if (originalAnnotation) {
+                newAnnotations.push(originalAnnotation);
+            }
+        }
+    });
+    
+    // Update the plot with new annotations
+    Plotly.relayout(plotDiv, {annotations: newAnnotations});
+}
+
+function resizeAllPlotlyCharts() {
+    // Get all plotly chart divs
+    const plotDivs = document.querySelectorAll('[id^="plot-"]');
+    
+    plotDivs.forEach(plotDiv => {
+        if (plotDiv._fullLayout) {
+            // Resize the plot
+            Plotly.Plots.resize(plotDiv);
+        }
+    });
 }
 
 
@@ -448,7 +741,7 @@ function createWorldMap() {
             touchZoom: false, // Disable touch zoom
             boxZoom: false, // Disable box zoom
             keyboard: false, // Disable keyboard navigation
-            attributionControl: false // Remove attribution for cleaner look
+            attributionControl: false, // Remove attribution for cleaner look
         });
         
         // Add a simple, fast-loading tile layer
@@ -458,17 +751,17 @@ function createWorldMap() {
         }).addTo(worldMap);
         
         // Add fewer, more focused cities (Americas + Europe)
-        const majorCities = [
+        /* const majorCities = [
             { name: 'New York', lat: 40.7128, lng: -74.0060, salary: '$150,000' },
             { name: 'San Francisco', lat: 37.7749, lng: -122.4194, salary: '$160,000' },
             { name: 'London', lat: 51.5074, lng: -0.1278, salary: '$80,000' },
             { name: 'Berlin', lat: 52.5200, lng: 13.4050, salary: '$70,000' },
             { name: 'Toronto', lat: 43.6532, lng: -79.3832, salary: '$90,000' },
             { name: 'Paris', lat: 48.8566, lng: 2.3522, salary: '$75,000' }
-        ];
+        ]; */
         
         // Add markers for each city
-        majorCities.forEach(city => {
+        /* majorCities.forEach(city => {
             const marker = L.marker([city.lat, city.lng]).addTo(worldMap);
             marker.bindPopup(`
                 <div style="text-align: center;">
@@ -476,7 +769,7 @@ function createWorldMap() {
                     <p style="margin: 5px 0; color: #666;">Avg SWE Salary: ${city.salary}</p>
                 </div>
             `);
-        });
+        }); */
         
         // Set a fixed view that focuses on Americas + Europe
         worldMap.setView([40, -40], 3);
@@ -708,6 +1001,11 @@ function handleCategoryExit(event) {
             // Resize the remaining visible categories
             resizeRemainingCategories();
             
+            // Resize all Plotly charts after category resize
+            setTimeout(() => {
+                resizeAllPlotlyCharts();
+            }, 100);
+            
             console.log(`Closed category: ${exitButtonId}`);
         } else {
             console.error(`Could not find category box for: ${exitButtonId}`);
@@ -767,6 +1065,11 @@ function handleMetricExit(event) {
         
         // Resize the remaining visible metrics in this category
         resizeRemainingMetrics(categoryContentBox);
+        
+        // Resize all Plotly charts after metric resize
+        setTimeout(() => {
+            resizeAllPlotlyCharts();
+        }, 100);
         
         console.log(`Closed metric: ${exitButtonId}`);
     } else {

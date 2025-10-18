@@ -1216,40 +1216,62 @@ async function createWorldMapWithData(dataFileName = 'realGDPGrowth') {
     const analysis = economicData ? analyzeEconomicData(economicData) : { isValid: false, reason: 'No data provided' };
     console.log('Economic data analysis:', analysis);
     
-    // Load world topology data
+    // Load world topology data - try different sources
     try {
         let worldTopology;
         try {
-            worldTopology = await d3.json('https://unpkg.com/world-atlas@1/world/110m.json');
+            // Try Natural Earth data with proper country names
+            worldTopology = await d3.json('https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson');
+            console.log('Using Natural Earth data');
         } catch (firstError) {
-            console.warn('First CDN failed, trying alternative:', firstError);
-            // Try alternative CDN
-            worldTopology = await d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2/world/110m.json');
+            console.warn('Natural Earth failed, trying world-atlas:', firstError);
+            try {
+                worldTopology = await d3.json('https://unpkg.com/world-atlas@1/world/110m.json');
+                console.log('Using world-atlas data');
+            } catch (secondError) {
+                console.warn('World-atlas failed, trying alternative:', secondError);
+                worldTopology = await d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2/world/110m.json');
+                console.log('Using alternative world-atlas data');
+            }
         }
         
         console.log('Loaded world topology data:', worldTopology);
-        console.log('Available objects:', Object.keys(worldTopology.objects));
         
-        // Convert TopoJSON to GeoJSON - try different possible object names
+        // Handle both GeoJSON and TopoJSON formats
         let countries;
-        if (worldTopology.objects.countries) {
-            countries = topojson.feature(worldTopology, worldTopology.objects.countries);
-        } else if (worldTopology.objects.countries110m) {
-            countries = topojson.feature(worldTopology, worldTopology.objects.countries110m);
+        if (worldTopology.type === 'FeatureCollection') {
+            // It's already GeoJSON
+            countries = worldTopology;
+            console.log('Using GeoJSON data directly');
         } else {
-            // Fallback to first available object
-            const firstObject = Object.keys(worldTopology.objects)[0];
-            countries = topojson.feature(worldTopology, worldTopology.objects[firstObject]);
-            console.log('Using fallback object:', firstObject);
+            // It's TopoJSON, need to convert
+            console.log('Available objects:', Object.keys(worldTopology.objects));
+            
+            // Convert TopoJSON to GeoJSON - try different possible object names
+            if (worldTopology.objects.countries) {
+                countries = topojson.feature(worldTopology, worldTopology.objects.countries);
+            } else if (worldTopology.objects.countries110m) {
+                countries = topojson.feature(worldTopology, worldTopology.objects.countries110m);
+            } else {
+                // Fallback to first available object
+                const firstObject = Object.keys(worldTopology.objects)[0];
+                countries = topojson.feature(worldTopology, worldTopology.objects[firstObject]);
+                console.log('Using fallback object:', firstObject);
+            }
         }
         console.log('Converted to GeoJSON:', countries);
         
         // Debug: Check what properties are available in the first few countries
         if (countries.features && countries.features.length > 0) {
-            console.log('Sample country properties:', countries.features.slice(0, 3).map(f => ({
-                name: f.properties.NAME || f.properties.NAME_EN || f.properties.name || f.properties.NAME_LONG || f.properties.ADMIN,
-                allProps: Object.keys(f.properties)
+            console.log('Sample country properties:', countries.features.slice(0, 5).map(f => ({
+                name: f.properties.NAME || f.properties.NAME_EN || f.properties.name || f.properties.NAME_LONG || f.properties.ADMIN || f.properties.SOVEREIGNT || f.properties.SOV_A3,
+                allProps: Object.keys(f.properties),
+                fullProps: f.properties
             })));
+            
+            // Also log the first country's properties in detail
+            console.log('First country detailed properties:', countries.features[0].properties);
+            console.log('First country properties keys:', Object.keys(countries.features[0].properties));
         }
         
         // Set up map projection - use viewBox dimensions for consistent scaling
@@ -1266,24 +1288,72 @@ async function createWorldMapWithData(dataFileName = 'realGDPGrowth') {
         
         // Create color scale based on economic data
         let colorScale = null;
+        let countryColorMap = {}; // Store country-to-color mapping for tooltips
+        
         if (analysis.isValid && Object.keys(analysis.latestValues).length > 0) {
-            const values = Object.values(analysis.latestValues);
-            const minValue = Math.min(...values);
-            const maxValue = Math.max(...values);
+            // A. Get the number of traces/datasets (countries with data)
+            const countriesWithData = Object.keys(analysis.latestValues);
+            const numColors = countriesWithData.length;
             
-            console.log('Economic data for coloring:', {
-                latestValues: analysis.latestValues,
-                values: values,
-                minValue: minValue,
-                maxValue: maxValue
+            // B. Get latest data entry for each country
+            const countryValues = Object.entries(analysis.latestValues);
+            
+            // C. Create list of country/value pairs and sort from least to greatest
+            const sortedCountries = countryValues
+                .map(([country, value]) => ({ country, value }))
+                .sort((a, b) => a.value - b.value);
+            
+            console.log('Sorted countries by value:', sortedCountries);
+            
+            // D. Assign colors in order: least value = yellow, greatest = purple
+            const colorStops = ['#fcf6bd', '#d0f4de', '#bde0fe', '#dec0f1']; // yellow->green->blue->purple
+            
+            sortedCountries.forEach((countryData, index) => {
+                const ratio = numColors === 1 ? 0 : index / (numColors - 1);
+                
+                // Determine which color stops to interpolate between
+                const scaledRatio = ratio * (colorStops.length - 1);
+                const stopIndex = Math.floor(scaledRatio);
+                const localRatio = scaledRatio - stopIndex;
+                
+                let r, g, b;
+                
+                if (stopIndex >= colorStops.length - 1) {
+                    // Use the last color
+                    const lastColor = colorStops[colorStops.length - 1];
+                    r = parseInt(lastColor.slice(1, 3), 16);
+                    g = parseInt(lastColor.slice(3, 5), 16);
+                    b = parseInt(lastColor.slice(5, 7), 16);
+                } else {
+                    // Interpolate between two adjacent stops
+                    const currentStop = colorStops[stopIndex];
+                    const nextStop = colorStops[stopIndex + 1];
+                    
+                    const currentR = parseInt(currentStop.slice(1, 3), 16);
+                    const currentG = parseInt(currentStop.slice(3, 5), 16);
+                    const currentB = parseInt(currentStop.slice(5, 7), 16);
+                    
+                    const nextR = parseInt(nextStop.slice(1, 3), 16);
+                    const nextG = parseInt(nextStop.slice(3, 5), 16);
+                    const nextB = parseInt(nextStop.slice(5, 7), 16);
+                    
+                    r = Math.round(currentR + (nextR - currentR) * localRatio);
+                    g = Math.round(currentG + (nextG - currentG) * localRatio);
+                    b = Math.round(currentB + (nextB - currentB) * localRatio);
+                }
+                
+                // Convert back to hex string
+                const rHex = r.toString(16).padStart(2, '0');
+                const gHex = g.toString(16).padStart(2, '0');
+                const bHex = b.toString(16).padStart(2, '0');
+                
+                const color = `#${rHex}${gHex}${bHex}`;
+                countryColorMap[countryData.country] = color;
+                
+                console.log(`Country: ${countryData.country}, Value: ${countryData.value}, Color: ${color}`);
             });
             
-            // Create D3 color scale using our 4-color gradient
-            colorScale = d3.scaleSequential()
-                .domain([minValue, maxValue])
-                .interpolator(d3.interpolate(['#fcf6bd', '#d0f4de', '#bde0fe', '#dec0f1']));
-            
-            console.log('Created color scale:', { minValue, maxValue });
+            console.log('Country color mapping:', countryColorMap);
         } else {
             console.log('No valid economic data for coloring:', analysis);
         }
@@ -1304,68 +1374,48 @@ async function createWorldMapWithData(dataFileName = 'realGDPGrowth') {
             .append('path')
             .attr('d', path)
             .attr('class', 'country')
-            .style('stroke', '#6c757d') // var(--secondary)
+            .style('stroke', '#212529') // Default border color
             .style('stroke-width', 0.5)
             .style('fill', function(d) {
-                if (!colorScale || !analysis.isValid) {
-                    return '#343a40'; // var(--secondary) for no data
-                }
+                // Try to match country name with our data - try all possible property names
+                const possibleNames = [
+                    d.properties.NAME, d.properties.NAME_EN, d.properties.name, 
+                    d.properties.NAME_LONG, d.properties.ADMIN, d.properties.SOVEREIGNT, 
+                    d.properties.SOV_A3, d.properties.NAME_SORT, d.properties.NAME_ALT,
+                    d.properties.BRK_NAME, d.properties.BRK_A3, d.properties.BRK_GROUP,
+                    d.properties.WB_A2, d.properties.WB_A3, d.properties.WOE_ID,
+                    d.properties.SU_A3, d.properties.SU_DIF, d.properties.SUBUNIT,
+                    d.properties.SU_A3, d.properties.BRK_NAME, d.properties.BRK_A3
+                ];
                 
-                // Try to match country name with our data
-                const countryName = d.properties.NAME || d.properties.NAME_EN || d.properties.name || d.properties.NAME_LONG || d.properties.ADMIN || d.properties.SOVEREIGNT || d.properties.SOV_A3;
-                console.log(`Checking country: ${countryName}`, d.properties);
+                const countryName = possibleNames.find(name => name && name !== 'undefined' && name.trim() !== '');
                 
-                // If still undefined, skip this country
+                // If no country name, return default color
                 if (!countryName) {
-                    console.log('Skipping country with no name:', d.properties);
                     return '#343a40';
                 }
                 
-                // Direct lookup in our data
+                // Try to match with our data
                 let matchedCountry = null;
-                let matchedValue = null;
-                
-                // First try direct name matching
                 for (const [dataKey, dataValue] of Object.entries(analysis.latestValues)) {
                     const extractedName = extractCountryName(dataKey);
-                    console.log(`Comparing "${countryName}" with extracted name "${extractedName}" from "${dataKey}"`);
                     
-                    // Direct match
-                    if (countryName === extractedName) {
+                    if (countryName === extractedName ||
+                        countryNameMapping[countryName] === extractedName ||
+                        countryNameMapping[extractedName] === countryName ||
+                        (countryNameMapping[countryName] && countryNameMapping[extractedName] && 
+                         countryNameMapping[countryName] === countryNameMapping[extractedName])) {
                         matchedCountry = dataKey;
-                        matchedValue = dataValue;
-                        break;
-                    }
-                    
-                    // Check if country name maps to our extracted name
-                    if (countryNameMapping[countryName] === extractedName) {
-                        matchedCountry = dataKey;
-                        matchedValue = dataValue;
-                        break;
-                    }
-                    
-                    // Check if our extracted name maps to country name
-                    if (countryNameMapping[extractedName] === countryName) {
-                        matchedCountry = dataKey;
-                        matchedValue = dataValue;
-                        break;
-                    }
-                    
-                    // Check if both are in the mapping and point to same value
-                    if (countryNameMapping[countryName] && countryNameMapping[extractedName] && 
-                        countryNameMapping[countryName] === countryNameMapping[extractedName]) {
-                        matchedCountry = dataKey;
-                        matchedValue = dataValue;
                         break;
                     }
                 }
                 
-                if (matchedCountry && matchedValue !== null) {
-                    console.log(`✅ Coloring ${countryName} with value ${matchedValue} (from ${matchedCountry})`);
-                    return colorScale(matchedValue);
+                if (matchedCountry && countryColorMap[matchedCountry]) {
+                    console.log(`✅ Coloring ${countryName} with color ${countryColorMap[matchedCountry]} (from ${matchedCountry})`);
+                    return countryColorMap[matchedCountry];
                 } else {
-                    console.log(`❌ No match found for ${countryName}`);
-                    return '#343a40'; // var(--secondary) for no data
+                    console.log(`❌ No color found for ${countryName}`);
+                    return '#343a40'; // Default color for no data
                 }
             })
             .style('opacity', 0.8)
@@ -1373,7 +1423,8 @@ async function createWorldMapWithData(dataFileName = 'realGDPGrowth') {
                 // Highlight country on hover
                 d3.select(this)
                     .style('opacity', 1)
-                    .style('stroke-width', 2);
+                    .style('stroke-width', 2)
+                    .style('stroke', 'white'); // White border on hover
                 
                 // Show tooltip
                 const countryName = d.properties.NAME || d.properties.NAME_EN || d.properties.name || d.properties.NAME_LONG || d.properties.ADMIN || d.properties.SOVEREIGNT || d.properties.SOV_A3;
@@ -1402,19 +1453,87 @@ async function createWorldMapWithData(dataFileName = 'realGDPGrowth') {
                 
                 if (matchedCountry) {
                     const value = analysis.latestValues[matchedCountry];
-                    showMapTooltip(event, countryName, value);
+                    const countryColor = countryColorMap[matchedCountry] || '#343a40';
+                    showMapTooltip(event, countryName, value, countryColor);
                 }
             })
             .on('mouseout', function(event, d) {
                 // Reset country appearance
                 d3.select(this)
                     .style('opacity', 0.8)
-                    .style('stroke-width', 0.5);
+                    .style('stroke-width', 0.5)
+                    .style('stroke', '#212529'); // Reset to default border color
                 
                 hideMapTooltip();
             });
         
         console.log('D3.js world map created successfully');
+        
+        // Add legend if we have color data
+        if (Object.keys(countryColorMap).length > 0) {
+            const legendWidth = 20;
+            const legendHeight = 200;
+            const legendX = 20; // Left side
+            const legendY = height - legendHeight - 20; // Bottom aligned
+            
+            // Create legend group
+            const legend = svg.append('g')
+                .attr('class', 'legend')
+                .attr('transform', `translate(${legendX}, ${legendY})`);
+            
+            // Create gradient definition
+            const defs = svg.append('defs');
+            const gradient = defs.append('linearGradient')
+                .attr('id', 'colorGradient')
+                .attr('x1', '0%')
+                .attr('x2', '0%')
+                .attr('y1', '0%')
+                .attr('y2', '100%'); // Vertical gradient
+            
+            // Add gradient stops
+            gradient.append('stop')
+                .attr('offset', '0%')
+                .attr('stop-color', '#dec0f1'); // Purple at top (high value)
+            
+            gradient.append('stop')
+                .attr('offset', '33%')
+                .attr('stop-color', '#bde0fe'); // Blue
+            
+            gradient.append('stop')
+                .attr('offset', '66%')
+                .attr('stop-color', '#d0f4de'); // Green
+            
+            gradient.append('stop')
+                .attr('offset', '100%')
+                .attr('stop-color', '#fcf6bd'); // Yellow at bottom (low value)
+            
+            // Create legend rectangle with gradient
+            legend.append('rect')
+                .attr('width', legendWidth)
+                .attr('height', legendHeight)
+                .attr('fill', 'url(#colorGradient)')
+                .attr('stroke', '#212529')
+                .attr('stroke-width', 1);
+            
+            // Add labels
+            legend.append('text')
+                .attr('x', legendWidth + 10)
+                .attr('y', 15)
+                .attr('text-anchor', 'start')
+                .attr('fill', 'white')
+                .attr('font-size', '12px')
+                .text('High Value');
+            
+            legend.append('text')
+                .attr('x', legendWidth + 10)
+                .attr('y', legendHeight - 5)
+                .attr('text-anchor', 'start')
+                .attr('fill', 'white')
+                .attr('font-size', '12px')
+                .text('Low Value');
+            
+            console.log('Vertical legend added to map');
+        }
         
     } catch (error) {
         console.error('Error loading world topology data:', error);
@@ -1430,29 +1549,29 @@ async function createWorldMapWithData(dataFileName = 'realGDPGrowth') {
 }
 
 // Function to show map tooltip
-function showMapTooltip(event, countryName, value) {
+function showMapTooltip(event, countryName, value, countryColor) {
     const tooltip = d3.select('body').selectAll('.map-tooltip')
         .data([1])
         .enter()
         .append('div')
         .attr('class', 'map-tooltip')
         .style('position', 'absolute')
-        .style('background-color', '#212529') // var(--primary)
-        .style('border', '2px solid #6c757d') // var(--secondary)
-        .style('border-radius', '5px')
+        .style('background-color', countryColor) // Use country color as background
+        .style('border', 'none') // Remove border
+        .style('border-radius', '0px') // Remove rounded edges
         .style('padding', '10px')
-        .style('color', 'white')
+        .style('color', '#212529') // Dark text
         .style('font-size', '12px')
         .style('pointer-events', 'none')
         .style('z-index', '1000')
         .style('opacity', 0);
     
     tooltip.html(`
-                <div style="text-align: center;">
+        <div style="text-align: center;">
             <strong>${countryName}</strong><br>
-            Value: ${value}
-                </div>
-            `);
+            ${value}
+        </div>
+    `);
     
     tooltip.transition()
         .duration(200)
@@ -1571,11 +1690,23 @@ async function getMetricDescription(metricId) {
     // Category descriptions (for when JSON doesn't exist yet)
     const categoryDescriptions = {
         'personalFinanceHeader': 'Personal Finance metrics track individual financial health including income, expenses, and cost of living',
-    'careerSecurityHeader': 'Career Security metrics assess job market stability and employment risks',
-    'macroeconomicHealthHeader': 'Macroeconomic Health indicators show broader economic conditions',
-    'growthOpportunityHeader': 'Growth Opportunity metrics identify potential for career advancement',
-        'mapTitleHeader': 'Interactive world map showing economic data by country and region'
+        'careerSecurityHeader': 'Career Security metrics assess job market stability and employment risks',
+        'macroeconomicHealthHeader': 'Macroeconomic Health indicators show broader economic conditions',
+        'growthOpportunityHeader': 'Growth Opportunity metrics identify potential for career advancement'
     };
+    
+    // Special handling for map title - show current JSON description
+    if (metricId === 'mapTitleHeader') {
+        try {
+            const currentMapData = await fetchEconomicData('realGDPGrowth'); // Default map data
+            if (currentMapData && currentMapData.description) {
+                return currentMapData.description;
+            }
+        } catch (error) {
+            console.warn('Could not fetch map description:', error);
+        }
+        return 'Interactive world map showing economic data by country and region';
+    }
     
     // Check if it's a category header first
     if (categoryDescriptions[metricId]) {

@@ -9,7 +9,7 @@ Click [here](https://www.matthewthomasbeck.com) to check it out
 
 ## Tech Stack
 - **Language:** *Vanilla HTML/CSS/JS*
-- **Libraries:** *Node.js, Plotly.js, Leaflet.js*
+- **Libraries:** *Node.js, Plotly.js, D3.js*
 - **Hosting:** *AWS Amplify, AWS EC2, AWS Cognito, AWS S3, AWS Route 53*
 
 ## Basic Information

@@ -113,9 +113,10 @@
     padding: 0;
 }
 
-#mapContentBox {
+#worldMap {
 
-    
+    margin-top: 2.4%;
+    margin-bottom: auto;
 }
 
 

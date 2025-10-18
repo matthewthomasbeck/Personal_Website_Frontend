@@ -357,29 +357,43 @@ async function createChartForMetric(contentBox, dataFileName, metricId) {
 }
 
 function preparePlotlyData(data) {
-    // Generate colors dynamically based on number of time series
+    // Generate colors dynamically based on number of time series using 4-color gradient
     const generateColors = (numColors) => {
-        const startColor = '#fcf6bd';
-        const endColor = '#dec0f1';
+        const colorStops = ['#fcf6bd', '#d0f4de', '#bde0fe', '#dec0f1']; // yellow->green->blue->purple
         
         // Parse hex colors to RGB integers
-        const startR = parseInt(startColor.slice(1, 3), 16);
-        const startG = parseInt(startColor.slice(3, 5), 16);
-        const startB = parseInt(startColor.slice(5, 7), 16);
-        
-        const endR = parseInt(endColor.slice(1, 3), 16);
-        const endG = parseInt(endColor.slice(3, 5), 16);
-        const endB = parseInt(endColor.slice(5, 7), 16);
+        const rgbStops = colorStops.map(color => ({
+            r: parseInt(color.slice(1, 3), 16),
+            g: parseInt(color.slice(3, 5), 16),
+            b: parseInt(color.slice(5, 7), 16)
+        }));
         
         const colors = [];
         
         for (let i = 0; i < numColors; i++) {
             const ratio = numColors === 1 ? 0 : i / (numColors - 1);
             
-            // Calculate interpolated RGB values
-            const r = Math.round(startR + (endR - startR) * ratio);
-            const g = Math.round(startG + (endG - startG) * ratio);
-            const b = Math.round(startB + (endB - startB) * ratio);
+            // Determine which color stops to interpolate between
+            const scaledRatio = ratio * (rgbStops.length - 1);
+            const stopIndex = Math.floor(scaledRatio);
+            const localRatio = scaledRatio - stopIndex;
+            
+            let r, g, b;
+            
+            if (stopIndex >= rgbStops.length - 1) {
+                // Use the last color
+                r = rgbStops[rgbStops.length - 1].r;
+                g = rgbStops[rgbStops.length - 1].g;
+                b = rgbStops[rgbStops.length - 1].b;
+            } else {
+                // Interpolate between two adjacent stops
+                const currentStop = rgbStops[stopIndex];
+                const nextStop = rgbStops[stopIndex + 1];
+                
+                r = Math.round(currentStop.r + (nextStop.r - currentStop.r) * localRatio);
+                g = Math.round(currentStop.g + (nextStop.g - currentStop.g) * localRatio);
+                b = Math.round(currentStop.b + (nextStop.b - currentStop.b) * localRatio);
+            }
             
             // Convert back to hex strings
             const rHex = r.toString(16).padStart(2, '0');
@@ -679,12 +693,493 @@ function resizeAllPlotlyCharts() {
 }
 
 
-/********** CREATE WORLD MAP **********/
+/********** CREATE WORLD MAP WITH D3.JS **********/
 
-let worldMap = null; // Global variable to store the map instance
+let worldMap = null; // Global variable to store the D3 map instance
+let worldData = null; // Global variable to store the world topology data
 
-function createWorldMap() {
+// Comprehensive country name mapping for data consistency
+const countryNameMapping = {
+    // Major Countries - Americas
+    'United States of America': 'USA',
+    'United States': 'USA',
+    'USA': 'USA',
+    'US': 'USA',
+    'America': 'USA',
+    'Canada': 'Canada',
+    'United Mexican States': 'Mexico',
+    'Mexico': 'Mexico',
+    'Federative Republic of Brazil': 'Brazil',
+    'Brazil': 'Brazil',
+    'Argentine Republic': 'Argentina',
+    'Argentina': 'Argentina',
+    'Republic of Chile': 'Chile',
+    'Chile': 'Chile',
+    'Republic of Colombia': 'Colombia',
+    'Colombia': 'Colombia',
+    'Republic of Peru': 'Peru',
+    'Peru': 'Peru',
+    'Bolivarian Republic of Venezuela': 'Venezuela',
+    'Venezuela': 'Venezuela',
+    'Republic of Ecuador': 'Ecuador',
+    'Ecuador': 'Ecuador',
+    'Republic of Bolivia': 'Bolivia',
+    'Bolivia': 'Bolivia',
+    'Paraguay': 'Paraguay',
+    'Oriental Republic of Uruguay': 'Uruguay',
+    'Uruguay': 'Uruguay',
+    'Guyana': 'Guyana',
+    'Republic of Suriname': 'Suriname',
+    'Suriname': 'Suriname',
     
+    // Major Countries - Europe
+    'United Kingdom': 'UK',
+    'UK': 'UK',
+    'Great Britain': 'UK',
+    'Britain': 'UK',
+    'England': 'UK',
+    'Scotland': 'UK',
+    'Wales': 'UK',
+    'Northern Ireland': 'UK',
+    'Federal Republic of Germany': 'Germany',
+    'Germany': 'Germany',
+    'Deutschland': 'Germany',
+    'French Republic': 'France',
+    'France': 'France',
+    'Italian Republic': 'Italy',
+    'Italy': 'Italy',
+    'Kingdom of Spain': 'Spain',
+    'Spain': 'Spain',
+    'Kingdom of the Netherlands': 'Netherlands',
+    'Netherlands': 'Netherlands',
+    'Holland': 'Netherlands',
+    'Kingdom of Belgium': 'Belgium',
+    'Belgium': 'Belgium',
+    'Swiss Confederation': 'Switzerland',
+    'Switzerland': 'Switzerland',
+    'Republic of Austria': 'Austria',
+    'Austria': 'Austria',
+    'Kingdom of Sweden': 'Sweden',
+    'Sweden': 'Sweden',
+    'Kingdom of Norway': 'Norway',
+    'Norway': 'Norway',
+    'Kingdom of Denmark': 'Denmark',
+    'Denmark': 'Denmark',
+    'Republic of Finland': 'Finland',
+    'Finland': 'Finland',
+    'Republic of Poland': 'Poland',
+    'Poland': 'Poland',
+    'Czech Republic': 'Czech Republic',
+    'Czechia': 'Czech Republic',
+    'Slovak Republic': 'Slovakia',
+    'Slovakia': 'Slovakia',
+    'Republic of Hungary': 'Hungary',
+    'Hungary': 'Hungary',
+    'Romania': 'Romania',
+    'Republic of Bulgaria': 'Bulgaria',
+    'Bulgaria': 'Bulgaria',
+    'Republic of Croatia': 'Croatia',
+    'Croatia': 'Croatia',
+    'Bosnia and Herzegovina': 'Bosnia',
+    'Bosnia': 'Bosnia',
+    'Bosnia-Herzegovina': 'Bosnia',
+    'Republic of Serbia': 'Serbia',
+    'Serbia': 'Serbia',
+    'Montenegro': 'Montenegro',
+    'Republic of North Macedonia': 'North Macedonia',
+    'North Macedonia': 'North Macedonia',
+    'Macedonia': 'North Macedonia',
+    'Republic of Albania': 'Albania',
+    'Albania': 'Albania',
+    'Hellenic Republic': 'Greece',
+    'Greece': 'Greece',
+    'Republic of Cyprus': 'Cyprus',
+    'Cyprus': 'Cyprus',
+    'Republic of Malta': 'Malta',
+    'Malta': 'Malta',
+    'Portuguese Republic': 'Portugal',
+    'Portugal': 'Portugal',
+    'Ireland': 'Ireland',
+    'Republic of Ireland': 'Ireland',
+    'Iceland': 'Iceland',
+    'Grand Duchy of Luxembourg': 'Luxembourg',
+    'Luxembourg': 'Luxembourg',
+    'Principality of Liechtenstein': 'Liechtenstein',
+    'Liechtenstein': 'Liechtenstein',
+    'Principality of Monaco': 'Monaco',
+    'Monaco': 'Monaco',
+    'Principality of Andorra': 'Andorra',
+    'Andorra': 'Andorra',
+    'Republic of San Marino': 'San Marino',
+    'San Marino': 'San Marino',
+    'Vatican City State': 'Vatican',
+    'Vatican': 'Vatican',
+    'Holy See': 'Vatican',
+    'Ukraine': 'Ukraine',
+    'Republic of Belarus': 'Belarus',
+    'Belarus': 'Belarus',
+    'Republic of Moldova': 'Moldova',
+    'Moldova': 'Moldova',
+    'Republic of Lithuania': 'Lithuania',
+    'Lithuania': 'Lithuania',
+    'Republic of Latvia': 'Latvia',
+    'Latvia': 'Latvia',
+    'Republic of Estonia': 'Estonia',
+    'Estonia': 'Estonia',
+    
+    // Major Countries - Asia
+    'People\'s Republic of China': 'China',
+    'China': 'China',
+    'PRC': 'China',
+    'Mainland China': 'China',
+    'Japan': 'Japan',
+    'Nippon': 'Japan',
+    'Republic of Korea': 'South Korea',
+    'South Korea': 'South Korea',
+    'Korea': 'South Korea',
+    'ROK': 'South Korea',
+    'Democratic People\'s Republic of Korea': 'North Korea',
+    'North Korea': 'North Korea',
+    'DPRK': 'North Korea',
+    'Republic of India': 'India',
+    'India': 'India',
+    'Bharat': 'India',
+    'Islamic Republic of Pakistan': 'Pakistan',
+    'Pakistan': 'Pakistan',
+    'People\'s Republic of Bangladesh': 'Bangladesh',
+    'Bangladesh': 'Bangladesh',
+    'Republic of Indonesia': 'Indonesia',
+    'Indonesia': 'Indonesia',
+    'Republic of the Philippines': 'Philippines',
+    'Philippines': 'Philippines',
+    'Socialist Republic of Vietnam': 'Vietnam',
+    'Vietnam': 'Vietnam',
+    'Kingdom of Thailand': 'Thailand',
+    'Thailand': 'Thailand',
+    'Malaysia': 'Malaysia',
+    'Republic of Singapore': 'Singapore',
+    'Singapore': 'Singapore',
+    'Commonwealth of Australia': 'Australia',
+    'Australia': 'Australia',
+    'New Zealand': 'New Zealand',
+    'Islamic Republic of Iran': 'Iran',
+    'Iran': 'Iran',
+    'Persia': 'Iran',
+    'Syrian Arab Republic': 'Syria',
+    'Syria': 'Syria',
+    'Republic of Turkey': 'Turkey',
+    'Turkey': 'Turkey',
+    'Türkiye': 'Turkey',
+    'Kingdom of Saudi Arabia': 'Saudi Arabia',
+    'Saudi Arabia': 'Saudi Arabia',
+    'United Arab Emirates': 'UAE',
+    'UAE': 'UAE',
+    'Emirates': 'UAE',
+    'State of Israel': 'Israel',
+    'Israel': 'Israel',
+    'Afghanistan': 'Afghanistan',
+    'Armenia': 'Armenia',
+    'Azerbaijan': 'Azerbaijan',
+    'Bahrain': 'Bahrain',
+    'Bhutan': 'Bhutan',
+    'Brunei': 'Brunei',
+    'Cambodia': 'Cambodia',
+    'Georgia': 'Georgia',
+    'Iraq': 'Iraq',
+    'Jordan': 'Jordan',
+    'Kazakhstan': 'Kazakhstan',
+    'Kuwait': 'Kuwait',
+    'Kyrgyzstan': 'Kyrgyzstan',
+    'Laos': 'Laos',
+    'Lebanon': 'Lebanon',
+    'Maldives': 'Maldives',
+    'Mongolia': 'Mongolia',
+    'Myanmar': 'Myanmar',
+    'Nepal': 'Nepal',
+    'Oman': 'Oman',
+    'Qatar': 'Qatar',
+    'Sri Lanka': 'Sri Lanka',
+    'Taiwan': 'Taiwan',
+    'Tajikistan': 'Tajikistan',
+    'Turkmenistan': 'Turkmenistan',
+    'Uzbekistan': 'Uzbekistan',
+    'Yemen': 'Yemen',
+    
+    // Major Countries - Africa
+    'Republic of South Africa': 'South Africa',
+    'South Africa': 'South Africa',
+    'Arab Republic of Egypt': 'Egypt',
+    'Egypt': 'Egypt',
+    'Federal Democratic Republic of Ethiopia': 'Ethiopia',
+    'Ethiopia': 'Ethiopia',
+    'Federal Republic of Nigeria': 'Nigeria',
+    'Nigeria': 'Nigeria',
+    'Republic of Kenya': 'Kenya',
+    'Kenya': 'Kenya',
+    'United Republic of Tanzania': 'Tanzania',
+    'Tanzania': 'Tanzania',
+    'Republic of Uganda': 'Uganda',
+    'Uganda': 'Uganda',
+    'Republic of Ghana': 'Ghana',
+    'Ghana': 'Ghana',
+    'Republic of the Congo': 'Congo',
+    'Congo': 'Congo',
+    'Congo-Brazzaville': 'Congo',
+    'Democratic Republic of the Congo': 'DRC',
+    'DRC': 'DRC',
+    'Congo-Kinshasa': 'DRC',
+    'Central African Republic': 'CAR',
+    'CAR': 'CAR',
+    'Republic of South Sudan': 'South Sudan',
+    'South Sudan': 'South Sudan',
+    'Republic of Sudan': 'Sudan',
+    'Sudan': 'Sudan',
+    'Libya': 'Libya',
+    'Republic of Tunisia': 'Tunisia',
+    'Tunisia': 'Tunisia',
+    'People\'s Democratic Republic of Algeria': 'Algeria',
+    'Algeria': 'Algeria',
+    'Kingdom of Morocco': 'Morocco',
+    'Morocco': 'Morocco',
+    'Islamic Republic of Mauritania': 'Mauritania',
+    'Mauritania': 'Mauritania',
+    'Republic of Mali': 'Mali',
+    'Mali': 'Mali',
+    'Burkina Faso': 'Burkina Faso',
+    'Republic of Niger': 'Niger',
+    'Niger': 'Niger',
+    'Republic of Chad': 'Chad',
+    'Chad': 'Chad',
+    'Republic of Cameroon': 'Cameroon',
+    'Cameroon': 'Cameroon',
+    'Gabonese Republic': 'Gabon',
+    'Gabon': 'Gabon',
+    'Republic of Equatorial Guinea': 'Equatorial Guinea',
+    'Equatorial Guinea': 'Equatorial Guinea',
+    'Republic of Angola': 'Angola',
+    'Angola': 'Angola',
+    'Republic of Zambia': 'Zambia',
+    'Zambia': 'Zambia',
+    'Republic of Zimbabwe': 'Zimbabwe',
+    'Zimbabwe': 'Zimbabwe',
+    'Republic of Botswana': 'Botswana',
+    'Botswana': 'Botswana',
+    'Kingdom of Eswatini': 'Eswatini',
+    'Eswatini': 'Eswatini',
+    'Swaziland': 'Eswatini',
+    'Kingdom of Lesotho': 'Lesotho',
+    'Lesotho': 'Lesotho',
+    'Republic of Namibia': 'Namibia',
+    'Namibia': 'Namibia',
+    'Republic of Madagascar': 'Madagascar',
+    'Madagascar': 'Madagascar',
+    'Republic of Mauritius': 'Mauritius',
+    'Mauritius': 'Mauritius',
+    'Union of the Comoros': 'Comoros',
+    'Comoros': 'Comoros',
+    'Republic of Seychelles': 'Seychelles',
+    'Seychelles': 'Seychelles',
+    'Republic of Djibouti': 'Djibouti',
+    'Djibouti': 'Djibouti',
+    'State of Eritrea': 'Eritrea',
+    'Eritrea': 'Eritrea',
+    'Republic of Somalia': 'Somalia',
+    'Somalia': 'Somalia',
+    'Republic of Rwanda': 'Rwanda',
+    'Rwanda': 'Rwanda',
+    'Republic of Burundi': 'Burundi',
+    'Burundi': 'Burundi',
+    'Republic of Malawi': 'Malawi',
+    'Malawi': 'Malawi',
+    'Republic of Mozambique': 'Mozambique',
+    'Mozambique': 'Mozambique',
+    
+    // Caribbean and Central America
+    'Antigua and Barbuda': 'Antigua',
+    'Antigua': 'Antigua',
+    'Bahamas': 'Bahamas',
+    'Barbados': 'Barbados',
+    'Belize': 'Belize',
+    'Costa Rica': 'Costa Rica',
+    'Cuba': 'Cuba',
+    'Dominica': 'Dominica',
+    'Dominican Republic': 'Dominican Republic',
+    'El Salvador': 'El Salvador',
+    'Grenada': 'Grenada',
+    'Guatemala': 'Guatemala',
+    'Haiti': 'Haiti',
+    'Honduras': 'Honduras',
+    'Jamaica': 'Jamaica',
+    'Nicaragua': 'Nicaragua',
+    'Panama': 'Panama',
+    'Saint Kitts and Nevis': 'St. Kitts',
+    'St. Kitts': 'St. Kitts',
+    'Saint Lucia': 'St. Lucia',
+    'St. Lucia': 'St. Lucia',
+    'Saint Vincent and the Grenadines': 'St. Vincent',
+    'St. Vincent': 'St. Vincent',
+    'Trinidad and Tobago': 'Trinidad',
+    'Trinidad': 'Trinidad',
+    
+    // Pacific Islands
+    'Fiji': 'Fiji',
+    'Kiribati': 'Kiribati',
+    'Marshall Islands': 'Marshall Islands',
+    'Micronesia': 'Micronesia',
+    'Federated States of Micronesia': 'Micronesia',
+    'Nauru': 'Nauru',
+    'Palau': 'Palau',
+    'Papua New Guinea': 'Papua New Guinea',
+    'Samoa': 'Samoa',
+    'Solomon Islands': 'Solomon Islands',
+    'Tonga': 'Tonga',
+    'Tuvalu': 'Tuvalu',
+    'Vanuatu': 'Vanuatu',
+    'Cook Islands': 'Cook Islands',
+    'Niue': 'Niue',
+    'Tokelau': 'Tokelau',
+    'Pitcairn Islands': 'Pitcairn',
+    'Pitcairn': 'Pitcairn',
+    'French Polynesia': 'French Polynesia',
+    'New Caledonia': 'New Caledonia',
+    'Wallis and Futuna': 'Wallis and Futuna',
+    'American Samoa': 'American Samoa'
+};
+
+// Enhanced color generation function for country coloring
+function generateCountryColors(values) {
+    const colorStops = ['#fcf6bd', '#d0f4de', '#bde0fe', '#dec0f1']; // yellow->green->blue->purple
+    
+    // Parse hex colors to RGB integers
+    const rgbStops = colorStops.map(color => ({
+        r: parseInt(color.slice(1, 3), 16),
+        g: parseInt(color.slice(3, 5), 16),
+        b: parseInt(color.slice(5, 7), 16)
+    }));
+    
+    // Find min and max values (excluding null/undefined)
+    const validValues = values.filter(v => v !== null && v !== undefined && !isNaN(v));
+    if (validValues.length === 0) return {};
+    
+    const minValue = Math.min(...validValues);
+    const maxValue = Math.max(...validValues);
+    
+    const colorMap = {};
+    
+    values.forEach((value, index) => {
+        if (value === null || value === undefined || isNaN(value)) {
+            // Use secondary color for no data
+            colorMap[index] = '#343a40';
+        } else {
+            // Normalize value between 0 and 1
+            const normalizedValue = (value - minValue) / (maxValue - minValue);
+            
+            // Determine which color stops to interpolate between
+            const scaledRatio = normalizedValue * (rgbStops.length - 1);
+            const stopIndex = Math.floor(scaledRatio);
+            const localRatio = scaledRatio - stopIndex;
+            
+            let r, g, b;
+            
+            if (stopIndex >= rgbStops.length - 1) {
+                // Use the last color
+                r = rgbStops[rgbStops.length - 1].r;
+                g = rgbStops[rgbStops.length - 1].g;
+                b = rgbStops[rgbStops.length - 1].b;
+            } else {
+                // Interpolate between two adjacent stops
+                const currentStop = rgbStops[stopIndex];
+                const nextStop = rgbStops[stopIndex + 1];
+                
+                r = Math.round(currentStop.r + (nextStop.r - currentStop.r) * localRatio);
+                g = Math.round(currentStop.g + (nextStop.g - currentStop.g) * localRatio);
+                b = Math.round(currentStop.b + (nextStop.b - currentStop.b) * localRatio);
+            }
+            
+            // Convert back to hex strings
+            const rHex = r.toString(16).padStart(2, '0');
+            const gHex = g.toString(16).padStart(2, '0');
+            const bHex = b.toString(16).padStart(2, '0');
+            
+            colorMap[index] = `#${rHex}${gHex}${bHex}`;
+        }
+    });
+    
+    return colorMap;
+}
+
+// Function to extract country name from series name
+function extractCountryName(seriesName) {
+    // Remove common prefixes and suffixes
+    let cleanName = seriesName
+        .replace(/^(RGDP Growth|GDP Growth|Real GDP Growth|GDP Per Capita|Salary Growth|Tech Job Density|Cost of Living|Rent|Tax|Job Demand|Layoffs|Underemployment|Time Unemployed|Housing Starts|Consumer Price Index|SWE Adjacent Growth|All Fields Growth)\s+/i, '')
+        .replace(/\s+(Growth|Rate|Index|Density|Demand|Starts|Unemployed)$/i, '')
+        .trim();
+    
+    // Check if it's a known country name
+    if (Object.keys(countryNameMapping).includes(cleanName) || 
+        Object.values(countryNameMapping).includes(cleanName)) {
+        return cleanName;
+    }
+    
+    // Check if it matches any country name in our mapping (case insensitive)
+    const lowerCleanName = cleanName.toLowerCase();
+    for (const [key, value] of Object.entries(countryNameMapping)) {
+        if (key.toLowerCase() === lowerCleanName || value.toLowerCase() === lowerCleanName) {
+            return value; // Return the standardized name
+        }
+    }
+    
+    return cleanName; // Return as-is if no mapping found
+}
+
+// Function to analyze economic data and determine coloring strategy
+function analyzeEconomicData(data) {
+    if (!data || !data.timeSeries) {
+        return { isValid: false, reason: 'No timeSeries data found' };
+    }
+    
+    // Extract and check country names
+    const countryNames = data.timeSeries.map(series => extractCountryName(series.name));
+    const hasCountryData = countryNames.some(name => 
+        Object.keys(countryNameMapping).includes(name) || 
+        Object.values(countryNameMapping).includes(name) ||
+        name.length > 0 // Allow any non-empty name for now
+    );
+    
+    if (!hasCountryData) {
+        return { isValid: false, reason: 'No country data found in timeSeries' };
+    }
+    
+    // Determine if data is scalar vs vector
+    const sampleData = data.timeSeries[0]?.data || [];
+    const isScalar = sampleData.every(point => typeof point.y === 'number' && !isNaN(point.y));
+    
+    if (!isScalar) {
+        return { isValid: false, reason: 'Data is not numeric' };
+    }
+    
+    // Get most recent values for each country
+    const latestValues = {};
+    data.timeSeries.forEach(series => {
+        if (series.data && series.data.length > 0) {
+            const latestPoint = series.data[series.data.length - 1];
+            const countryName = extractCountryName(series.name);
+            latestValues[countryName] = latestPoint.y;
+        }
+    });
+    
+    return {
+        isValid: true,
+        countryNames: countryNames,
+        latestValues: latestValues,
+        isScalar: isScalar,
+        dataType: data.yAxis?.format || 'number'
+    };
+}
+
+// Function to create world map with D3.js and country coloring
+async function createWorldMapWithData(dataFileName = 'realGDPGrowth') {
     // Get the map content box
     const mapContentBox = document.getElementById('mapContentBox');
     
@@ -693,118 +1188,308 @@ function createWorldMap() {
         return;
     }
     
-    // Debug: Check the dimensions
-    console.log('Map content box dimensions:', {
-        offsetHeight: mapContentBox.offsetHeight,
-        clientHeight: mapContentBox.clientHeight,
-        scrollHeight: mapContentBox.scrollHeight,
-        computedHeight: window.getComputedStyle(mapContentBox).height
-    });
-    
     // Clear any existing content
     mapContentBox.innerHTML = '';
     
-    // Create a div for the map
-    const mapDiv = document.createElement('div');
-    mapDiv.id = 'worldMap';
-    mapDiv.style.width = '100%';
-    mapDiv.style.height = '100%';
-    mapDiv.style.minHeight = '300px'; // Add a minimum height as fallback
-    mapDiv.style.position = 'relative'; // Ensure proper positioning
-    mapDiv.style.overflow = 'hidden'; // Prevent scrollbars
+    // Create SVG container for the map
+    const svg = d3.select(mapContentBox)
+        .append('svg')
+        .attr('id', 'worldMap')
+        .attr('width', '100%')
+        .attr('height', '100%')
+        .attr('viewBox', '0 0 1000 500') // Set viewBox to ensure proper scaling
+        .style('background-color', '#212529') // var(--primary)
+        .style('min-height', '300px'); // Ensure minimum height
     
-    mapContentBox.appendChild(mapDiv);
+    // Fetch economic data FIRST
+    let economicData = null;
+    if (dataFileName) {
+        try {
+            economicData = await fetchEconomicData(dataFileName);
+            console.log(`Fetched economic data for ${dataFileName}:`, economicData);
+        } catch (error) {
+            console.warn(`Could not fetch economic data for ${dataFileName}:`, error);
+        }
+    }
     
-    // Debug: Check the map div dimensions
-    setTimeout(() => {
-        const mapDivElement = document.getElementById('worldMap');
-        console.log('Map div dimensions:', {
-            offsetHeight: mapDivElement.offsetHeight,
-            clientHeight: mapDivElement.clientHeight,
-            parentHeight: mapContentBox.offsetHeight
-        });
-        
-        // If the map div still has no height, force it to use the parent's height
-        if (mapDivElement.offsetHeight === 0 && mapContentBox.offsetHeight > 0) {
-            mapDivElement.style.height = mapContentBox.offsetHeight + 'px';
-            console.log('Forced map div height to:', mapContentBox.offsetHeight + 'px');
+    // Analyze the data
+    const analysis = economicData ? analyzeEconomicData(economicData) : { isValid: false, reason: 'No data provided' };
+    console.log('Economic data analysis:', analysis);
+    
+    // Load world topology data
+    try {
+        let worldTopology;
+        try {
+            worldTopology = await d3.json('https://unpkg.com/world-atlas@1/world/110m.json');
+        } catch (firstError) {
+            console.warn('First CDN failed, trying alternative:', firstError);
+            // Try alternative CDN
+            worldTopology = await d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2/world/110m.json');
         }
         
-        // Initialize the map with a more focused view (Americas + Europe)
-        worldMap = L.map('worldMap', {
-            center: [40, -40], // Center on Atlantic Ocean
-            zoom: 3, // More zoomed in
-            zoomControl: false, // Remove zoom controls for faster loading
-            scrollWheelZoom: false, // Disable scroll zoom
-            doubleClickZoom: false, // Disable double-click zoom
-            dragging: false, // Disable dragging
-            touchZoom: false, // Disable touch zoom
-            boxZoom: false, // Disable box zoom
-            keyboard: false, // Disable keyboard navigation
-            attributionControl: false, // Remove attribution for cleaner look
-        });
+        console.log('Loaded world topology data:', worldTopology);
+        console.log('Available objects:', Object.keys(worldTopology.objects));
         
-        // Add a simple, fast-loading tile layer
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 4, // Limit zoom levels for faster loading
-            minZoom: 2
-        }).addTo(worldMap);
+        // Convert TopoJSON to GeoJSON - try different possible object names
+        let countries;
+        if (worldTopology.objects.countries) {
+            countries = topojson.feature(worldTopology, worldTopology.objects.countries);
+        } else if (worldTopology.objects.countries110m) {
+            countries = topojson.feature(worldTopology, worldTopology.objects.countries110m);
+        } else {
+            // Fallback to first available object
+            const firstObject = Object.keys(worldTopology.objects)[0];
+            countries = topojson.feature(worldTopology, worldTopology.objects[firstObject]);
+            console.log('Using fallback object:', firstObject);
+        }
+        console.log('Converted to GeoJSON:', countries);
         
-        // Add fewer, more focused cities (Americas + Europe)
-        /* const majorCities = [
-            { name: 'New York', lat: 40.7128, lng: -74.0060, salary: '$150,000' },
-            { name: 'San Francisco', lat: 37.7749, lng: -122.4194, salary: '$160,000' },
-            { name: 'London', lat: 51.5074, lng: -0.1278, salary: '$80,000' },
-            { name: 'Berlin', lat: 52.5200, lng: 13.4050, salary: '$70,000' },
-            { name: 'Toronto', lat: 43.6532, lng: -79.3832, salary: '$90,000' },
-            { name: 'Paris', lat: 48.8566, lng: 2.3522, salary: '$75,000' }
-        ]; */
+        // Debug: Check what properties are available in the first few countries
+        if (countries.features && countries.features.length > 0) {
+            console.log('Sample country properties:', countries.features.slice(0, 3).map(f => ({
+                name: f.properties.NAME || f.properties.NAME_EN || f.properties.name || f.properties.NAME_LONG || f.properties.ADMIN,
+                allProps: Object.keys(f.properties)
+            })));
+        }
         
-        // Add markers for each city
-        /* majorCities.forEach(city => {
-            const marker = L.marker([city.lat, city.lng]).addTo(worldMap);
-            marker.bindPopup(`
-                <div style="text-align: center;">
-                    <h3 style="margin: 0; color: #333;">${city.name}</h3>
-                    <p style="margin: 5px 0; color: #666;">Avg SWE Salary: ${city.salary}</p>
-                </div>
-            `);
-        }); */
+        // Set up map projection - use viewBox dimensions for consistent scaling
+        const width = 1000; // Match viewBox width
+        const height = 500; // Match viewBox height
         
-        // Set a fixed view that focuses on Americas + Europe
-        worldMap.setView([40, -40], 3);
+        console.log('Using viewBox dimensions:', { width, height });
         
-        // Force the map to fill the container
-        setTimeout(() => {
-            if (worldMap) {
-                worldMap.invalidateSize();
-                // Ensure it takes full height
-                const mapContainer = worldMap.getContainer();
-                mapContainer.style.height = '100%';
-                
-                // Also force the map div to take full height
-                const mapDivElement = document.getElementById('worldMap');
-                if (mapDivElement) {
-                    mapDivElement.style.height = mapContentBox.offsetHeight + 'px';
-                    console.log('Forced map div height to:', mapContentBox.offsetHeight + 'px');
+        // Use fitExtent to ensure full world visibility
+        const projection = d3.geoNaturalEarth1()
+            .fitExtent([[0, 0], [width, height]], countries);
+        
+        const path = d3.geoPath().projection(projection);
+        
+        // Create color scale based on economic data
+        let colorScale = null;
+        if (analysis.isValid && Object.keys(analysis.latestValues).length > 0) {
+            const values = Object.values(analysis.latestValues);
+            const minValue = Math.min(...values);
+            const maxValue = Math.max(...values);
+            
+            console.log('Economic data for coloring:', {
+                latestValues: analysis.latestValues,
+                values: values,
+                minValue: minValue,
+                maxValue: maxValue
+            });
+            
+            // Create D3 color scale using our 4-color gradient
+            colorScale = d3.scaleSequential()
+                .domain([minValue, maxValue])
+                .interpolator(d3.interpolate(['#fcf6bd', '#d0f4de', '#bde0fe', '#dec0f1']));
+            
+            console.log('Created color scale:', { minValue, maxValue });
+        } else {
+            console.log('No valid economic data for coloring:', analysis);
+        }
+        
+        // Add ocean background
+        svg.append('path')
+            .datum({ type: 'Sphere' })
+            .attr('class', 'ocean')
+            .attr('d', path)
+            .style('fill', '#212529'); // var(--primary)
+        
+        // Add countries
+        const countryPaths = svg.append('g')
+            .attr('class', 'countries')
+            .selectAll('path')
+            .data(countries.features)
+            .enter()
+            .append('path')
+            .attr('d', path)
+            .attr('class', 'country')
+            .style('stroke', '#6c757d') // var(--secondary)
+            .style('stroke-width', 0.5)
+            .style('fill', function(d) {
+                if (!colorScale || !analysis.isValid) {
+                    return '#343a40'; // var(--secondary) for no data
                 }
                 
-                // Force the map to resize to the new dimensions
-                worldMap.invalidateSize();
-            }
-        }, 50);
+                // Try to match country name with our data
+                const countryName = d.properties.NAME || d.properties.NAME_EN || d.properties.name || d.properties.NAME_LONG || d.properties.ADMIN || d.properties.SOVEREIGNT || d.properties.SOV_A3;
+                console.log(`Checking country: ${countryName}`, d.properties);
+                
+                // If still undefined, skip this country
+                if (!countryName) {
+                    console.log('Skipping country with no name:', d.properties);
+                    return '#343a40';
+                }
+                
+                // Direct lookup in our data
+                let matchedCountry = null;
+                let matchedValue = null;
+                
+                // First try direct name matching
+                for (const [dataKey, dataValue] of Object.entries(analysis.latestValues)) {
+                    const extractedName = extractCountryName(dataKey);
+                    console.log(`Comparing "${countryName}" with extracted name "${extractedName}" from "${dataKey}"`);
+                    
+                    // Direct match
+                    if (countryName === extractedName) {
+                        matchedCountry = dataKey;
+                        matchedValue = dataValue;
+                        break;
+                    }
+                    
+                    // Check if country name maps to our extracted name
+                    if (countryNameMapping[countryName] === extractedName) {
+                        matchedCountry = dataKey;
+                        matchedValue = dataValue;
+                        break;
+                    }
+                    
+                    // Check if our extracted name maps to country name
+                    if (countryNameMapping[extractedName] === countryName) {
+                        matchedCountry = dataKey;
+                        matchedValue = dataValue;
+                        break;
+                    }
+                    
+                    // Check if both are in the mapping and point to same value
+                    if (countryNameMapping[countryName] && countryNameMapping[extractedName] && 
+                        countryNameMapping[countryName] === countryNameMapping[extractedName]) {
+                        matchedCountry = dataKey;
+                        matchedValue = dataValue;
+                        break;
+                    }
+                }
+                
+                if (matchedCountry && matchedValue !== null) {
+                    console.log(`✅ Coloring ${countryName} with value ${matchedValue} (from ${matchedCountry})`);
+                    return colorScale(matchedValue);
+                } else {
+                    console.log(`❌ No match found for ${countryName}`);
+                    return '#343a40'; // var(--secondary) for no data
+                }
+            })
+            .style('opacity', 0.8)
+            .on('mouseover', function(event, d) {
+                // Highlight country on hover
+                d3.select(this)
+                    .style('opacity', 1)
+                    .style('stroke-width', 2);
+                
+                // Show tooltip
+                const countryName = d.properties.NAME || d.properties.NAME_EN || d.properties.name || d.properties.NAME_LONG || d.properties.ADMIN || d.properties.SOVEREIGNT || d.properties.SOV_A3;
+                
+                if (!countryName) {
+                    return; // Skip if no country name
+                }
+                
+                // Use the same matching logic as the fill function
+                let matchedCountry = null;
+                let matchedValue = null;
+                
+                for (const [dataKey, dataValue] of Object.entries(analysis.latestValues)) {
+                    const extractedName = extractCountryName(dataKey);
+                    
+                    if (countryName === extractedName ||
+                        countryNameMapping[countryName] === extractedName ||
+                        countryNameMapping[extractedName] === countryName ||
+                        (countryNameMapping[countryName] && countryNameMapping[extractedName] && 
+                         countryNameMapping[countryName] === countryNameMapping[extractedName])) {
+                        matchedCountry = dataKey;
+                        matchedValue = dataValue;
+                        break;
+                    }
+                }
+                
+                if (matchedCountry) {
+                    const value = analysis.latestValues[matchedCountry];
+                    showMapTooltip(event, countryName, value);
+                }
+            })
+            .on('mouseout', function(event, d) {
+                // Reset country appearance
+                d3.select(this)
+                    .style('opacity', 0.8)
+                    .style('stroke-width', 0.5);
+                
+                hideMapTooltip();
+            });
         
-        console.log('World map created successfully');
-    }, 100);
+        console.log('D3.js world map created successfully');
+        
+    } catch (error) {
+        console.error('Error loading world topology data:', error);
+        
+        // Fallback: create a simple placeholder
+        svg.append('text')
+            .attr('x', '50%')
+            .attr('y', '50%')
+            .attr('text-anchor', 'middle')
+            .attr('fill', 'white')
+            .text('World Map Loading...');
+    }
+}
+
+// Function to show map tooltip
+function showMapTooltip(event, countryName, value) {
+    const tooltip = d3.select('body').selectAll('.map-tooltip')
+        .data([1])
+        .enter()
+        .append('div')
+        .attr('class', 'map-tooltip')
+        .style('position', 'absolute')
+        .style('background-color', '#212529') // var(--primary)
+        .style('border', '2px solid #6c757d') // var(--secondary)
+        .style('border-radius', '5px')
+        .style('padding', '10px')
+        .style('color', 'white')
+        .style('font-size', '12px')
+        .style('pointer-events', 'none')
+        .style('z-index', '1000')
+        .style('opacity', 0);
+    
+    tooltip.html(`
+                <div style="text-align: center;">
+            <strong>${countryName}</strong><br>
+            Value: ${value}
+                </div>
+            `);
+    
+    tooltip.transition()
+        .duration(200)
+        .style('opacity', 1);
+    
+    tooltip.style('left', (event.pageX + 10) + 'px')
+        .style('top', (event.pageY - 10) + 'px');
+}
+
+// Function to hide map tooltip
+function hideMapTooltip() {
+    d3.selectAll('.map-tooltip').remove();
+}
+
+// Legacy function for backward compatibility
+function createWorldMap() {
+    createWorldMapWithData('realGDPGrowth');
 }
 
 // Function to recreate the map (useful for resizing)
 function recreateWorldMap() {
     if (worldMap) {
-        worldMap.remove(); // Remove the existing map
+        // Clear the SVG content
+        d3.select('#worldMap').remove();
         worldMap = null;
     }
-    createWorldMap();
+    createWorldMapWithData('realGDPGrowth');
+}
+
+// Function to update map with different economic data
+function updateMapWithData(dataFileName) {
+    if (worldMap) {
+        // Clear the SVG content
+        d3.select('#worldMap').remove();
+        worldMap = null;
+    }
+    createWorldMapWithData(dataFileName);
 }
 
 
@@ -861,48 +1546,77 @@ hoverInfoDiv.style.cssText = `
 `;
 document.body.appendChild(hoverInfoDiv);
 
-// Information mapping for each metric
-const metricInfo = {
-    // Personal Finance
-    'personalFinanceHeader': 'Personal Finance metrics track individual financial health including income, expenses, and cost of living',
-    'salariesHeader': 'Average salary data for software engineers and related roles in different regions',
-    'taxesHeader': 'Tax rates and brackets affecting take-home pay in various locations',
-    'rentHeader': 'Housing costs including rent prices and affordability metrics',
-    'costOfLivingHeader': 'Overall cost of living index comparing different cities and regions',
+// Dynamic hover info system - fetches descriptions from JSON data
+async function getMetricDescription(metricId) {
+    // Map metric IDs to their data files
+    const metricDataMapping = {
+        'salariesHeader': 'salaries',
+        'taxesHeader': 'taxes',
+        'rentHeader': 'rent',
+        'costOfLivingHeader': 'costOfLiving',
+        'jobDemandHeader': 'jobDemand',
+        'layoffsHeader': 'layoffs',
+        'underemploymentHeader': 'underemployment',
+        'timeUnemployedHeader': 'timeUnemployed',
+        'realGDPGrowthHeader': 'realGDPGrowth',
+        'realGDPPerCapitaHeader': 'realGDPPerCapita',
+        'housingStartsHeader': 'housingStarts',
+        'consumerPriceIndexHeader': 'consumerPriceIndex',
+        'techJobDensityHeader': 'techJobDensity',
+        'salaryGrowthRateHeader': 'salaryGrowthRate',
+        'sweAdjacentGrowthHeader': 'sweAdjacentGrowth',
+        'allFieldsGrowthHeader': 'allFieldsGrowth'
+    };
     
-    // Career Security
+    // Category descriptions (for when JSON doesn't exist yet)
+    const categoryDescriptions = {
+        'personalFinanceHeader': 'Personal Finance metrics track individual financial health including income, expenses, and cost of living',
     'careerSecurityHeader': 'Career Security metrics assess job market stability and employment risks',
-    'jobDemandHeader': 'Current demand for software engineering positions and job postings',
-    'layoffsHeader': 'Recent layoff trends and job security indicators in tech',
-    'underemploymentHeader': 'Rate of underemployment in tech and related fields',
-    'timeUnemployedHeader': 'Average duration of unemployment for tech professionals',
-    
-    // Macroeconomic Health
     'macroeconomicHealthHeader': 'Macroeconomic Health indicators show broader economic conditions',
-    'realGDPGrowthHeader': 'Real GDP growth rate indicating economic expansion or contraction',
-    'realGDPPerCapitaHeader': 'GDP per capita showing economic productivity per person',
-    'housingStartsHeader': 'New housing construction starts as an economic indicator',
-    'consumerPriceIndexHeader': 'Inflation rate measured by consumer price index changes',
-    
-    // Growth Opportunity
     'growthOpportunityHeader': 'Growth Opportunity metrics identify potential for career advancement',
-    'techJobDensityHeader': 'Concentration of technology jobs in specific geographic areas',
-    'salaryGrowthRateHeader': 'Historical and projected salary growth rates in tech',
-    'sweAdjacentGrowthHeader': 'Growth in software engineering adjacent fields and roles',
-    'allFieldsGrowthHeader': 'Overall job market growth across all industries and sectors',
+        'mapTitleHeader': 'Interactive world map showing economic data by country and region'
+    };
     
-    // Map
-    'matpTitleHeader': 'Interactive world map showing economic data by country and region'
-};
+    // Check if it's a category header first
+    if (categoryDescriptions[metricId]) {
+        return categoryDescriptions[metricId];
+    }
+    
+    // Check if it's a metric that has JSON data
+    const dataFileName = metricDataMapping[metricId];
+    if (dataFileName) {
+        try {
+            const data = await fetchEconomicData(dataFileName);
+            if (data && data.description) {
+                return data.description;
+            }
+        } catch (error) {
+            console.warn(`Could not fetch description for ${metricId}:`, error);
+        }
+    }
+    
+    // Fallback to generic description
+    return 'Economic metric data visualization';
+}
 
 // Function to show hover info
-function showHoverInfo(event, elementId) {
-    const info = metricInfo[elementId];
-    if (info) {
+async function showHoverInfo(event, elementId) {
+    try {
+        const info = await getMetricDescription(elementId);
         hoverInfoDiv.textContent = info;
         hoverInfoDiv.style.display = 'block';
         
         // Position the tooltip near the cursor
+        const x = event.clientX + 10;
+        const y = event.clientY - 30;
+        
+        hoverInfoDiv.style.left = x + 'px';
+        hoverInfoDiv.style.top = y + 'px';
+    } catch (error) {
+        console.warn(`Error fetching hover info for ${elementId}:`, error);
+        hoverInfoDiv.textContent = 'Economic metric data visualization';
+        hoverInfoDiv.style.display = 'block';
+        
         const x = event.clientX + 10;
         const y = event.clientY - 30;
         
@@ -922,8 +1636,8 @@ document.addEventListener('DOMContentLoaded', function() {
     
     headers.forEach(header => {
         if (header.id) {
-            header.addEventListener('mouseenter', function(event) {
-                showHoverInfo(event, this.id);
+            header.addEventListener('mouseenter', async function(event) {
+                await showHoverInfo(event, this.id);
             });
             
             header.addEventListener('mouseleave', function() {

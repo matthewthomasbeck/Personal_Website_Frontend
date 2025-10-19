@@ -169,8 +169,8 @@ function loadNavBarName() { // function to set the name in the nav bar
         event.target.style.borderRightWidth = '0px'; // remove old right border
 
         // uncomment and make marginBottom 0 to remove name overhang
-        //event.target.style.marginTop = '0px'; // remove margin
-        event.target.style.marginBottom = '10px'; // remove margin
+        event.target.style.marginTop = '0px'; // remove margin
+        event.target.style.marginBottom = '0px'; // remove margin
 
         event.target.appendChild(replacementText); // commit changes to header
     });

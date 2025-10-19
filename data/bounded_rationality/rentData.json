@@ -1,5 +1,5 @@
 {
-  "hasPredictions": "True",
+  "hasPredictions": "False",
   "description": "Housing costs including rent prices and affordability metrics",
   "xAxis": {
     "type": "date",

@@ -1,5 +1,5 @@
 {
-  "hasPredictions": "True",
+  "hasPredictions": "False",
   "description": "Concentration of technology jobs in specific geographic areas",
   "xAxis": {
     "type": "category"

@@ -1,5 +1,5 @@
 {
-  "hasPredictions": "True",
+  "hasPredictions": "False",
   "description": "Real GDP growth rate indicating economic expansion or contraction",
   "xAxis": {
     "type": "date",

@@ -1,0 +1,333 @@
+United States of America:USA
+United States:USA
+USA:USA
+US:USA
+America:USA
+Canada:Canada
+United Mexican States:Mexico
+Mexico:Mexico
+Federative Republic of Brazil:Brazil
+Brazil:Brazil
+Argentine Republic:Argentina
+Argentina:Argentina
+Republic of Chile:Chile
+Chile:Chile
+Republic of Colombia:Colombia
+Colombia:Colombia
+Republic of Peru:Peru
+Peru:Peru
+Bolivarian Republic of Venezuela:Venezuela
+Venezuela:Venezuela
+Republic of Ecuador:Ecuador
+Ecuador:Ecuador
+Republic of Bolivia:Bolivia
+Bolivia:Bolivia
+Paraguay:Paraguay
+Oriental Republic of Uruguay:Uruguay
+Uruguay:Uruguay
+Guyana:Guyana
+Republic of Suriname:Suriname
+Suriname:Suriname
+United Kingdom:UK
+UK:UK
+Great Britain:UK
+Britain:UK
+England:UK
+Scotland:UK
+Wales:UK
+Northern Ireland:UK
+Federal Republic of Germany:Germany
+Germany:Germany
+Deutschland:Germany
+French Republic:France
+France:France
+Italian Republic:Italy
+Italy:Italy
+Kingdom of Spain:Spain
+Spain:Spain
+Kingdom of the Netherlands:Netherlands
+Netherlands:Netherlands
+Holland:Netherlands
+Kingdom of Belgium:Belgium
+Belgium:Belgium
+Swiss Confederation:Switzerland
+Switzerland:Switzerland
+Republic of Austria:Austria
+Austria:Austria
+Kingdom of Sweden:Sweden
+Sweden:Sweden
+Kingdom of Norway:Norway
+Norway:Norway
+Kingdom of Denmark:Denmark
+Denmark:Denmark
+Republic of Finland:Finland
+Finland:Finland
+Republic of Poland:Poland
+Poland:Poland
+Czech Republic:Czech Republic
+Czechia:Czech Republic
+Slovak Republic:Slovakia
+Slovakia:Slovakia
+Republic of Hungary:Hungary
+Hungary:Hungary
+Romania:Romania
+Republic of Bulgaria:Bulgaria
+Bulgaria:Bulgaria
+Republic of Croatia:Croatia
+Croatia:Croatia
+Bosnia and Herzegovina:Bosnia
+Bosnia:Bosnia
+Bosnia-Herzegovina:Bosnia
+Republic of Serbia:Serbia
+Serbia:Serbia
+Montenegro:Montenegro
+Republic of North Macedonia:North Macedonia
+North Macedonia:North Macedonia
+Macedonia:North Macedonia
+Republic of Albania:Albania
+Albania:Albania
+Hellenic Republic:Greece
+Greece:Greece
+Republic of Cyprus:Cyprus
+Cyprus:Cyprus
+Republic of Malta:Malta
+Malta:Malta
+Portuguese Republic:Portugal
+Portugal:Portugal
+Ireland:Ireland
+Republic of Ireland:Ireland
+Iceland:Iceland
+Grand Duchy of Luxembourg:Luxembourg
+Luxembourg:Luxembourg
+Principality of Liechtenstein:Liechtenstein
+Liechtenstein:Liechtenstein
+Principality of Monaco:Monaco
+Monaco:Monaco
+Principality of Andorra:Andorra
+Andorra:Andorra
+Republic of San Marino:San Marino
+San Marino:San Marino
+Vatican City State:Vatican
+Vatican:Vatican
+Holy See:Vatican
+Ukraine:Ukraine
+Republic of Belarus:Belarus
+Belarus:Belarus
+Republic of Moldova:Moldova
+Moldova:Moldova
+Republic of Lithuania:Lithuania
+Lithuania:Lithuania
+Republic of Latvia:Latvia
+Latvia:Latvia
+Republic of Estonia:Estonia
+Estonia:Estonia
+People's Republic of China:China
+China:China
+PRC:China
+Mainland China:China
+Japan:Japan
+Nippon:Japan
+Republic of Korea:South Korea
+South Korea:South Korea
+Korea:South Korea
+ROK:South Korea
+Democratic People's Republic of Korea:North Korea
+North Korea:North Korea
+DPRK:North Korea
+Republic of India:India
+India:India
+Bharat:India
+Islamic Republic of Pakistan:Pakistan
+Pakistan:Pakistan
+People's Republic of Bangladesh:Bangladesh
+Bangladesh:Bangladesh
+Republic of Indonesia:Indonesia
+Indonesia:Indonesia
+Republic of the Philippines:Philippines
+Philippines:Philippines
+Socialist Republic of Vietnam:Vietnam
+Vietnam:Vietnam
+Kingdom of Thailand:Thailand
+Thailand:Thailand
+Malaysia:Malaysia
+Republic of Singapore:Singapore
+Singapore:Singapore
+Commonwealth of Australia:Australia
+Australia:Australia
+New Zealand:New Zealand
+Islamic Republic of Iran:Iran
+Iran:Iran
+Persia:Iran
+Syrian Arab Republic:Syria
+Syria:Syria
+Republic of Turkey:Turkey
+Turkey:Turkey
+Türkiye:Turkey
+Kingdom of Saudi Arabia:Saudi Arabia
+Saudi Arabia:Saudi Arabia
+United Arab Emirates:UAE
+UAE:UAE
+Emirates:UAE
+State of Israel:Israel
+Israel:Israel
+Afghanistan:Afghanistan
+Armenia:Armenia
+Azerbaijan:Azerbaijan
+Bahrain:Bahrain
+Bhutan:Bhutan
+Brunei:Brunei
+Cambodia:Cambodia
+Georgia:Georgia
+Iraq:Iraq
+Jordan:Jordan
+Kazakhstan:Kazakhstan
+Kuwait:Kuwait
+Kyrgyzstan:Kyrgyzstan
+Laos:Laos
+Lebanon:Lebanon
+Maldives:Maldives
+Mongolia:Mongolia
+Myanmar:Myanmar
+Nepal:Nepal
+Oman:Oman
+Qatar:Qatar
+Sri Lanka:Sri Lanka
+Taiwan:Taiwan
+Tajikistan:Tajikistan
+Turkmenistan:Turkmenistan
+Uzbekistan:Uzbekistan
+Yemen:Yemen
+Republic of South Africa:South Africa
+South Africa:South Africa
+Arab Republic of Egypt:Egypt
+Egypt:Egypt
+Federal Democratic Republic of Ethiopia:Ethiopia
+Ethiopia:Ethiopia
+Federal Republic of Nigeria:Nigeria
+Nigeria:Nigeria
+Republic of Kenya:Kenya
+Kenya:Kenya
+United Republic of Tanzania:Tanzania
+Tanzania:Tanzania
+Republic of Uganda:Uganda
+Uganda:Uganda
+Republic of Ghana:Ghana
+Ghana:Ghana
+Republic of the Congo:Congo
+Congo:Congo
+Congo-Brazzaville:Congo
+Democratic Republic of the Congo:DRC
+DRC:DRC
+Congo-Kinshasa:DRC
+Central African Republic:CAR
+CAR:CAR
+Republic of South Sudan:South Sudan
+South Sudan:South Sudan
+Republic of Sudan:Sudan
+Sudan:Sudan
+Libya:Libya
+Republic of Tunisia:Tunisia
+Tunisia:Tunisia
+People's Democratic Republic of Algeria:Algeria
+Algeria:Algeria
+Kingdom of Morocco:Morocco
+Morocco:Morocco
+Islamic Republic of Mauritania:Mauritania
+Mauritania:Mauritania
+Republic of Mali:Mali
+Mali:Mali
+Burkina Faso:Burkina Faso
+Republic of Niger:Niger
+Niger:Niger
+Republic of Chad:Chad
+Chad:Chad
+Republic of Cameroon:Cameroon
+Cameroon:Cameroon
+Gabonese Republic:Gabon
+Gabon:Gabon
+Republic of Equatorial Guinea:Equatorial Guinea
+Equatorial Guinea:Equatorial Guinea
+Republic of Angola:Angola
+Angola:Angola
+Republic of Zambia:Zambia
+Zambia:Zambia
+Republic of Zimbabwe:Zimbabwe
+Zimbabwe:Zimbabwe
+Republic of Botswana:Botswana
+Botswana:Botswana
+Kingdom of Eswatini:Eswatini
+Eswatini:Eswatini
+Swaziland:Eswatini
+Kingdom of Lesotho:Lesotho
+Lesotho:Lesotho
+Republic of Namibia:Namibia
+Namibia:Namibia
+Republic of Madagascar:Madagascar
+Madagascar:Madagascar
+Republic of Mauritius:Mauritius
+Mauritius:Mauritius
+Union of the Comoros:Comoros
+Comoros:Comoros
+Republic of Seychelles:Seychelles
+Seychelles:Seychelles
+Republic of Djibouti:Djibouti
+Djibouti:Djibouti
+State of Eritrea:Eritrea
+Eritrea:Eritrea
+Republic of Somalia:Somalia
+Somalia:Somalia
+Republic of Rwanda:Rwanda
+Rwanda:Rwanda
+Republic of Burundi:Burundi
+Burundi:Burundi
+Republic of Malawi:Malawi
+Malawi:Malawi
+Republic of Mozambique:Mozambique
+Mozambique:Mozambique
+Antigua and Barbuda:Antigua
+Antigua:Antigua
+Bahamas:Bahamas
+Barbados:Barbados
+Belize:Belize
+Costa Rica:Costa Rica
+Cuba:Cuba
+Dominica:Dominica
+Dominican Republic:Dominican Republic
+El Salvador:El Salvador
+Grenada:Grenada
+Guatemala:Guatemala
+Haiti:Haiti
+Honduras:Honduras
+Jamaica:Jamaica
+Nicaragua:Nicaragua
+Panama:Panama
+Saint Kitts and Nevis:St. Kitts
+St. Kitts:St. Kitts
+Saint Lucia:St. Lucia
+St. Lucia:St. Lucia
+Saint Vincent and the Grenadines:St. Vincent
+St. Vincent:St. Vincent
+Trinidad and Tobago:Trinidad
+Trinidad:Trinidad
+Fiji:Fiji
+Kiribati:Kiribati
+Marshall Islands:Marshall Islands
+Micronesia:Micronesia
+Federated States of Micronesia:Micronesia
+Nauru:Nauru
+Palau:Palau
+Papua New Guinea:Papua New Guinea
+Samoa:Samoa
+Solomon Islands:Solomon Islands
+Tonga:Tonga
+Tuvalu:Tuvalu
+Vanuatu:Vanuatu
+Cook Islands:Cook Islands
+Niue:Niue
+Tokelau:Tokelau
+Pitcairn Islands:Pitcairn
+Pitcairn:Pitcairn
+French Polynesia:French Polynesia
+New Caledonia:New Caledonia
+Wallis and Futuna:Wallis and Futuna
+American Samoa:American Samoa

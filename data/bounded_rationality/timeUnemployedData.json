@@ -1,5 +1,5 @@
 {
-  "hasPredictions": "True",
+  "hasPredictions": "False",
   "description": "Average duration of unemployment for tech professional",
   "xAxis": {
     "type": "category"

@@ -1,5 +1,5 @@
 {
-  "hasPredictions": "True",
+  "hasPredictions": "False",
   "description": "GDP per capita showing economic productivity per person",
   "xAxis": {
     "type": "category"

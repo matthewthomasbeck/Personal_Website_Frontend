@@ -1,5 +1,5 @@
 {
-  "hasPredictions": "True",
+  "hasPredictions": "False",
   "description": "Current demand for software engineering positions and job postings",
   "xAxis": {
     "type": "date",

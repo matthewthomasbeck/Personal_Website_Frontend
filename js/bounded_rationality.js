@@ -24,8 +24,7 @@ async function fetchEconomicData(metricName) { // function to fetch economic dat
     // set base URL to S3 bucket
     const baseCDNURL = `https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/data/bounded_rationality/`;
 
-    // set path to json data with metric name
-    let metricDataPath = `${baseCDNURL}${metricName}Data.json`;
+    let metricDataPath = `${baseCDNURL}${metricName}Data.json`; // set path to json data with metric name
 
     /***** read data *****/
 
@@ -246,6 +245,10 @@ async function createAllCharts() {
     
     // Get all metric content boxes
     const metricContentBoxes = document.querySelectorAll('.categoryMetricContentBoxes');
+    loadingState.totalCharts = metricContentBoxes.length;
+    loadingState.chartsLoaded = 0;
+    
+    console.log(`Total charts to create: ${loadingState.totalCharts}`);
     
     for (const contentBox of metricContentBoxes) {
         // Find the corresponding metric header to get the metric ID
@@ -351,8 +354,16 @@ async function createChartForMetric(contentBox, dataFileName, metricId) {
         
         console.log(`Plotly chart created successfully for ${metricId}`);
         
+        // Track chart loading progress
+        loadingState.chartsLoaded++;
+        console.log(`Charts loaded: ${loadingState.chartsLoaded}/${loadingState.totalCharts}`);
+        checkAllContentLoaded();
+        
     } catch (error) {
         console.error(`Error creating Plotly chart for ${metricId}:`, error);
+        // Still count as loaded to prevent infinite loading
+        loadingState.chartsLoaded++;
+        checkAllContentLoaded();
     }
 }
 
@@ -693,358 +704,103 @@ function resizeAllPlotlyCharts() {
 }
 
 
+/********** LOADING SCREEN MANAGEMENT **********/
+
+// Loading state tracking
+let loadingState = {
+    chartsLoaded: 0,
+    totalCharts: 0,
+    mapLoaded: false,
+    allContentLoaded: false
+};
+
+// Function to check if all content is loaded
+function checkAllContentLoaded() {
+    if (loadingState.chartsLoaded >= loadingState.totalCharts && loadingState.mapLoaded && !loadingState.allContentLoaded) {
+        loadingState.allContentLoaded = true;
+        hideLoadingScreen();
+    }
+}
+
+// Function to hide loading screen
+function hideLoadingScreen() {
+    const loadingScreen = document.getElementById('loadingScreen');
+    if (loadingScreen) {
+        loadingScreen.style.display = 'none';
+        console.log('Loading screen hidden - all content loaded');
+        
+        // Trigger navbar name animation after loading screen is hidden
+        if (typeof loadNavBarName === 'function') {
+            loadNavBarName();
+        }
+    }
+}
+
+// Function to show loading screen
+function showLoadingScreen() {
+    const loadingScreen = document.getElementById('loadingScreen');
+    if (loadingScreen) {
+        loadingScreen.style.display = 'block';
+        console.log('Loading screen shown');
+    }
+}
+
 /********** CREATE WORLD MAP WITH D3.JS **********/
 
 let worldMap = null; // Global variable to store the D3 map instance
 let worldData = null; // Global variable to store the world topology data
 
-// Comprehensive country name mapping for data consistency
-const countryNameMapping = {
-    // Major Countries - Americas
-    'United States of America': 'USA',
-    'United States': 'USA',
-    'USA': 'USA',
-    'US': 'USA',
-    'America': 'USA',
-    'Canada': 'Canada',
-    'United Mexican States': 'Mexico',
-    'Mexico': 'Mexico',
-    'Federative Republic of Brazil': 'Brazil',
-    'Brazil': 'Brazil',
-    'Argentine Republic': 'Argentina',
-    'Argentina': 'Argentina',
-    'Republic of Chile': 'Chile',
-    'Chile': 'Chile',
-    'Republic of Colombia': 'Colombia',
-    'Colombia': 'Colombia',
-    'Republic of Peru': 'Peru',
-    'Peru': 'Peru',
-    'Bolivarian Republic of Venezuela': 'Venezuela',
-    'Venezuela': 'Venezuela',
-    'Republic of Ecuador': 'Ecuador',
-    'Ecuador': 'Ecuador',
-    'Republic of Bolivia': 'Bolivia',
-    'Bolivia': 'Bolivia',
-    'Paraguay': 'Paraguay',
-    'Oriental Republic of Uruguay': 'Uruguay',
-    'Uruguay': 'Uruguay',
-    'Guyana': 'Guyana',
-    'Republic of Suriname': 'Suriname',
-    'Suriname': 'Suriname',
-    
-    // Major Countries - Europe
-    'United Kingdom': 'UK',
-    'UK': 'UK',
-    'Great Britain': 'UK',
-    'Britain': 'UK',
-    'England': 'UK',
-    'Scotland': 'UK',
-    'Wales': 'UK',
-    'Northern Ireland': 'UK',
-    'Federal Republic of Germany': 'Germany',
-    'Germany': 'Germany',
-    'Deutschland': 'Germany',
-    'French Republic': 'France',
-    'France': 'France',
-    'Italian Republic': 'Italy',
-    'Italy': 'Italy',
-    'Kingdom of Spain': 'Spain',
-    'Spain': 'Spain',
-    'Kingdom of the Netherlands': 'Netherlands',
-    'Netherlands': 'Netherlands',
-    'Holland': 'Netherlands',
-    'Kingdom of Belgium': 'Belgium',
-    'Belgium': 'Belgium',
-    'Swiss Confederation': 'Switzerland',
-    'Switzerland': 'Switzerland',
-    'Republic of Austria': 'Austria',
-    'Austria': 'Austria',
-    'Kingdom of Sweden': 'Sweden',
-    'Sweden': 'Sweden',
-    'Kingdom of Norway': 'Norway',
-    'Norway': 'Norway',
-    'Kingdom of Denmark': 'Denmark',
-    'Denmark': 'Denmark',
-    'Republic of Finland': 'Finland',
-    'Finland': 'Finland',
-    'Republic of Poland': 'Poland',
-    'Poland': 'Poland',
-    'Czech Republic': 'Czech Republic',
-    'Czechia': 'Czech Republic',
-    'Slovak Republic': 'Slovakia',
-    'Slovakia': 'Slovakia',
-    'Republic of Hungary': 'Hungary',
-    'Hungary': 'Hungary',
-    'Romania': 'Romania',
-    'Republic of Bulgaria': 'Bulgaria',
-    'Bulgaria': 'Bulgaria',
-    'Republic of Croatia': 'Croatia',
-    'Croatia': 'Croatia',
-    'Bosnia and Herzegovina': 'Bosnia',
-    'Bosnia': 'Bosnia',
-    'Bosnia-Herzegovina': 'Bosnia',
-    'Republic of Serbia': 'Serbia',
-    'Serbia': 'Serbia',
-    'Montenegro': 'Montenegro',
-    'Republic of North Macedonia': 'North Macedonia',
-    'North Macedonia': 'North Macedonia',
-    'Macedonia': 'North Macedonia',
-    'Republic of Albania': 'Albania',
-    'Albania': 'Albania',
-    'Hellenic Republic': 'Greece',
-    'Greece': 'Greece',
-    'Republic of Cyprus': 'Cyprus',
-    'Cyprus': 'Cyprus',
-    'Republic of Malta': 'Malta',
-    'Malta': 'Malta',
-    'Portuguese Republic': 'Portugal',
-    'Portugal': 'Portugal',
-    'Ireland': 'Ireland',
-    'Republic of Ireland': 'Ireland',
-    'Iceland': 'Iceland',
-    'Grand Duchy of Luxembourg': 'Luxembourg',
-    'Luxembourg': 'Luxembourg',
-    'Principality of Liechtenstein': 'Liechtenstein',
-    'Liechtenstein': 'Liechtenstein',
-    'Principality of Monaco': 'Monaco',
-    'Monaco': 'Monaco',
-    'Principality of Andorra': 'Andorra',
-    'Andorra': 'Andorra',
-    'Republic of San Marino': 'San Marino',
-    'San Marino': 'San Marino',
-    'Vatican City State': 'Vatican',
-    'Vatican': 'Vatican',
-    'Holy See': 'Vatican',
-    'Ukraine': 'Ukraine',
-    'Republic of Belarus': 'Belarus',
-    'Belarus': 'Belarus',
-    'Republic of Moldova': 'Moldova',
-    'Moldova': 'Moldova',
-    'Republic of Lithuania': 'Lithuania',
-    'Lithuania': 'Lithuania',
-    'Republic of Latvia': 'Latvia',
-    'Latvia': 'Latvia',
-    'Republic of Estonia': 'Estonia',
-    'Estonia': 'Estonia',
-    
-    // Major Countries - Asia
-    'People\'s Republic of China': 'China',
-    'China': 'China',
-    'PRC': 'China',
-    'Mainland China': 'China',
-    'Japan': 'Japan',
-    'Nippon': 'Japan',
-    'Republic of Korea': 'South Korea',
-    'South Korea': 'South Korea',
-    'Korea': 'South Korea',
-    'ROK': 'South Korea',
-    'Democratic People\'s Republic of Korea': 'North Korea',
-    'North Korea': 'North Korea',
-    'DPRK': 'North Korea',
-    'Republic of India': 'India',
-    'India': 'India',
-    'Bharat': 'India',
-    'Islamic Republic of Pakistan': 'Pakistan',
-    'Pakistan': 'Pakistan',
-    'People\'s Republic of Bangladesh': 'Bangladesh',
-    'Bangladesh': 'Bangladesh',
-    'Republic of Indonesia': 'Indonesia',
-    'Indonesia': 'Indonesia',
-    'Republic of the Philippines': 'Philippines',
-    'Philippines': 'Philippines',
-    'Socialist Republic of Vietnam': 'Vietnam',
-    'Vietnam': 'Vietnam',
-    'Kingdom of Thailand': 'Thailand',
-    'Thailand': 'Thailand',
-    'Malaysia': 'Malaysia',
-    'Republic of Singapore': 'Singapore',
-    'Singapore': 'Singapore',
-    'Commonwealth of Australia': 'Australia',
-    'Australia': 'Australia',
-    'New Zealand': 'New Zealand',
-    'Islamic Republic of Iran': 'Iran',
-    'Iran': 'Iran',
-    'Persia': 'Iran',
-    'Syrian Arab Republic': 'Syria',
-    'Syria': 'Syria',
-    'Republic of Turkey': 'Turkey',
-    'Turkey': 'Turkey',
-    'Türkiye': 'Turkey',
-    'Kingdom of Saudi Arabia': 'Saudi Arabia',
-    'Saudi Arabia': 'Saudi Arabia',
-    'United Arab Emirates': 'UAE',
-    'UAE': 'UAE',
-    'Emirates': 'UAE',
-    'State of Israel': 'Israel',
-    'Israel': 'Israel',
-    'Afghanistan': 'Afghanistan',
-    'Armenia': 'Armenia',
-    'Azerbaijan': 'Azerbaijan',
-    'Bahrain': 'Bahrain',
-    'Bhutan': 'Bhutan',
-    'Brunei': 'Brunei',
-    'Cambodia': 'Cambodia',
-    'Georgia': 'Georgia',
-    'Iraq': 'Iraq',
-    'Jordan': 'Jordan',
-    'Kazakhstan': 'Kazakhstan',
-    'Kuwait': 'Kuwait',
-    'Kyrgyzstan': 'Kyrgyzstan',
-    'Laos': 'Laos',
-    'Lebanon': 'Lebanon',
-    'Maldives': 'Maldives',
-    'Mongolia': 'Mongolia',
-    'Myanmar': 'Myanmar',
-    'Nepal': 'Nepal',
-    'Oman': 'Oman',
-    'Qatar': 'Qatar',
-    'Sri Lanka': 'Sri Lanka',
-    'Taiwan': 'Taiwan',
-    'Tajikistan': 'Tajikistan',
-    'Turkmenistan': 'Turkmenistan',
-    'Uzbekistan': 'Uzbekistan',
-    'Yemen': 'Yemen',
-    
-    // Major Countries - Africa
-    'Republic of South Africa': 'South Africa',
-    'South Africa': 'South Africa',
-    'Arab Republic of Egypt': 'Egypt',
-    'Egypt': 'Egypt',
-    'Federal Democratic Republic of Ethiopia': 'Ethiopia',
-    'Ethiopia': 'Ethiopia',
-    'Federal Republic of Nigeria': 'Nigeria',
-    'Nigeria': 'Nigeria',
-    'Republic of Kenya': 'Kenya',
-    'Kenya': 'Kenya',
-    'United Republic of Tanzania': 'Tanzania',
-    'Tanzania': 'Tanzania',
-    'Republic of Uganda': 'Uganda',
-    'Uganda': 'Uganda',
-    'Republic of Ghana': 'Ghana',
-    'Ghana': 'Ghana',
-    'Republic of the Congo': 'Congo',
-    'Congo': 'Congo',
-    'Congo-Brazzaville': 'Congo',
-    'Democratic Republic of the Congo': 'DRC',
-    'DRC': 'DRC',
-    'Congo-Kinshasa': 'DRC',
-    'Central African Republic': 'CAR',
-    'CAR': 'CAR',
-    'Republic of South Sudan': 'South Sudan',
-    'South Sudan': 'South Sudan',
-    'Republic of Sudan': 'Sudan',
-    'Sudan': 'Sudan',
-    'Libya': 'Libya',
-    'Republic of Tunisia': 'Tunisia',
-    'Tunisia': 'Tunisia',
-    'People\'s Democratic Republic of Algeria': 'Algeria',
-    'Algeria': 'Algeria',
-    'Kingdom of Morocco': 'Morocco',
-    'Morocco': 'Morocco',
-    'Islamic Republic of Mauritania': 'Mauritania',
-    'Mauritania': 'Mauritania',
-    'Republic of Mali': 'Mali',
-    'Mali': 'Mali',
-    'Burkina Faso': 'Burkina Faso',
-    'Republic of Niger': 'Niger',
-    'Niger': 'Niger',
-    'Republic of Chad': 'Chad',
-    'Chad': 'Chad',
-    'Republic of Cameroon': 'Cameroon',
-    'Cameroon': 'Cameroon',
-    'Gabonese Republic': 'Gabon',
-    'Gabon': 'Gabon',
-    'Republic of Equatorial Guinea': 'Equatorial Guinea',
-    'Equatorial Guinea': 'Equatorial Guinea',
-    'Republic of Angola': 'Angola',
-    'Angola': 'Angola',
-    'Republic of Zambia': 'Zambia',
-    'Zambia': 'Zambia',
-    'Republic of Zimbabwe': 'Zimbabwe',
-    'Zimbabwe': 'Zimbabwe',
-    'Republic of Botswana': 'Botswana',
-    'Botswana': 'Botswana',
-    'Kingdom of Eswatini': 'Eswatini',
-    'Eswatini': 'Eswatini',
-    'Swaziland': 'Eswatini',
-    'Kingdom of Lesotho': 'Lesotho',
-    'Lesotho': 'Lesotho',
-    'Republic of Namibia': 'Namibia',
-    'Namibia': 'Namibia',
-    'Republic of Madagascar': 'Madagascar',
-    'Madagascar': 'Madagascar',
-    'Republic of Mauritius': 'Mauritius',
-    'Mauritius': 'Mauritius',
-    'Union of the Comoros': 'Comoros',
-    'Comoros': 'Comoros',
-    'Republic of Seychelles': 'Seychelles',
-    'Seychelles': 'Seychelles',
-    'Republic of Djibouti': 'Djibouti',
-    'Djibouti': 'Djibouti',
-    'State of Eritrea': 'Eritrea',
-    'Eritrea': 'Eritrea',
-    'Republic of Somalia': 'Somalia',
-    'Somalia': 'Somalia',
-    'Republic of Rwanda': 'Rwanda',
-    'Rwanda': 'Rwanda',
-    'Republic of Burundi': 'Burundi',
-    'Burundi': 'Burundi',
-    'Republic of Malawi': 'Malawi',
-    'Malawi': 'Malawi',
-    'Republic of Mozambique': 'Mozambique',
-    'Mozambique': 'Mozambique',
-    
-    // Caribbean and Central America
-    'Antigua and Barbuda': 'Antigua',
-    'Antigua': 'Antigua',
-    'Bahamas': 'Bahamas',
-    'Barbados': 'Barbados',
-    'Belize': 'Belize',
-    'Costa Rica': 'Costa Rica',
-    'Cuba': 'Cuba',
-    'Dominica': 'Dominica',
-    'Dominican Republic': 'Dominican Republic',
-    'El Salvador': 'El Salvador',
-    'Grenada': 'Grenada',
-    'Guatemala': 'Guatemala',
-    'Haiti': 'Haiti',
-    'Honduras': 'Honduras',
-    'Jamaica': 'Jamaica',
-    'Nicaragua': 'Nicaragua',
-    'Panama': 'Panama',
-    'Saint Kitts and Nevis': 'St. Kitts',
-    'St. Kitts': 'St. Kitts',
-    'Saint Lucia': 'St. Lucia',
-    'St. Lucia': 'St. Lucia',
-    'Saint Vincent and the Grenadines': 'St. Vincent',
-    'St. Vincent': 'St. Vincent',
-    'Trinidad and Tobago': 'Trinidad',
-    'Trinidad': 'Trinidad',
-    
-    // Pacific Islands
-    'Fiji': 'Fiji',
-    'Kiribati': 'Kiribati',
-    'Marshall Islands': 'Marshall Islands',
-    'Micronesia': 'Micronesia',
-    'Federated States of Micronesia': 'Micronesia',
-    'Nauru': 'Nauru',
-    'Palau': 'Palau',
-    'Papua New Guinea': 'Papua New Guinea',
-    'Samoa': 'Samoa',
-    'Solomon Islands': 'Solomon Islands',
-    'Tonga': 'Tonga',
-    'Tuvalu': 'Tuvalu',
-    'Vanuatu': 'Vanuatu',
-    'Cook Islands': 'Cook Islands',
-    'Niue': 'Niue',
-    'Tokelau': 'Tokelau',
-    'Pitcairn Islands': 'Pitcairn',
-    'Pitcairn': 'Pitcairn',
-    'French Polynesia': 'French Polynesia',
-    'New Caledonia': 'New Caledonia',
-    'Wallis and Futuna': 'Wallis and Futuna',
-    'American Samoa': 'American Samoa'
-};
+// Global variable to store country name mapping
+let countryNameMapping = {};
+
+/********** LOAD COUNTRY MAPPING FUNCTION **********/
+
+async function loadCountryMapping() { // function to load country name mapping from text file
+
+    /***** set variables *****/
+
+    // set base URL to S3 bucket
+    const baseCDNURL = `https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/data/bounded_rationality/`;
+
+    // set path to country mapping file
+    let countryMappingPath = `${baseCDNURL}country_mapping.txt`;
+
+    /***** read data *****/
+
+    try { // attempt to read country mapping data...
+
+        const response = await fetch(countryMappingPath); // fetch data from text file
+
+        if (!response.ok) { // if response is not ok...
+
+            throw new Error('Network response was not ok.\n'); // print failure statement
+        }
+
+        const mappingText = await response.text(); // parse text data
+
+        // Parse the text file into a mapping object
+        const lines = mappingText.split('\n');
+        countryNameMapping = {};
+        
+        lines.forEach(line => {
+            if (line.trim()) { // skip empty lines
+                const [key, value] = line.split(':');
+                if (key && value) {
+                    countryNameMapping[key.trim()] = value.trim();
+                }
+            }
+        });
+
+        return countryNameMapping; // return mapping object
+    }
+
+    catch (error) { // if unable to fetch country mapping...
+
+        console.error(`Error retrieving the country mapping file: "${error}"\n`); // print failure statement
+
+        return null; // terminate process with error
+    }
+}
 
 // Enhanced color generation function for country coloring
 function generateCountryColors(values) {
@@ -1108,35 +864,49 @@ function generateCountryColors(values) {
     return colorMap;
 }
 
-// Function to extract country name from series name
-function extractCountryName(seriesName) {
+/********** EXTRACT COUNTRY NAME FUNCTION **********/
+
+function extractCountryName(seriesName) { // function to extract country name from data series name
+
+    /***** set variables *****/
+
     // Remove common prefixes and suffixes
     let cleanName = seriesName
         .replace(/^(RGDP Growth|GDP Growth|Real GDP Growth|GDP Per Capita|Salary Growth|Tech Job Density|Cost of Living|Rent|Tax|Job Demand|Layoffs|Underemployment|Time Unemployed|Housing Starts|Consumer Price Index|SWE Adjacent Growth|All Fields Growth)\s+/i, '')
         .replace(/\s+(Growth|Rate|Index|Density|Demand|Starts|Unemployed)$/i, '')
         .trim();
-    
+
+    /***** check country name mapping *****/
+
     // Check if it's a known country name
     if (Object.keys(countryNameMapping).includes(cleanName) || 
         Object.values(countryNameMapping).includes(cleanName)) {
-        return cleanName;
+
+        return cleanName; // return clean name
     }
     
     // Check if it matches any country name in our mapping (case insensitive)
     const lowerCleanName = cleanName.toLowerCase();
     for (const [key, value] of Object.entries(countryNameMapping)) {
+
         if (key.toLowerCase() === lowerCleanName || value.toLowerCase() === lowerCleanName) {
-            return value; // Return the standardized name
+
+            return value; // return the standardized name
         }
     }
     
-    return cleanName; // Return as-is if no mapping found
+    return cleanName; // return as-is if no mapping found
 }
 
-// Function to analyze economic data and determine coloring strategy
-function analyzeEconomicData(data) {
-    if (!data || !data.timeSeries) {
-        return { isValid: false, reason: 'No timeSeries data found' };
+/********** ANALYZE ECONOMIC DATA FUNCTION **********/
+
+function analyzeEconomicData(data) { // function to analyze economic data and determine coloring strategy
+
+    /***** validate data *****/
+
+    if (!data || !data.timeSeries) { // if no data or timeSeries...
+
+        return { isValid: false, reason: 'No timeSeries data found' }; // return invalid result
     }
     
     // Extract and check country names
@@ -1147,22 +917,26 @@ function analyzeEconomicData(data) {
         name.length > 0 // Allow any non-empty name for now
     );
     
-    if (!hasCountryData) {
-        return { isValid: false, reason: 'No country data found in timeSeries' };
+    if (!hasCountryData) { // if no country data found...
+
+        return { isValid: false, reason: 'No country data found in timeSeries' }; // return invalid result
     }
     
     // Determine if data is scalar vs vector
     const sampleData = data.timeSeries[0]?.data || [];
     const isScalar = sampleData.every(point => typeof point.y === 'number' && !isNaN(point.y));
     
-    if (!isScalar) {
-        return { isValid: false, reason: 'Data is not numeric' };
+    if (!isScalar) { // if data is not numeric...
+
+        return { isValid: false, reason: 'Data is not numeric' }; // return invalid result
     }
     
     // Get most recent values for each country
     const latestValues = {};
     data.timeSeries.forEach(series => {
-        if (series.data && series.data.length > 0) {
+
+        if (series.data && series.data.length > 0) { // if series has data...
+
             const latestPoint = series.data[series.data.length - 1];
             const countryName = extractCountryName(series.name);
             latestValues[countryName] = latestPoint.y;
@@ -1179,13 +953,18 @@ function analyzeEconomicData(data) {
 }
 
 // Function to create world map with D3.js and country coloring
-async function createWorldMapWithData(dataFileName = 'realGDPGrowth') {
+async function createWorldMapWithData(dataFileName = 'realGDPGrowth') { // function to create interactive world map with economic data
+
+    /***** set variables *****/
+
     // Get the map content box
     const mapContentBox = document.getElementById('mapContentBox');
     
-    if (!mapContentBox) {
-        console.error('Map content box not found');
-        return;
+    if (!mapContentBox) { // if map content box not found...
+
+        console.error('Map content box not found'); // print failure statement
+
+        return; // terminate process with error
     }
     
     // Clear any existing content
@@ -1201,14 +980,21 @@ async function createWorldMapWithData(dataFileName = 'realGDPGrowth') {
         .style('background-color', '#212529') // var(--primary)
         .style('min-height', '300px'); // Ensure minimum height
     
+    // Load country mapping first
+    await loadCountryMapping();
+    
     // Fetch economic data FIRST
     let economicData = null;
-    if (dataFileName) {
-        try {
-            economicData = await fetchEconomicData(dataFileName);
-            console.log(`Fetched economic data for ${dataFileName}:`, economicData);
-        } catch (error) {
-            console.warn(`Could not fetch economic data for ${dataFileName}:`, error);
+    if (dataFileName) { // if data file name provided...
+
+        try { // attempt to fetch economic data...
+
+            economicData = await fetchEconomicData(dataFileName); // fetch data from json file
+
+            console.log(`Fetched economic data for ${dataFileName}:`, economicData); // print success statement
+        } catch (error) { // if unable to fetch economic data...
+
+            console.warn(`Could not fetch economic data for ${dataFileName}:`, error); // print warning statement
         }
     }
     
@@ -1365,7 +1151,26 @@ async function createWorldMapWithData(dataFileName = 'realGDPGrowth') {
             .attr('d', path)
             .style('fill', '#212529'); // var(--primary)
         
-        // Add countries
+        // Add simple zoom behavior
+        const zoom = d3.zoom()
+            .scaleExtent([1, 8]) // Allow zoom from 1x to 8x
+            .on('zoom', function(event) {
+                // Apply zoom transform to countries group, but keep legend static
+                d3.select('.countries').attr('transform', event.transform);
+            });
+        
+        // Apply zoom to the entire SVG
+        svg.call(zoom)
+            .style('cursor', 'grab'); // Show grab cursor
+        
+        // Change cursor on zoom start/end
+        svg.on('zoomstart', function() {
+            svg.style('cursor', 'grabbing');
+        }).on('zoomend', function() {
+            svg.style('cursor', 'grab');
+        });
+        
+        // Add countries in a zoomable group
         const countryPaths = svg.append('g')
             .attr('class', 'countries')
             .selectAll('path')
@@ -1469,7 +1274,12 @@ async function createWorldMapWithData(dataFileName = 'realGDPGrowth') {
         
         console.log('D3.js world map created successfully');
         
-        // Add legend if we have color data
+        // Mark map as loaded
+        loadingState.mapLoaded = true;
+        console.log('Map loaded successfully');
+        checkAllContentLoaded();
+        
+        // Add legend if we have color data (outside zoomable area)
         if (Object.keys(countryColorMap).length > 0) {
             const legendWidth = 20;
             const legendHeight = 200;
@@ -1557,7 +1367,7 @@ function showMapTooltip(event, countryName, value, countryColor) {
         .attr('class', 'map-tooltip')
         .style('position', 'absolute')
         .style('background-color', countryColor) // Use country color as background
-        .style('border', 'none') // Remove border
+        .style('border', '2px solid white') // Add white border
         .style('border-radius', '0px') // Remove rounded edges
         .style('padding', '10px')
         .style('color', '#212529') // Dark text
@@ -1567,11 +1377,11 @@ function showMapTooltip(event, countryName, value, countryColor) {
         .style('opacity', 0);
     
     tooltip.html(`
-        <div style="text-align: center;">
+                <div style="text-align: center;">
             <strong>${countryName}</strong><br>
             ${value}
-        </div>
-    `);
+                </div>
+            `);
     
     tooltip.transition()
         .duration(200)
@@ -1690,8 +1500,8 @@ async function getMetricDescription(metricId) {
     // Category descriptions (for when JSON doesn't exist yet)
     const categoryDescriptions = {
         'personalFinanceHeader': 'Personal Finance metrics track individual financial health including income, expenses, and cost of living',
-        'careerSecurityHeader': 'Career Security metrics assess job market stability and employment risks',
-        'macroeconomicHealthHeader': 'Macroeconomic Health indicators show broader economic conditions',
+    'careerSecurityHeader': 'Career Security metrics assess job market stability and employment risks',
+    'macroeconomicHealthHeader': 'Macroeconomic Health indicators show broader economic conditions',
         'growthOpportunityHeader': 'Growth Opportunity metrics identify potential for career advancement'
     };
     
@@ -1937,8 +1747,27 @@ document.addEventListener('DOMContentLoaded', function() {
 /********** EVENT LISTENERS **********/
 
 document.addEventListener('DOMContentLoaded', function() {
+    // Show loading screen initially
+    showLoadingScreen();
+    
+    // Set up the page
     setDynamicGridLayout();
 });
+
+// Loading screen check function (similar to machine learning portfolio)
+function checkLoadingScreen() {
+    const loadingScreen = document.getElementById('loadingScreen');
+    
+    if (loadingScreen) {
+        if (getComputedStyle(loadingScreen).display !== 'none') {
+            // Loading screen is still visible, check again
+            setTimeout(checkLoadingScreen, 50);
+        } else {
+            // Loading screen is hidden, all content loaded
+            console.log('All content loaded successfully');
+        }
+    }
+}
 
 function recalculateGridLayout() {
     setDynamicGridLayout();

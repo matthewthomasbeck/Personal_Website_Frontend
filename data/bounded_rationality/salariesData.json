@@ -1,5 +1,5 @@
 {
-  "hasPredictions": "True",
+  "hasPredictions": "False",
   "description": "Average salary data for software engineers and related roles in different regions",
   "xAxis": {
     "type": "category"

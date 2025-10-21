@@ -56,9 +56,9 @@
 
     aspect-ratio: 1/1;
     height: 50px;
-    position: absolute;
+    position: fixed;
     right: 65%;
-    bottom: calc(65% - 50px + 3px);
+    bottom: calc(65% - 50px + 3px); /* TODO */
     background-color: var(--secondary);
 }
 
@@ -258,13 +258,15 @@
 
     .childDiv { /* this is done so I can divide the child div into 4 components */
 
-        height: 100vh;
+        height: 200vh;
         flex-direction: row;
+        margin-top: calc(100vh + (1 * var(--navBarHeight) - 10px + 9px));
+        display: grid;
     }
 
     .categoryBoxes {
 
-        width: 25vw;
+        width: 50vw;
     }
 
     .categoryTitleBoxes {

@@ -57,8 +57,6 @@
     aspect-ratio: 1/1;
     height: 50px;
     position: fixed;
-    right: 65%;
-    bottom: calc(65% - 50px + 3px); /* TODO */
     background-color: var(--secondary);
 }
 
@@ -80,7 +78,7 @@
 
 /***** map box *****/
 
-#mapBox {
+#mapBox { /* TODO */
 
     border: 3px;
     border-style: solid;
@@ -249,6 +247,20 @@
 
         margin-top: calc(var(--navBarHeight) + 6px);
     }
+
+    #mapToggleButton {
+
+        right: 65%;
+        bottom: calc(65% - 50px + 3px);
+    }
+
+    #mapBox {
+
+        height: calc(65% - 3px);
+        width: calc(65% - 3px);
+        right: 0;
+        bottom: 0;
+    }
 }
 
 
@@ -273,6 +285,19 @@
 
         margin-top: calc(var(--navBarHeight) + 6px);
     }
+
+    #mapToggleButton {
+
+        right: 0;
+        bottom: calc(40% + 6px);
+    }
+
+    #mapBox {
+
+        height: 40%;
+        width: calc(100% - 6px);
+        position: fixed;
+    }
 }
 
 
@@ -295,5 +320,18 @@
     .categoryTitleBoxes {
 
         margin-top: 6px;
+    }
+
+    #mapToggleButton {
+
+        right: 0;
+        bottom: calc(40% + 6px);
+    }
+
+    #mapBox {
+
+        height: 40%;
+        width: calc(100% - 6px);
+        position: fixed;
     }
 }

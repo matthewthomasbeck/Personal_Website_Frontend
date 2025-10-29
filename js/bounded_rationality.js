@@ -230,8 +230,8 @@ const metricDataMapping = {
     'layoffsHeader': 'layoffs',
     'underemploymentHeader': 'underemployment',
     'timeUnemployedHeader': 'timeUnemployed',
-    'realGDPGrowthHeader': 'realGDPGrowth',
-    'realGDPPerCapitaHeader': 'realGDPPerCapita',
+    'realGdpGrowthHeader': 'realGdpGrowth',
+    'realGdpPerCapitaHeader': 'realGdpPerCapita',
     'housingStartsHeader': 'housingStarts',
     'consumerPriceIndexHeader': 'consumerPriceIndex',
     'techJobDensityHeader': 'techJobDensity',
@@ -953,7 +953,7 @@ function analyzeEconomicData(data) { // function to analyze economic data and de
 }
 
 // Function to create world map with D3.js and country coloring
-async function createWorldMapWithData(dataFileName = 'realGDPGrowth') { // function to create interactive world map with economic data
+async function createWorldMapWithData(dataFileName = 'realGdpGrowth') { // function to create interactive world map with economic data
 
     /***** set variables *****/
 
@@ -1398,7 +1398,7 @@ function hideMapTooltip() {
 
 // Legacy function for backward compatibility
 function createWorldMap() {
-    createWorldMapWithData('realGDPGrowth');
+    createWorldMapWithData('realGdpGrowth');
 }
 
 // Function to recreate the map (useful for resizing)
@@ -1408,7 +1408,7 @@ function recreateWorldMap() {
         d3.select('#worldMap').remove();
         worldMap = null;
     }
-    createWorldMapWithData('realGDPGrowth');
+    createWorldMapWithData('realGdpGrowth');
 }
 
 // Function to update map with different economic data
@@ -1487,8 +1487,8 @@ async function getMetricDescription(metricId) {
         'layoffsHeader': 'layoffs',
         'underemploymentHeader': 'underemployment',
         'timeUnemployedHeader': 'timeUnemployed',
-        'realGDPGrowthHeader': 'realGDPGrowth',
-        'realGDPPerCapitaHeader': 'realGDPPerCapita',
+        'realGdpGrowthHeader': 'realGdpGrowth',
+        'realGdpPerCapitaHeader': 'realGdpPerCapita',
         'housingStartsHeader': 'housingStarts',
         'consumerPriceIndexHeader': 'consumerPriceIndex',
         'techJobDensityHeader': 'techJobDensity',
@@ -1508,7 +1508,7 @@ async function getMetricDescription(metricId) {
     // Special handling for map title - show current JSON description
     if (metricId === 'mapTitleHeader') {
         try {
-            const currentMapData = await fetchEconomicData('realGDPGrowth'); // Default map data
+            const currentMapData = await fetchEconomicData('realGdpGrowth'); // Default map data
             if (currentMapData && currentMapData.description) {
                 return currentMapData.description;
             }

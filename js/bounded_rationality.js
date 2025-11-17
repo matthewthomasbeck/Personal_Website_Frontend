@@ -417,35 +417,69 @@ function preparePlotlyData(data) {
         return colors;
     };
     
-    const colors = generateColors(data.timeSeries.length);
+    // Filter to top 10 highest values based on latest data point
+    // Account for different start/end times by using each series' latest point
+    const seriesWithLatestValues = data.timeSeries.map(series => {
+        if (!series.data || series.data.length === 0) {
+            return { series, latestValue: -Infinity, latestDate: null };
+        }
+        
+        // Get the last data point (latest for this series, accounting for different end dates)
+        const latestPoint = series.data[series.data.length - 1];
+        return {
+            series: series,
+            latestValue: latestPoint.y,
+            latestDate: latestPoint.x
+        };
+    });
+    
+    // Sort by latest value (highest first) and take top 10
+    const top10Series = seriesWithLatestValues
+        .sort((a, b) => b.latestValue - a.latestValue)
+        .slice(0, 10)
+        .map(item => item.series);
+    
+    // Create a set of top 10 series names for matching predictions
+    const top10Names = new Set(top10Series.map(series => series.name));
+    
+    // Filter predictions to match top 10 series (if predictions exist)
+    const top10Predictions = data.hasPredictions === "True" && data.predictions
+        ? data.predictions.filter(prediction => top10Names.has(prediction.name))
+        : [];
+    
+    // Generate colors based on filtered count (max 10)
+    const colors = generateColors(top10Series.length);
     const traces = [];
     const annotations = [];
     
-    // Find the latest date in timeSeries
-    let latestDate = null;
+    // Find the absolute latest date across ALL original timeSeries (for vertical line)
+    // This ensures the vertical line shows the most recent data point anywhere
+    let absoluteLatestDate = null;
     data.timeSeries.forEach(series => {
-        series.data.forEach(point => {
-            if (!latestDate || point.x > latestDate) {
-                latestDate = point.x;
-            }
-        });
+        if (series.data && series.data.length > 0) {
+            series.data.forEach(point => {
+                if (!absoluteLatestDate || point.x > absoluteLatestDate) {
+                    absoluteLatestDate = point.x;
+                }
+            });
+        }
     });
     
-    // Create traces for timeSeries data
-    data.timeSeries.forEach((series, index) => {
+    // Create traces for filtered timeSeries data
+    top10Series.forEach((series, index) => {
         const xValues = series.data.map(point => point.x);
         const yValues = series.data.map(point => point.y);
         
-        // Find the index of the latest date for this series
-        const latestIndex = series.data.findIndex(point => point.x === latestDate);
+        // Use each series' own latest datapoint (the last one in its array)
+        // This handles different reporting dates properly
+        const seriesLatestIndex = series.data.length - 1;
         
-        // Create marker arrays - no markers except for the final datapoint
+        // Create marker arrays - no markers except for the final datapoint of this series
         const markerSizes = new Array(series.data.length).fill(0);
         const markerColors = new Array(series.data.length).fill(colors[index]);
         
-        if (latestIndex !== -1) {
-            markerSizes[latestIndex] = 8; // Filled marker for final datapoint
-        }
+        // Always mark the latest point for this series
+        markerSizes[seriesLatestIndex] = 8; // Filled marker for final datapoint
         
         // Add timeSeries trace
         traces.push({
@@ -471,10 +505,11 @@ function preparePlotlyData(data) {
         });
         
         // Add annotation for final datapoint if hasPredictions is False
-        if (data.hasPredictions === "False" && latestIndex !== -1) {
+        // Use the series' own latest point, not the global latest date
+        if (data.hasPredictions === "False") {
             annotations.push({
-                x: xValues[latestIndex],
-                y: yValues[latestIndex],
+                x: xValues[seriesLatestIndex],
+                y: yValues[seriesLatestIndex],
                 text: series.name,
                 showarrow: false,
                 xshift: 20,
@@ -486,15 +521,18 @@ function preparePlotlyData(data) {
         }
     });
     
-    // Add predictions traces if hasPredictions is True
-    if (data.hasPredictions === "True" && data.predictions) {
-        data.predictions.forEach((prediction, index) => {
+    // Add predictions traces if hasPredictions is True (using filtered top 10)
+    if (data.hasPredictions === "True" && top10Predictions.length > 0) {
+        top10Predictions.forEach((prediction, index) => {
+            // Find the corresponding timeSeries index for color matching
+            const timeSeriesIndex = top10Series.findIndex(series => series.name === prediction.name);
+            const colorIndex = timeSeriesIndex !== -1 ? timeSeriesIndex : index;
             const xValues = prediction.data.map(point => point.x);
             const yValues = prediction.data.map(point => point.y);
             
             // Only last 3 prediction points have filled markers
             const markerSizes = new Array(prediction.data.length).fill(0);
-            const markerColors = new Array(prediction.data.length).fill(colors[index]);
+            const markerColors = new Array(prediction.data.length).fill(colors[colorIndex]);
             
             // Set markers for last 3 points
             const lastThreeStart = Math.max(0, prediction.data.length - 3);
@@ -509,7 +547,7 @@ function preparePlotlyData(data) {
                 mode: 'lines+markers',
                 name: prediction.name + ' (Prediction)',
                 line: {
-                    color: colors[index],
+                    color: colors[colorIndex],
                     width: 2,
                     dash: 'dot',
                     opacity: 1
@@ -536,7 +574,7 @@ function preparePlotlyData(data) {
                     showarrow: false,
                     xshift: 20,
                     font: {
-                        color: colors[index],
+                        color: colors[colorIndex],
                         size: 9
                     }
                 });
@@ -544,19 +582,19 @@ function preparePlotlyData(data) {
         });
     }
     
-    // Find the min and max y values across all data to set vertical line range
+    // Find the min and max y values across filtered data to set vertical line range
     let minY = Infinity;
     let maxY = -Infinity;
     
-    data.timeSeries.forEach(series => {
+    top10Series.forEach(series => {
         series.data.forEach(point => {
             if (point.y < minY) minY = point.y;
             if (point.y > maxY) maxY = point.y;
         });
     });
     
-    if (data.hasPredictions === "True" && data.predictions) {
-        data.predictions.forEach(prediction => {
+    if (data.hasPredictions === "True" && top10Predictions.length > 0) {
+        top10Predictions.forEach(prediction => {
             prediction.data.forEach(point => {
                 if (point.y < minY) minY = point.y;
                 if (point.y > maxY) maxY = point.y;
@@ -570,33 +608,35 @@ function preparePlotlyData(data) {
     const lineMinY = minY - padding;
     const lineMaxY = maxY + padding;
     
-    // Add vertical line at latest date
-    traces.push({
-        x: [latestDate, latestDate],
-        y: [lineMinY, lineMaxY],
-        mode: 'lines',
-        line: {
-            color: 'white',
-            width: 2,
-            dash: 'dash'
-        },
-        showlegend: false,
-        hoverinfo: 'skip'
-    });
-    
-    // Add "Latest Date" annotation above the vertical line
-    annotations.push({
-        x: latestDate,
-        y: 1,
-        text: 'Latest Date',
-        showarrow: false,
-        yshift: 20,
-        font: {
-            color: 'white',
-            size: 9
-        },
-        yref: 'paper' // Position relative to plot area
-    });
+    // Add vertical line at absolute latest date (across all series)
+    if (absoluteLatestDate) {
+        traces.push({
+            x: [absoluteLatestDate, absoluteLatestDate],
+            y: [lineMinY, lineMaxY],
+            mode: 'lines',
+            line: {
+                color: 'white',
+                width: 2,
+                dash: 'dash'
+            },
+            showlegend: false,
+            hoverinfo: 'skip'
+        });
+        
+        // Add "Latest Date" annotation above the vertical line
+        annotations.push({
+            x: absoluteLatestDate,
+            y: 1,
+            text: 'Latest Date',
+            showarrow: false,
+            yshift: 20,
+            font: {
+                color: 'white',
+                size: 9
+            },
+            yref: 'paper' // Position relative to plot area
+        });
+    }
     
     // Create layout
     const layout = {

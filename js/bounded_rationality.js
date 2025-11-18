@@ -1396,16 +1396,33 @@ mapToggleButton.addEventListener('click', function() {
 
     /***** make map slide in/out using margin-right like navbar *****/
 
+    // Check if we're on mobile (max-width: 500px)
+    const isMobile = window.matchMedia('(max-width: 500px)').matches;
+    
     if (mapBox.style.marginRight === '0px' || mapBox.style.marginRight === '') { // hide map
         mapToggleArrowRight.style.display = 'none';
         mapToggleArrowLeft.style.display = 'block';
         mapToggleButton.style.right = '0vw'; // move button to right edge of screen
-        mapBox.style.marginRight = 'calc(-65% - 3px)'; // slide map off screen to the right
+        
+        if (isMobile) {
+            // On mobile, map width is calc(100% - 6px), so move it completely off screen
+            // Use -100vw to move it by the full viewport width (ensures it goes completely off screen)
+            mapBox.style.marginRight = '-100vw'; // slide map off screen to the right
+        } else {
+            // On desktop/tablet, map width is 65%, so move it by 65%
+            mapBox.style.marginRight = 'calc(-65% - 3px)'; // slide map off screen to the right
+        }
 
     } else { // show map
         mapToggleArrowRight.style.display = 'block';
         mapToggleArrowLeft.style.display = 'none';
-        mapToggleButton.style.right = 'calc(65% + 3px)'; // move button to right edge of map
+        
+        if (isMobile) {
+            mapToggleButton.style.right = '0vw'; // On mobile, button stays at right edge
+        } else {
+            mapToggleButton.style.right = 'calc(65% + 3px)'; // move button to right edge of map
+        }
+        
         mapBox.style.marginRight = '0px'; // slide map back into view
         
         // Recreate the map when showing it to ensure proper sizing

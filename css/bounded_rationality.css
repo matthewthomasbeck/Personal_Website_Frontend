@@ -188,6 +188,26 @@
     width: calc(100% - 12px);
 }
 
+/***** category metric content boxes (prevent zoom on mobile) *****/
+
+.categoryMetricContentBoxes {
+
+    touch-action: pan-y;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+/***** Plotly chart divs (prevent zoom on mobile) *****/
+
+[id^="plot-"] {
+
+    touch-action: pan-y;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
 /***** category metric exit boxes *****/
 
 .categoryMetricExitBoxes {

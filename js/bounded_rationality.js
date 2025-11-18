@@ -304,54 +304,6 @@ async function createChartForMetric(contentBox, dataFileName, metricId) {
             displayModeBar: false
         });
         
-        // Store the current visibility state
-        let currentVisibility = new Array(plotData.traces.length).fill(true);
-        
-        // Add click functionality to toggle traces
-        plotDiv.on('plotly_click', function(data) {
-            const clickedTraceIndex = data.points[0].curveNumber;
-            const clickedTrace = plotData.traces[clickedTraceIndex];
-            
-            if (clickedTrace) {
-                // Determine if this is a timeSeries or prediction trace
-                const isPrediction = clickedTrace.name.includes('(Prediction)');
-                const baseName = isPrediction ? clickedTrace.name.replace(' (Prediction)', '') : clickedTrace.name;
-                
-                // Check if we're currently showing only this trace and its counterpart
-                const visibleTraces = plotData.traces.filter((trace, index) => currentVisibility[index]);
-                const isCurrentlyFocused = visibleTraces.length <= 2 && 
-                    visibleTraces.every(trace => 
-                        trace === clickedTrace || 
-                        (isPrediction && trace.name === baseName) ||
-                        (!isPrediction && trace.name === baseName + ' (Prediction)')
-                    );
-                
-                if (isCurrentlyFocused) {
-                    // If currently focused, show all traces
-                    currentVisibility = new Array(plotData.traces.length).fill(true);
-                } else {
-                    // If not focused, show only the clicked trace and its counterpart
-                    currentVisibility = plotData.traces.map(trace => {
-                        if (trace === clickedTrace) return true;
-                        if (isPrediction && trace.name === baseName) return true;
-                        if (!isPrediction && trace.name === baseName + ' (Prediction)') return true;
-                        return false;
-                    });
-                }
-                
-                // Always keep the vertical line visible (it should be the last trace)
-                if (currentVisibility.length > 0) {
-                    currentVisibility[currentVisibility.length - 1] = true;
-                }
-                
-                // Update the plot
-                Plotly.restyle(plotDiv, {visible: currentVisibility});
-                
-                // Update annotations based on visibility
-                updateAnnotations(plotDiv, plotData, currentVisibility);
-            }
-        });
-        
         console.log(`Plotly chart created successfully for ${metricId}`);
         
         // Track chart loading progress
@@ -697,39 +649,10 @@ function preparePlotlyData(data) {
     
     return {
         traces: traces,
-        layout: layout,
-        originalAnnotations: annotations // Store original annotations for reference
+        layout: layout
     };
 }
 
-
-function updateAnnotations(plotDiv, plotData, visibility) {
-    // Create new annotations array based on visibility
-    const newAnnotations = [];
-    
-    // Add "Latest Date" annotation (always visible)
-    const latestDateAnnotation = plotData.originalAnnotations.find(ann => ann.text === 'Latest Date');
-    if (latestDateAnnotation) {
-        newAnnotations.push(latestDateAnnotation);
-    }
-    
-    // Add trace labels only for visible traces
-    plotData.traces.forEach((trace, index) => {
-        if (visibility[index] && !trace.name.includes('(Prediction)') && trace.name !== 'Latest Date') {
-            // Find the corresponding annotation in the original data
-            const originalAnnotation = plotData.originalAnnotations.find(ann => 
-                ann.text === trace.name && ann.showarrow === false
-            );
-            
-            if (originalAnnotation) {
-                newAnnotations.push(originalAnnotation);
-            }
-        }
-    });
-    
-    // Update the plot with new annotations
-    Plotly.relayout(plotDiv, {annotations: newAnnotations});
-}
 
 function resizeAllPlotlyCharts() {
     // Get all plotly chart divs
@@ -1646,13 +1569,26 @@ function resizeRemainingCategories() {
     const visibleCount = visibleCategories.length;
     
     if (visibleCount > 0) {
-        const newWidth = `${100 / visibleCount}vw`;
+        // Check if we're on mobile (max-width: 500px)
+        const isMobile = window.matchMedia('(max-width: 500px)').matches;
         
-        visibleCategories.forEach(category => {
-            category.style.width = newWidth;
-        });
-        
-        console.log(`Resized ${visibleCount} categories to ${newWidth} each`);
+        if (isMobile) {
+            // On mobile, keep width at 100vw (categories stack vertically)
+            visibleCategories.forEach(category => {
+                category.style.width = '100vw';
+            });
+            
+            console.log(`Mobile device: kept ${visibleCount} categories at 100vw each`);
+        } else {
+            // On desktop/tablet, resize to fit available space
+            const newWidth = `${100 / visibleCount}vw`;
+            
+            visibleCategories.forEach(category => {
+                category.style.width = newWidth;
+            });
+            
+            console.log(`Resized ${visibleCount} categories to ${newWidth} each`);
+        }
     }
 }
 

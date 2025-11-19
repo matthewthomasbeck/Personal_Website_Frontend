@@ -320,6 +320,55 @@ async function createChartForMetric(contentBox, dataFileName, metricId) {
 }
 
 function preparePlotlyData(data) {
+    // Helper function to parse and compare date strings in "YYYY-Q" format
+    const parseDate = (dateStr) => {
+        // Handle "YYYY-Q" format (e.g., "1960-Q1", "2010-Q2")
+        const match = dateStr.match(/(\d{4})-Q(\d)/);
+        if (match) {
+            const year = parseInt(match[1], 10);
+            const quarter = parseInt(match[2], 10);
+            // Return a comparable value: year * 4 + quarter
+            return year * 4 + quarter;
+        }
+        // Fallback: try to parse as ISO date string or other formats
+        const parsed = Date.parse(dateStr);
+        if (!isNaN(parsed)) {
+            return parsed;
+        }
+        // If all else fails, return 0
+        return 0;
+    };
+    
+    // Helper function to convert date string to Date object for Plotly
+    const convertToDate = (dateStr) => {
+        // Handle "YYYY-Q" format (e.g., "1960-Q1", "2010-Q2")
+        const match = dateStr.match(/(\d{4})-Q(\d)/);
+        if (match) {
+            const year = parseInt(match[1], 10);
+            const quarter = parseInt(match[2], 10);
+            // Convert quarter to month (Q1=Jan, Q2=Apr, Q3=Jul, Q4=Oct)
+            const month = (quarter - 1) * 3;
+            // Return Date object for the first day of that quarter
+            return new Date(year, month, 1);
+        }
+        // Fallback: try to parse as ISO date string or other formats
+        const parsed = Date.parse(dateStr);
+        if (!isNaN(parsed)) {
+            return new Date(parsed);
+        }
+        // If all else fails, return a default date
+        return new Date(0);
+    };
+    
+    // Helper function to sort data points by x value chronologically
+    const sortDataPoints = (dataPoints) => {
+        return [...dataPoints].sort((a, b) => {
+            const dateA = parseDate(a.x);
+            const dateB = parseDate(b.x);
+            return dateA - dateB;
+        });
+    };
+    
     // Generate colors dynamically based on number of time series using 4-color gradient
     const generateColors = (numColors) => {
         const colorStops = ['#fcf6bd', '#d0f4de', '#bde0fe', '#dec0f1']; // yellow->green->blue->purple
@@ -376,8 +425,11 @@ function preparePlotlyData(data) {
             return { series, latestValue: -Infinity, latestDate: null };
         }
         
+        // Sort data points chronologically to ensure we get the actual latest point
+        const sortedSeriesData = sortDataPoints(series.data);
+        
         // Get the last data point (latest for this series, accounting for different end dates)
-        const latestPoint = series.data[series.data.length - 1];
+        const latestPoint = sortedSeriesData[sortedSeriesData.length - 1];
         return {
             series: series,
             latestValue: latestPoint.y,
@@ -409,8 +461,13 @@ function preparePlotlyData(data) {
     let absoluteLatestDate = null;
     data.timeSeries.forEach(series => {
         if (series.data && series.data.length > 0) {
-            series.data.forEach(point => {
-                if (!absoluteLatestDate || point.x > absoluteLatestDate) {
+            // Sort data points chronologically to ensure we find the actual latest date
+            const sortedSeriesData = sortDataPoints(series.data);
+            sortedSeriesData.forEach(point => {
+                // Compare dates using parseDate for proper chronological comparison
+                const pointDate = parseDate(point.x);
+                const currentLatestDate = absoluteLatestDate ? parseDate(absoluteLatestDate) : -Infinity;
+                if (pointDate > currentLatestDate) {
                     absoluteLatestDate = point.x;
                 }
             });
@@ -419,16 +476,20 @@ function preparePlotlyData(data) {
     
     // Create traces for filtered timeSeries data
     top10Series.forEach((series, index) => {
-        const xValues = series.data.map(point => point.x);
-        const yValues = series.data.map(point => point.y);
+        // Sort data points chronologically before plotting
+        const sortedData = sortDataPoints(series.data);
         
-        // Use each series' own latest datapoint (the last one in its array)
+        // Convert x values to Date objects so Plotly maintains chronological order
+        const xValues = sortedData.map(point => convertToDate(point.x));
+        const yValues = sortedData.map(point => point.y);
+        
+        // Use each series' own latest datapoint (the last one in the sorted array)
         // This handles different reporting dates properly
-        const seriesLatestIndex = series.data.length - 1;
+        const seriesLatestIndex = sortedData.length - 1;
         
         // Create marker arrays - no markers except for the final datapoint of this series
-        const markerSizes = new Array(series.data.length).fill(0);
-        const markerColors = new Array(series.data.length).fill(colors[index]);
+        const markerSizes = new Array(sortedData.length).fill(0);
+        const markerColors = new Array(sortedData.length).fill(colors[index]);
         
         // Always mark the latest point for this series
         markerSizes[seriesLatestIndex] = 8; // Filled marker for final datapoint
@@ -460,7 +521,7 @@ function preparePlotlyData(data) {
         // Use the series' own latest point, not the global latest date
         if (data.hasPredictions === "False") {
             annotations.push({
-                x: xValues[seriesLatestIndex],
+                x: xValues[seriesLatestIndex], // Already a Date object
                 y: yValues[seriesLatestIndex],
                 text: series.name,
                 showarrow: false,
@@ -479,16 +540,20 @@ function preparePlotlyData(data) {
             // Find the corresponding timeSeries index for color matching
             const timeSeriesIndex = top10Series.findIndex(series => series.name === prediction.name);
             const colorIndex = timeSeriesIndex !== -1 ? timeSeriesIndex : index;
-            const xValues = prediction.data.map(point => point.x);
-            const yValues = prediction.data.map(point => point.y);
+            
+            // Sort prediction data points chronologically before plotting
+            const sortedPredictionData = sortDataPoints(prediction.data);
+            // Convert x values to Date objects so Plotly maintains chronological order
+            const xValues = sortedPredictionData.map(point => convertToDate(point.x));
+            const yValues = sortedPredictionData.map(point => point.y);
             
             // Only last 3 prediction points have filled markers
-            const markerSizes = new Array(prediction.data.length).fill(0);
-            const markerColors = new Array(prediction.data.length).fill(colors[colorIndex]);
+            const markerSizes = new Array(sortedPredictionData.length).fill(0);
+            const markerColors = new Array(sortedPredictionData.length).fill(colors[colorIndex]);
             
             // Set markers for last 3 points
-            const lastThreeStart = Math.max(0, prediction.data.length - 3);
-            for (let i = lastThreeStart; i < prediction.data.length; i++) {
+            const lastThreeStart = Math.max(0, sortedPredictionData.length - 3);
+            for (let i = lastThreeStart; i < sortedPredictionData.length; i++) {
                 markerSizes[i] = 8;
             }
             
@@ -517,10 +582,10 @@ function preparePlotlyData(data) {
             });
             
             // Add annotation for final prediction datapoint
-            if (prediction.data.length > 0) {
-                const lastIndex = prediction.data.length - 1;
+            if (sortedPredictionData.length > 0) {
+                const lastIndex = sortedPredictionData.length - 1;
                 annotations.push({
-                    x: xValues[lastIndex],
+                    x: xValues[lastIndex], // Already a Date object
                     y: yValues[lastIndex],
                     text: prediction.name,
                     showarrow: false,
@@ -562,8 +627,10 @@ function preparePlotlyData(data) {
     
     // Add vertical line at absolute latest date (across all series)
     if (absoluteLatestDate) {
+        // Convert the date string to Date object for consistency
+        const latestDateObj = convertToDate(absoluteLatestDate);
         traces.push({
-            x: [absoluteLatestDate, absoluteLatestDate],
+            x: [latestDateObj, latestDateObj],
             y: [lineMinY, lineMaxY],
             mode: 'lines',
             line: {
@@ -577,7 +644,7 @@ function preparePlotlyData(data) {
         
         // Add "Latest Date" annotation above the vertical line
         annotations.push({
-            x: absoluteLatestDate,
+            x: latestDateObj,
             y: 1,
             text: 'Latest Date',
             showarrow: false,
@@ -594,6 +661,7 @@ function preparePlotlyData(data) {
     const layout = {
         // No title
         xaxis: {
+            type: 'date', // Tell Plotly to treat x-axis as dates
             title: {
                 text: data.xAxis.label,
                 font: {

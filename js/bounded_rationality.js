@@ -543,6 +543,7 @@ function preparePlotlyData(data) {
             
             // Sort prediction data points chronologically before plotting
             const sortedPredictionData = sortDataPoints(prediction.data);
+            
             // Convert x values to Date objects so Plotly maintains chronological order
             const xValues = sortedPredictionData.map(point => convertToDate(point.x));
             const yValues = sortedPredictionData.map(point => point.y);
@@ -551,18 +552,19 @@ function preparePlotlyData(data) {
             const markerSizes = new Array(sortedPredictionData.length).fill(0);
             const markerColors = new Array(sortedPredictionData.length).fill(colors[colorIndex]);
             
-            // Set markers for last 3 points
+            // Set markers for last 3 points (using sorted array indices)
             const lastThreeStart = Math.max(0, sortedPredictionData.length - 3);
             for (let i = lastThreeStart; i < sortedPredictionData.length; i++) {
                 markerSizes[i] = 8;
             }
             
-            // Add prediction trace
+            // Add prediction trace with dotted line and markers
             traces.push({
                 x: xValues,
                 y: yValues,
                 mode: 'lines+markers',
                 name: prediction.name + ' (Prediction)',
+                type: 'scatter',
                 line: {
                     color: colors[colorIndex],
                     width: 2,
@@ -575,7 +577,8 @@ function preparePlotlyData(data) {
                     opacity: 1,
                     line: {
                         width: 0
-                    }
+                    },
+                    symbol: 'circle'
                 },
                 showlegend: false,
                 hovertemplate: `<b>%{fullData.name}</b><br>%{y}<extra></extra>`

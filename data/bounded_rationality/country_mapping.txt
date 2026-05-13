@@ -163,6 +163,7 @@ Syria:Syria
 Republic of Turkey:Turkey
 Turkey:Turkey
 Türkiye:Turkey
+Turkiye:Turkey
 Kingdom of Saudi Arabia:Saudi Arabia
 Saudi Arabia:Saudi Arabia
 United Arab Emirates:UAE
@@ -197,6 +198,7 @@ Tajikistan:Tajikistan
 Turkmenistan:Turkmenistan
 Uzbekistan:Uzbekistan
 Yemen:Yemen
+Yemen Rep:Yemen
 Republic of South Africa:South Africa
 South Africa:South Africa
 Arab Republic of Egypt:Egypt
@@ -272,10 +274,12 @@ Republic of Seychelles:Seychelles
 Seychelles:Seychelles
 Republic of Djibouti:Djibouti
 Djibouti:Djibouti
+Djibouti, Rep.:Djibouti
 State of Eritrea:Eritrea
 Eritrea:Eritrea
 Republic of Somalia:Somalia
 Somalia:Somalia
+Somalia Fed Rep:Somalia
 Republic of Rwanda:Rwanda
 Rwanda:Rwanda
 Republic of Burundi:Burundi

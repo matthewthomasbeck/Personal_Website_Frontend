@@ -331,3 +331,23 @@ French Polynesia:French Polynesia
 New Caledonia:New Caledonia
 Wallis and Futuna:Wallis and Futuna
 American Samoa:American Samoa
+Russian Federation:Russia
+Russia:Russia
+Korea Rep:South Korea
+Korea, Rep.:South Korea
+Viet Nam:Vietnam
+Lao PDR:Laos
+Czechia:Czech Republic
+Congo Dem Rep:DRC
+Congo Rep:Congo
+Bahamas The:The Bahamas
+Gambia The:Gambia
+Iran Islamic Rep:Iran
+Micronesia Fed Sts:Micronesia
+St Kitts and Nevis:St. Kitts
+St. Kitts and Nevis:St. Kitts
+St Vincent and the Grenadines:St. Vincent
+St. Vincent and the Grenadines:St. Vincent
+Kyrgyz Republic:Kyrgyzstan
+Brunei Darussalam:Brunei
+Egypt Arab Rep:Egypt

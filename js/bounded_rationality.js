@@ -801,39 +801,59 @@ async function loadCountryMapping() { // function to load country name mapping f
 
     /***** read data *****/
 
-    try { // attempt to read country mapping data...
+    let mappingText;
 
-        const response = await fetch(countryMappingPath); // fetch data from text file
+    try { // attempt to read country mapping data from CDN...
 
-        if (!response.ok) { // if response is not ok...
+        let response = await fetch(countryMappingPath); // fetch data from text file
 
-            throw new Error('Network response was not ok.\n'); // print failure statement
+        if (!response.ok) { // if CDN response is not ok...
+
+            throw new Error('CDN country mapping response was not ok.\n');
         }
 
-        const mappingText = await response.text(); // parse text data
+        mappingText = await response.text(); // parse text data
+    }
 
-        // Parse the text file into a mapping object
-        const lines = mappingText.split('\n');
-        countryNameMapping = {};
-        
-        lines.forEach(line => {
-            if (line.trim()) { // skip empty lines
-                const [key, value] = line.split(':');
-                if (key && value) {
-                    countryNameMapping[key.trim()] = value.trim();
-                }
+    catch (cdnError) { // CDN failed — try same-origin data file (local dev / updated mapping)
+
+        console.warn(`Country mapping CDN fetch failed (${cdnError}); trying local data path.`);
+
+        try {
+
+            const localPath = new URL('data/bounded_rationality/country_mapping.txt', window.location.href).href;
+            const localResponse = await fetch(localPath);
+
+            if (!localResponse.ok) {
+
+                throw new Error('Local country mapping response was not ok.\n');
             }
-        });
 
-        return countryNameMapping; // return mapping object
+            mappingText = await localResponse.text();
+        }
+
+        catch (localError) {
+
+            console.error(`Error retrieving the country mapping file (CDN and local): "${localError}"\n`);
+
+            return null;
+        }
     }
 
-    catch (error) { // if unable to fetch country mapping...
+    // Parse the text file into a mapping object
+    const lines = mappingText.split('\n');
+    countryNameMapping = {};
 
-        console.error(`Error retrieving the country mapping file: "${error}"\n`); // print failure statement
+    lines.forEach(line => {
+        if (line.trim()) { // skip empty lines
+            const [key, value] = line.split(':');
+            if (key && value) {
+                countryNameMapping[key.trim()] = value.trim();
+            }
+        }
+    });
 
-        return null; // terminate process with error
-    }
+    return countryNameMapping; // return mapping object
 }
 
 // Enhanced color generation function for country coloring
@@ -912,11 +932,17 @@ function extractCountryName(seriesName) { // function to extract country name fr
 
     /***** check country name mapping *****/
 
-    // Check if it's a known country name
-    if (Object.keys(countryNameMapping).includes(cleanName) || 
-        Object.values(countryNameMapping).includes(cleanName)) {
+    // If the cleaned name is a mapping key, return the canonical value (GeoJSON / short label side).
+    // If it is already a canonical value used in the mapping, keep it. Avoids e.g. "United Kingdom"
+    // staying as a key string while the map feature is labeled "England" → both resolve to "UK".
+    if (Object.keys(countryNameMapping).includes(cleanName)) {
 
-        return cleanName; // return clean name
+        return countryNameMapping[cleanName];
+    }
+
+    if (Object.values(countryNameMapping).includes(cleanName)) {
+
+        return cleanName;
     }
     
     // Check if it matches any country name in our mapping (case insensitive)

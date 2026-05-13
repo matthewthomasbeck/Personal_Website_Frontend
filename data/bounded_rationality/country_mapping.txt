@@ -194,6 +194,9 @@ Oman:Oman
 Qatar:Qatar
 Sri Lanka:Sri Lanka
 Taiwan:Taiwan
+Taiwan, China:Taiwan
+Taiwan Province of China:Taiwan
+Chinese Taipei:Taiwan
 Tajikistan:Tajikistan
 Turkmenistan:Turkmenistan
 Uzbekistan:Uzbekistan

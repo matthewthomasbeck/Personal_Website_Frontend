@@ -519,18 +519,18 @@ function showRobotControls() {
           <div class="mobileControlsLeft">
             <div class="controlRow controlRowUpDown">
               <button class="controlBtn arrowBtn" id="lookUpBtn" data-command="arrowup">
-                <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-north.png" alt="Look Up">
+                <img src="https://cdn.matthewthomasbeck.com/assets/icons/arrow-north.png" alt="Look Up">
               </button>
             </div>
             <div class="controlRow controlRowLRD">
               <button class="controlBtn arrowBtn" id="lookLeftBtn" data-command="arrowleft">
-                <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-west.png" alt="Look Left">
+                <img src="https://cdn.matthewthomasbeck.com/assets/icons/arrow-west.png" alt="Look Left">
               </button>
               <button class="controlBtn arrowBtn" id="lookDownBtn" data-command="arrowdown">
-                <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-south.png" alt="Look Down">
+                <img src="https://cdn.matthewthomasbeck.com/assets/icons/arrow-south.png" alt="Look Down">
               </button>
               <button class="controlBtn arrowBtn" id="lookRightBtn" data-command="arrowright">
-                <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-east.png" alt="Look Right">
+                <img src="https://cdn.matthewthomasbeck.com/assets/icons/arrow-east.png" alt="Look Right">
               </button>
             </div>
             <div class="controlRow">
@@ -540,18 +540,18 @@ function showRobotControls() {
           <div class="mobileControlsRight">
             <div class="controlRow controlRowUpDown">
               <button class="controlBtn wasdBtn" id="moveUpBtn" data-command="w">
-                <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-north.png" alt="Move Forward">
+                <img src="https://cdn.matthewthomasbeck.com/assets/icons/arrow-north.png" alt="Move Forward">
               </button>
             </div>
             <div class="controlRow controlRowLRD">
               <button class="controlBtn wasdBtn" id="moveLeftBtn" data-command="a">
-                <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-west.png" alt="Move Left">
+                <img src="https://cdn.matthewthomasbeck.com/assets/icons/arrow-west.png" alt="Move Left">
               </button>
               <button class="controlBtn wasdBtn" id="moveDownBtn" data-command="s">
-                <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-south.png" alt="Move Backward">
+                <img src="https://cdn.matthewthomasbeck.com/assets/icons/arrow-south.png" alt="Move Backward">
               </button>
               <button class="controlBtn wasdBtn" id="moveRightBtn" data-command="d">
-                <img src="https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/icons/arrow-east.png" alt="Move Right">
+                <img src="https://cdn.matthewthomasbeck.com/assets/icons/arrow-east.png" alt="Move Right">
               </button>
             </div>
             <div class="controlRow">

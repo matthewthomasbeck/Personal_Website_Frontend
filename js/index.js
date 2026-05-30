@@ -33,7 +33,7 @@ downloadResumeBox.addEventListener('click', function() {
     
     // Create a temporary anchor element to trigger download
     const link = document.createElement('a');
-    link.href = 'https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/resumes/resume.pdf';
+    link.href = 'https://cdn.matthewthomasbeck.com/assets/resumes/resume.pdf';
     link.download = 'Matthew Beck Machine Learning Engineer Resume.pdf'; // Set the filename for download
     link.target = '_blank'; // Open in new tab as fallback
     document.body.appendChild(link); // Add to DOM temporarily
@@ -86,7 +86,7 @@ firstTag.addEventListener('animationend', function(event) {
                 // update name color
                 document.getElementsByClassName('fadeInName')[0].style.color = rootStyles.getPropertyValue('--pastel-1');
 
-                favicon.href = 'https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/favicons/favicon-pastel1.png'; // update favicon
+                favicon.href = 'https://cdn.matthewthomasbeck.com/assets/favicons/favicon-pastel1.png'; // update favicon
             }
 
             else if (currentSlide === 1) { // if portrait 2...
@@ -94,7 +94,7 @@ firstTag.addEventListener('animationend', function(event) {
                 // update name color
                 document.getElementsByClassName('fadeInName')[0].style.color = rootStyles.getPropertyValue('--pastel-2');
 
-                favicon.href = 'https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/favicons/favicon-pastel2.png'; // update favicon
+                favicon.href = 'https://cdn.matthewthomasbeck.com/assets/favicons/favicon-pastel2.png'; // update favicon
             }
 
             else if (currentSlide === 2) { // if portrait 3...
@@ -102,7 +102,7 @@ firstTag.addEventListener('animationend', function(event) {
                 // update name color
                 document.getElementsByClassName('fadeInName')[0].style.color = rootStyles.getPropertyValue('--pastel-3');
 
-                favicon.href = 'https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/favicons/favicon-pastel3.png'; // update favicon
+                favicon.href = 'https://cdn.matthewthomasbeck.com/assets/favicons/favicon-pastel3.png'; // update favicon
             }
 
             else if (currentSlide === 3) { // if portrait 4...
@@ -110,7 +110,7 @@ firstTag.addEventListener('animationend', function(event) {
                 // update name color
                 document.getElementsByClassName('fadeInName')[0].style.color = rootStyles.getPropertyValue('--pastel-4');
 
-                favicon.href = 'https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/assets/favicons/favicon-pastel4.png'; // update favicon
+                favicon.href = 'https://cdn.matthewthomasbeck.com/assets/favicons/favicon-pastel4.png'; // update favicon
             }
         }
 

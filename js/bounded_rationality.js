@@ -22,7 +22,7 @@ async function fetchEconomicData(metricName) { // function to fetch economic dat
     /***** set variables *****/
 
     // set base URL to S3 bucket
-    const baseCDNURL = `https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/data/bounded_rationality/`;
+    const baseCDNURL = `https://cdn.matthewthomasbeck.com/data/bounded_rationality/`;
 
     let metricDataPath = `${baseCDNURL}${metricName}Data.json`; // set path to json data with metric name
 
@@ -794,7 +794,7 @@ async function loadCountryMapping() { // function to load country name mapping f
     /***** set variables *****/
 
     // set base URL to S3 bucket
-    const baseCDNURL = `https://s3.us-east-2.amazonaws.com/cdn.matthewthomasbeck.com/data/bounded_rationality/`;
+    const baseCDNURL = `https://cdn.matthewthomasbeck.com/data/bounded_rationality/`;
 
     // set path to country mapping file
     let countryMappingPath = `${baseCDNURL}country_mapping.txt`;

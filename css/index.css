@@ -1,5 +1,5 @@
 /**********************************************************************************/
-/* Copyright (c) 2025 Matthew Thomas Beck                                         */
+/* Copyright (c) 2026 Matthew Thomas Beck                                         */
 /*                                                                                */
 /* Licensed under the Creative Commons Attribution-NonCommercial 4.0              */
 /* International (CC BY-NC 4.0). Personal and educational use is permitted.       */

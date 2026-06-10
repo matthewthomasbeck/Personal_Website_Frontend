@@ -923,6 +923,22 @@ videosArrowBoxLeft.addEventListener('click', function() { // when swipe arrow le
             left: (videosWheel.scrollWidth / numVideos),
             behavior: 'smooth'
         })
+
+    } else if (scrollPosition < ((videosWheel.scrollWidth / numVideos) * 4)) { // if scroll at fourth item...
+
+        videosWheel.scrollTo({ // scroll to next left item
+
+            left: ((videosWheel.scrollWidth / numVideos) * 2),
+            behavior: 'smooth'
+        })
+
+    } else if (scrollPosition < videosWheel.scrollWidth) { // if scroll at fifth item...
+
+        videosWheel.scrollTo({ // scroll to next left item
+
+            left: ((videosWheel.scrollWidth / numVideos) * 3),
+            behavior: 'smooth'
+        })
     }
 });
 
@@ -957,6 +973,22 @@ videosArrowBoxRight.addEventListener('click', function() { // when swipe arrow r
         videosWheel.scrollTo({ // scroll to next right item
 
             left: ((videosWheel.scrollWidth / numVideos) * 3),
+            behavior: 'smooth'
+        })
+
+    } else if (scrollPosition < ((videosWheel.scrollWidth / numVideos) * 4)) { // if scroll at fourth item...
+
+        videosWheel.scrollTo({ // scroll to next right item
+
+            left: ((videosWheel.scrollWidth / numVideos) * 4),
+            behavior: 'smooth'
+        })
+
+    } else if (scrollPosition < videosWheel.scrollWidth) { // if scroll at fifth item...
+
+        videosWheel.scrollTo({ // scroll to next right item
+
+            left: ((videosWheel.scrollWidth / numVideos) * 4),
             behavior: 'smooth'
         })
     }
@@ -1020,7 +1052,7 @@ videosWheel.addEventListener('scroll', function() { // when scroll takes place i
         }
 
         // set content from .txt
-        videosInfoBody.innerHTML = videosInfoBody.innerHTML = "I built a robot dog so I could put my programming " +
+        videosInfoBody.textContent = "I built a robot dog so I could put my programming " +
             "flexibility to the test";
 
     } else if (currentItem === 2) { // if current item receipt analyzer...
@@ -1075,8 +1107,8 @@ videosWheel.addEventListener('scroll', function() { // when scroll takes place i
         }
 
         // set content from .txt
-        videosInfoBody.innerHTML = videosInfoBody.innerHTML = "As Adobe Premiere Pro did not have any kind of API I " +
-            "could use to edit my videos automatically (at the time of writing), I created a script that primarily" +
+        videosInfoBody.textContent = "As Adobe Premiere Pro did not have any kind of API I " +
+            "could use to edit my videos automatically (at the time of writing), I created a script that primarily " +
             "uses PyAutoGUI to control my screen and edit videos for me";
 
     } else if (currentItem === 4) { // if current item last video...

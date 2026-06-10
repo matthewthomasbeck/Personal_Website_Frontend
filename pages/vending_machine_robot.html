@@ -183,6 +183,10 @@
                     design, robotics software, and full-stack web development
                 </p>
                 <p class="contentText">
+                    Customers browse snacks online, pay through Stripe, receive a one-time code, and redeem it on the
+                    robot — which finds them with edge AI, opens its lid, and dispenses their purchase
+                </p>
+                <p class="contentText">
                     Hardware: Raspberry Pi 4B, Intel NCS2, PiCamera Module 3, GPS, Pololu Maestro, dual H-bridge motor
                     drivers, mecanum wheels with TPU rollers, and a welded 24-gauge steel chassis with 3D-printed PLA
                     components
@@ -193,10 +197,6 @@
                 <p class="contentText">
                     Libraries: threading, queue, socket, numpy, opencv-python, openvino, pygame, RPi.GPIO, pigpio,
                     pyserial, bcrypt, requests, and python-dotenv
-                </p>
-                <p class="contentText">
-                    Customers browse snacks online, pay through Stripe, receive a one-time code, and redeem it on the
-                    robot — which finds them with edge AI, opens its lid, and dispenses their purchase
                 </p>
             </div>
         </div>
@@ -242,8 +242,8 @@
         <div class="contentBoxes">
             <div class="standardFont contentTextBox foreText">
                 <p class="contentText">
-                    The engineering team spent roughly 138 man-hours over three months designing and assembling the
-                    robot in SolidWorks and Fusion, using M3 and M8 bolts to supplement the strength of PLA with metal
+                    The engineering team spent roughly 138 man-hours each over three months designing and assembling the
+                    robot in SolidWorks and Fusion
                 </p>
                 <p class="contentText">
                     Ryler Collins served as chief design authority and primary assembler, Anthony Nguyen designed wheel
@@ -252,15 +252,16 @@
                 </p>
                 <p class="contentText">
                     24-gauge mild steel was chosen for the chassis for its strength under flexural load and speed of
-                    fabrication, while PLA was used for low-cost printed parts and TPU for mecanum wheel rollers thanks
-                    to its elastic damping properties
+                    fabrication, while PLA was used for low-cost printed parts (using M3 and M8 bolts to supplement the
+                    strength of PLA with metal) and TPU for mecanum wheel rollers thanks to its elastic damping
+                    properties
                 </p>
             </div>
             <img class="contentImg" src="https://cdn.matthewthomasbeck.com/assets/images/vending_machine_robot/engineering-assembly.webp" alt="">
             <div class="standardFont contentTextBox aftText">
                 <p class="contentText">
-                    The engineering team spent roughly 138 man-hours over three months designing and assembling the
-                    robot in SolidWorks and Fusion, using M3 and M8 bolts to supplement the strength of PLA with metal
+                    The engineering team spent roughly 138 man-hours each over three months designing and assembling the
+                    robot in SolidWorks and Fusion
                 </p>
                 <p class="contentText">
                     Ryler Collins served as chief design authority and primary assembler, Anthony Nguyen designed wheel
@@ -269,8 +270,9 @@
                 </p>
                 <p class="contentText">
                     24-gauge mild steel was chosen for the chassis for its strength under flexural load and speed of
-                    fabrication, while PLA was used for low-cost printed parts and TPU for mecanum wheel rollers thanks
-                    to its elastic damping properties
+                    fabrication, while PLA was used for low-cost printed parts (using M3 and M8 bolts to supplement the
+                    strength of PLA with metal) and TPU for mecanum wheel rollers thanks to its elastic damping
+                    properties
                 </p>
             </div>
         </div>
@@ -310,7 +312,7 @@
                     structural backbone of the robot
                 </p>
                 <p class="contentText">
-                    Thin-gauge steel was chosen deliberately — it offered enough rigidity for the load while keeping
+                    Thin-gauge steel was chosen deliberately as it offered enough rigidity for the load while keeping
                     weight down and allowing rapid iteration on the frame geometry
                 </p>
             </div>
@@ -321,7 +323,7 @@
                     structural backbone of the robot
                 </p>
                 <p class="contentText">
-                    Thin-gauge steel was chosen deliberately — it offered enough rigidity for the load while keeping
+                    Thin-gauge steel was chosen deliberately as it offered enough rigidity for the load while keeping
                     weight down and allowing rapid iteration on the frame geometry
                 </p>
             </div>
@@ -333,7 +335,7 @@
             <div class="standardFont contentTextBox">
                 <p class="contentText">
                     Welding thin-gauge steel with MIG meant every joint had to be executed with precise voltage, feed
-                    rate, and weld times — any discrepancy risked catastrophic burn-through
+                    rate, and weld times as any discrepancy risked catastrophic burn-through
                 </p>
                 <p class="contentText">
                     Each seam was planned carefully before striking an arc, and several practice runs on scrap were
@@ -394,7 +396,7 @@
         <div class="contentBoxes">
             <div class="standardFont contentTextBox foreText">
                 <p class="contentText">
-                    Victoria Adams soldered and assembled the physical wiring harness, connecting each subsystem
+                    Victoria Adams helped me solder and assemble the physical wiring harness, connecting each subsystem
                     according to the diagram while I taught the team basic electrical safety, wire routing, and
                     soldering technique
                 </p>
@@ -406,7 +408,7 @@
             <img class="contentImg" src="https://cdn.matthewthomasbeck.com/assets/images/vending_machine_robot/electrical-plug.jpg" alt="">
             <div class="standardFont contentTextBox aftText">
                 <p class="contentText">
-                    Victoria Adams soldered and assembled the physical wiring harness, connecting each subsystem
+                    Victoria Adams helped me solder and assemble the physical wiring harness, connecting each subsystem
                     according to the diagram while I taught the team basic electrical safety, wire routing, and
                     soldering technique
                 </p>
@@ -422,7 +424,7 @@
             <img class="contentImg" src="https://cdn.matthewthomasbeck.com/assets/images/vending_machine_robot/electrical-mk1.jpg" alt="">
             <div class="standardFont contentTextBox">
                 <p class="contentText">
-                    Mark I was the first physical layout of the electrical system — a proof-of-concept wiring pass that
+                    Mk-1 was the first physical layout of the electrical system as a proof-of-concept wiring pass that
                     validated power routing and confirmed every device could be powered simultaneously without browning
                     out
                 </p>
@@ -437,23 +439,23 @@
         <div class="contentBoxes">
             <div class="standardFont contentTextBox foreText">
                 <p class="contentText">
-                    Mark II tightened the layout significantly, relocating the Maestro and motor drivers for shorter wire
+                    Mk-2 tightened the layout significantly, relocating the Maestro and motor drivers for shorter wire
                     runs and adding strain relief on every connector that would see vibration during driving
                 </p>
                 <p class="contentText">
-                    This revision was the first to run the full software stack — GPS, camera, NCS2 inference, and
-                    mecanum wheel control — all powered from the same harness
+                    This revision was the first to run the full software stack - GPS, camera, NCS2 inference, and
+                    mecanum wheel control - all powered from the same harness
                 </p>
             </div>
             <img class="contentImg" src="https://cdn.matthewthomasbeck.com/assets/images/vending_machine_robot/electrical-mk2.jpg" alt="">
             <div class="standardFont contentTextBox aftText">
                 <p class="contentText">
-                    Mark II tightened the layout significantly, relocating the Maestro and motor drivers for shorter wire
+                    Mk-2 tightened the layout significantly, relocating the Maestro and motor drivers for shorter wire
                     runs and adding strain relief on every connector that would see vibration during driving
                 </p>
                 <p class="contentText">
-                    This revision was the first to run the full software stack — GPS, camera, NCS2 inference, and
-                    mecanum wheel control — all powered from the same harness
+                    This revision was the first to run the full software stack - GPS, camera, NCS2 inference, and
+                    mecanum wheel control - all powered from the same harness
                 </p>
             </div>
         </div>
@@ -463,7 +465,7 @@
             <img class="contentImg" src="https://cdn.matthewthomasbeck.com/assets/images/vending_machine_robot/electrical-mk3.jpg" alt="">
             <div class="standardFont contentTextBox">
                 <p class="contentText">
-                    Mark III is the production layout — every subsystem mounted, labeled, and routed for both
+                    Mk-3 is the production layout with every subsystem mounted, labeled, and routed for both
                     reliability and serviceability inside the finished chassis
                 </p>
                 <p class="contentText">
@@ -485,7 +487,7 @@
             <div class="standardFont contentTextBox foreText">
                 <p class="contentText">
                     The frontend presents a playful pastel storefront where customers browse available snacks and
-                    complete purchases without confusion — every element designed for accessibility and simplicity
+                    complete purchases without confusion, every element designed for accessibility and simplicity
                 </p>
                 <p class="contentText">
                     Built with HTML, JavaScript, Vite, and Tailwind CSS on AWS EC2 behind NGINX, the site was architected
@@ -497,7 +499,7 @@
             <div class="standardFont contentTextBox aftText">
                 <p class="contentText">
                     The frontend presents a playful pastel storefront where customers browse available snacks and
-                    complete purchases without confusion — every element designed for accessibility and simplicity
+                    complete purchases without confusion, every element designed for accessibility and simplicity
                 </p>
                 <p class="contentText">
                     Built with HTML, JavaScript, Vite, and Tailwind CSS on AWS EC2 behind NGINX, the site was architected
@@ -512,7 +514,7 @@
             <img class="contentImg" src="https://cdn.matthewthomasbeck.com/assets/images/vending_machine_robot/website-set_inventory.png.webp" alt="">
             <div class="standardFont contentTextBox">
                 <p class="contentText">
-                    Behind a dedicated admin login, authorized users manage the robot's inventory — updating stock
+                    Behind a dedicated admin login, authorized users manage the robot's inventory, updating stock
                     levels and pricing so the digital storefront always reflects what is physically available inside the
                     machine
                 </p>
@@ -528,7 +530,7 @@
             <div class="standardFont contentTextBox foreText">
                 <p class="contentText">
                     Once Stripe confirms payment, the backend generates a unique four-digit one-time code tied to the
-                    transaction — the bridge between the digital purchase and physical fulfillment
+                    transaction - the bridge between the digital purchase and physical fulfillment
                 </p>
                 <p class="contentText">
                     The code is sent to the robot via a persistent TCP socket bridge while the customer enters the same
@@ -539,7 +541,7 @@
             <div class="standardFont contentTextBox aftText">
                 <p class="contentText">
                     Once Stripe confirms payment, the backend generates a unique four-digit one-time code tied to the
-                    transaction — the bridge between the digital purchase and physical fulfillment
+                    transaction - the bridge between the digital purchase and physical fulfillment
                 </p>
                 <p class="contentText">
                     The code is sent to the robot via a persistent TCP socket bridge while the customer enters the same
@@ -554,7 +556,7 @@
             <div class="standardFont contentTextBox">
                 <p class="contentText">
                     The admin dashboard gives operators a single view of recent activity, heartbeat status, and action
-                    history — clearly separated from the customer-facing experience
+                    history, all clearly separated from the customer-facing experience
                 </p>
                 <p class="contentText">
                     Admin authentication uses bcrypt for password verification, and Syan Shirazi performed penetration
@@ -578,7 +580,7 @@
                 </p>
                 <p class="contentText">
                     I created the TCP socket bridge that relays commands from the frontend to the robot, and Prince Patel
-                    integrated the Stripe payment system — together forming the pipeline from click to dispense
+                    integrated the Stripe payment system, us together forming the pipeline from click to dispense
                 </p>
             </div>
             <img class="contentImg" src="https://cdn.matthewthomasbeck.com/assets/images/vending_machine_robot/website-backend_architecture.png" alt="">
@@ -594,7 +596,7 @@
                 </p>
                 <p class="contentText">
                     I created the TCP socket bridge that relays commands from the frontend to the robot, and Prince Patel
-                    integrated the Stripe payment system — together forming the pipeline from click to dispense
+                    integrated the Stripe payment system, us together forming the pipeline from click to dispense
                 </p>
             </div>
         </div>
@@ -645,12 +647,12 @@
             <img class="contentImg" src="https://cdn.matthewthomasbeck.com/assets/images/vending_machine_robot/setbacks-broken_printer.jpg" alt="">
             <div class="standardFont contentTextBox">
                 <p class="contentText">
-                    Over the course of printing, the 3D printer broke twice — the extruder badly jammed and the plate
+                    Over the course of printing, the 3D printer broke twice as the extruder badly jammed and the plate
                     fell out of calibration, both requiring late-night disassembly to keep the project on schedule
                 </p>
                 <p class="contentText">
                     Beyond hardware failures, classical printing problems piled up: adjusting infill percentages, print
-                    speeds, extruder and plate temperatures, brims, rafts, and orientations — and the time required to
+                    speeds, extruder and plate temperatures, brims, rafts, and orientations, and the time required to
                     produce parts slowed iteration cycles enough that careful prioritization became essential
                 </p>
             </div>
@@ -695,7 +697,7 @@
             <img class="contentImg" src="https://cdn.matthewthomasbeck.com/assets/images/vending_machine_robot/final-code_sequence.gif" alt="">
             <div class="standardFont contentTextBox">
                 <p class="contentText">
-                    The full purchase sequence ties everything together — a customer completes payment on the website,
+                    The full purchase sequence ties everything together: a customer completes payment on the website,
                     receives a one-time code, enters it on the robot, and watches the lid open to dispense their snack
                 </p>
                 <p class="contentText">

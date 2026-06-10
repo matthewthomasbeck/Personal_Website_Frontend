@@ -9,7 +9,6 @@
 
 
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,10 +29,10 @@
     <link rel="icon" href="https://cdn.matthewthomasbeck.com/assets/favicons/favicon-pastel1.png" id="favicon">
 
     <!-- TAB TITLE -->
-    <title>Receipt Analyzer</title>
+    <title>Vending Machine Robot</title>
 </head>
 
-<!-- RECEIPT ANALYZER PAGE -->
+<!-- VENDING MACHINE ROBOT PAGE -->
 <body class="body">
 
 <!-- OPTIONS DIMMING -->
@@ -163,36 +162,41 @@
     <p class="standardFont" id="githubText">Like it?<br>Star it!</p>
 </a>
 
-<!-- RECEIPT ANALYZER -->
+<!-- VENDING MACHINE ROBOT -->
 <div class="parentDiv" id="pageTitle">
     <div class="childDiv">
 
         <!-- INTRODUCTION HEADER -->
         <div class="contentHeaderBoxes" id="pageTitleBox">
-            <h1 class="contentHeaders programmerFont">
-                Receipt Analyzer
+            <h1 class="contentHeaders programmerFont" id="introductionHeader">
+                Vending Machine Robot
             </h1>
         </div>
 
         <!-- INTRODUCTION -->
         <div class="contentBoxes">
-            <video class="contentVideoS3" width="640" height="360" controls>
-                <source src="https://cdn.matthewthomasbeck.com/assets/images/receipt_analyzer/receipt_analyzer.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
+            <img class="contentImg" src="https://cdn.matthewthomasbeck.com/assets/images/vending_machine_robot/final-isometric.jpg" alt="">
             <div class="standardFont contentTextBox">
                 <p class="contentText">
-                    'Receipt_Analyzer_3.0' is a Python-based application that I made from July to September 2022 that utilizes a
-                    scratch-built GUI, a SQL database, and 4,768 lines of Python code in order to collect and then analyze an
-                    individual's finances, handling said data with Regex filtering
-
-                    Absolutely no AI was used to make this
+                    The Vending Machine Robot is a mobile snack-dispensing robot paired with a digital storefront, built
+                    from January to April 2026 by a multi-disciplinary team spanning mechanical engineering, electrical
+                    design, robotics software, and full-stack web development
                 </p>
                 <p class="contentText">
-                    Software: Python, PostgreSQL, and Bash
+                    Hardware: Raspberry Pi 4B, Intel NCS2, PiCamera Module 3, GPS, Pololu Maestro, dual H-bridge motor
+                    drivers, mecanum wheels with TPU rollers, and a welded 24-gauge steel chassis with 3D-printed PLA
+                    components
                 </p>
                 <p class="contentText">
-                    Libraries: Numpy, Pandas, os, Matplotlib, Seaborn, Datetime, Regex, Psycopg2, TKinter, and Custom TKinter
+                    Software: Python, Flask, HTML, JavaScript, SQLite, Stripe, OpenVINO, and OpenCV
+                </p>
+                <p class="contentText">
+                    Libraries: threading, queue, socket, numpy, opencv-python, openvino, pygame, RPi.GPIO, pigpio,
+                    pyserial, bcrypt, requests, and python-dotenv
+                </p>
+                <p class="contentText">
+                    Customers browse snacks online, pay through Stripe, receive a one-time code, and redeem it on the
+                    robot — which finds them with edge AI, opens its lid, and dispenses their purchase
                 </p>
             </div>
         </div>
@@ -203,25 +207,22 @@
                 <p class="standardFont" id="indexTitle">Index</p>
                 <ul class="contentText">
                     <li class="indexContent popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
-                        <a href="#homePageHeaderBox" class="contentText">Home Page</a>
+                        <a href="#engineeringHeaderBox" class="contentText">Engineering</a>
                     </li>
                     <li class="indexContent popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
-                        <a href="#addingDataHeaderBox" class="contentText">Adding Data</a>
+                        <a href="#fabricationHeaderBox" class="contentText">Fabrication</a>
                     </li>
                     <li class="indexContent popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
-                        <a href="#ignoringDataHeaderBox" class="contentText">Ignoring Data</a>
+                        <a href="#electricalHeaderBox" class="contentText">Electrical</a>
                     </li>
                     <li class="indexContent popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
-                        <a href="#appendingDataHeaderBox" class="contentText">Appending Data</a>
+                        <a href="#websiteHeaderBox" class="contentText">Website</a>
                     </li>
                     <li class="indexContent popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
-                        <a href="#analyzingDataHeaderBox" class="contentText">Analyzing Data</a>
+                        <a href="#setbacksHeaderBox" class="contentText">Setbacks</a>
                     </li>
                     <li class="indexContent popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
-                        <a href="#comparingDataHeaderBox" class="contentText">Comparing Data</a>
-                    </li>
-                    <li class="indexContent popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
-                        <a href="#handlingErrorsHeaderBox" class="contentText">Handling Errors</a>
+                        <a href="#finalHeaderBox" class="contentText">Final</a>
                     </li>
                     <li class="indexContent popUp" onmouseover="popUp(this)" onmouseout="popDown(this)">
                         <a href="#projectConclusionHeaderBox" class="contentText">Conclusion</a>
@@ -230,403 +231,476 @@
             </div>
         </div>
 
-        <!-- HOME PAGE HEADER -->
-        <div class="contentHeaderBoxes" id="homePageHeaderBox">
+        <!-- ENGINEERING HEADER -->
+        <div class="contentHeaderBoxes" id="engineeringHeaderBox">
             <h1 class="contentHeaders programmerFont">
-                Home Page
+                Engineering
             </h1>
         </div>
 
-        <!-- HOME PAGE -->
+        <!-- ENGINEERING ASSEMBLY -->
         <div class="contentBoxes">
             <div class="standardFont contentTextBox foreText">
                 <p class="contentText">
-                    When opening the app, the user is greeted with the home page, in which a rolling average chart not dissimilar
-                    to one seen on the stock market is seen displaying the previous 3 months' worth of entries, as well as a line
-                    of best fit that provides a more accurate representation of the data
+                    The engineering team spent roughly 138 man-hours over three months designing and assembling the
+                    robot in SolidWorks and Fusion, using M3 and M8 bolts to supplement the strength of PLA with metal
                 </p>
                 <p class="contentText">
-                    On the bottom of the home page view, the current date as well as the date of the latest entry are both
-                    displayed, and to the side, a navigation bar that allows the user to select which action they would like to
-                    take
+                    Ryler Collins served as chief design authority and primary assembler, Anthony Nguyen designed wheel
+                    and electronic mounts, Victoria Adams designed the wheels and lid-lifting assembly, and I cut and
+                    welded the chassis while overseeing the 3D printer
                 </p>
                 <p class="contentText">
-                    The 'home' button, like all buttons on this app, will change color when hovered over, and when clicked, will
-                    take the user back to the home page from anywhere in the app
+                    24-gauge mild steel was chosen for the chassis for its strength under flexural load and speed of
+                    fabrication, while PLA was used for low-cost printed parts and TPU for mecanum wheel rollers thanks
+                    to its elastic damping properties
                 </p>
             </div>
-            <img class="contentImg" src="https://cdn.matthewthomasbeck.com/assets/images/receipt_analyzer/home_page-open.jpg" alt="">
+            <img class="contentImg" src="https://cdn.matthewthomasbeck.com/assets/images/vending_machine_robot/engineering-assembly.webp" alt="">
             <div class="standardFont contentTextBox aftText">
                 <p class="contentText">
-                    When opening the app, the user is greeted with the home page, in which a rolling average chart not dissimilar
-                    to one seen on the stock market is seen displaying the previous 3 months' worth of entries, as well as a line
-                    of best fit that provides a more accurate representation of the data
+                    The engineering team spent roughly 138 man-hours over three months designing and assembling the
+                    robot in SolidWorks and Fusion, using M3 and M8 bolts to supplement the strength of PLA with metal
                 </p>
                 <p class="contentText">
-                    On the bottom of the home page view, the current date as well as the date of the latest entry are both
-                    displayed, and to the side, a navigation bar that allows the user to select which action they would like to
-                    take
+                    Ryler Collins served as chief design authority and primary assembler, Anthony Nguyen designed wheel
+                    and electronic mounts, Victoria Adams designed the wheels and lid-lifting assembly, and I cut and
+                    welded the chassis while overseeing the 3D printer
                 </p>
                 <p class="contentText">
-                    The 'home' button, like all buttons on this app, will change color when hovered over, and when clicked, will
-                    take the user back to the home page from anywhere in the app
+                    24-gauge mild steel was chosen for the chassis for its strength under flexural load and speed of
+                    fabrication, while PLA was used for low-cost printed parts and TPU for mecanum wheel rollers thanks
+                    to its elastic damping properties
                 </p>
             </div>
         </div>
 
-        <!-- ADDING DATA HEADER -->
-        <div class="contentHeaderBoxes" id="addingDataHeaderBox">
+        <!-- ENGINEERING WHEELS -->
+        <div class="contentBoxes">
+            <img class="contentImg" src="https://cdn.matthewthomasbeck.com/assets/images/vending_machine_robot/engineering-wheels.jpg" alt="">
+            <div class="standardFont contentTextBox">
+                <p class="contentText">
+                    Mecanum wheels were selected so the robot could strafe and rotate in place, making it far easier
+                    to navigate crowded spaces and approach customers from any angle
+                </p>
+                <p class="contentText">
+                    Each wheel assembly combined 3D-printed PLA hubs and mounts with TPU rollers, bolted together and
+                    driven by dual H-bridge motor controllers on the Raspberry Pi
+                </p>
+                <p class="contentText">
+                    While PLA's relatively low strength meant some components experienced shearing under load, we
+                    addressed this with higher infill percentages, rounded geometries, and fillets to reduce stress
+                    concentrations in high-load areas
+                </p>
+            </div>
+        </div>
+
+        <!-- FABRICATION HEADER -->
+        <div class="contentHeaderBoxes" id="fabricationHeaderBox">
             <h1 class="contentHeaders programmerFont">
-                Adding Data
+                Fabrication
             </h1>
         </div>
 
-        <!-- PRESSING ADD DATA -->
+        <!-- FABRICATION SHEET METAL -->
         <div class="contentBoxes">
-            <img class="contentImg" src="https://cdn.matthewthomasbeck.com/assets/images/receipt_analyzer/add_data-open.jpg" alt="">
-            <div class="standardFont contentTextBox">
+            <div class="standardFont contentTextBox foreText">
                 <p class="contentText">
-                    As the user presses the 'add data' button, they are taken to a new view in which they can enter the data from
-                    their receipt. The user is prompted to enter the date, the store, the total, and any other relevant fields,
-                    such as the type of purchase made
+                    Fabrication began with cutting 24-gauge mild steel sheet into the chassis panels that would form the
+                    structural backbone of the robot
+                </p>
+                <p class="contentText">
+                    Thin-gauge steel was chosen deliberately — it offered enough rigidity for the load while keeping
+                    weight down and allowing rapid iteration on the frame geometry
                 </p>
             </div>
-        </div>
-
-        <!-- ADDING DATA -->
-        <div class="contentBoxes">
-            <div class="standardFont contentTextBox">
-                <p class="contentText foreText">
-                    When entering data, some items are required to fill out, and others are optional. For example, fields such as
-                    the date are always mandatory, some fields are mandatory only if the user has a receipt, such as the purchase
-                    amount, and some fields are always optional, such as the employee name
-                </p>
-            </div>
-            <img class="contentImg" src="https://cdn.matthewthomasbeck.com/assets/images/receipt_analyzer/add_data-menu.jpg" alt="">
+            <img class="contentImg" src="https://cdn.matthewthomasbeck.com/assets/images/vending_machine_robot/fabrication-sheetmetal.jpg" alt="">
             <div class="standardFont contentTextBox aftText">
                 <p class="contentText">
-                    When entering data, some items are required to fill out, and others are optional. For example, fields such as
-                    the date are always mandatory, some fields are mandatory only if the user has a receipt, such as the purchase
-                    amount, and some fields are always optional, such as the employee name
+                    Fabrication began with cutting 24-gauge mild steel sheet into the chassis panels that would form the
+                    structural backbone of the robot
+                </p>
+                <p class="contentText">
+                    Thin-gauge steel was chosen deliberately — it offered enough rigidity for the load while keeping
+                    weight down and allowing rapid iteration on the frame geometry
                 </p>
             </div>
         </div>
 
-        <!-- ADDING DATA SUCCESS -->
+        <!-- FABRICATION WELDING -->
         <div class="contentBoxes">
-            <img class="contentImg" src="https://cdn.matthewthomasbeck.com/assets/images/receipt_analyzer/add_data-enter.jpg" alt="">
+            <img class="contentImg" src="https://cdn.matthewthomasbeck.com/assets/images/vending_machine_robot/fabrication-welding.jpg" alt="">
             <div class="standardFont contentTextBox">
                 <p class="contentText">
-                    When the user finally enters the data, they are greeted with a confirmation message that the data has been
-                    successfully uploaded, and a blank interface to enter more data if they so choose
+                    Welding thin-gauge steel with MIG meant every joint had to be executed with precise voltage, feed
+                    rate, and weld times — any discrepancy risked catastrophic burn-through
+                </p>
+                <p class="contentText">
+                    Each seam was planned carefully before striking an arc, and several practice runs on scrap were
+                    needed before the team was confident enough to weld the actual chassis panels
                 </p>
             </div>
         </div>
 
-        <!-- IGNORING DATA HEADER -->
-        <div class="contentHeaderBoxes" id="ignoringDataHeaderBox">
+        <!-- FABRICATION FINAL CHASSIS -->
+        <div class="contentBoxes">
+            <div class="standardFont contentTextBox foreText">
+                <p class="contentText">
+                    The finished welded chassis provided a rigid platform for mounting the mecanum wheel assemblies,
+                    electronics enclosures, and the snack-dispensing lid mechanism
+                </p>
+                <p class="contentText">
+                    With the metal frame complete, the team moved on to integrating 3D-printed components and beginning
+                    the electrical fit-out that would bring the robot to life
+                </p>
+            </div>
+            <img class="contentImg" src="https://cdn.matthewthomasbeck.com/assets/images/vending_machine_robot/fabrication-final_chassis.jpg" alt="">
+            <div class="standardFont contentTextBox aftText">
+                <p class="contentText">
+                    The finished welded chassis provided a rigid platform for mounting the mecanum wheel assemblies,
+                    electronics enclosures, and the snack-dispensing lid mechanism
+                </p>
+                <p class="contentText">
+                    With the metal frame complete, the team moved on to integrating 3D-printed components and beginning
+                    the electrical fit-out that would bring the robot to life
+                </p>
+            </div>
+        </div>
+
+        <!-- ELECTRICAL HEADER -->
+        <div class="contentHeaderBoxes" id="electricalHeaderBox">
             <h1 class="contentHeaders programmerFont">
-                Ignoring Data
+                Electrical
             </h1>
         </div>
 
-        <!-- FILLING DATE -->
+        <!-- ELECTRICAL DIAGRAM -->
+        <div class="contentBoxes">
+            <img class="contentImg" src="https://cdn.matthewthomasbeck.com/assets/images/vending_machine_robot/electrical-diagram.jpg" alt="">
+            <div class="standardFont contentTextBox">
+                <p class="contentText">
+                    I designed the electrical system to accommodate devices requiring different voltages, manage heating
+                    concerns, and remain evolvable as parts arrived on staggered shipment schedules
+                </p>
+                <p class="contentText">
+                    The diagram mapped power distribution from the battery through buck converters to the Raspberry Pi,
+                    Pololu Maestro, motor drivers, NCS2, camera, and GPS — ensuring the AI team could begin software
+                    work even before every final component was installed
+                </p>
+            </div>
+        </div>
+
+        <!-- ELECTRICAL PLUG -->
         <div class="contentBoxes">
             <div class="standardFont contentTextBox foreText">
                 <p class="contentText">
-                    But what happens if no purchase was made? If the user has no receipt to enter, they can simply enter the
-                    desired date fields and press enter
+                    Victoria Adams soldered and assembled the physical wiring harness, connecting each subsystem
+                    according to the diagram while I taught the team basic electrical safety, wire routing, and
+                    soldering technique
+                </p>
+                <p class="contentText">
+                    Signal interference and inconsistent motor performance were recurring issues during early bring-up,
+                    requiring careful separation of power and data lines and several rounds of troubleshooting
                 </p>
             </div>
-            <img class="contentImg" src="https://cdn.matthewthomasbeck.com/assets/images/receipt_analyzer/add_data-no_data.jpg" alt="">
+            <img class="contentImg" src="https://cdn.matthewthomasbeck.com/assets/images/vending_machine_robot/electrical-plug.jpg" alt="">
             <div class="standardFont contentTextBox aftText">
                 <p class="contentText">
-                    But what happens if no purchase was made? If the user has no receipt to enter, they can simply enter the
-                    desired date fields and press enter
+                    Victoria Adams soldered and assembled the physical wiring harness, connecting each subsystem
+                    according to the diagram while I taught the team basic electrical safety, wire routing, and
+                    soldering technique
+                </p>
+                <p class="contentText">
+                    Signal interference and inconsistent motor performance were recurring issues during early bring-up,
+                    requiring careful separation of power and data lines and several rounds of troubleshooting
                 </p>
             </div>
         </div>
 
-        <!-- IGNORING DATA -->
+        <!-- ELECTRICAL MK1 -->
         <div class="contentBoxes">
-            <img class="contentImg" src="https://cdn.matthewthomasbeck.com/assets/images/receipt_analyzer/add_data-enter.jpg" alt="">
+            <img class="contentImg" src="https://cdn.matthewthomasbeck.com/assets/images/vending_machine_robot/electrical-mk1.jpg" alt="">
             <div class="standardFont contentTextBox">
                 <p class="contentText">
-                    As seen by the 'Data Uploaded' success statement, the day was successfully recorded as having no purchases
-                    made, and the user is free to enter more data
+                    Mark I was the first physical layout of the electrical system — a proof-of-concept wiring pass that
+                    validated power routing and confirmed every device could be powered simultaneously without browning
+                    out
+                </p>
+                <p class="contentText">
+                    Lessons from this iteration informed cable management, connector placement, and which components
+                    needed dedicated regulators versus shared rails
                 </p>
             </div>
         </div>
 
-        <!-- APPENDING DATA HEADER -->
-        <div class="contentHeaderBoxes" id="appendingDataHeaderBox">
+        <!-- ELECTRICAL MK2 -->
+        <div class="contentBoxes">
+            <div class="standardFont contentTextBox foreText">
+                <p class="contentText">
+                    Mark II tightened the layout significantly, relocating the Maestro and motor drivers for shorter wire
+                    runs and adding strain relief on every connector that would see vibration during driving
+                </p>
+                <p class="contentText">
+                    This revision was the first to run the full software stack — GPS, camera, NCS2 inference, and
+                    mecanum wheel control — all powered from the same harness
+                </p>
+            </div>
+            <img class="contentImg" src="https://cdn.matthewthomasbeck.com/assets/images/vending_machine_robot/electrical-mk2.jpg" alt="">
+            <div class="standardFont contentTextBox aftText">
+                <p class="contentText">
+                    Mark II tightened the layout significantly, relocating the Maestro and motor drivers for shorter wire
+                    runs and adding strain relief on every connector that would see vibration during driving
+                </p>
+                <p class="contentText">
+                    This revision was the first to run the full software stack — GPS, camera, NCS2 inference, and
+                    mecanum wheel control — all powered from the same harness
+                </p>
+            </div>
+        </div>
+
+        <!-- ELECTRICAL MK3 -->
+        <div class="contentBoxes">
+            <img class="contentImg" src="https://cdn.matthewthomasbeck.com/assets/images/vending_machine_robot/electrical-mk3.jpg" alt="">
+            <div class="standardFont contentTextBox">
+                <p class="contentText">
+                    Mark III is the production layout — every subsystem mounted, labeled, and routed for both
+                    reliability and serviceability inside the finished chassis
+                </p>
+                <p class="contentText">
+                    Battery limitations and heating from the NCS2 under sustained inference were addressed with dedicated
+                    cooling and a power budget that kept the Pi and AI chip stable through full purchase sequences
+                </p>
+            </div>
+        </div>
+
+        <!-- WEBSITE HEADER -->
+        <div class="contentHeaderBoxes" id="websiteHeaderBox">
             <h1 class="contentHeaders programmerFont">
-                Appending Data
+                Website
             </h1>
         </div>
 
-        <!-- APPENDING DATA MENU -->
+        <!-- WEBSITE FRONT PAGE -->
         <div class="contentBoxes">
             <div class="standardFont contentTextBox foreText">
                 <p class="contentText">
-                    Nobody is perfect, and sometimes the user may make a mistake when entering data. If this is the case, they can
-                    simply press the 'append data' button to then go to the 'append data' menu
+                    The frontend presents a playful pastel storefront where customers browse available snacks and
+                    complete purchases without confusion — every element designed for accessibility and simplicity
+                </p>
+                <p class="contentText">
+                    Built with HTML, JavaScript, Vite, and Tailwind CSS on AWS EC2 behind NGINX, the site was architected
+                    by Samantha Machado with contributions from Prince Patel, Adeyemi Akanbi, and myself as an
+                    architecture consultant
                 </p>
             </div>
-            <img class="contentImg" src="https://cdn.matthewthomasbeck.com/assets/images/receipt_analyzer/append_data-open.jpg" alt="">
+            <img class="contentImg" src="https://cdn.matthewthomasbeck.com/assets/images/vending_machine_robot/website-front_page.png" alt="">
             <div class="standardFont contentTextBox aftText">
                 <p class="contentText">
-                    Nobody is perfect, and sometimes the user may make a mistake when entering data. If this is the case, they can
-                    simply press the 'append data' button to then go to the 'append data' menu
+                    The frontend presents a playful pastel storefront where customers browse available snacks and
+                    complete purchases without confusion — every element designed for accessibility and simplicity
+                </p>
+                <p class="contentText">
+                    Built with HTML, JavaScript, Vite, and Tailwind CSS on AWS EC2 behind NGINX, the site was architected
+                    by Samantha Machado with contributions from Prince Patel, Adeyemi Akanbi, and myself as an
+                    architecture consultant
                 </p>
             </div>
         </div>
 
-        <!-- APPENDING DATA DATE -->
+        <!-- WEBSITE SET INVENTORY -->
         <div class="contentBoxes">
-            <img class="contentImg" src="https://cdn.matthewthomasbeck.com/assets/images/receipt_analyzer/append_data-date.jpg" alt="">
+            <img class="contentImg" src="https://cdn.matthewthomasbeck.com/assets/images/vending_machine_robot/website-set_inventory.png.webp" alt="">
             <div class="standardFont contentTextBox">
                 <p class="contentText">
-                    Here, the user can select the date of the entry they would like to append, and then press 'enter' to pop up a
-                    list of all entries made on that date
+                    Behind a dedicated admin login, authorized users manage the robot's inventory — updating stock
+                    levels and pricing so the digital storefront always reflects what is physically available inside the
+                    machine
+                </p>
+                <p class="contentText">
+                    Every inventory change is logged to the backend actions table and forwarded to a Discord webhook
+                    for real-time audit visibility
                 </p>
             </div>
         </div>
 
-        <!-- APPENDING DATA SELECT -->
+        <!-- WEBSITE ONE TIME CODE -->
         <div class="contentBoxes">
             <div class="standardFont contentTextBox foreText">
                 <p class="contentText">
-                    If there is an entry on the selected day, the user is greeted with an 'Entry(s) Found' success message, as
-                    well as a list of entries on the entered date
+                    Once Stripe confirms payment, the backend generates a unique four-digit one-time code tied to the
+                    transaction — the bridge between the digital purchase and physical fulfillment
                 </p>
                 <p class="contentText">
-                    The user can then select the entry they would like to append, and then press the entry itself to begin
-                    changing data
+                    The code is sent to the robot via a persistent TCP socket bridge while the customer enters the same
+                    code on the robot's screen, ensuring each redemption is valid for a single use
                 </p>
             </div>
-            <img class="contentImg" src="https://cdn.matthewthomasbeck.com/assets/images/receipt_analyzer/append_data-select.jpg" alt="">
+            <img class="contentImg" src="https://cdn.matthewthomasbeck.com/assets/images/vending_machine_robot/website-one_time_code.png" alt="">
             <div class="standardFont contentTextBox aftText">
                 <p class="contentText">
-                    If there is an entry on the selected day, the user is greeted with an 'Entry(s) Found' success message, as
-                    well as a list of entries on the entered date
+                    Once Stripe confirms payment, the backend generates a unique four-digit one-time code tied to the
+                    transaction — the bridge between the digital purchase and physical fulfillment
                 </p>
                 <p class="contentText">
-                    The user can then select the entry they would like to append, and then press the entry itself to begin
-                    changing data
+                    The code is sent to the robot via a persistent TCP socket bridge while the customer enters the same
+                    code on the robot's screen, ensuring each redemption is valid for a single use
                 </p>
             </div>
         </div>
 
-        <!-- APPENDING DATA -->
+        <!-- WEBSITE ADMIN DASHBOARD -->
         <div class="contentBoxes">
-            <img class="contentImg" src="https://cdn.matthewthomasbeck.com/assets/images/receipt_analyzer/append_data-menu.jpg" alt="">
+            <img class="contentImg" src="https://cdn.matthewthomasbeck.com/assets/images/vending_machine_robot/website-admin_dashboard.png.webp" alt="">
             <div class="standardFont contentTextBox">
                 <p class="contentText">
-                    The user can then change any data they would like, and then press 'enter' to confirm the changes, however in
-                    this case, the entry will instead be deleted altogether
+                    The admin dashboard gives operators a single view of recent activity, heartbeat status, and action
+                    history — clearly separated from the customer-facing experience
+                </p>
+                <p class="contentText">
+                    Admin authentication uses bcrypt for password verification, and Syan Shirazi performed penetration
+                    testing on both frontend and backend to ensure users cannot access critical information from the
+                    client side
                 </p>
             </div>
         </div>
 
-        <!-- APPENDING DATA CONFIRMATION -->
+        <!-- WEBSITE BACKEND ARCHITECTURE -->
         <div class="contentBoxes">
             <div class="standardFont contentTextBox foreText">
                 <p class="contentText">
-                    Upon pressing the 'delete' button, a confirmation message will appear that asks the user 'Are You Sure?', to
-                    which the user can then press the once 'delete' button, now 'press again' button, to confirm the deletion
+                    The Flask backend in backend.py serves REST endpoints under /api/* for checkout, product listing,
+                    admin operations, and post-payment code retrieval, backed by a SQLite database defined in
+                    data/schema.sql
+                </p>
+                <p class="contentText">
+                    Stripe Checkout sessions embed cart metadata for downstream fulfillment, signed webhooks confirm
+                    payment, and fulfill_checkout_session atomically decrements inventory and generates the vending code
+                </p>
+                <p class="contentText">
+                    I created the TCP socket bridge that relays commands from the frontend to the robot, and Prince Patel
+                    integrated the Stripe payment system — together forming the pipeline from click to dispense
                 </p>
             </div>
-            <img class="contentImg" src="https://cdn.matthewthomasbeck.com/assets/images/receipt_analyzer/append_data-confirm.jpg" alt="">
+            <img class="contentImg" src="https://cdn.matthewthomasbeck.com/assets/images/vending_machine_robot/website-backend_architecture.png" alt="">
             <div class="standardFont contentTextBox aftText">
                 <p class="contentText">
-                    Upon pressing the 'delete' button, a confirmation message will appear that asks the user 'Are You Sure?', to
-                    which the user can then press the once 'delete' button, now 'press again' button, to confirm the deletion
+                    The Flask backend in backend.py serves REST endpoints under /api/* for checkout, product listing,
+                    admin operations, and post-payment code retrieval, backed by a SQLite database defined in
+                    data/schema.sql
                 </p>
-            </div>
-        </div>
-
-        <!-- APPENDING DATA SUCCESS -->
-        <div class="contentBoxes">
-            <img class="contentImg" src="https://cdn.matthewthomasbeck.com/assets/images/receipt_analyzer/append_data-enter.jpg" alt="">
-            <div class="standardFont contentTextBox">
                 <p class="contentText">
-                    Having successfully deleted the entry, the user is greeted with an 'Entry Deleted' success message, and is
-                    free to append more data
+                    Stripe Checkout sessions embed cart metadata for downstream fulfillment, signed webhooks confirm
+                    payment, and fulfill_checkout_session atomically decrements inventory and generates the vending code
+                </p>
+                <p class="contentText">
+                    I created the TCP socket bridge that relays commands from the frontend to the robot, and Prince Patel
+                    integrated the Stripe payment system — together forming the pipeline from click to dispense
                 </p>
             </div>
         </div>
 
-        <!-- ANALYZING DATA HEADER -->
-        <div class="contentHeaderBoxes" id="analyzingDataHeaderBox">
+        <!-- SETBACKS HEADER -->
+        <div class="contentHeaderBoxes" id="setbacksHeaderBox">
             <h1 class="contentHeaders programmerFont">
-                Analyzing Data
+                Setbacks
             </h1>
         </div>
 
-        <!-- ANALYZING DATA MENU -->
+        <!-- SETBACKS CARDBOARD 1 -->
         <div class="contentBoxes">
-            <div class="standardFont contentTextBox foreText">
-                <p class="contentText">
-                    After entering all of their data, the user can then press the 'analyze data' button to go begin looking at
-                    their earning and spending (in my case, spending, I was in college) habits
-                </p>
-            </div>
-            <img class="contentImg" src="https://cdn.matthewthomasbeck.com/assets/images/receipt_analyzer/analyze_data-open.jpg" alt="">
-            <div class="standardFont contentTextBox aftText">
-                <p class="contentText">
-                    After entering all of their data, the user can then press the 'analyze data' button to go begin looking at
-                    their earning and spending (in my case, spending, I was in college) habits
-                </p>
-            </div>
-        </div>
-
-        <!-- ANALYZING DATA CREATE BAR -->
-        <div class="contentBoxes">
-            <img class="contentImg" src="https://cdn.matthewthomasbeck.com/assets/images/receipt_analyzer/analyze_data-create-bar.jpg" alt="">
+            <img class="contentImg" src="https://cdn.matthewthomasbeck.com/assets/images/vending_machine_robot/setbacks-cardboard_1.jpg" alt="">
             <div class="standardFont contentTextBox">
                 <p class="contentText">
-                    On this page, the user can see a plethora of useful metrics on a month, quarter, year, or total basis, such as
-                    (but not limited to):
+                    To get a working system to the AI team with as much development time as possible, we built a
+                    cardboard robot that was structurally very similar to the desired end product
                 </p>
                 <p class="contentText">
-                    How often they visited a location, city, or state; a line of best fit representing their earning or spending
-                    in a particular category; and a rolling average chart that displays the movement of their money in an
-                    easy-to-digest manner, as well as a trend line that provides a more accurate representation of the data; and
-                    finally, a way to compare different metrics (more on that later)
-                </p>
-                <p class="contentText">
-                    In this example, the user will be looking at the 'location' category in order to see how many times they
-                    visited a particular location in the past year in the form of a bar graph
+                    This stand-in let Samuel Saylor, Tri Nguyen, and Cayden Hutcheson begin tuning lid logic, screen
+                    integration, and customer-finding AI while the engineering team finished the real chassis
                 </p>
             </div>
         </div>
 
-        <!-- ANALYZING DATA BAR -->
+        <!-- SETBACKS CARDBOARD 2 -->
         <div class="contentBoxes">
             <div class="standardFont contentTextBox foreText">
                 <p class="contentText">
-                    As seen in the bar graph, the user visited the location 'Heb' the most, with the 4 runner-ups also being
-                    displayed
-                </p>
-                <p class="contentText">
-                    Fun fact: as of writing, I have been to Walmart 122 times, having used to live next to one (the nearest HEB
-                    was a 20-minute drive away)
+                    The cardboard prototype preserved the same dimensions and mounting points as the final design, so
+                    software written against it transferred directly to the welded steel and PLA robot with minimal
+                    rework
                 </p>
             </div>
-            <img class="contentImg" src="https://cdn.matthewthomasbeck.com/assets/images/receipt_analyzer/analyze_data-bar.jpg" alt="">
+            <img class="contentImg" src="https://cdn.matthewthomasbeck.com/assets/images/vending_machine_robot/setbacks-cardboard_2.jpg" alt="">
             <div class="standardFont contentTextBox aftText">
                 <p class="contentText">
-                    As seen in the bar graph, the user visited the location 'Heb' the most, with the 4 runner-ups also being
-                    displayed
-                </p>
-                <p class="contentText">
-                    Fun fact: as of writing, I have been to Walmart 122 times, having used to live next to one (the nearest HEB
-                    was a 20-minute drive away)
+                    The cardboard prototype preserved the same dimensions and mounting points as the final design, so
+                    software written against it transferred directly to the welded steel and PLA robot with minimal
+                    rework
                 </p>
             </div>
         </div>
 
-        <!-- COMPARING DATA HEADER -->
-        <div class="contentHeaderBoxes" id="comparingDataHeaderBox">
+        <!-- SETBACKS BROKEN PRINTER -->
+        <div class="contentBoxes">
+            <img class="contentImg" src="https://cdn.matthewthomasbeck.com/assets/images/vending_machine_robot/setbacks-broken_printer.jpg" alt="">
+            <div class="standardFont contentTextBox">
+                <p class="contentText">
+                    Over the course of printing, the 3D printer broke twice — the extruder badly jammed and the plate
+                    fell out of calibration, both requiring late-night disassembly to keep the project on schedule
+                </p>
+                <p class="contentText">
+                    Beyond hardware failures, classical printing problems piled up: adjusting infill percentages, print
+                    speeds, extruder and plate temperatures, brims, rafts, and orientations — and the time required to
+                    produce parts slowed iteration cycles enough that careful prioritization became essential
+                </p>
+            </div>
+        </div>
+
+        <!-- FINAL HEADER -->
+        <div class="contentHeaderBoxes" id="finalHeaderBox">
             <h1 class="contentHeaders programmerFont">
-                Comparing Data
+                Final
             </h1>
         </div>
 
-        <!-- COMPARING DATA CREATE AVG -->
-        <div class="contentBoxes">
-            <img class="contentImg" src="https://cdn.matthewthomasbeck.com/assets/images/receipt_analyzer/analyze_data-create-avg.jpg" alt="">
-            <div class="standardFont contentTextBox">
-                <p class="contentText">
-                    Should the user want to compare different metrics, doing so is as straight-forward as selecting a category in
-                    is the 'option 2' dropdown menu, and then pressing the 'create' button
-                </p>
-                <p class="contentText">
-                    In this example, the user will be comparing the 'all' category with the 'grocery' category in order to see how
-                    their grocery spending compares to how much they've spent in total
-                </p>
-            </div>
-        </div>
-
-        <!-- COMPARING DATA AVG -->
+        <!-- FINAL WHEELS MOVING -->
         <div class="contentBoxes">
             <div class="standardFont contentTextBox foreText">
                 <p class="contentText">
-                    As seen in the rolling average chart, the movement of total spending is highly correlated with the movement
-                    of grocery spending, suggesting that groceries represent the bulwark of the user's spending
+                    The finished robot navigates its environment with mecanum strafing and in-place rotation, using
+                    OpenVINO-powered customer detection and following logic running on the NCS2
                 </p>
                 <p class="contentText">
-                    The utility of the trend line is also seen at work, providing a more accurate representation of the data, as
-                    some periods were certainly more expensive than others
-                </p>
-                <p class="contentText">
-                    The COVID-19 pandemic, rising gas prices, but surprisingly more than anything else (for me, at least), the
-                    holiday season and other real-world events often leave an impact on an individual's finances
+                    Tri Nguyen wrote the AI customer-finding and following logic, I developed the mecanum wheel
+                    kinematics and return-to-home algorithm, and Cayden Hutcheson calibrated the lid servos for the
+                    purchase sequence
                 </p>
             </div>
-            <img class="contentImg" src="https://cdn.matthewthomasbeck.com/assets/images/receipt_analyzer/analyze_data-avg.jpg" alt="">
+            <img class="contentImg" src="https://cdn.matthewthomasbeck.com/assets/images/vending_machine_robot/final-wheels_moving.gif" alt="">
             <div class="standardFont contentTextBox aftText">
                 <p class="contentText">
-                    As seen in the rolling average chart, the movement of total spending is highly correlated with the movement
-                    of grocery spending, suggesting that groceries represent the bulwark of the user's spending
+                    The finished robot navigates its environment with mecanum strafing and in-place rotation, using
+                    OpenVINO-powered customer detection and following logic running on the NCS2
                 </p>
                 <p class="contentText">
-                    The utility of the trend line is also seen at work, providing a more accurate representation of the data, as
-                    some periods were certainly more expensive than others
-                </p>
-                <p class="contentText">
-                    The COVID-19 pandemic, rising gas prices, but surprisingly more than anything else (for me, at least), the
-                    holiday season and other real-world events often leave an impact on an individual's finances
+                    Tri Nguyen wrote the AI customer-finding and following logic, I developed the mecanum wheel
+                    kinematics and return-to-home algorithm, and Cayden Hutcheson calibrated the lid servos for the
+                    purchase sequence
                 </p>
             </div>
         </div>
 
-        <!-- HANDLING ERRORS HEADER -->
-        <div class="contentHeaderBoxes" id="handlingErrorsHeaderBox">
-            <h1 class="contentHeaders programmerFont">
-                Handling Errors
-            </h1>
-        </div>
-
-        <!-- ADD DATA ERRORS -->
+        <!-- FINAL CODE SEQUENCE -->
         <div class="contentBoxes">
-            <img class="contentImg" src="https://cdn.matthewthomasbeck.com/assets/images/receipt_analyzer/add_data-error.jpg" alt="">
+            <img class="contentImg" src="https://cdn.matthewthomasbeck.com/assets/images/vending_machine_robot/final-code_sequence.gif" alt="">
             <div class="standardFont contentTextBox">
                 <p class="contentText">
-                    But what happens if the user makes a mistake when entering data, like leaving out a mandatory field? Or they
-                    encounter a problem searching for an entry to append? Or they try to analyze data that either cant be
-                    quantified beyond total population, or is incompatible to be compared? Error statements will appear
+                    The full purchase sequence ties everything together — a customer completes payment on the website,
+                    receives a one-time code, enters it on the robot, and watches the lid open to dispense their snack
                 </p>
                 <p class="contentText">
-                    In this case, the user has forgotten to enter the name of the location they made a purchase at, and is
-                    notified that they have missed a mandatory field
-                </p>
-            </div>
-        </div>
-
-        <!-- APPEND DATA ERRORS -->
-        <div class="contentBoxes">
-            <div class="standardFont contentTextBox foreText">
-                <p class="contentText">
-                    In this case, the user has entered a date that has no entries, and is notified that no entries were found
-                </p>
-            </div>
-            <img class="contentImg" src="https://cdn.matthewthomasbeck.com/assets/images/receipt_analyzer/append_data-error.jpg" alt="">
-            <div class="standardFont contentTextBox aftText">
-                <p class="contentText">
-                    In this case, the user has entered a date that has no entries, and is notified that no entries were found
-                </p>
-            </div>
-        </div>
-
-        <!-- ANALYZE DATA ERRORS -->
-        <div class="contentBoxes">
-            <img class="contentImg" src="https://cdn.matthewthomasbeck.com/assets/images/receipt_analyzer/analyze_data-error.jpg" alt="">
-            <div class="standardFont contentTextBox">
-                <p class="contentText">
-                    Finally, in this case, the user has tried to compare data that cant be represented as a bar graph, and is only
-                    logically available as a rolling average chart or as linear regression
+                    Low latency across the TCP bridge was critical; any delay between payment confirmation and robot
+                    response would break the seamless handoff from digital storefront to physical fulfillment
                 </p>
             </div>
         </div>
@@ -641,33 +715,8 @@
         <!-- CONCLUSION TEXT -->
         <div class="contentBoxes">
             <div class="standardFont contentTextBox" id="projectConclusionBox">
-                <p class="contentText projectConclusionText">
-                    This receipt analyzer represents the first brick laid in my programmatic foundation, as because it was my
-                    first real project, it marks the first time I had to think about how to structure a program, how to make it
-                    user-friendly, and how to make it look good
-                </p>
-                <p class="contentText projectConclusionText">
-                    But on a more personal note, it was also what made me realize that if I really wanted to stand out, not just
-                    as a student, or as a professional, but as a human being, I would have to do more than what I was currently
-                    doing, and I would have to start questioning the ideas that I had held based on the results they had given me
-                </p>
-                <p class="contentText projectConclusionText">
-                    The strategies I learned when trying to juggle everything in life while working on this little project are
-                    tools I still use as of writing, and without this project that I started when I was barely 21, who knows how
-                    long it would have taken me to eventually learn them
-                </p>
-                <p class="contentText projectConclusionText">
-                    This software needs improvement; Python GUI's leave much to be desired, the code should not only be a handful
-                    of files, my regex functions could probably be better, and my database was accidentally OPEN TO THE NETWORK
-                    (I closed the ports after an absolute hero family friend n-mapped and found them, and I'm so thankful nobody
-                    in my building decided to punish me)
-                </p>
-                <p class="contentText projectConclusionText">
-                    But I'm not deleting a single line of code; 'Receipt_Analyzer_3.0' taught me that if I need to do this again,
-                    I'm perfectly capable of writing some more
-                </p>
                 <div class="contentText" id="projectConclusionSignatureBox">
-                    <p class="programmerFont receiptAnalyzerConclusionText" id="projectConclusionSignature">
+                    <p class="programmerFont ConclusionText" id="projectConclusionSignature">
                         printf("-Matthew Thomas Beck");
                     </p>
                 </div>

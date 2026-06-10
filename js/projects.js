@@ -183,6 +183,11 @@ githubBox.addEventListener('click', function() {
             link.href = 'https://www.github.com/matthewthomasbeck/Budgeting_Software';
             break;
 
+        case document.title.includes('Vending Machine Robot'):
+            console.log("Vending Machine Robot github redirect...");
+            link.href = 'https://github.com/orgs/Vendning-Machine-Team/repositories';
+            break;
+
         default:
             console.log("Default github redirect...");
             link.href = 'https://www.github.com/matthewthomasbeck/';

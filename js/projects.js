@@ -163,8 +163,8 @@ githubBox.addEventListener('click', function() {
             link.href = 'https://github.com/matthewthomasbeck/Robot_Dog_Athena';
             break;
 
-        case document.title.includes('Bounded Rationality'):
-            console.log("Bounded Rationality github redirect...");
+        case document.title.includes('Labor Forecaster'):
+            console.log("Labor Forecaster github redirect...");
             link.href = 'https://github.com/matthewthomasbeck/Bounded_Rationality';
             break;
 

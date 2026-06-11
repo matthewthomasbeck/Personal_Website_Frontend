@@ -333,7 +333,7 @@
                 <p class="contentText">
                     So I decided that before I would allow myself the victory of getting it to stand for the first time
                     on its own, that I would have to completely integrate all peripherals with the software, a process
-                    that took the better part of a year to do
+                    that took the better part of a year to learn by myself with spare time
                 </p>
             </div>
             <img class="contentImg" src="https://cdn.matthewthomasbeck.com/assets/images/athena/athena-standing_up.gif" alt="">
@@ -350,7 +350,7 @@
                 <p class="contentText">
                     So I decided that before I would allow myself the victory of getting it to stand for the first time
                     on its own, that I would have to completely integrate all peripherals with the software, a process
-                    that took the better part of a year to do
+                    that took the better part of a year to learn by myself with spare time
                 </p>
             </div>
         </div>
@@ -457,7 +457,7 @@
                 </p>
                 <p class="contentText">
                     Training uses GAE (γ=0.99, λ=0.95), PPO clipping (0.2), and gradient clipping (0.5) for stability;
-                    parallel efficiency is achieved by running 50 robots in Isaac Sim, collecting 25,600 experiences per
+                    parallel efficiency is achieved by running n robots in Isaac Sim, collecting tens of thousands of experiences per
                     batch for vectorized PyTorch updates, enabling fast, statistically robust on-policy learning
                 </p>
             </div>
@@ -474,13 +474,33 @@
         <div class="contentBoxes">
             <div class="standardFont contentTextBox foreText">
                 <p class="contentText">
-                    Model currently in training! Currently doing multi-agent curriculum training
+                    After many months of testing (and admittedly, a good amount of reverse-engineering Isaac Lab),
+                    my training software successfully trained Athena to walk
+                </p>
+                <p class="contentText">
+                    Throughout this process, I learned some pretty valuable lessons about reinforcement learning, including but not limited to:
+                </p>
+                <p class="contentText">
+                    • There are no shortcuts: RTFM (in this case, understanding why certain reward/punishment signals are used)
+                    • Focus less on the numerical reward signal and more on the robot's actual behavior
+                    • Reinforcement learning is surprisingly intuitive, teaching a robot to walk is like teaching a baby to walk
+                    • Elementary C memory management understanding was incredibly useful (and vital) for RAM management
                 </p>
             </div>
-            <img class="contentImg" src="https://cdn.matthewthomasbeck.com/assets/images/athena/athena-placeholder.gif" alt="">
+            <img class="contentImg" src="https://cdn.matthewthomasbeck.com/assets/images/athena/gait-final.gif" alt="">
             <div class="standardFont contentTextBox aftText">
                 <p class="contentText">
-                    Model currently in training!
+                    After many months of testing (and admittedly, a good amount of reverse-engineering Isaac Lab),
+                    my training software successfully trained Athena to walk
+                </p>
+                <p class="contentText">
+                    Throughout this process, I learned some pretty valuable lessons about reinforcement learning, including but not limited to:
+                </p>
+                <p class="contentText">
+                    • There are no shortcuts: RTFM (in this case, understanding why certain reward/punishment signals are used)
+                    • Focus less on the numerical reward signal and more on the robot's actual behavior
+                    • Reinforcement learning is surprisingly intuitive, teaching a robot to walk is like teaching a baby to walk
+                    • Elementary C memory management understanding was incredibly useful (and vital) for RAM management
                 </p>
             </div>
         </div>

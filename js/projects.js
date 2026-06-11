@@ -70,8 +70,9 @@ if (conclusionHeader) { // if conclusion header exists...
 
 try { // attempt to do the conclusion programmer typing
 
-    // find final tag
-    const finalTag = document.getElementById('projectConclusionBox').getElementsByTagName('p')[4];
+    // find final conclusion paragraph (before signature)
+    const conclusionParagraphs = document.getElementById('projectConclusionBox').querySelectorAll('p.projectConclusionText');
+    const finalTag = conclusionParagraphs[conclusionParagraphs.length - 1];
 
     // get content signature box text
     const conclusionSignatureBox = document.getElementById('projectConclusionSignature')
@@ -185,7 +186,7 @@ githubBox.addEventListener('click', function() {
 
         case document.title.includes('Vending Machine Robot'):
             console.log("Vending Machine Robot github redirect...");
-            link.href = 'https://github.com/orgs/Vendning-Machine-Team/repositories';
+            link.href = 'https://github.com/Vendning-Machine-Team';
             break;
 
         default:

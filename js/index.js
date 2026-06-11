@@ -813,7 +813,7 @@ projectsWheel.addEventListener('scroll', function() { // when scroll takes place
 
     } else if (currentItem === 1) { // if current item vending machine robot...
 
-        projectsArrowLeft.classList.remove('showArrow'); // remove show class from left arrow
+        projectsArrowLeft.classList.add('showArrow'); // add show class to left arrow
         projectsArrowBoxLeft.style.opacity = '1'; // show the left arrow
         projectsArrowBoxRight.style.opacity = '1'; // show the right arrow
         projectsInfoName.textContent = "Vending Machine Robot"; // set title
@@ -929,6 +929,19 @@ projectsWheel.addEventListener('scroll', function() { // when scroll takes place
 
         aaedName.textContent = ""; // unset Aaed's name
         aaedNameLarge.textContent = ""; // unset Aaed's name large
+    }
+
+    if (currentItem > 0) { // if not on first project, show left arrow...
+
+        projectsArrowLeft.classList.add('showArrow');
+        projectsArrowBoxLeft.style.opacity = '1';
+        projectsArrowLeft.style.opacity = '1';
+
+    } else { // if on first project, hide left arrow...
+
+        projectsArrowLeft.classList.remove('showArrow');
+        projectsArrowBoxLeft.style.opacity = '0';
+        projectsArrowLeft.style.opacity = '0';
     }
 
     projectsInfoBody.style.textAlign = 'left'; // set text alignment to left

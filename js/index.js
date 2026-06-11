@@ -672,11 +672,27 @@ projectsArrowBoxLeft.addEventListener('click', function() { // when swipe arrow 
             behavior: 'smooth'
         })
 
-    } else if (scrollPosition < projectsWheel.scrollWidth) { // if scroll at sixth item...
+    } else if (scrollPosition < ((projectsWheel.scrollWidth / numProjects) * 6)) { // if scroll at sixth item...
 
         projectsWheel.scrollTo({ // scroll to next left item
 
             left: ((projectsWheel.scrollWidth / numProjects) * 4),
+            behavior: 'smooth'
+        })
+
+    } else if (scrollPosition < ((projectsWheel.scrollWidth / numProjects) * 7)) { // if scroll at seventh item...
+
+        projectsWheel.scrollTo({ // scroll to next left item
+
+            left: ((projectsWheel.scrollWidth / numProjects) * 5),
+            behavior: 'smooth'
+        })
+
+    } else if (scrollPosition < projectsWheel.scrollWidth) { // if scroll at eighth item...
+
+        projectsWheel.scrollTo({ // scroll to next left item
+
+            left: ((projectsWheel.scrollWidth / numProjects) * 6),
             behavior: 'smooth'
         })
     }
@@ -732,11 +748,27 @@ projectsArrowBoxRight.addEventListener('click', function() { // when swipe arrow
             behavior: 'smooth'
         })
 
-    } else if (scrollPosition < projectsWheel.scrollWidth) { // if scroll at sixth item...
+    } else if (scrollPosition < ((projectsWheel.scrollWidth / numProjects) * 6)) { // if scroll at sixth item...
 
         projectsWheel.scrollTo({ // scroll to next right item
 
-            left: ((projectsWheel.scrollWidth / numProjects) * 5),
+            left: ((projectsWheel.scrollWidth / numProjects) * 6),
+            behavior: 'smooth'
+        })
+
+    } else if (scrollPosition < ((projectsWheel.scrollWidth / numProjects) * 7)) { // if scroll at seventh item...
+
+        projectsWheel.scrollTo({ // scroll to next right item
+
+            left: ((projectsWheel.scrollWidth / numProjects) * 7),
+            behavior: 'smooth'
+        })
+
+    } else if (scrollPosition < projectsWheel.scrollWidth) { // if scroll at eighth item...
+
+        projectsWheel.scrollTo({ // scroll to next right item
+
+            left: ((projectsWheel.scrollWidth / numProjects) * 7),
             behavior: 'smooth'
         })
     }
@@ -779,10 +811,37 @@ projectsWheel.addEventListener('scroll', function() { // when scroll takes place
         aaedName.textContent = "Aaed Musa!"; // set Aaed's name
         aaedNameLarge.textContent = "Aaed Musa!"; // set Aaed's name large
 
-    } else if (currentItem === 1) { // if current item machine learning portfolio...
+    } else if (currentItem === 1) { // if current item vending machine robot...
 
         projectsArrowLeft.classList.remove('showArrow'); // remove show class from left arrow
-        projectsArrowBoxLeft.style.opacity = '1'; // hide the left arrow
+        projectsArrowBoxLeft.style.opacity = '1'; // show the left arrow
+        projectsArrowBoxRight.style.opacity = '1'; // show the right arrow
+        projectsInfoName.textContent = "Vending Machine Robot"; // set title
+
+        projectsInfoBody.textContent = "The Vending Machine Robot is a mobile snack-dispensing robot paired with a " +
+            "digital storefront; customers browse snacks online, pay through Stripe, receive a one-time code, and " +
+            "redeem it on the robot, which finds them with edge AI and dispenses their purchase";
+
+        aaedName.textContent = ""; // unset Aaed's name
+        aaedNameLarge.textContent = ""; // unset Aaed's name large
+
+    } else if (currentItem === 2) { // if current item labor forecaster...
+
+        projectsArrowLeft.classList.add('showArrow'); // add show class to left arrow
+        projectsArrowBoxLeft.style.opacity = '1'; // show the left arrow
+        projectsArrowBoxRight.style.opacity = '1'; // show the right arrow
+        projectsInfoName.textContent = "Labor Forecaster"; // set title
+
+        projectsInfoBody.textContent = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod " +
+            "tempor incididunt ut labore et dolore magna aliqua";
+
+        aaedName.textContent = ""; // unset Aaed's name
+        aaedNameLarge.textContent = ""; // unset Aaed's name large
+
+    } else if (currentItem === 3) { // if current item machine learning portfolio...
+
+        projectsArrowLeft.classList.add('showArrow'); // add show class to left arrow
+        projectsArrowBoxLeft.style.opacity = '1'; // show the left arrow
         projectsArrowBoxRight.style.opacity = '1'; // show the right arrow
         projectsInfoName.textContent = "Machine Learning Portfolio"; // set title
 
@@ -794,7 +853,7 @@ projectsWheel.addEventListener('scroll', function() { // when scroll takes place
         aaedName.textContent = ""; // unset Aaed's name
         aaedNameLarge.textContent = ""; // unset Aaed's name large
 
-    } else if (currentItem === 2) { // if current item edge a.i. module...
+    } else if (currentItem === 4) { // if current item edge a.i. module...
 
         projectsArrowLeft.classList.add('showArrow'); // add show class to left arrow
         projectsArrowBoxLeft.style.opacity = '1'; // show the left arrow
@@ -826,7 +885,7 @@ projectsWheel.addEventListener('scroll', function() { // when scroll takes place
         aaedName.textContent = ""; // unset Aaed's name
         aaedNameLarge.textContent = ""; // unset Aaed's name large
 
-    } else if (currentItem === 3) { // if current item receipt analyzer...
+    } else if (currentItem === 5) { // if current item receipt analyzer...
 
         projectsArrowBoxLeft.style.opacity = '1'; // show the left arrow
         projectsArrowBoxRight.style.opacity = '1'; // show the right arrow
@@ -840,7 +899,7 @@ projectsWheel.addEventListener('scroll', function() { // when scroll takes place
         aaedName.textContent = ""; // unset Aaed's name
         aaedNameLarge.textContent = ""; // unset Aaed's name large
 
-    } else if (currentItem === 4) { // if current item personal website...
+    } else if (currentItem === 6) { // if current item personal website...
 
         projectsArrowRight.classList.add('showArrow'); // add show class to right arrow
         projectsArrowBoxLeft.style.opacity = '1'; // show the left arrow
@@ -856,7 +915,7 @@ projectsWheel.addEventListener('scroll', function() { // when scroll takes place
         aaedName.textContent = ""; // unset Aaed's name
         aaedNameLarge.textContent = ""; // unset Aaed's name large
 
-    } else if (currentItem === 5) { // if current item video editor...
+    } else if (currentItem === 7) { // if current item video editor...
 
         projectsArrowRight.classList.remove('showArrow'); // remove show class from right arrow
         projectsArrowBoxLeft.style.opacity = '1'; // show the left arrow

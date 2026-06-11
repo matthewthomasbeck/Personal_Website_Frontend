@@ -832,8 +832,9 @@ projectsWheel.addEventListener('scroll', function() { // when scroll takes place
         projectsArrowBoxRight.style.opacity = '1'; // show the right arrow
         projectsInfoName.textContent = "Labor Forecaster"; // set title
 
-        projectsInfoBody.textContent = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod " +
-            "tempor incididunt ut labore et dolore magna aliqua";
+        projectsInfoBody.textContent = "Using MySQL, AWS S3, Flask, and Python, plus BLS, FRED, Census, World Bank, and " +
+            "BEA APIs, I built a parallel ETL pipeline that ingests 16 labor-market metrics and publishes live forecasts " +
+            "via an async time-series prediction microservice";
 
         aaedName.textContent = ""; // unset Aaed's name
         aaedNameLarge.textContent = ""; // unset Aaed's name large
